@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolyCopy Sim - Polymarket Copy-Trading Simulator</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="fa-solid fa-circle-nodes brand-icon"></i>
+                <div class="brand-text">
+                    <span class="brand-title">PolyCopy</span>
+                    <span class="brand-subtitle">SIMULATOR</span>
+                </div>
+            </div>
+
+            <!-- Bot Control Panel in Sidebar -->
+            <div class="sidebar-status-card">
+                <div class="status-indicator-wrapper">
+                    <span class="status-dot id-status-dot"></span>
+                    <span class="status-text id-status-text">OFFLINE</span>
+                </div>
+                <div class="control-actions">
+                    <button id="btn-toggle-bot" class="btn btn-primary btn-block">
+                        <i class="fa-solid fa-play"></i> Start Simulation
+                    </button>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-tab="dashboard">
+                    <i class="fa-solid fa-chart-line"></i> Dashboard
+                </a>
+                <a href="#" class="nav-item" data-tab="traders">
+                    <i class="fa-solid fa-user-gear"></i> Monitored Whales
+                </a>
+                <a href="#" class="nav-item" data-tab="leaderboard">
+                    <i class="fa-solid fa-trophy"></i> Top Leaderboard
+                </a>
+                <a href="#" class="nav-item" data-tab="history">
+                    <i class="fa-solid fa-history"></i> Trade History
+                </a>
+                <a href="#" class="nav-item" data-tab="logs">
+                    <i class="fa-solid fa-terminal"></i> Live Logs
+                </a>
+                <a href="#" class="nav-item" data-tab="settings">
+                    <i class="fa-solid fa-sliders"></i> Global Settings
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span>V1.0.0 &bull; Simulation Mode</span>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-title-container">
+                    <h1 id="page-title">Dashboard Overview</h1>
+                    <p class="subtitle" id="page-subtitle">Track simulated performance of cloned Polymarket bets.</p>
+                </div>
+                <div class="header-actions">
+                    <button id="btn-reset-sim" class="btn btn-secondary text-danger">
+                        <i class="fa-solid fa-rotate-left"></i> Reset Account
+                    </button>
+                    <div class="refresh-indicator">
+                        <span class="refresh-text">Auto-update in <span id="refresh-timer">30</span>s</span>
+                        <button id="btn-force-refresh" class="btn btn-icon" title="Force Refresh">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Tab Content -->
+            <div id="tab-dashboard" class="tab-content active">
+                <!-- Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Total Equity</span>
+                            <i class="fa-solid fa-wallet metric-icon"></i>
+                        </div>
+                        <div class="metric-value" id="val-equity">$10,000.00</div>
+                        <div class="metric-subtext" id="val-pnl-pct">+0.00% Net Profit</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Simulated PnL</span>
+                            <i class="fa-solid fa-arrows-up-down metric-icon"></i>
+                        </div>
+                        <div class="metric-value" id="val-pnl-usd">$0.00</div>
+                        <div class="metric-subtext" id="val-pnl-label">Realized + Unrealized</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Available Cash</span>
+                            <i class="fa-solid fa-money-bill-transfer metric-icon"></i>
+                        </div>
+                        <div class="metric-value" id="val-cash">$10,000.00</div>
+                        <div class="metric-subtext">USDC Paper Capital</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Holdings Value</span>
+                            <i class="fa-solid fa-pie-chart metric-icon"></i>
+                        </div>
+                        <div class="metric-value" id="val-holdings">$0.00</div>
+                        <div class="metric-subtext" id="val-open-positions">0 Active Positions</div>
+                    </div>
+                </div>
+
+                <!-- Chart and Open Positions Layout -->
+                <div class="dashboard-split">
+                    <!-- Left: Equity Curve -->
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fa-solid fa-chart-area"></i> Equity Growth Curve</h3>
+                            <span class="card-subtitle">USDC Total Value over time</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="equityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Active Positions -->
+                    <div class="card positions-card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fa-solid fa-briefcase"></i> Active Positions</h3>
+                            <span class="card-subtitle">Currently holding simulated shares</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="table-positions">
+                                    <thead>
+                                        <tr>
+                                            <th>Market / Outcome</th>
+                                            <th>Win Prob / Score</th>
+                                            <th>Quantity</th>
+                                            <th>Avg Entry</th>
+                                            <th>Current</th>
+                                            <th>Invested</th>
+                                            <th>Unrealized PnL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="7" class="text-center text-muted">No open positions. Select a whale and start the simulation.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monitored Traders Tab -->
+            <div id="tab-traders" class="tab-content">
+                <div class="grid-2-columns">
+                    <!-- Add Trader Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fa-solid fa-user-plus"></i> Follow a Custom Trader</h3>
+                            <span class="card-subtitle">Enter address and copy allocation profile</span>
+                        </div>
+                        <div class="card-body">
+                            <form id="form-follow-trader">
+                                <div class="form-group">
+                                    <label for="trader-address">Proxy Wallet / EOA Address</label>
+                                    <input type="text" id="trader-address" class="form-control" placeholder="0x..." required>
+                                    <small class="form-help">Ensure this is the Gnosis proxy wallet address (visible in the trader's Polymarket URL).</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="trader-name">Nickname / Alias</label>
+                                    <input type="text" id="trader-name" class="form-control" placeholder="e.g. Whale Alpha" required>
+                                </div>
+                                <div class="grid-2-columns" style="margin-top: 0; padding: 0;">
+                                    <div class="form-group">
+                                        <label for="trader-sizing-type">Copy Sizing Mode</label>
+                                        <select id="trader-sizing-type" class="form-control">
+                                            <option value="fixed">Fixed Amount (USDC)</option>
+                                            <option value="multiplier">Whale Multiplier (x)</option>
+                                            <option value="proportional">Portfolio Share (%)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="label-sizing-value" for="trader-sizing-value">Allocation Size</label>
+                                        <input type="number" step="any" id="trader-sizing-value" class="form-control" value="100" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1.5rem;">
+                                    <i class="fa-solid fa-user-plus"></i> Follow and Enable Copy
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Followed Traders List -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fa-solid fa-users"></i> Monitored Whales</h3>
+                            <span class="card-subtitle">Wallets being replicated automatically</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="followed-traders-list" id="list-followed-traders">
+                                <div class="text-center text-muted py-4">No followed traders. Follow one above or from the leaderboard.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaderboard Tab -->
+            <div id="tab-leaderboard" class="tab-content">
+                <div class="card">
+                    <div class="card-header flex-header">
+                        <div>
+                            <h3 class="card-title"><i class="fa-solid fa-trophy text-gold"></i> Polymarket Top Performers</h3>
+                            <span class="card-subtitle">Real-time leaderboard of the most profitable wallets</span>
+                        </div>
+                        <div class="period-selectors">
+                            <button class="btn btn-tab btn-small active" data-period="WEEK">Weekly PnL</button>
+                            <button class="btn btn-tab btn-small" data-period="ALL">All-Time PnL</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="table-leaderboard">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Username / Address</th>
+                                        <th class="text-right">Volume</th>
+                                        <th class="text-right">Profit (PnL)</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">Loading leaderboard data from Polymarket API...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trade History Tab -->
+            <div id="tab-history" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa-solid fa-history"></i> Trade History</h3>
+                        <span class="card-subtitle">Log of all completed simulation copy-trades and payouts</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="table-history">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Whale Source</th>
+                                        <th>Market Description</th>
+                                        <th>Type</th>
+                                        <th>Win Prob / Score</th>
+                                        <th>Quantity</th>
+                                        <th>Execution Price</th>
+                                        <th>Size (USDC)</th>
+                                        <th>Realized PnL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="9" class="text-center text-muted">No historical trades found.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Logs Tab -->
+            <div id="tab-logs" class="tab-content">
+                <div class="card console-card">
+                    <div class="card-header flex-header">
+                        <div>
+                            <h3 class="card-title"><i class="fa-solid fa-terminal"></i> Background Engine Output</h3>
+                            <span class="card-subtitle">Real-time monitoring logs of activities and polling status</span>
+                        </div>
+                        <button id="btn-clear-logs" class="btn btn-secondary btn-small">Clear Terminal</button>
+                    </div>
+                    <div class="card-body console-body-wrapper">
+                        <div class="console-body" id="console-logs">
+                            [System] Loading simulation console...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Global Settings Tab -->
+            <div id="tab-settings" class="tab-content">
+                <div class="card card-narrow">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa-solid fa-sliders"></i> Simulation Settings</h3>
+                        <span class="card-subtitle">Configure pricing rules and system parameters</span>
+                    </div>
+                    <div class="card-body">
+                        <form id="form-settings">
+                            <div class="form-group">
+                                <label for="settings-capital">Starting Capital (USDC)</label>
+                                <input type="number" id="settings-capital" class="form-control" value="10000" min="10" required>
+                                <small class="form-help">Can only be modified if you have no trades in history.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings-interval">Polling Interval (Seconds)</label>
+                                <input type="number" id="settings-interval" class="form-control" value="30" min="5" required>
+                                <small class="form-help">How frequently the bot queries the Polymarket Data API for new trades. Lower intervals check faster but risk rate limiting.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings-execution-mode">Trade Execution Pricing</label>
+                                <select id="settings-execution-mode" class="form-control">
+                                    <option value="whale_price">Whale Price Match (Perfect Replication)</option>
+                                    <option value="market_price">Live CLOB Price (Realistic Slippage)</option>
+                                </select>
+                                <small class="form-help"><strong>Whale Price Match:</strong> executes your copy trades at the exact entry/exit price of the whale. <strong>Live CLOB Price:</strong> fetches the live orderbook bid/ask from the CLOB API for a more realistic fill simulation.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings-slippage">Slippage & Fees (Basis Points)</label>
+                                <input type="number" id="settings-slippage" class="form-control" value="10" min="0" required>
+                                <small class="form-help">Simulates extra transaction costs or price drag on each trade (10 bps = 0.1%).</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings-max-days">Max Days to Resolution (Expiry)</label>
+                                <input type="number" id="settings-max-days" class="form-control" value="7" min="1" required>
+                                <small class="form-help">Only clone trades that resolve within this number of days (e.g., 7 days = 1 week). Prevents locking up simulated capital.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="settings-exclude-sports" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" id="settings-exclude-sports" style="width: 16px; height: 16px; cursor: pointer;">
+                                    Exclude Sports Bets
+                                </label>
+                                <small class="form-help">Skip copying sports matches (NBA, NFL, baseball, etc.). Replicates only research-based categories (Politics, Business/Finance, Pop Culture) where smart money and whales have actual information edge.</small>
+                            </div>
+                            <div class="grid-2-columns" style="margin-top: 0; padding: 0; align-items: center;">
+                                <div class="form-group">
+                                    <label for="settings-copy-only-best" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                        <input type="checkbox" id="settings-copy-only-best" style="width: 16px; height: 16px; cursor: pointer;">
+                                        Only Copy Best Wins
+                                    </label>
+                                    <small class="form-help">Replicate only trades that meet a high composite scoring threshold.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="settings-min-best-score">Min Best Bet Score</label>
+                                    <input type="number" id="settings-min-best-score" class="form-control" value="65" min="10" max="100" required>
+                                    <small class="form-help">Scoring threshold based on win probability and size.</small>
+                                </div>
+                            </div>
+                            <div class="grid-2-columns" style="margin-top: 0; padding: 0;">
+                                <div class="form-group">
+                                    <label for="settings-min-price">Min Copy Price (USDC)</label>
+                                    <input type="number" id="settings-min-price" class="form-control" value="0.70" min="0.0" max="1.0" step="0.01" required>
+                                    <small class="form-help">Filter out low-probability bets (lottery tickets).</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="settings-max-price">Max Copy Price (USDC)</label>
+                                    <input type="number" id="settings-max-price" class="form-control" value="0.95" min="0.0" max="1.0" step="0.01" required>
+                                    <small class="form-help">Filter out low-yield bets (penny farming).</small>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1.5rem;">
+                                <i class="fa-solid fa-floppy-disk"></i> Save Global Configuration
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Quick Sizing Modal/Popover for Leaderboard -->
+    <div id="modal-quick-follow" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Follow & Copy Setup</h3>
+                <button class="btn-close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>Configure copy trade options for <strong id="quick-trader-name">Trader</strong>:</p>
+                <form id="form-quick-follow">
+                    <input type="hidden" id="quick-trader-address">
+                    <div class="form-group">
+                        <label for="quick-sizing-type">Copy Sizing Mode</label>
+                        <select id="quick-sizing-type" class="form-control">
+                            <option value="fixed">Fixed Amount (USDC)</option>
+                            <option value="multiplier">Whale Multiplier (x)</option>
+                            <option value="proportional">Portfolio Share (%)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label id="label-quick-sizing-value" for="quick-sizing-value">Allocation Size</label>
+                        <input type="number" step="any" id="quick-sizing-value" class="form-control" value="100" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fa-solid fa-circle-check"></i> Save and Start Mirroring
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Script -->
+    <script src="app.js"></script>
+</body>
+</html>

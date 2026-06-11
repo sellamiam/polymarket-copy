@@ -1,0 +1,715 @@
+{
+  "starting_capital": 10000.0,
+  "poll_interval_seconds": 30,
+  "execution_mode": "whale_price",
+  "slippage_bps": 0.0,
+  "simulation_active": true,
+  "followed_traders": [
+    {
+      "address": "0x56687bf447db6ffa42ffe2204a05edaa20f55839",
+      "name": "Theo4",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x1f2dd6d473f3e824cd2f8a89d9c69fb96f6ad0cf",
+      "name": "Fredi9999",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x6a72f61820b26b1fe4d956e17b6dc2a1ea3033ee",
+      "name": "kch123",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x2005d16a84ceefa912d4e380cd32e7ff827875ea",
+      "name": "RN1",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x204f72f35326db932158cba6adff0b9a1da95e14",
+      "name": "swisstony",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x78b9ac44a6d7d7a076c14e0ad518b301b63c6b76",
+      "name": "Len9311238",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xd235973291b2b75ff4070e9c0b01728c520b0f29",
+      "name": "zxgngl",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x863134d00841b2e200492805a01e1e2f5defaa53",
+      "name": "RepTrump",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x8119010a6e589062aa03583bb3f39ca632d9f887",
+      "name": "PrincessCaro",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xe9ad918c7678cd38b12603a762e638a5d1ee7091",
+      "name": "walletmobile",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x94f199fb7789f1aef7fff6b758d6b375100f4c7a",
+      "name": "KeyTransporter",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x885783760858e1bd5dd09a3c3f916cfa251ac270",
+      "name": "BetTom42",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x23786fdad0073692157c6d7dc81f281843a35fcb",
+      "name": "mikatrade77",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xe90bec87d9ef430f27f9dcfe72c34b76967d5da2",
+      "name": "gmanas",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xd0c042c08f755ff940249f62745e82d356345565",
+      "name": "alexmulti",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x507e52ef684ca2dd91f90a9d26d149dd3288beae",
+      "name": "GamblingIsAllYouNeed",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xc2e7800b5af46e6093872b177b7a5e7f0563be51",
+      "name": "beachboy4",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x006cc834cc092684f1b56626e23bedb3835c16ea",
+      "name": "Whale Rank 18",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x9f2fe025f84839ca81dd8e0338892605702d2ca8",
+      "name": "surfandturf",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xdc876e6873772d38716fda7f2452a78d426d7ab6",
+      "name": "432614799197",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x2a2c53bd278c04da9962fcf96490e17f3dfb9bc1",
+      "name": "Whale Rank 21",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x16f91db2592924cfed6e03b7e5cb5bb1e32299e3",
+      "name": "Jenzigo",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xf8831548531d56ad6a4331493243c447a827cd1f",
+      "name": "Inaccuratestake",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xdb27bf2ac5d428a9c63dbc914611036855a6c56e",
+      "name": "DrPufferfish",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xefbc5fec8d7b0acdc8911bdd9a98d6964308f9a2",
+      "name": "reachingthesky",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xbddf61af533ff524d27154e589d2d7a81510c684",
+      "name": "Countryside",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x019782cab5d844f02bafb71f512758be78579f3c",
+      "name": "majorexploiter",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x16b29c50f2439faf627209b2ac0c7bbddaa8a881",
+      "name": "SeriouslySirius",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xee613b3fc183ee44f9da9c05f53e2da107e3debf",
+      "name": "sovereign2013",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x14964aefa2cd7caff7878b3820a690a03c5aa429",
+      "name": "gmpm",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x94a428cfa4f84b264e01f70d93d02bc96cb36356",
+      "name": "GCottrell93",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x17db3fcd93ba12d38382a0cade24b200185c5f6d",
+      "name": "fengdubiying",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x9d84ce0306f8551e02efef1680475fc0f1dc1344",
+      "name": "ImJustKen",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x033a07b3de5947eab4306676ad74eb546da30d50",
+      "name": "RandomGenius-190",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xed2239a9150c3920000d0094d28fa51c7db03dd0",
+      "name": "Michie",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xfe787d2da716d60e8acff57fb87eb13cd4d10319",
+      "name": "ferrariChampions2026",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x36a3f17401e395ef4cb1b7f42bcdb8ab8e15fafb",
+      "name": "gfjoigfsjoigsjoi",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x9495425feeb0c250accb89275c97587011b19a27",
+      "name": "LaBradfordSmith22",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xd38b71f3e8ed1af71983e5c309eac3dfa9b35029",
+      "name": "primm",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x343d4466dc323b850e5249394894c7381d91456e",
+      "name": "tazcot",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xee00ba338c59557141789b127927a55f5cc5cea1",
+      "name": "S-Works",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xd7f85d0eb0fe0732ca38d9107ad0d4d01b1289e4",
+      "name": "tdrhrhhd",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x63ce342161250d705dc0b16df89036c8e5f9ba9a",
+      "name": "Whale Rank 43",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x5bffcf561bcae83af680ad600cb99f1184d6ffbe",
+      "name": "0943",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xb786b8b6335e77dfad19928313e97753039cb18d",
+      "name": "Whale Rank 45",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xac44cb78be973ec7d91b69678c4bdfa7009afbd7",
+      "name": "blackwall",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x7fb7ad0d194d7123e711e7db6c9d418fac14e33d",
+      "name": "Whale Rank 47",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xa9878e59934ab507f9039bcb917c1bae0451141d",
+      "name": "ilovecircle",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x0b9cae2b0dfe7a71c413e0604eaac1c352f87e44",
+      "name": "geniusMC",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xd25c72ac0928385610611c8148803dc717334d20",
+      "name": "FeatherLeather",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x2bf64b86b64c315d879571b07a3b76629e467cd0",
+      "name": "BabaTrump",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x03e8a544e97eeff5753bc1e90d46e5ef22af1697",
+      "name": "weflyhigh",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x44c1dfe43260c94ed4f1d00de2e1f80fb113ebc1",
+      "name": "aenews2",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x57cd939930fd119067ca9dc42b22b3e15708a0fb",
+      "name": "Supah9ga",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x2c335066fe58fe9237c3d3dc7b275c2a034a0563",
+      "name": "Whale Rank 55",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xf705fa045201391d9632b7f3cde06a5e24453ca7",
+      "name": "Whale Rank 56",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x02227b8f5a9636e895607edd3185ed6ee5598ff7",
+      "name": "HorizonSplendidView",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x65b54274eba5c76dee6f0fab18a590653811e82f",
+      "name": "lovelystuff",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x0c0e270cf879583d6a0142fc817e05b768d0434e",
+      "name": "The Spirit of Ukraine>UMA",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x37c1874a60d348903594a96703e0507c518fc53a",
+      "name": "CemeterySun",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xed107a85a4585a381e48c7f7ca4144909e7dd2e5",
+      "name": "elmcap2",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x241f846866c2de4fb67cdb0ca6b963d85e56ef50",
+      "name": "Pestle",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x0562c423912e325f83fa79df55085979e1f5594f",
+      "name": "trezorisbest",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x7058c8a7cec79010b1927d05837dcf25f1a53505",
+      "name": "deetown",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xea2b4224411e723499a803ce3f4758779fb31fc6",
+      "name": "frankfrankfrank",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xcc500cbcc8b7cf5bd21975ebbea34f21b5644c82",
+      "name": "justdance",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xd31a2ea0b5f9a10c2eb78dcc36df016497d5386e",
+      "name": "DarthVooncer",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x3d1ecf16942939b3603c2539a406514a40b504d0",
+      "name": "edenmoon",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xd0d6053c3c37e727402d84c14069780d360993aa",
+      "name": "k9Q2mX4L8A7ZP3R",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x7ea571c40408f340c1c8fc8eaacebab53c1bde7b",
+      "name": "Cannae",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xb91aeb5accc33a5f9a8615b8ed6b2d352e913987",
+      "name": "afghj2421",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x212954857f5efc138748c33d032a93bf95974222",
+      "name": "3bpatgs",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xb2a3623364c33561d8312e1edb79eb941c798510",
+      "name": "aekghas",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x84dbb7103982e3617704a2ed7d5b39691952aeeb",
+      "name": "Soarin22",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x24c8cf69a0e0a17eee21f69d29752bfa32e823e1",
+      "name": "debased",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x000d257d2dc7616feaef4ae0f14600fdf50a758e",
+      "name": "scottilicious",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x5966db1fe50763c9e3c014d756369bad07e1f804",
+      "name": "Whale Rank 77",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xa6a856a8c8a7f14fd9be6ae11c367c7cbb755009",
+      "name": "BetMechanic",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xe8dd7741ccb12350957ec71e9ee332e0d1e6ec86",
+      "name": "influenz.eth",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x876426b52898c295848f56760dd24b55eda2604a",
+      "name": "Whale Rank 80",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
+      "name": "cigarettes",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xf2f6af4f27ec2dcf4072095ab804016e14cd5817",
+      "name": "gopfan2",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x461f3e886dca22e561eee224d283e08b8fb47a07",
+      "name": "HyperLiquid0xb",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x65e4246d770fd503ea97caa47e84db7fb5aba3bd",
+      "name": "Whale Rank 84",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xd0b4c4c020abdc88ad9a884f999f3d8cff8ffed6",
+      "name": "MrSparklySimpsons",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xba664f999a18dce0aac6af698af434924a24f59d",
+      "name": "bizyugo",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x31519628fb5e5aa559d4ba27aa1248810b9f0977",
+      "name": "qwertyasdfghjkl",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xe5c8026239919339b988fdb150a7ef4ea196d3e7",
+      "name": "bama124",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xd1acd3925d895de9aec98ff95f3a30c5279d08d5",
+      "name": "Kickstand7",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xb6d6e99d3bfe055874a04279f659f009fd57be17",
+      "name": "JPMorgan101",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x9cb990f1862568a63d8601efeebe0304225c32f2",
+      "name": "jtwyslljy",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0xbaa2bcb5439e985ce4ccf815b4700027d1b92c73",
+      "name": "denizz",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x7c3db723f1d4d8cb9c550095203b686cb11e5c6b",
+      "name": "Car",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x32ed517a571c01b6e9adecf61ba81ca48ff2f960",
+      "name": "sportmaster777",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x2728d99b2405a52db60160837e130b3ba3c1a83c",
+      "name": "WindWalk3",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x6bab41a0dc40d6dd4c1a915b8c01969479fd1292",
+      "name": "Dropper",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x56813812fc837eedb614d8c231787f83a865e113",
+      "name": "setsukoworldchampion2027",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x51393c00184b39182f09a8a62b8549642e69a8db",
+      "name": "4-seas",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x59a0744db1f39ff3afccd175f80e6e8dfc239a09",
+      "name": "Blessed-Sunshine",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    },
+    {
+      "address": "0x93abbc022ce98d6f45d4444b594791cc4b7a9723",
+      "name": "gatorr",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0
+    }
+  ],
+  "min_copy_price": 0.4,
+  "max_copy_price": 0.95,
+  "copy_only_best_wins": true,
+  "min_best_bet_score": 60,
+  "max_days_to_resolution": 7,
+  "exclude_sports_bets": true
+}
