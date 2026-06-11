@@ -112,6 +112,11 @@ class ToggleTrader(BaseModel):
 class UnfollowTrader(BaseModel):
     address: str
 
+@app.get("/api/health")
+def health_check():
+    """Lightweight endpoint for keep-alive pings. Does not load full state."""
+    return {"status": "ok"}
+
 @app.get("/api/state")
 def get_state():
     cfg = config.load_config()
