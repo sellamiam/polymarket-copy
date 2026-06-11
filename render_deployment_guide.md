@@ -28,7 +28,7 @@ Fill out the creation form with these settings:
 
 - **Name**: `polycopy-sim` (or any name you prefer)
 - **Language**: `Python`
-- **Root Directory**: `Polymarlet` *(Critical: This tells Render that your code is inside the subfolder)*
+- **Root Directory**: *(Leave blank)*
 - **Branch**: `main`
 - **Build Command**: `pip install -r requirements.txt`
 - **Start Command**: `uvicorn main:app --host 0.0.0.0 --port $PORT`
