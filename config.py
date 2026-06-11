@@ -18,7 +18,7 @@ DEFAULT_CONFIG = {
     "min_best_bet_score": 65,
     "max_days_to_resolution": 7,
     "exclude_sports_bets": True,
-    "simulation_active": False,
+    "simulation_active": True,
     "followed_traders": [
         {
             "address": "0x56687bf447db6ffa42ffe2204a05edaa20f55839",
