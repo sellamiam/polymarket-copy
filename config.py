@@ -12,7 +12,7 @@ DEFAULT_CONFIG = {
     "poll_interval_seconds": 30,
     "execution_mode": "whale_price",  # "whale_price" or "market_price"
     "slippage_bps": 0,  # 0 bps = 0%
-    "min_copy_price": 0.70,
+    "min_copy_price": 0.50,
     "max_copy_price": 0.95,
     "copy_only_best_wins": False,
     "min_best_bet_score": 65,

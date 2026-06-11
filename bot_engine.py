@@ -272,14 +272,6 @@ def run_simulation_iteration(config, state):
                 conviction_score = calculate_conviction(usdc_size)
                 best_bet_score = int(win_probability * 0.6 + conviction_score * 0.4)
 
-                # Check best wins filter if enabled
-                if config.get("copy_only_best_wins", False):
-                    min_best_score = int(config.get("min_best_bet_score", 65))
-                    if best_bet_score < min_best_score:
-                        add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Score {best_bet_score} is below minimum Best Bet Score {min_best_score} [Win Prob: {win_probability:.1f}%, Conviction: {conviction_score}%]")
-                        state["processed_tx_hashes"].append(tx_hash)
-                        continue
-
                 # Check price range filters
                 min_price = float(config.get("min_copy_price", 0.70))
                 max_price = float(config.get("max_copy_price", 0.95))
@@ -342,6 +334,14 @@ def run_simulation_iteration(config, state):
                             continue
                     else:
                         add_log(state, f"Skipped BUY on '{title}' from {name}: Could not fetch market details.")
+                        state["processed_tx_hashes"].append(tx_hash)
+                        continue
+
+                # Check best wins filter if enabled
+                if config.get("copy_only_best_wins", False):
+                    min_best_score = int(config.get("min_best_bet_score", 65))
+                    if best_bet_score < min_best_score:
+                        add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Score {best_bet_score} is below minimum Best Bet Score {min_best_score} [Win Prob: {win_probability:.1f}%, Conviction: {conviction_score}%]")
                         state["processed_tx_hashes"].append(tx_hash)
                         continue
 
