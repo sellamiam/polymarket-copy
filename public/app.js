@@ -51,6 +51,24 @@ document.addEventListener('DOMContentLoaded', () => {
     btnResetSim.addEventListener('click', resetSimulationAccount);
     btnSyncWhales.addEventListener('click', syncWhalesFromLeaderboard);
 
+    // Mobile sidebar toggle
+    const btnMobileMenu = document.getElementById('btn-mobile-menu');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const appContainer = document.querySelector('.app-container');
+    
+    btnMobileMenu.addEventListener('click', () => {
+        appContainer.classList.toggle('sidebar-open');
+    });
+    sidebarOverlay.addEventListener('click', () => {
+        appContainer.classList.remove('sidebar-open');
+    });
+    // Close sidebar when a nav item is clicked on mobile
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            appContainer.classList.remove('sidebar-open');
+        });
+    });
+
     // Form Submits
     document.getElementById('form-settings').addEventListener('submit', saveGlobalSettings);
     document.getElementById('form-follow-trader').addEventListener('submit', followNewTrader);

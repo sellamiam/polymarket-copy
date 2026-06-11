@@ -844,3 +844,255 @@ input:checked + .slider:before {
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.2);
 }
+
+/* Mobile hamburger button - hidden on desktop */
+.btn-mobile-menu {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-right: 0.5rem;
+    border-radius: var(--border-radius-sm);
+}
+
+.btn-mobile-menu:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Sidebar overlay backdrop - hidden on desktop */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9;
+}
+
+/* ===== MOBILE BREAKPOINT (768px) ===== */
+@media (max-width: 768px) {
+    body {
+        overflow: auto;
+        height: auto;
+    }
+
+    .app-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    /* Sidebar becomes a slide-out drawer */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 20;
+        overflow-y: auto;
+    }
+
+    .app-container.sidebar-open .sidebar {
+        transform: translateX(0);
+    }
+
+    .app-container.sidebar-open .sidebar-overlay {
+        display: block;
+    }
+
+    /* Show hamburger */
+    .btn-mobile-menu {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Main content takes full width */
+    .main-content {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: visible;
+    }
+
+    /* Header adjustments */
+    .header {
+        height: auto;
+        min-height: 60px;
+        padding: 0.75rem 1rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .header h1 {
+        font-size: 1.15rem;
+    }
+
+    .subtitle {
+        font-size: 0.75rem;
+    }
+
+    .header-actions {
+        gap: 0.5rem;
+    }
+
+    /* Metrics grid: 2 columns on tablet-ish */
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .metric-card {
+        padding: 1rem;
+    }
+
+    .metric-value {
+        font-size: 1.35rem;
+    }
+
+    .metric-title {
+        font-size: 0.7rem;
+    }
+
+    /* Tab content padding */
+    .tab-content {
+        padding: 1rem;
+    }
+
+    /* Dashboard split: stack vertically */
+    .dashboard-split {
+        grid-template-columns: 1fr;
+    }
+
+    /* Chart height */
+    .chart-container {
+        height: 220px;
+    }
+
+    /* Tables: allow horizontal scroll */
+    .table-responsive {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table td, .table th {
+        white-space: nowrap;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    /* Settings card full width */
+    .card-narrow {
+        max-width: 100%;
+    }
+
+    /* Trader cards stack info vertically */
+    .trader-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .trader-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    /* Console card */
+    .console-card {
+        height: auto;
+        min-height: 400px;
+    }
+
+    .console-body-wrapper {
+        max-height: 400px;
+    }
+
+    /* Modal */
+    .modal {
+        max-width: calc(100vw - 2rem);
+    }
+
+    /* Period selectors wrap */
+    .period-selectors {
+        flex-wrap: wrap;
+    }
+
+    /* Reset button and sync button */
+    .btn {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.9rem;
+    }
+}
+
+/* ===== SMALL PHONE BREAKPOINT (480px) ===== */
+@media (max-width: 480px) {
+    /* Metrics: single column */
+    .metrics-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .metric-card {
+        padding: 0.85rem;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .metric-card::before {
+        width: 3px;
+    }
+
+    .metric-header {
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+
+    .metric-value {
+        font-size: 1.15rem;
+    }
+
+    .header h1 {
+        font-size: 1rem;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .refresh-indicator {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    /* Grid columns always stack */
+    .grid-2-columns {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .chart-container {
+        height: 180px;
+    }
+
+    .tab-content {
+        padding: 0.75rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .card-header {
+        padding: 1rem;
+    }
+}
