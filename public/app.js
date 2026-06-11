@@ -760,13 +760,15 @@ async function fetchLeaderboard() {
             }
             nameHTML += `<div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--color-text-muted); margin-top: 0.15rem;">${item.proxyWallet}</div>`;
 
+            const safeName = (item.userName || item.proxyWallet.substring(0,8)).replace(/'/g, "\\'");
+
             tr.innerHTML = `
                 <td><span class="rank-badge ${parseInt(item.rank) <= 3 ? 'text-gold' : ''}" style="font-weight: 700; font-size: 1rem;">#${item.rank}</span></td>
                 <td>${nameHTML}</td>
                 <td class="text-right">${formatUSD(item.vol)}</td>
                 <td class="text-right pnl-green font-weight-bold">+${formatUSD(item.pnl)}</td>
                 <td class="text-center">
-                    <button class="btn btn-secondary btn-small" onclick="openQuickFollow('${item.proxyWallet}', '${escapeHTML(item.userName || item.proxyWallet.substring(0,8))}')">
+                    <button class="btn btn-secondary btn-small" onclick="openQuickFollow('${item.proxyWallet}', '${escapeHTML(safeName)}')">
                         <i class="fa-solid fa-user-plus"></i> Copy
                     </button>
                 </td>
