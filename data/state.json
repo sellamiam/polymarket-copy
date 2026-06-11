@@ -1,5 +1,5 @@
 {
-  "cash_usdc": 8300.0,
+  "cash_usdc": 8175.0,
   "portfolio_value_history": [
     {
       "timestamp": 1781141156,
@@ -84,6 +84,12 @@
       "cash": 8300.0,
       "holdings_value": 1705.300887755315,
       "total_equity": 10005.300887755315
+    },
+    {
+      "timestamp": 1781195610,
+      "cash": 8175.0,
+      "holdings_value": 1815.0783367496974,
+      "total_equity": 9990.078336749697
     }
   ],
   "positions": {
@@ -97,11 +103,11 @@
       "avg_price": 0.295,
       "quantity": 3389.8305,
       "invested_usdc": 1000.0,
-      "current_price": 0.295,
+      "current_price": 0.325,
       "win_probability": 29.5,
       "conviction_score": 85,
       "best_bet_score": 51,
-      "last_updated": 1781145031
+      "last_updated": 1781195761
     },
     "50390998643343866027494417866347693954819112830209588212574936759883736899001": {
       "token_id": "50390998643343866027494417866347693954819112830209588212574936759883736899001",
@@ -113,11 +119,11 @@
       "avg_price": 0.92,
       "quantity": 108.69565217391303,
       "invested_usdc": 100.0,
-      "current_price": 0.915,
+      "current_price": 0.9995,
       "win_probability": 92.0,
       "conviction_score": 30,
       "best_bet_score": 67,
-      "last_updated": 1781145032
+      "last_updated": 1781195762
     },
     "84046278036309028847466517035113480994714180624420806147531999338743658664696": {
       "token_id": "84046278036309028847466517035113480994714180624420806147531999338743658664696",
@@ -133,7 +139,7 @@
       "win_probability": 77.0,
       "conviction_score": 32,
       "best_bet_score": 59,
-      "last_updated": 1781145032
+      "last_updated": 1781195762
     },
     "58123123178059189265617668807812818303602907938044426313288815736114358663179": {
       "token_id": "58123123178059189265617668807812818303602907938044426313288815736114358663179",
@@ -145,11 +151,11 @@
       "avg_price": 0.939,
       "quantity": 106.49627263045794,
       "invested_usdc": 100.0,
-      "current_price": 0.9115,
+      "current_price": 0.0005,
       "win_probability": 93.89999999999999,
       "conviction_score": 22,
       "best_bet_score": 65,
-      "last_updated": 1781145032
+      "last_updated": 1781195763
     },
     "90206887753625699785332917459812908433772088618956638019425834766645120937409": {
       "token_id": "90206887753625699785332917459812908433772088618956638019425834766645120937409",
@@ -161,11 +167,11 @@
       "avg_price": 0.75,
       "quantity": 133.33333333333334,
       "invested_usdc": 100.0,
-      "current_price": 0.745,
+      "current_price": 0.9995,
       "win_probability": 75.0,
       "conviction_score": 24,
       "best_bet_score": 54,
-      "last_updated": 1781145032
+      "last_updated": 1781195763
     },
     "66624968808986167654330780056197487317653622893917956755226054462409477135308": {
       "token_id": "66624968808986167654330780056197487317653622893917956755226054462409477135308",
@@ -177,11 +183,11 @@
       "avg_price": 0.91,
       "quantity": 109.89010989010988,
       "invested_usdc": 100.0,
-      "current_price": 0.925,
+      "current_price": 0.9995,
       "win_probability": 91.0,
       "conviction_score": 26,
       "best_bet_score": 65,
-      "last_updated": 1781145032
+      "last_updated": 1781195763
     },
     "37992416478769158079730259906687433006507440835080597947796929469407795488570": {
       "token_id": "37992416478769158079730259906687433006507440835080597947796929469407795488570",
@@ -193,11 +199,11 @@
       "avg_price": 0.77,
       "quantity": 129.87012987012986,
       "invested_usdc": 100.0,
-      "current_price": 0.77,
+      "current_price": 0.003,
       "win_probability": 77.0,
       "conviction_score": 24,
       "best_bet_score": 55,
-      "last_updated": 1781145033
+      "last_updated": 1781195763
     },
     "21341500257513699806005757998753140567965642436797535019262836495921205670344": {
       "token_id": "21341500257513699806005757998753140567965642436797535019262836495921205670344",
@@ -209,11 +215,27 @@
       "avg_price": 0.79,
       "quantity": 126.58227848101265,
       "invested_usdc": 100.0,
-      "current_price": 0.785,
+      "current_price": 0.9995,
       "win_probability": 79.0,
       "conviction_score": 24,
       "best_bet_score": 57,
-      "last_updated": 1781145033
+      "last_updated": 1781195764
+    },
+    "20423464328881089566173909709833751781207317003818929906839036274532658163521": {
+      "token_id": "20423464328881089566173909709833751781207317003818929906839036274532658163521",
+      "condition_id": "0x13ca9f55fed9ce4094d90fe1ab5f63c0d371d1589dfffe247a3c1c13d6fb0477",
+      "market_title": "Will SpaceX IPO by June 15, 2026?",
+      "market_slug": "will-spacex-ipo-by-june-15-2026-789-854",
+      "outcome": "Yes",
+      "outcome_index": 0,
+      "avg_price": 0.9959925558312656,
+      "quantity": 125.50294604930428,
+      "invested_usdc": 125.0,
+      "current_price": 0.9955,
+      "win_probability": 99.59925558312655,
+      "conviction_score": 98,
+      "best_bet_score": 98,
+      "last_updated": 1781195764
     }
   },
   "trades": [
@@ -360,6 +382,24 @@
       "best_bet_score": 57,
       "tx_hash": "0x984eb871e5f7173795c997277ce2693dadc38f71e05c5f86cb41dbf29f5f7a6e",
       "realized_pnl": 0.0
+    },
+    {
+      "id": "06aba6d4-1f52-4d69-8e14-b12f6409dff6",
+      "timestamp": 1781195607,
+      "trader_address": "0x95074f700f93bdf6e62fc965e0832064c0877b04",
+      "trader_name": "LuckyPierrot (Rank 865)",
+      "market_title": "Will SpaceX IPO by June 15, 2026?",
+      "market_slug": "will-spacex-ipo-by-june-15-2026-789-854",
+      "outcome": "Yes",
+      "type": "BUY",
+      "quantity": 125.50294604930428,
+      "price": 0.9959925558312656,
+      "usdc_size": 125.0,
+      "win_probability": 99.59925558312655,
+      "conviction_score": 98,
+      "best_bet_score": 98,
+      "tx_hash": "0x873fe590123affc64c7e441e17c83c15bcdc0c4a84260080a01ef10201b67842",
+      "realized_pnl": 0.0
     }
   ],
   "whale_positions": {
@@ -389,6 +429,15 @@
     },
     "0x4c2da46b289847e3e8377c6f4ca3d520c620f8ae": {
       "75342601497089508883276927505926667289058707579736385719204195953768479770485": 0.0
+    },
+    "0xc4d5a24a240ec9f52669e3251e0473fd0c5687cf": {
+      "28702522561894852804288294546050943051545707036020686022953841402511049597445": 0.0,
+      "62027273545294143167679670608208728994812281608052958846568955578787158713364": 0.0,
+      "445128690199481358651644315154939349755293765220266240750564785621483575075": 0.0,
+      "107216506608244155657259197010715682699946985438422178095188910309354263220122": 0.0
+    },
+    "0x95074f700f93bdf6e62fc965e0832064c0877b04": {
+      "20423464328881089566173909709833751781207317003818929906839036274532658163521": 3627.0
     }
   },
   "processed_tx_hashes": [
@@ -757,7 +806,55 @@
     "0x849d7bf75017b778fec33131034a4b4375e279ee5272d8ef525163b29bd30f46",
     "0xe19371dfa6fed933978073684991d6abc4ef5db269c0b8edac6479fef733119c",
     "0xfdcd0904ceb3ac8ef09bcc0f9dfd76de82c8333cac4f7f99bdce733e3d580118",
-    "0x2c3b3225726ad172a3ac8a47d643acfb21d2dde7f5e7dc89be4252693c83ac0f"
+    "0x2c3b3225726ad172a3ac8a47d643acfb21d2dde7f5e7dc89be4252693c83ac0f",
+    "0x7e12d64ec455ef2a8d834aaef77d8231c1d644cad6b826e309f5d24281d97fc0",
+    "0x11542b233bce0b17aa9089f02697d15a1d0d59a85f2533483a9c823aa48a7b3b",
+    "0xae1a72ca1d6810bf94ab1527dfd48f23e73596ea99e567f901609529dc1042c9",
+    "0x23a6f9902bc2553bf82206dbcc7e8a93cb314a10f0671fc0a207574d3f608f22",
+    "0x9bdde7ba834c91234227d7cf0a6e21edcc6daafcff42b6724dd8b7469cbd6c8e",
+    "0xab639c7f90e4daf6e99e340a8908b74b74e166f97de61e027a7838f17cc6f154",
+    "0x1f069c0647557eae1e2d9e717ca2a5b34ff0156a791f91714c21ddaac2559f8b",
+    "0x7b54c1fff0d2d38478c4070431302516ad713d70ce42450697d7ddac8143b3a0",
+    "0xc7708b99749356e3cce530b81e1b30300acccc470cc4fe3073230567f88e29a8",
+    "0xb187850568619a6a6166dddcd3a2d1454b99d664acc921a6a8d4e0188e7961db",
+    "0x446b58b90b5e706201555775386b83a7953f778557c128bbb40b6b0bbb3fab89",
+    "0x5cf9dfd3091e0c6f68c5830ee94999e6432a80e46ef94c5e6169180360913c98",
+    "0x9152d8f192113d65695585f179baf45520f6b51aef41ced1731b968e02a54ee3",
+    "0x7bf97cf22dbe99f88b170df77c33d84f9f7d400ada76b8040f9381d43d941e5b",
+    "0x1f2d6f38cfa46a21596f50d1b747b5ef36ae3d5843972425160806dba4d1a02e",
+    "0xb22c1404455b6ac3c22e389388b27a6d36c85dfc060e483a4b284912d5187270",
+    "0x6590aa3897873e712a919b2eeefb10d5fa1414dc3a033a53e276c00f65077cd5",
+    "0xc049579b5ac3596985dff6950c364f59483c79c796a075e6e9a2921b70f09c6a",
+    "0x9d55f9b007af2f30a01265154788cb6151f384ae960275e64bc1e1117db38d28",
+    "0x69a699ec7b3dda83caf6718b3f9f90a407b12be24838675660f63b3f2d6e1a17",
+    "0x4a5bd38e12cdc159db6f1bd83f5c46ecb99ba0da4c60ea78a838e2e7bfad0487",
+    "0x202e840b12cbdc5d8ad60e65fd9dd7ce84ce25ee09ac130ca851534ff615c20b",
+    "0x8043ba4393d5f929c19df6f612e36c8da4e6855eec35053e97c4b84206d0a4bb",
+    "0x08fd73cc034c1650851ad26c3878d4ed89d4e98e8a3462e266125838222aefa1",
+    "0x5f3a136b69d9d2eb82cbf846493dbaf80c26da1c9f4f286246d5260cba3a66b1",
+    "0x116595ea19527f006b8ee5833aaeb5b51036eadcbc32396744df43cb0de959b0",
+    "0xcbfe672db83da411f09f7e157263005824f2980e4ada0ec11a5c019bec36b51f",
+    "0x47912e7ad8d984c0995e2b8ab7024a1117b38e43fdac68a18b04ac1d7d2efa91",
+    "0x8219bf9ddf3933f913049306324c6b6ef18166fbf3a069408b3bcdad595384fe",
+    "0xbbfa6f6c1662f41bdfc17353110334188dc93fcf64ddb735d94352e5602bdeaa",
+    "0x57d29b46f2be0a2631874c5a15a8e7de053a631b0ee5249f17f2038f89cd2073",
+    "0x8f08fc0a5cf2df4806d1000de8ee2db06c109d57ae3f98e04fed7b7aa6cc8cc5",
+    "0xed12790d8d362227f7163a9a216b13946ae00150438b801b3e97c480b8a4797c",
+    "0x5b3036034dd5d1acc9501b1baa0c31319e71cdaf627d9b599301d8fbb646d769",
+    "0xcca66e21943227f758fd07f0e70d8d32bb11fa89ab2b4c6da0be303de7b50e28",
+    "0xe5520bc8581f5e054f3668f2d0c344424a663bf50a86ebbc732e0c3bc58a0483",
+    "0xd29a33857cc4c009c3450506207c7f4e8e2a2de409c6722f97994a8c4ed488d9",
+    "0x2f8b8209976228589ee6f381f212c2489d8ea09d9101dd9ac1174781ed9ae44c",
+    "0xd0d3c79b636ced47e6c8367b0071e9bceb9ac1e8216e3f58c1db9a5db4f15a34",
+    "0xc31268ec673ae54ef23433cf8f53988503ff01a04eeb6dfabe0b087f0e674332",
+    "0xe63aabb936bd384327019dffc74e0e6634c9db27f6b93a426b2c0d1d11b9752c",
+    "0x96ecb19fe4052ba5b0622eee0c28a583ba066ad1eb3503218b13cbac11ce5be9",
+    "0x873fe590123affc64c7e441e17c83c15bcdc0c4a84260080a01ef10201b67842",
+    "0x4ab2c85cff0f18025563de09d1f3b54076b5b56212f2d9c597fb1f73cf290f31",
+    "0xd9f00adf8c5e74c8c54f625bcc822aa2f9662aaa60a88b19d296967747eab36f",
+    "0x3b5346cc588e80ad8d772c66d2262c43e57b75b1a6330ea3cf3a15e3e0d6b89d",
+    "0x46c2e1ca4f3dff1faf4b4d2eef59756b240939d85f06a7233bb9217edbadb0a8",
+    "0x5af1e56937b83dec8568e03c732ce3572c8a03d68d6c7911e52087764ef943b0"
   ],
   "logs": [
     {
@@ -2211,6 +2308,186 @@
     {
       "timestamp": 1781144965,
       "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 10:25PM-10:30PM ET' (Up) from Whale Rank 339 (Rank 339): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195530,
+      "message": "Synced 1000 top whales from WEEK leaderboard. Added 230 new whales. Total: 1304"
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 11, 12:30PM-12:45PM ET' (Up) from Polkadot-Frog (Rank 389): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12:30PM-12:35PM ET' (Up) from 0x951bd740EF681d05891CA35440232488271D433 (Rank 735): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12:30PM-12:45PM ET' (Up) from Polkadot-Frog (Rank 389): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 11, 12:30PM-12:35PM ET' (Down) from vnpspa55 (Rank 655): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12PM ET' (Down) from Bonereaper (Rank 79): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Solana Up or Down - June 11, 12:30PM-12:35PM ET' (Down) from MILKinDenial (Rank 884): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Solana Up or Down - June 11, 12:30PM-12:35PM ET' (Down) from neversmiling (Rank 306): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 11, 12:30PM-12:35PM ET' (Down) from vnpspa55 (Rank 655): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12:30PM-12:35PM ET' (Down) from 0xAAAAA (Rank 625): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'XRP Up or Down - June 11, 12:30PM-12:45PM ET' (Down) from maximumdepressed (Rank 806): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12:30PM-12:35PM ET' (Down) from 0x951bd740EF681d05891CA35440232488271D433 (Rank 735): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 11, 12:30PM-12:35PM ET' (Down) from vnpspa55 (Rank 655): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Stuttgart Open: Martin Landaluce vs Taylor Fritz' (Martin Landaluce) from BillBenter2026 (Rank 382): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 11, 12:30PM-12:35PM ET' (Down) from sixx7 (Rank 242): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12:30PM-12:45PM ET' (Down) from sixx7 (Rank 242): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 11, 12:30PM-12:45PM ET' (Down) from screenSaver (Rank 286): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Stuttgart Open: Martin Landaluce vs Taylor Fritz' (Martin Landaluce) from thestingsnake (Rank 538): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'XRP Up or Down - June 11, 12:30PM-12:35PM ET' (Up) from 0xcE25E214D5cfE4f459cf67F08DF581885AAE7Fdc-1777575398144 (Rank 123): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12:30PM-12:35PM ET' (Up) from 0xcE25E214D5cfE4f459cf67F08DF581885AAE7Fdc-1777575398144 (Rank 123): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Stuttgart Open: Martin Landaluce vs Taylor Fritz' (Martin Landaluce) from BillBenter2026 (Rank 382): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Stuttgart Open: Martin Landaluce vs Taylor Fritz' (Martin Landaluce) from tradecraft (Rank 91): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 11, 12:30PM-12:35PM ET' (Down) from Whale Rank 395 (Rank 395): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Stuttgart Open: Martin Landaluce vs Taylor Fritz' (Martin Landaluce) from yishiwucheng (Rank 701): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Solana Up or Down - June 11, 12:30PM-12:45PM ET' (Up) from 0xb55fa1296E6ec55D0cE53d93B9237389f11764d4-1777575277609 (Rank 113): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'XRP Up or Down - June 11, 12:30PM-12:35PM ET' (Down) from sixx7 (Rank 242): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12:30PM-12:45PM ET' (Down) from neversmiling (Rank 306): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 11, 12:30PM-12:45PM ET' (Down) from screenSaver (Rank 286): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12:30PM-12:45PM ET' (Up) from Polkadot-Frog (Rank 389): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Solana Up or Down - June 11, 12:30PM-12:35PM ET' (Up) from 0xb55fa1296E6ec55D0cE53d93B9237389f11764d4-1777575277609 (Rank 113): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'XRP Up or Down - June 11, 12:30PM-12:45PM ET' (Up) from 0xcE25E214D5cfE4f459cf67F08DF581885AAE7Fdc-1777575398144 (Rank 123): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'LoL: Misa Esports vs UCAM Esports Club (BO3) - EMEA Masters Group A' (Misa Esports) from 239393828 (Rank 284): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 11, 12:30PM-12:35PM ET' (Up) from 0xcE25E214D5cfE4f459cf67F08DF581885AAE7Fdc-1777575398144 (Rank 123): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 11, 12:30PM-12:45PM ET' (Up) from 0xb55fa1296E6ec55D0cE53d93B9237389f11764d4-1777575277609 (Rank 113): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12:30PM-12:35PM ET' (Up) from 0xcE25E214D5cfE4f459cf67F08DF581885AAE7Fdc-1777575398144 (Rank 123): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12:30PM-12:35PM ET' (Up) from Bonereaper (Rank 79): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Solana Up or Down - June 11, 12:30PM-12:45PM ET' (Up) from 0xb55fa1296E6ec55D0cE53d93B9237389f11764d4-1777575277609 (Rank 113): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12:30PM-12:45PM ET' (Up) from Polkadot-Frog (Rank 389): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "Skipped BUY on 'LoL: Misa Esports vs UCAM Esports Club (BO3) - EMEA Masters Group A' (UCAM Esports Club) from 239393828 (Rank 284): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781195606,
+      "message": "NICHE BYPASS: 'Will SpaceX IPO by June 15, 2026?' (Yes) from LuckyPierrot (Rank 865) @ 0.996 USDC bypassed price filter [0.70, 0.95] \u2014 niche market priority active."
+    },
+    {
+      "timestamp": 1781195607,
+      "message": "COPIED BUY: LuckyPierrot (Rank 865) bought Yes on 'Will SpaceX IPO by June 15, 2026?' [NICHE] [Win Prob: 99.6%, Conviction: 98%, Score: 98]. Simulated buy of 125.50 shares @ 0.996 USDC (Total: 125.00 USDC)"
+    },
+    {
+      "timestamp": 1781195607,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 11, 12:30PM-12:35PM ET' (Up) from 0xb55fa1296E6ec55D0cE53d93B9237389f11764d4-1777575277609 (Rank 113): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195607,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12:30PM-12:35PM ET' (Up) from 0xb55fa1296E6ec55D0cE53d93B9237389f11764d4-1777575277609 (Rank 113): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195607,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 11, 12:30PM-12:35PM ET' (Up) from 0xb55fa1296E6ec55D0cE53d93B9237389f11764d4-1777575277609 (Rank 113): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781195607,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12:30PM-12:35PM ET' (Up) from 0xcE25E214D5cfE4f459cf67F08DF581885AAE7Fdc-1777575398144 (Rank 123): Crypto bets are excluded."
     }
   ]
 }

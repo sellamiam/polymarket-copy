@@ -386,6 +386,10 @@ def run_simulation_iteration(config, state):
             max_price = float(config.get("max_copy_price", 0.95))
             if price < min_price or price > max_price:
                 if niche_bypass:
+                    if price > 0.98:
+                        add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Niche market but price exceeds hard ceiling 0.98 USDC (low yield yield-farm bet).")
+                        state["processed_tx_hashes"].append(tx_hash)
+                        continue
                     add_log(state, f"NICHE BYPASS: '{title}' ({outcome}) from {name} @ {price:.3f} USDC bypassed price filter [{min_price:.2f}, {max_price:.2f}] — niche market priority active.")
                 else:
                     add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Outside price range [{min_price:.2f}, {max_price:.2f}] [Win Prob: {win_probability:.1f}%]")

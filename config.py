@@ -1,6 +1,7 @@
 import os
 import json
 import time
+import requests
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
@@ -51,8 +52,120 @@ def ensure_data_dir():
     if not os.path.exists(DATA_DIR):
         os.makedirs(DATA_DIR)
 
+# Gist persistence helpers for Render stateless hosting
+GIST_CACHE_FILE = os.path.join(DATA_DIR, ".gist_id")
+_gist_id_cache = None
+
+def get_github_headers():
+    token = os.environ.get("GITHUB_TOKEN")
+    return {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+
+def get_or_create_gist():
+    global _gist_id_cache
+    if _gist_id_cache:
+        return _gist_id_cache
+        
+    if os.path.exists(GIST_CACHE_FILE):
+        try:
+            with open(GIST_CACHE_FILE, "r") as f:
+                _gist_id_cache = f.read().strip()
+            if _gist_id_cache:
+                return _gist_id_cache
+        except Exception:
+            pass
+            
+    headers = get_github_headers()
+    try:
+        r = requests.get("https://api.github.com/gists", headers=headers, timeout=10)
+        if r.status_code == 200:
+            gists = r.json()
+            for gist in gists:
+                files = gist.get("files", {})
+                if "polycopy_state.json" in files:
+                    _gist_id_cache = gist["id"]
+                    try:
+                        with open(GIST_CACHE_FILE, "w") as f:
+                            f.write(_gist_id_cache)
+                    except Exception:
+                        pass
+                    return _gist_id_cache
+    except Exception as e:
+        print(f"Error listing gists: {e}")
+
+    try:
+        payload = {
+            "description": "PolyCopy Simulator State",
+            "public": False,
+            "files": {
+                "polycopy_state.json": {"content": "{}"},
+                "polycopy_config.json": {"content": "{}"}
+            }
+        }
+        r = requests.post("https://api.github.com/gists", headers=headers, json=payload, timeout=10)
+        if r.status_code == 201:
+            _gist_id_cache = r.json()["id"]
+            try:
+                with open(GIST_CACHE_FILE, "w") as f:
+                    f.write(_gist_id_cache)
+            except Exception:
+                pass
+            return _gist_id_cache
+    except Exception as e:
+        print(f"Error creating gist: {e}")
+        
+    return None
+
+def fetch_from_gist(filename):
+    gist_id = get_or_create_gist()
+    if not gist_id:
+        return None
+    headers = get_github_headers()
+    try:
+        r = requests.get(f"https://api.github.com/gists/{gist_id}", headers=headers, timeout=10)
+        if r.status_code == 200:
+            files = r.json().get("files", {})
+            file_data = files.get(filename, {})
+            content = file_data.get("content")
+            if content:
+                try:
+                    return json.loads(content)
+                except Exception:
+                    pass
+    except Exception as e:
+        print(f"Error fetching {filename} from gist: {e}")
+    return None
+
+def save_to_gist_async(filename, data):
+    gist_id = get_or_create_gist()
+    if not gist_id:
+        return
+    headers = get_github_headers()
+    try:
+        payload = {
+            "files": {
+                filename: {
+                    "content": json.dumps(data, indent=2)
+                }
+            }
+        }
+        requests.patch(f"https://api.github.com/gists/{gist_id}", headers=headers, json=payload, timeout=15)
+    except Exception as e:
+        print(f"Error updating Gist {filename}: {e}")
+
 def load_config():
     ensure_data_dir()
+    
+    github_token = os.environ.get("GITHUB_TOKEN")
+    if github_token:
+        gist_config = fetch_from_gist("polycopy_config.json")
+        if gist_config and isinstance(gist_config, dict) and gist_config:
+            with open(CONFIG_PATH, "w") as f:
+                json.dump(gist_config, f, indent=2)
+            return gist_config
+
     if not os.path.exists(CONFIG_PATH):
         save_config(DEFAULT_CONFIG)
         return DEFAULT_CONFIG
@@ -73,6 +186,11 @@ def save_config(config):
     ensure_data_dir()
     with open(CONFIG_PATH, "w") as f:
         json.dump(config, f, indent=2)
+        
+    github_token = os.environ.get("GITHUB_TOKEN")
+    if github_token:
+        import threading
+        threading.Thread(target=save_to_gist_async, args=("polycopy_config.json", config), daemon=True).start()
 
 def get_initial_state(starting_capital):
     return {
@@ -102,6 +220,14 @@ def load_state(config=None):
     if config is None:
         config = load_config()
     
+    github_token = os.environ.get("GITHUB_TOKEN")
+    if github_token:
+        gist_state = fetch_from_gist("polycopy_state.json")
+        if gist_state and isinstance(gist_state, dict) and gist_state:
+            with open(STATE_PATH, "w") as f:
+                json.dump(gist_state, f, indent=2)
+            return gist_state
+            
     if not os.path.exists(STATE_PATH):
         initial_state = get_initial_state(config["starting_capital"])
         save_state(initial_state)
@@ -129,10 +255,25 @@ def load_state(config=None):
         save_state(initial_state)
         return initial_state
 
+_last_gist_save_data = None
+
 def save_state(state):
     ensure_data_dir()
     with open(STATE_PATH, "w") as f:
         json.dump(state, f, indent=2)
+        
+    github_token = os.environ.get("GITHUB_TOKEN")
+    if github_token:
+        global _last_gist_save_data
+        core_data = {
+            "cash_usdc": state.get("cash_usdc"),
+            "positions": state.get("positions"),
+            "trades": state.get("trades")
+        }
+        if _last_gist_save_data != core_data:
+            _last_gist_save_data = core_data
+            import threading
+            threading.Thread(target=save_to_gist_async, args=("polycopy_state.json", state), daemon=True).start()
 
 def add_log(state, message):
     log_entry = {
