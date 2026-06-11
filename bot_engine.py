@@ -272,6 +272,39 @@ def run_simulation_iteration(config, state):
         slug = act.get("slug", "")
         condition_id = act.get("conditionId", "")
 
+        # Fast path check for crypto/sports in title/slug to avoid unnecessary API requests and noise
+        title_lower = title.lower()
+        slug_lower = slug.lower()
+        
+        is_crypto_fast = False
+        is_sports_fast = False
+        
+        if config.get("exclude_crypto_bets", True):
+            crypto_keywords = ["up or down", "price of", "bitcoin", "ethereum", "solana", "cardano", "dogecoin", "ripple", "crypto", "btc", "eth", "sol", "airdrop"]
+            if not ("spacex" in title_lower or "spacex" in slug_lower):
+                if any(kw in title_lower or kw in slug_lower for kw in crypto_keywords):
+                    is_crypto_fast = True
+                    
+        if config.get("exclude_sports_bets", True):
+            sports_keywords = [
+                " vs ", "vs.", "versus", "wnba", "nba", "nfl", "mlb", "nhl", "ufc", "mma", "pga", "mls",
+                "premier league", "champions league", "la liga", "bundesliga", "serie a", "atp", "wta",
+                "soccer", "football", "basketball", "baseball", "hockey", "tennis", "golf", "cricket", "rugby",
+                "boxing", "wrestling", "nascar", "formula 1", "f1", "grand prix", "athletics", "olympics"
+            ]
+            if any(kw in title_lower or kw in slug_lower for kw in sports_keywords):
+                is_sports_fast = True
+
+        if is_crypto_fast:
+            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Crypto bets are excluded.")
+            state["processed_tx_hashes"].append(tx_hash)
+            continue
+            
+        if is_sports_fast:
+            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Sports bets are excluded.")
+            state["processed_tx_hashes"].append(tx_hash)
+            continue
+
         # Safeguard
         if price <= 0 or size <= 0:
             continue
