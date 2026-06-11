@@ -44,6 +44,7 @@ class SettingsUpdate(BaseModel):
     min_best_bet_score: Optional[int] = None
     max_days_to_resolution: Optional[int] = None
     exclude_sports_bets: Optional[bool] = None
+    exclude_crypto_bets: Optional[bool] = None
 
 
 class FollowTrader(BaseModel):
@@ -122,6 +123,9 @@ def update_settings(update: SettingsUpdate):
 
     if update.exclude_sports_bets is not None:
         cfg["exclude_sports_bets"] = update.exclude_sports_bets
+
+    if update.exclude_crypto_bets is not None:
+        cfg["exclude_crypto_bets"] = update.exclude_crypto_bets
         
     config.save_config(cfg)
     return {"status": "success", "config": cfg}

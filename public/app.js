@@ -274,6 +274,8 @@ function renderDashboard(data) {
     if (document.activeElement !== setMaxDays) setMaxDays.value = config.max_days_to_resolution || 7;
     const setExcludeSports = document.getElementById('settings-exclude-sports');
     if (document.activeElement !== setExcludeSports) setExcludeSports.checked = config.exclude_sports_bets !== false;
+    const setExcludeCrypto = document.getElementById('settings-exclude-crypto');
+    if (document.activeElement !== setExcludeCrypto) setExcludeCrypto.checked = config.exclude_crypto_bets !== false;
 
     // Render Chart
     if (state.portfolio_value_history && state.portfolio_value_history.length > 0) {
@@ -634,6 +636,7 @@ async function saveGlobalSettings(e) {
     const minBestScore = parseInt(document.getElementById('settings-min-best-score').value);
     const maxDays = parseInt(document.getElementById('settings-max-days').value);
     const excludeSports = document.getElementById('settings-exclude-sports').checked;
+    const excludeCrypto = document.getElementById('settings-exclude-crypto').checked;
 
     try {
         const res = await fetch('/api/settings', {
@@ -649,7 +652,8 @@ async function saveGlobalSettings(e) {
                 copy_only_best_wins: copyOnlyBest,
                 min_best_bet_score: minBestScore,
                 max_days_to_resolution: maxDays,
-                exclude_sports_bets: excludeSports
+                exclude_sports_bets: excludeSports,
+                exclude_crypto_bets: excludeCrypto
             })
         });
         if (res.ok) {

@@ -313,6 +313,30 @@ def run_simulation_iteration(config, state):
             if condition_id:
                 market_details = fetch_market_details(condition_id)
                 if market_details:
+                    # Exclude crypto bets filter
+                    if config.get("exclude_crypto_bets", True):
+                        is_crypto = False
+                        # 1. Check feeType
+                        fee_type = market_details.get("feeType", "").lower()
+                        if "crypto" in fee_type:
+                            is_crypto = True
+
+                        # 2. Check keywords
+                        question_lower = market_details.get("question", "").lower()
+                        slug_lower = market_details.get("slug", "").lower()
+                        crypto_keywords = ["up or down", "price of", "bitcoin", "ethereum", "solana", "cardano", "dogecoin", "ripple", "crypto", "btc", "eth", "sol", "airdrop"]
+                        if any(kw in question_lower or kw in slug_lower for kw in crypto_keywords):
+                            is_crypto = True
+
+                        # Safeguard: Never exclude SpaceX IPO bets
+                        if "spacex" in question_lower or "spacex" in slug_lower:
+                            is_crypto = False
+
+                        if is_crypto:
+                            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Crypto bets are excluded.")
+                            state["processed_tx_hashes"].append(tx_hash)
+                            continue
+
                     # Exclude sports bets filter
                     if config.get("exclude_sports_bets", True):
                         is_sports = False
