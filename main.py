@@ -245,6 +245,14 @@ def reset_simulation():
         config.save_state(new_state)
     return {"status": "success", "message": "Simulation history and balance reset."}
 
+@app.post("/api/traders/sync-leaderboard")
+def sync_leaderboard():
+    success = bot_engine.sync_whales_from_leaderboard(time_period="WEEK", limit=1000)
+    if success:
+        return {"status": "success", "message": "Synced top 1000 weekly winners from leaderboard."}
+    else:
+        raise HTTPException(status_code=500, detail="Failed to sync whales from leaderboard.")
+
 @app.get("/api/leaderboard")
 def get_leaderboard(timePeriod: str = "WEEK"):
     """

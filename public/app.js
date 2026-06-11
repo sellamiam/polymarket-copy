@@ -14,6 +14,7 @@ const refreshTimerEl = document.getElementById('refresh-timer');
 const btnForceRefresh = document.getElementById('btn-force-refresh');
 const btnToggleBot = document.getElementById('btn-toggle-bot');
 const btnResetSim = document.getElementById('btn-reset-sim');
+const btnSyncWhales = document.getElementById('btn-sync-whales');
 const botStatusDot = document.querySelector('.id-status-dot');
 const botStatusText = document.querySelector('.id-status-text');
 
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnForceRefresh.addEventListener('click', forceRefreshData);
     btnToggleBot.addEventListener('click', toggleBotStatus);
     btnResetSim.addEventListener('click', resetSimulationAccount);
+    btnSyncWhales.addEventListener('click', syncWhalesFromLeaderboard);
 
     // Form Submits
     document.getElementById('form-settings').addEventListener('submit', saveGlobalSettings);
@@ -593,6 +595,30 @@ async function resetSimulationAccount() {
         }
     } catch (e) {
         console.error('Error resetting simulation:', e);
+    }
+}
+
+async function syncWhalesFromLeaderboard() {
+    btnSyncWhales.disabled = true;
+    const oldHTML = btnSyncWhales.innerHTML;
+    btnSyncWhales.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Syncing...';
+    
+    try {
+        const res = await fetch('/api/traders/sync-leaderboard', { method: 'POST' });
+        if (res.ok) {
+            const data = await res.json();
+            alert(data.message || 'Successfully synced top whales from the weekly leaderboard!');
+            forceRefreshData();
+        } else {
+            const data = await res.json();
+            alert(`Sync failed: ${data.detail || 'Unknown error'}`);
+        }
+    } catch (err) {
+        console.error('Error syncing whales:', err);
+        alert('Sync failed. Please check backend status.');
+    } finally {
+        btnSyncWhales.disabled = false;
+        btnSyncWhales.innerHTML = oldHTML;
     }
 }
 
