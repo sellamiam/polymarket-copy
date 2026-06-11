@@ -93,6 +93,8 @@ class SettingsUpdate(BaseModel):
     max_days_to_resolution: Optional[int] = None
     exclude_sports_bets: Optional[bool] = None
     exclude_crypto_bets: Optional[bool] = None
+    niche_priority_active: Optional[bool] = None
+    dynamic_sizing_active: Optional[bool] = None
 
 
 class FollowTrader(BaseModel):
@@ -174,6 +176,12 @@ def update_settings(update: SettingsUpdate):
 
     if update.exclude_crypto_bets is not None:
         cfg["exclude_crypto_bets"] = update.exclude_crypto_bets
+
+    if update.niche_priority_active is not None:
+        cfg["niche_priority_active"] = update.niche_priority_active
+
+    if update.dynamic_sizing_active is not None:
+        cfg["dynamic_sizing_active"] = update.dynamic_sizing_active
         
     config.save_config(cfg)
     return {"status": "success", "config": cfg}

@@ -45,6 +45,49 @@ def fetch_market_details(condition_id):
     return None
 
 
+def is_niche_market(title, slug, question=""):
+    title_lower = (title or "").lower()
+    slug_lower = (slug or "").lower()
+    q_lower = (question or "").lower()
+    
+    niche_keywords = [
+        "weather", "temperature", "singapore", "celsius", "degree", "science", "spacex", "nasa", 
+        "climate", "meteorological", "audit", "regulatory", "fda", "court", "ruling", "lawsuit", "vaccine", "space"
+    ]
+    return any(kw in title_lower or kw in slug_lower or kw in q_lower for kw in niche_keywords)
+
+def calculate_dynamic_sizing_multiplier(trader_cfg, whale_trade_usdc):
+    roi_multiplier = 1.0
+    rank_mult = 1.0
+    conviction_multiplier = 1.0
+    
+    # ROI Sizing Factor
+    pnl = trader_cfg.get("pnl", 0.0)
+    vol = trader_cfg.get("vol", 0.0)
+    if vol > 0.0 and pnl > 0.0:
+        roi = pnl / vol
+        if roi > 0.10: # > 10% weekly ROI
+            roi_multiplier = 1.5
+        elif roi < 0.03: # < 3% weekly ROI
+            roi_multiplier = 0.5
+            
+    # Rank Sizing Factor
+    rank = trader_cfg.get("rank")
+    if rank and rank <= 100:
+        rank_mult = 1.2
+        
+    # Conviction Sizing Factor
+    if whale_trade_usdc > 25000:
+        conviction_multiplier = 2.0
+    elif whale_trade_usdc > 10000:
+        conviction_multiplier = 1.5
+    elif whale_trade_usdc < 500:
+        conviction_multiplier = 0.5
+        
+    total_mult = roi_multiplier * rank_mult * conviction_multiplier
+    return min(3.0, max(0.2, total_mult))
+
+
 _engine_thread = None
 _stop_event = threading.Event()
 _state_lock = threading.Lock()
@@ -333,13 +376,21 @@ def run_simulation_iteration(config, state):
             conviction_score = calculate_conviction(usdc_size)
             best_bet_score = int(win_probability * 0.6 + conviction_score * 0.4)
 
-            # Check price range filters
+            # Determine if this is a niche market for priority treatment
+            niche_flag = is_niche_market(title, slug)
+            niche_active = config.get("niche_priority_active", False)
+            niche_bypass = niche_flag and niche_active
+
+            # Check price range filters (bypassed for niche markets when priority is active)
             min_price = float(config.get("min_copy_price", 0.70))
             max_price = float(config.get("max_copy_price", 0.95))
             if price < min_price or price > max_price:
-                add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Outside price range [{min_price:.2f}, {max_price:.2f}] [Win Prob: {win_probability:.1f}%]")
-                state["processed_tx_hashes"].append(tx_hash)
-                continue
+                if niche_bypass:
+                    add_log(state, f"NICHE BYPASS: '{title}' ({outcome}) from {name} @ {price:.3f} USDC bypassed price filter [{min_price:.2f}, {max_price:.2f}] — niche market priority active.")
+                else:
+                    add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Outside price range [{min_price:.2f}, {max_price:.2f}] [Win Prob: {win_probability:.1f}%]")
+                    state["processed_tx_hashes"].append(tx_hash)
+                    continue
 
             # Check resolution time and category filters
             max_days = int(config.get("max_days_to_resolution", 7))
@@ -448,6 +499,18 @@ def run_simulation_iteration(config, state):
                 state["processed_tx_hashes"].append(tx_hash)
                 continue
 
+            # Apply dynamic sizing multiplier if enabled
+            if config.get("dynamic_sizing_active", False):
+                dyn_mult = calculate_dynamic_sizing_multiplier(trader, usdc_size)
+                copy_usdc *= dyn_mult
+                if abs(dyn_mult - 1.0) > 0.01:
+                    add_log(state, f"DYNAMIC SIZING: '{title}' size adjusted by {dyn_mult:.2f}x → {copy_usdc:.2f} USDC (whale ROI/rank/conviction scaling).")
+
+            # Niche market bonus: +25% allocation for niche markets when priority active
+            if niche_bypass:
+                niche_bonus = copy_usdc * 0.25
+                copy_usdc += niche_bonus
+
             # Settle size
             invest_usdc = min(copy_usdc, state["cash_usdc"])
             
@@ -537,7 +600,8 @@ def run_simulation_iteration(config, state):
                 "realized_pnl": 0.0
             })
             
-            add_log(state, f"COPIED BUY: {name} bought {outcome} on '{title}' [Win Prob: {win_probability:.1f}%, Conviction: {conviction_score}%, Score: {best_bet_score}]. Simulated buy of {quantity:.2f} shares @ {exec_price:.3f} USDC (Total: {invest_usdc:.2f} USDC)")
+            niche_tag = " [NICHE]" if niche_bypass else ""
+            add_log(state, f"COPIED BUY: {name} bought {outcome} on '{title}'{niche_tag} [Win Prob: {win_probability:.1f}%, Conviction: {conviction_score}%, Score: {best_bet_score}]. Simulated buy of {quantity:.2f} shares @ {exec_price:.3f} USDC (Total: {invest_usdc:.2f} USDC)")
             trade_executed_or_resolved = True
 
         elif side == "SELL":
@@ -680,11 +744,18 @@ def sync_whales_from_leaderboard(time_period="WEEK", limit=1000):
         rank = item.get("rank")
         name = item.get("userName") or f"Whale Rank {rank}"
         
+        pnl = float(item.get("pnl", 0.0))
+        vol = float(item.get("vol", 0.0))
+        rank_val = int(rank) if rank else 1000
+        
         # If already followed, keep existing settings but update name if username changed
         if addr_clean in current_map:
             trader_cfg = current_map[addr_clean]
             if item.get("userName") and not trader_cfg["name"].startswith(item.get("userName")):
                 trader_cfg["name"] = f"{item.get('userName')} (Rank {rank})"
+            trader_cfg["pnl"] = pnl
+            trader_cfg["vol"] = vol
+            trader_cfg["rank"] = rank_val
             updated_traders.append(trader_cfg)
         else:
             # Create a new followed trader
@@ -693,7 +764,10 @@ def sync_whales_from_leaderboard(time_period="WEEK", limit=1000):
                 "name": f"{name} (Rank {rank})",
                 "enabled": True,
                 "sizing_type": "fixed",
-                "sizing_value": 100.0
+                "sizing_value": 100.0,
+                "pnl": pnl,
+                "vol": vol,
+                "rank": rank_val
             }
             updated_traders.append(new_trader)
             added_count += 1

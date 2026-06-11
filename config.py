@@ -20,6 +20,8 @@ DEFAULT_CONFIG = {
     "exclude_sports_bets": True,
     "exclude_crypto_bets": True,
     "simulation_active": True,
+    "niche_priority_active": True,
+    "dynamic_sizing_active": True,
     "followed_traders": [
         {
             "address": "0x56687bf447db6ffa42ffe2204a05edaa20f55839",

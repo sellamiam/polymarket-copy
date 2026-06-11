@@ -371,7 +371,26 @@
                                 </label>
                                 <small class="form-help">Skip copying short-term crypto price predictions (Bitcoin/Ethereum Up or Down, price target intervals, airdrops, etc.). Guarantees focus remains on high-probability events (SpaceX IPO, political news) rather than fast-paced price swings.</small>
                             </div>
-                            <div class="grid-2-columns" style="margin-top: 0; padding: 0; align-items: center;">
+                            <div style="margin-top: 1rem; padding: 1rem; border-radius: 8px; border: 1px solid rgba(99, 102, 241, 0.2); background: rgba(99, 102, 241, 0.04);">
+                                <div style="font-size: 0.75rem; font-weight: 600; color: #818cf8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
+                                    <i class="fa-solid fa-bolt"></i> Smart Strategy Features
+                                </div>
+                                <div class="form-group">
+                                    <label for="settings-niche-priority" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                        <input type="checkbox" id="settings-niche-priority" style="width: 16px; height: 16px; cursor: pointer;">
+                                        Niche-Market Priority
+                                    </label>
+                                    <small class="form-help">Prioritize weather, science, space &amp; regulatory contracts where prediction markets are frequently mispriced. Niche markets bypass price-range filters and receive a 25% allocation bonus. These are niche categories where whale signals carry the strongest edge.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="settings-dynamic-sizing" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                        <input type="checkbox" id="settings-dynamic-sizing" style="width: 16px; height: 16px; cursor: pointer;">
+                                        Dynamic Performance-Based Sizing
+                                    </label>
+                                    <small class="form-help">Automatically scale trade sizes based on each whale's ROI, leaderboard rank, and trade conviction. Top-100 whales with &gt;10% weekly ROI get up to 3x sizing, while underperformers are sized down to 0.2x. Large whale bets (&gt;$25K) also receive conviction multipliers.</small>
+                                </div>
+                            </div>
+                            <div class="grid-2-columns" style="margin-top: 1rem; padding: 0; align-items: center;">
                                 <div class="form-group">
                                     <label for="settings-copy-only-best" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
                                         <input type="checkbox" id="settings-copy-only-best" style="width: 16px; height: 16px; cursor: pointer;">
