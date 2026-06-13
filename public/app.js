@@ -592,8 +592,13 @@ async function toggleBotStatus() {
         const stateRes = await fetch('/api/state');
         const data = await stateRes.json();
         const active = data.config.simulation_active;
-        const endpoint = active ? '/api/control/stop' : '/api/control/start';
         
+        const actionText = active ? 'stop/pause' : 'start';
+        if (!confirm(`Are you sure you want to ${actionText} the simulation?`)) {
+            return;
+        }
+        
+        const endpoint = active ? '/api/control/stop' : '/api/control/start';
         const res = await fetch(endpoint, { method: 'POST' });
         if (res.ok) {
             forceRefreshData();

@@ -1,5 +1,5 @@
 {
-  "cash_usdc": 8175.0,
+  "cash_usdc": 8100.0,
   "portfolio_value_history": [
     {
       "timestamp": 1781141156,
@@ -90,6 +90,12 @@
       "cash": 8175.0,
       "holdings_value": 1815.0783367496974,
       "total_equity": 9990.078336749697
+    },
+    {
+      "timestamp": 1781373752,
+      "cash": 8100.0,
+      "holdings_value": 1889.9583833663157,
+      "total_equity": 9989.958383366316
     }
   ],
   "positions": {
@@ -107,7 +113,7 @@
       "win_probability": 29.5,
       "conviction_score": 85,
       "best_bet_score": 51,
-      "last_updated": 1781195761
+      "last_updated": 1781373906
     },
     "50390998643343866027494417866347693954819112830209588212574936759883736899001": {
       "token_id": "50390998643343866027494417866347693954819112830209588212574936759883736899001",
@@ -123,7 +129,7 @@
       "win_probability": 92.0,
       "conviction_score": 30,
       "best_bet_score": 67,
-      "last_updated": 1781195762
+      "last_updated": 1781373907
     },
     "84046278036309028847466517035113480994714180624420806147531999338743658664696": {
       "token_id": "84046278036309028847466517035113480994714180624420806147531999338743658664696",
@@ -139,7 +145,7 @@
       "win_probability": 77.0,
       "conviction_score": 32,
       "best_bet_score": 59,
-      "last_updated": 1781195762
+      "last_updated": 1781373907
     },
     "58123123178059189265617668807812818303602907938044426313288815736114358663179": {
       "token_id": "58123123178059189265617668807812818303602907938044426313288815736114358663179",
@@ -155,7 +161,7 @@
       "win_probability": 93.89999999999999,
       "conviction_score": 22,
       "best_bet_score": 65,
-      "last_updated": 1781195763
+      "last_updated": 1781373908
     },
     "90206887753625699785332917459812908433772088618956638019425834766645120937409": {
       "token_id": "90206887753625699785332917459812908433772088618956638019425834766645120937409",
@@ -171,7 +177,7 @@
       "win_probability": 75.0,
       "conviction_score": 24,
       "best_bet_score": 54,
-      "last_updated": 1781195763
+      "last_updated": 1781373909
     },
     "66624968808986167654330780056197487317653622893917956755226054462409477135308": {
       "token_id": "66624968808986167654330780056197487317653622893917956755226054462409477135308",
@@ -187,7 +193,7 @@
       "win_probability": 91.0,
       "conviction_score": 26,
       "best_bet_score": 65,
-      "last_updated": 1781195763
+      "last_updated": 1781373909
     },
     "37992416478769158079730259906687433006507440835080597947796929469407795488570": {
       "token_id": "37992416478769158079730259906687433006507440835080597947796929469407795488570",
@@ -203,7 +209,7 @@
       "win_probability": 77.0,
       "conviction_score": 24,
       "best_bet_score": 55,
-      "last_updated": 1781195763
+      "last_updated": 1781373910
     },
     "21341500257513699806005757998753140567965642436797535019262836495921205670344": {
       "token_id": "21341500257513699806005757998753140567965642436797535019262836495921205670344",
@@ -219,7 +225,7 @@
       "win_probability": 79.0,
       "conviction_score": 24,
       "best_bet_score": 57,
-      "last_updated": 1781195764
+      "last_updated": 1781373910
     },
     "20423464328881089566173909709833751781207317003818929906839036274532658163521": {
       "token_id": "20423464328881089566173909709833751781207317003818929906839036274532658163521",
@@ -235,7 +241,55 @@
       "win_probability": 99.59925558312655,
       "conviction_score": 98,
       "best_bet_score": 98,
-      "last_updated": 1781195764
+      "last_updated": 1781373911
+    },
+    "9108839460228615964217641808780817903087412142850470523819241286096498177367": {
+      "token_id": "9108839460228615964217641808780817903087412142850470523819241286096498177367",
+      "condition_id": "0x8fb1eb6831ddcf55e8d912a4bded7e6bcaf04fe08f47d0818aa999573ae40339",
+      "market_title": "Will Elon Musk post 240-259 tweets from June 9 to June 16, 2026?",
+      "market_slug": "elon-musk-of-tweets-june-9-june-16-240-259",
+      "outcome": "No",
+      "outcome_index": 1,
+      "avg_price": 0.94,
+      "quantity": 26.595744680851066,
+      "invested_usdc": 25.0,
+      "current_price": 0.945,
+      "win_probability": 94.0,
+      "conviction_score": 34,
+      "best_bet_score": 70,
+      "last_updated": 1781373911
+    },
+    "111795793448519419792132502041465034925438399209996251005726878733042107172864": {
+      "token_id": "111795793448519419792132502041465034925438399209996251005726878733042107172864",
+      "condition_id": "0x51f2c958837ef36fdb21705d16b0e78345c173fd8a77ce6cb59b52c680f0d046",
+      "market_title": "Will Elon Musk post 160-179 tweets from June 9 to June 16, 2026?",
+      "market_slug": "elon-musk-of-tweets-june-9-june-16-160-179",
+      "outcome": "No",
+      "outcome_index": 1,
+      "avg_price": 0.813,
+      "quantity": 30.75030750307503,
+      "invested_usdc": 25.0,
+      "current_price": 0.8105,
+      "win_probability": 81.3,
+      "conviction_score": 32,
+      "best_bet_score": 61,
+      "last_updated": 1781373911
+    },
+    "70790248703560511772834716191156278582072464247669236568376081516160683506976": {
+      "token_id": "70790248703560511772834716191156278582072464247669236568376081516160683506976",
+      "condition_id": "0xe9dce32a233b267f2980eff3855c61ecb0911c907ffc8575e1f8d4e5dbb96c32",
+      "market_title": "Will Elon Musk post 180-199 tweets from June 9 to June 16, 2026?",
+      "market_slug": "elon-musk-of-tweets-june-9-june-16-180-199",
+      "outcome": "No",
+      "outcome_index": 1,
+      "avg_price": 0.71,
+      "quantity": 35.21126760563381,
+      "invested_usdc": 25.0,
+      "current_price": 0.705,
+      "win_probability": 71.0,
+      "conviction_score": 31,
+      "best_bet_score": 55,
+      "last_updated": 1781373912
     }
   },
   "trades": [
@@ -400,6 +454,60 @@
       "best_bet_score": 98,
       "tx_hash": "0x873fe590123affc64c7e441e17c83c15bcdc0c4a84260080a01ef10201b67842",
       "realized_pnl": 0.0
+    },
+    {
+      "id": "5976c94b-1a8e-4f17-b882-f4fec1f67c47",
+      "timestamp": 1781373745,
+      "trader_address": "0xd23f8c8aab13cfb2a35da40b67f8471faf9894a1",
+      "trader_name": "Corlys (Rank 275)",
+      "market_title": "Will Elon Musk post 240-259 tweets from June 9 to June 16, 2026?",
+      "market_slug": "elon-musk-of-tweets-june-9-june-16-240-259",
+      "outcome": "No",
+      "type": "BUY",
+      "quantity": 26.595744680851066,
+      "price": 0.94,
+      "usdc_size": 25.0,
+      "win_probability": 94.0,
+      "conviction_score": 34,
+      "best_bet_score": 70,
+      "tx_hash": "0x93bcd12831fa8a7d13c69f5fb41afbdae772b528bc887697364feb625b55487c",
+      "realized_pnl": 0.0
+    },
+    {
+      "id": "53d46b87-360a-4d19-9891-d7d81c13eab2",
+      "timestamp": 1781373745,
+      "trader_address": "0xd23f8c8aab13cfb2a35da40b67f8471faf9894a1",
+      "trader_name": "Corlys (Rank 275)",
+      "market_title": "Will Elon Musk post 160-179 tweets from June 9 to June 16, 2026?",
+      "market_slug": "elon-musk-of-tweets-june-9-june-16-160-179",
+      "outcome": "No",
+      "type": "BUY",
+      "quantity": 30.75030750307503,
+      "price": 0.813,
+      "usdc_size": 25.0,
+      "win_probability": 81.3,
+      "conviction_score": 32,
+      "best_bet_score": 61,
+      "tx_hash": "0x0cbc25e6bfdf9e859016ed364c3d410bf3093d2ef9f0323dc3c966244ce46836",
+      "realized_pnl": 0.0
+    },
+    {
+      "id": "b426bc42-85d0-4c36-87d3-3c300bafa8d0",
+      "timestamp": 1781373745,
+      "trader_address": "0xd23f8c8aab13cfb2a35da40b67f8471faf9894a1",
+      "trader_name": "Corlys (Rank 275)",
+      "market_title": "Will Elon Musk post 180-199 tweets from June 9 to June 16, 2026?",
+      "market_slug": "elon-musk-of-tweets-june-9-june-16-180-199",
+      "outcome": "No",
+      "type": "BUY",
+      "quantity": 35.21126760563381,
+      "price": 0.71,
+      "usdc_size": 25.0,
+      "win_probability": 71.0,
+      "conviction_score": 31,
+      "best_bet_score": 55,
+      "tx_hash": "0x69802c65abfb33fe0db7523faadbcd6d02ea8a5bdccde4d1932844ebf8c7e3a3",
+      "realized_pnl": 0.0
     }
   ],
   "whale_positions": {
@@ -425,7 +533,10 @@
       "84046278036309028847466517035113480994714180624420806147531999338743658664696": 10.0,
       "58123123178059189265617668807812818303602907938044426313288815736114358663179": 3.33,
       "37992416478769158079730259906687433006507440835080597947796929469407795488570": 5.0,
-      "21341500257513699806005757998753140567965642436797535019262836495921205670344": 5.0
+      "21341500257513699806005757998753140567965642436797535019262836495921205670344": 5.0,
+      "9108839460228615964217641808780817903087412142850470523819241286096498177367": 10.0,
+      "111795793448519419792132502041465034925438399209996251005726878733042107172864": 10.0,
+      "70790248703560511772834716191156278582072464247669236568376081516160683506976": 10.0
     },
     "0x4c2da46b289847e3e8377c6f4ca3d520c620f8ae": {
       "75342601497089508883276927505926667289058707579736385719204195953768479770485": 0.0
@@ -438,6 +549,17 @@
     },
     "0x95074f700f93bdf6e62fc965e0832064c0877b04": {
       "20423464328881089566173909709833751781207317003818929906839036274532658163521": 3627.0
+    },
+    "0xe9076a87c5ed90ef16e6fe6529c943baeca0cff6": {
+      "17550194778971145898928481511891927274104838199065567656684247871409543119108": 0.0
+    },
+    "0x5a218c7ad04135830a45c41aaed7294df7809318": {
+      "12392739535740890653523183006207826847100239045127784914218358454009214037128": 0.0,
+      "66580345178781204567497410641988006681852201276179290504469064245237785223810": 0.0,
+      "84629950350446575380670691232991374597769744347374453272752280577751763169321": 0.0,
+      "60455860637972061932984708351432546044248076687334005548989239998546301869841": 0.0,
+      "49369008207155012719981675891644739978829774184626799746539866765972192596483": 0.0,
+      "31377173239121824567538354733371193383806068079615630045942994786658471167613": 0.0
     }
   },
   "processed_tx_hashes": [
@@ -854,7 +976,58 @@
     "0xd9f00adf8c5e74c8c54f625bcc822aa2f9662aaa60a88b19d296967747eab36f",
     "0x3b5346cc588e80ad8d772c66d2262c43e57b75b1a6330ea3cf3a15e3e0d6b89d",
     "0x46c2e1ca4f3dff1faf4b4d2eef59756b240939d85f06a7233bb9217edbadb0a8",
-    "0x5af1e56937b83dec8568e03c732ce3572c8a03d68d6c7911e52087764ef943b0"
+    "0x5af1e56937b83dec8568e03c732ce3572c8a03d68d6c7911e52087764ef943b0",
+    "0xb39656f8ef57eae552f08b9c98a0fc9047f9c2da26dc1ea48600c9bf26824e9d",
+    "0xa61f6a31693bdcbb6d6c4e47509e50dce191ded7f93b17e163b4820f152d038d",
+    "0x99dc5d9a339d082ce46f258feb4bdac253dd42198748b19a83f9aad3cd1756f9",
+    "0xe9b6b07274111df13d4e6c3cb75b59576daa1b9d17c22e556731ae352ab63311",
+    "0xf14edf5a6e1e682b055e8e5c4c876184d254a4a3f68c9b3ca2c30aae47b193c5",
+    "0x34e7e6bd8d0b1c0670ef15c68084442bfc3599df36a4d712289367e835ecdd51",
+    "0x7120e353d0dd82a4cf3fa7081371246d2de724994e054881eedde3e81f86c32e",
+    "0x2533513d6f933f9be2cdc51635d929d1797a889399c335aba1a48f7bafb7b36a",
+    "0x8c95ecb6e4c1652380bf9a7a0447b9b3d041bcd5ad33c226e25ee5c265558455",
+    "0x90d989cb2c692836ca970347d9a95adc040f2a147754b7fc760722446d0e7b75",
+    "0x2e730dd3cd930b5f7352a5a0a52b209d0564fe3f59e8f11ae677010e217171a0",
+    "0x9ba15318f215c9581a78b2691dc853fe947ba39917e168f2d180888deaa670dd",
+    "0x0dae4983b82569641ec6c0aca4a61194cfbed5c177170274473553c370111884",
+    "0xc09f053588b9a20b225ac257cb1aa222f3e53095d0d53e179be0327c80a11480",
+    "0xe9a8d814fa04874c34ef470c9dc33aea10b48dc8247a70c208ecabd48b598306",
+    "0xc542e60e1dbdd4cd9b74df1e33c88f2e20ca416cc96b6fa7b532d0ff585f5650",
+    "0xd1d7bc8bb3cdaf25ee4cdf05bb301cba1847a75f854008a977178abd11d9dbb5",
+    "0x98e617d9e7a2b235929004b1b192e23abe48057d1b8dc04613348ace9ae0faba",
+    "0x665f0f5667665f11b09faeb8fe90f7fc4faf57fca8731b7797e054b6084d0b6e",
+    "0xe5ede20fece0c7e44ccf6cc94c1dff70de596732e6216dc77d15e6971ff10c32",
+    "0x2b2e5ffc85e2e95b22f9a7547658082d0e08c080fcdb1f00c5ea69782d714862",
+    "0x083bd4249d74dc627a24d11974252e51eb7df9d5c7fba9b7868c66cdf31a777b",
+    "0x2a3cb157d5732a0bdb9c922e8e43ceea0b18873953f5e3c97372a112718be3f4",
+    "0x0c5e6582482105c20ac4b2ef5da04a6d8122bc47c0aa29940cde48517388b4c8",
+    "0x89011d3076e25e405238a71a7660b32d05fa221ab43f6835698ec0077210e796",
+    "0xffb1ad6cf078cb15df3dd170155eaa8807ba561ede35b443b3a46557cbb6ce31",
+    "0xeb968e6d10d7e8e0d1e5eacbfdeda7bfdf778da85b0737fe888c6f63f832a07b",
+    "0xeff6680df47bf53bcd056f0db1eb506028932cbb676da9aedf91fd3b176fcdb3",
+    "0x1b5db08089e3224cd8da758ed527082d7190f388f2a8f29194c524285e335e09",
+    "0x93bcd12831fa8a7d13c69f5fb41afbdae772b528bc887697364feb625b55487c",
+    "0xc83ca192ac3713527f0cccdc41ac8b26411153100dabab63a2f0d7b2e6fe9d48",
+    "0x80e2ed5e6e565e4840a88e483649b64ffb95486906170c6f57718c7e98409530",
+    "0x882df056474715f51a4818d4bd3751b3580fd643fefa332be9f32e02b4fbfab7",
+    "0x2138e35a0eb556a13f6e00c0f830a601bc3eb2ae88b0affbdf64725980d7f46e",
+    "0xf992999d36bd5b16b2546f33a888284bb1b05cd0990d9dde3451e256b09f515e",
+    "0xc20e3c08e2f26c382fc53950bc14363ba4cf1f995bb98e6387df79148e556290",
+    "0xd33b7d76214cec31cc2a9fc16969e10e9777d313020f2b632125c686777303ca",
+    "0x56be57cfa54822a05a48192e07e47a1ade86761b78f59f26ddaecf3d4f6d3167",
+    "0x0cbc25e6bfdf9e859016ed364c3d410bf3093d2ef9f0323dc3c966244ce46836",
+    "0x87e96fbecb0cf5384130d81b285eab724089d82ba346edd1f9abed92c7336b73",
+    "0x69802c65abfb33fe0db7523faadbcd6d02ea8a5bdccde4d1932844ebf8c7e3a3",
+    "0xf893ad0266106bc03c4f9e8d7e40776b0128e20ad541e7479880c596d8da8330",
+    "0xf87efcc92b95258c93539c811a0052a1661a61e14cf88aa3836eaff2884f7f6d",
+    "0x8c63729a2e1afbb234fd9b76462ba8f0931b37bae301d73144756da7d73ee589",
+    "0x6af16109ce7390a32a08955118c397cc6d0bee0ab677cfb10984b483178a356f",
+    "0x2fa1dfe2b891cc75a3764c899f6f6fd09c453584a37b56bf7a87caa20cb55330",
+    "0x86f6d54b06c246513b7be94832de39fd80839a0f7790000ab0502665524bd76d",
+    "0xb67b7952ffc883c6cd561d3d33611853f63e3eaa5061a3c53ee08c64f6e67f24",
+    "0x0d4a45fe579cf5701bf0c35bd8f2e9d639f009c30f5e1180737be6334ba83fde",
+    "0xa7767d9ab5c30a3b8c5df29964a51fb47ddfe0e95069d6401d523e6efb94aa9e",
+    "0xfcc93dbedc5e3d778ac0702ecea46c91469ec4b15d99343c64e49627c26532f3"
   ],
   "logs": [
     {
@@ -2488,6 +2661,198 @@
     {
       "timestamp": 1781195607,
       "message": "Skipped BUY on 'Bitcoin Up or Down - June 11, 12:30PM-12:35PM ET' (Up) from 0xcE25E214D5cfE4f459cf67F08DF581885AAE7Fdc-1777575398144 (Rank 123): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373701,
+      "message": "Synced 1000 top whales from WEEK leaderboard. Added 399 new whales. Total: 1703"
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from sixx7 (Rank 242): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Chicago Cubs vs. San Francisco Giants' (Chicago Cubs) from Herdonia (Rank 547): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from vnpspa55 (Rank 655): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Will Sweden win on 2026-06-14?' (Yes) from neutralwave23 (Rank 72) @ 0.510 USDC: Outside price range [0.70, 0.95] [Win Prob: 51.0%]"
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Will England win on 2026-06-23?' (No) from swisstony @ 0.250 USDC: Outside price range [0.70, 0.95] [Win Prob: 25.0%]"
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Will England win on 2026-06-23?' (No) from sporteo (Rank 998) @ 0.250 USDC: Outside price range [0.70, 0.95] [Win Prob: 25.0%]"
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Solana Up or Down - June 13, 1:55PM-2:00PM ET' (Down) from OhioRiskManagement (Rank 959): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Counter-Strike: BetBoom Team vs FURIA (BO3) - IEM Cologne Major Stage 3' (BetBoom Team) from BillBenter2026 (Rank 382): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Counter-Strike: PARIVISION vs Legacy - Map 2 Winner' (Legacy) from 0x6832c74809F5b0aCe45acAcFeD7Ffa9195b0831F-1773664958328 (Rank 99): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from vnpspa55 (Rank 655): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from sixx7 (Rank 242): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Exact Score: Qatar 0 - 2 Switzerland?' (Yes) from suntori (Rank 99) @ 0.170 USDC: Outside price range [0.70, 0.95] [Win Prob: 17.0%]"
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Exact Score: Qatar 0 - 3 Switzerland?' (Yes) from suntori (Rank 99) @ 0.140 USDC: Outside price range [0.70, 0.95] [Win Prob: 14.0%]"
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Knicks vs. Spurs' (Knicks) from mooseborzoi (Rank 3): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from sixx7 (Rank 242): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from aabbaabb (Rank 981): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Strait of Hormuz traffic returns to normal by end of June?' (Yes) from suntori (Rank 99) @ 0.240 USDC: Outside price range [0.70, 0.95] [Win Prob: 24.0%]"
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Hyperliquid Up or Down - June 13, 1:45PM-2:00PM ET' (Down) from 0xF3Ce251F9c4ae0f3940A9f32dE5Dd1A1d05B8Bc6-1778725794122 (Rank 230): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from vnpspa55 (Rank 655): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from Under-btc-low (Rank 468): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from Joble (Rank 890): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from 0xAAAAA (Rank 625): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from suntori (Rank 99): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from DoggyStyIe (Rank 759): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from trinity42 (Rank 466): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from nj23adsknml3 (Rank 852): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Will Africa (CAF) win the 2026 FIFA World Cup?' (Yes) from TradingWave (Rank 553) @ 0.030 USDC: Outside price range [0.70, 0.95] [Win Prob: 3.0%]"
+    },
+    {
+      "timestamp": 1781373744,
+      "message": "Skipped BUY on 'Counter-Strike: BetBoom Team vs FURIA - Map 1 Winner' (BetBoom Team) from Dimkov27 (Rank 796): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "DYNAMIC SIZING: 'Will Elon Musk post 240-259 tweets from June 9 to June 16, 2026?' size adjusted by 0.25x \u2192 25.00 USDC (whale ROI/rank/conviction scaling)."
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "COPIED BUY: Corlys (Rank 275) bought No on 'Will Elon Musk post 240-259 tweets from June 9 to June 16, 2026?' [Win Prob: 94.0%, Conviction: 34%, Score: 70]. Simulated buy of 26.60 shares @ 0.940 USDC (Total: 25.00 USDC)"
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "Skipped BUY on 'Will Elon Musk post 260-279 tweets from June 9 to June 16, 2026?' (No) from Corlys (Rank 275) @ 0.974 USDC: Outside price range [0.70, 0.95] [Win Prob: 97.4%]"
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "Skipped BUY on 'Will Elon Musk post 300-319 tweets from June 9 to June 16, 2026?' (No) from Corlys (Rank 275) @ 0.997 USDC: Outside price range [0.70, 0.95] [Win Prob: 99.7%]"
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "Skipped BUY on 'Solana Up or Down - June 13, 1:55PM-2:00PM ET' (Down) from OhioRiskManagement (Rank 959): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "Skipped BUY on 'Nottingham Open, Qualification: Oksana Selekhmeteva vs Taylah Preston' (Taylah Preston) from thestingsnake (Rank 538): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "DYNAMIC SIZING: 'Will Elon Musk post 160-179 tweets from June 9 to June 16, 2026?' size adjusted by 0.25x \u2192 25.00 USDC (whale ROI/rank/conviction scaling)."
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "COPIED BUY: Corlys (Rank 275) bought No on 'Will Elon Musk post 160-179 tweets from June 9 to June 16, 2026?' [Win Prob: 81.3%, Conviction: 32%, Score: 61]. Simulated buy of 30.75 shares @ 0.813 USDC (Total: 25.00 USDC)"
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "DYNAMIC SIZING: 'Will Elon Musk post 180-199 tweets from June 9 to June 16, 2026?' size adjusted by 0.25x \u2192 25.00 USDC (whale ROI/rank/conviction scaling)."
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "COPIED BUY: Corlys (Rank 275) bought No on 'Will Elon Musk post 180-199 tweets from June 9 to June 16, 2026?' [Win Prob: 71.0%, Conviction: 31%, Score: 55]. Simulated buy of 35.21 shares @ 0.710 USDC (Total: 25.00 USDC)"
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "Skipped BUY on 'Nottingham Open, Qualification: Oksana Selekhmeteva vs Taylah Preston' (Oksana Selekhmeteva) from thestingsnake (Rank 538): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "Skipped BUY on 'Will Elon Musk post 340-359 tweets from June 9 to June 16, 2026?' (No) from Corlys (Rank 275) @ 0.999 USDC: Outside price range [0.70, 0.95] [Win Prob: 99.9%]"
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "Skipped BUY on 'Will Elon Musk post 280-299 tweets from June 9 to June 16, 2026?' (No) from Corlys (Rank 275) @ 0.988 USDC: Outside price range [0.70, 0.95] [Win Prob: 98.8%]"
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "Skipped BUY on 'Nottingham Open, Qualification: Viktorija Golubic vs Veronika Erjavec' (Viktorija Golubic) from BillBenter2026 (Rank 382): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "Skipped BUY on 'T\u00fcrkiye leading at halftime?' (Yes) from Zzzz87 (Rank 62) @ 0.408 USDC: Outside price range [0.70, 0.95] [Win Prob: 40.8%]"
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "Skipped BUY on 'Spread: Spurs (-4.5)' (Spurs) from Herdonia (Rank 547): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 13, 1:55PM-2:00PM ET' (Down) from OhioRiskManagement (Rank 959): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 13, 1:55PM-2:00PM ET' (Up) from vnpspa55 (Rank 655): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781373745,
+      "message": "Skipped BUY on 'Knicks vs. Spurs' (Knicks) from mooseborzoi (Rank 3): Sports bets are excluded."
     }
   ]
 }
