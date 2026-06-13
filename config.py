@@ -155,11 +155,15 @@ def save_to_gist_async(filename, data):
     except Exception as e:
         print(f"Error updating Gist {filename}: {e}")
 
+_has_loaded_config_from_gist = False
+
 def load_config():
     ensure_data_dir()
     
+    global _has_loaded_config_from_gist
     github_token = os.environ.get("GITHUB_TOKEN")
-    if github_token:
+    if github_token and not _has_loaded_config_from_gist:
+        _has_loaded_config_from_gist = True
         gist_config = fetch_from_gist("polycopy_config.json")
         if gist_config and isinstance(gist_config, dict) and gist_config:
             with open(CONFIG_PATH, "w") as f:
@@ -215,13 +219,17 @@ def get_initial_state(starting_capital):
         ]
     }
 
+_has_loaded_state_from_gist = False
+
 def load_state(config=None):
     ensure_data_dir()
     if config is None:
         config = load_config()
     
+    global _has_loaded_state_from_gist
     github_token = os.environ.get("GITHUB_TOKEN")
-    if github_token:
+    if github_token and not _has_loaded_state_from_gist:
+        _has_loaded_state_from_gist = True
         gist_state = fetch_from_gist("polycopy_state.json")
         if gist_state and isinstance(gist_state, dict) and gist_state:
             with open(STATE_PATH, "w") as f:
