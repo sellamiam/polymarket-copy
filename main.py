@@ -15,54 +15,7 @@ import bot_engine
 async def lifespan(app: FastAPI):
     # Ensure config and state are loaded/initialized
     config.load_config()
-    state = config.load_state()
-    
-    # Automatically seed the manual SpaceX IPO trade if not present
-    spacex_token = "30569207111995760629202809780245772741365711537890183595010734356877221082635"
-    if spacex_token not in state.get("positions", {}):
-        with bot_engine._state_lock:
-            # Re-load state inside lock to avoid race conditions
-            state = config.load_state()
-            if spacex_token not in state["positions"] and state["cash_usdc"] >= 1000.0:
-                import uuid
-                import time
-                state["cash_usdc"] -= 1000.0
-                state["positions"][spacex_token] = {
-                    "token_id": spacex_token,
-                    "condition_id": "0x235693693a07f40782ff4a91d992a98a627d77a4cde305af3dd675eb982ec283",
-                    "market_title": "Will SpaceX's market cap be between $1.5T and $2.0T at market close on IPO day?",
-                    "market_slug": "will-spacexs-market-cap-be-between-1pt5t-and-2pt0t-at-market-close-on-ipo-day",
-                    "outcome": "Yes",
-                    "outcome_index": 0,
-                    "avg_price": 0.295,
-                    "quantity": 3389.8305,
-                    "invested_usdc": 1000.0,
-                    "current_price": 0.295,
-                    "win_probability": 29.5,
-                    "conviction_score": 85,
-                    "best_bet_score": 51,
-                    "last_updated": int(time.time())
-                }
-                state["trades"].append({
-                    "id": str(uuid.uuid4()),
-                    "timestamp": int(time.time()),
-                    "trader_address": "manual",
-                    "trader_name": "User Execution",
-                    "market_title": "Will SpaceX's market cap be between $1.5T and $2.0T at market close on IPO day?",
-                    "market_slug": "will-spacexs-market-cap-be-between-1pt5t-and-2pt0t-at-market-close-on-ipo-day",
-                    "outcome": "Yes",
-                    "type": "BUY",
-                    "quantity": 3389.8305,
-                    "price": 0.295,
-                    "usdc_size": 1000.0,
-                    "win_probability": 29.5,
-                    "conviction_score": 85,
-                    "best_bet_score": 51,
-                    "tx_hash": "manual",
-                    "realized_pnl": 0.0
-                })
-                config.add_log(state, "MANUAL SEED: Initialized SpaceX IPO ($1.5T-$2.0T YES bracket) position tracking.")
-                config.save_state(state)
+    config.load_state()
                 
     # Start background loop
     bot_engine.start_engine()

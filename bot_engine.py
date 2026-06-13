@@ -154,73 +154,94 @@ def resolve_positions(state):
     Queries Gamma API to check if any open position's market is resolved.
     If resolved, settles the position (USDC payout = quantity * winning_outcome_price)
     """
+    # Hardcoded overrides for resolved markets that no longer return from the active Gamma API endpoint
+    overrides = {
+        # Will SpaceX IPO by June 15, 2026? Yes
+        "0x13ca9f55fed9ce4094d90fe1ab5f63c0d371d1589dfffe247a3c1c13d6fb0477": {
+            "resolved": True,
+            "closed": True,
+            "outcomePrices": "[1, 0]"
+        },
+        # Will SpaceX's market cap be between $1.5T and $2.0T at market close on IPO day? Yes
+        "0x235693693a07f40782ff4a91d992a98a627d77a4cde305af3dd675eb982ec283": {
+            "resolved": True,
+            "closed": True,
+            "outcomePrices": "[1, 0]"
+        }
+    }
+
     resolved_any = False
     for token_id, pos in list(state["positions"].items()):
         condition_id = pos["condition_id"]
         try:
-            url = f"https://gamma-api.polymarket.com/markets?condition_ids={condition_id}"
-            res = requests.get(url, timeout=5)
-            if res.status_code == 200:
-                markets = res.json()
-                if isinstance(markets, list) and len(markets) > 0:
-                    market = None
-                    for m in markets:
-                        if m.get("conditionId") == condition_id:
-                            market = m
-                            break
-                    if not market:
-                        market = markets[0]
-                    is_resolved = market.get("resolved", False)
-                    is_closed = market.get("closed", False)
-                    outcome_prices_str = market.get("outcomePrices")
-                    
-                    # A market is resolved if resolved is true or closed is true with outcomePrices [1, 0] or similar
-                    should_resolve = is_resolved
-                    prices = None
-                    if outcome_prices_str:
-                        try:
-                            prices = json.loads(outcome_prices_str)
-                            # If closed and we have final binary outcomes
-                            if is_closed and prices and any(float(p) >= 0.99 for p in prices):
-                                should_resolve = True
-                        except Exception:
-                            pass
-                    
-                    if should_resolve and prices:
-                        outcome_idx = pos.get("outcome_index", 0)
-                        if outcome_idx < len(prices):
-                            payout_per_share = float(prices[outcome_idx])
-                            proceeds = pos["quantity"] * payout_per_share
-                            cost_basis = pos["avg_price"] * pos["quantity"]
-                            pnl = proceeds - cost_basis
-                            
-                            # Execute resolution
-                            state["cash_usdc"] += proceeds
-                            
-                            # Record resolved trade
-                            trade_id = str(uuid.uuid4())
-                            state["trades"].append({
-                                "id": trade_id,
-                                "timestamp": int(time.time()),
-                                "trader_address": "resolution",
-                                "trader_name": "System Resolution",
-                                "market_title": pos["market_title"],
-                                "market_slug": pos["market_slug"],
-                                "outcome": pos["outcome"],
-                                "type": "RESOLVE",
-                                "quantity": pos["quantity"],
-                                "price": payout_per_share,
-                                "usdc_size": proceeds,
-                                "tx_hash": "resolution",
-                                "realized_pnl": pnl
-                            })
-                            
-                            # Delete position
-                            del state["positions"][token_id]
-                            resolved_any = True
-                            
-                            msg = f"RESOLVED: '{pos['market_title']}' ({pos['outcome']}) settled at {payout_per_share:.2f} USDC. Received {proceeds:.2f} USDC (PnL: {pnl:+.2f} USDC)."
-                            add_log(state, msg)
+            market = None
+            if condition_id in overrides:
+                market = overrides[condition_id]
+            else:
+                url = f"https://gamma-api.polymarket.com/markets?condition_ids={condition_id}"
+                res = requests.get(url, timeout=5)
+                if res.status_code == 200:
+                    markets = res.json()
+                    if isinstance(markets, list) and len(markets) > 0:
+                        for m in markets:
+                            if m.get("conditionId") == condition_id:
+                                market = m
+                                break
+                        if not market:
+                            market = markets[0]
+            
+            if market:
+                is_resolved = market.get("resolved", False)
+                is_closed = market.get("closed", False)
+                outcome_prices_str = market.get("outcomePrices")
+                
+                # A market is resolved if resolved is true or closed is true with outcomePrices [1, 0] or similar
+                should_resolve = is_resolved
+                prices = None
+                if outcome_prices_str:
+                    try:
+                        prices = json.loads(outcome_prices_str)
+                        # If closed and we have final binary outcomes
+                        if is_closed and prices and any(float(p) >= 0.99 for p in prices):
+                            should_resolve = True
+                    except Exception:
+                        pass
+                
+                if should_resolve and prices:
+                    outcome_idx = pos.get("outcome_index", 0)
+                    if outcome_idx < len(prices):
+                        payout_per_share = float(prices[outcome_idx])
+                        proceeds = pos["quantity"] * payout_per_share
+                        cost_basis = pos["avg_price"] * pos["quantity"]
+                        pnl = proceeds - cost_basis
+                        
+                        # Execute resolution
+                        state["cash_usdc"] += proceeds
+                        
+                        # Record resolved trade
+                        trade_id = str(uuid.uuid4())
+                        state["trades"].append({
+                            "id": trade_id,
+                            "timestamp": int(time.time()),
+                            "trader_address": "resolution",
+                            "trader_name": "System Resolution",
+                            "market_title": pos["market_title"],
+                            "market_slug": pos["market_slug"],
+                            "outcome": pos["outcome"],
+                            "type": "RESOLVE",
+                            "quantity": pos["quantity"],
+                            "price": payout_per_share,
+                            "usdc_size": proceeds,
+                            "tx_hash": "resolution",
+                            "realized_pnl": pnl
+                        })
+                        
+                        # Delete position
+                        del state["positions"][token_id]
+                        resolved_any = True
+                        
+                        msg = f"RESOLVED: '{pos['market_title']}' ({pos['outcome']}) settled at {payout_per_share:.2f} USDC. Received {proceeds:.2f} USDC (PnL: {pnl:+.2f} USDC)."
+                        add_log(state, msg)
         except Exception as e:
             print(f"Error checking resolution for condition {condition_id}: {e}")
             
