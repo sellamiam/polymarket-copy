@@ -289,7 +289,11 @@ function renderDashboard(data) {
     const setMinBestScore = document.getElementById('settings-min-best-score');
     if (document.activeElement !== setMinBestScore) setMinBestScore.value = config.min_best_bet_score || 65;
     const setMaxDays = document.getElementById('settings-max-days');
-    if (document.activeElement !== setMaxDays) setMaxDays.value = config.max_days_to_resolution || 7;
+    if (document.activeElement !== setMaxDays) setMaxDays.value = config.max_days_to_resolution || 1;
+    const setMinLiquidity = document.getElementById('settings-min-liquidity');
+    if (document.activeElement !== setMinLiquidity) setMinLiquidity.value = config.min_market_liquidity !== undefined ? config.min_market_liquidity : 5000;
+    const setMinVolume = document.getElementById('settings-min-volume');
+    if (document.activeElement !== setMinVolume) setMinVolume.value = config.min_market_volume !== undefined ? config.min_market_volume : 20000;
     const setExcludeSports = document.getElementById('settings-exclude-sports');
     if (document.activeElement !== setExcludeSports) setExcludeSports.checked = config.exclude_sports_bets !== false;
     const setExcludeCrypto = document.getElementById('settings-exclude-crypto');
@@ -298,6 +302,8 @@ function renderDashboard(data) {
     if (document.activeElement !== setNichePriority) setNichePriority.checked = config.niche_priority_active || false;
     const setDynamicSizing = document.getElementById('settings-dynamic-sizing');
     if (document.activeElement !== setDynamicSizing) setDynamicSizing.checked = config.dynamic_sizing_active || false;
+    const setEnableValuePlays = document.getElementById('settings-value-plays');
+    if (document.activeElement !== setEnableValuePlays) setEnableValuePlays.checked = config.enable_value_plays !== false;
 
     // Render Chart
     if (state.portfolio_value_history && state.portfolio_value_history.length > 0) {
@@ -662,10 +668,13 @@ async function saveGlobalSettings(e) {
     const copyOnlyBest = document.getElementById('settings-copy-only-best').checked;
     const minBestScore = parseInt(document.getElementById('settings-min-best-score').value);
     const maxDays = parseInt(document.getElementById('settings-max-days').value);
+    const minLiquidity = parseFloat(document.getElementById('settings-min-liquidity').value);
+    const minVolume = parseFloat(document.getElementById('settings-min-volume').value);
     const excludeSports = document.getElementById('settings-exclude-sports').checked;
     const excludeCrypto = document.getElementById('settings-exclude-crypto').checked;
     const nichePriority = document.getElementById('settings-niche-priority').checked;
     const dynamicSizing = document.getElementById('settings-dynamic-sizing').checked;
+    const enableValuePlays = document.getElementById('settings-value-plays').checked;
 
     try {
         const res = await fetch('/api/settings', {
@@ -681,10 +690,13 @@ async function saveGlobalSettings(e) {
                 copy_only_best_wins: copyOnlyBest,
                 min_best_bet_score: minBestScore,
                 max_days_to_resolution: maxDays,
+                min_market_liquidity: minLiquidity,
+                min_market_volume: minVolume,
                 exclude_sports_bets: excludeSports,
                 exclude_crypto_bets: excludeCrypto,
                 niche_priority_active: nichePriority,
-                dynamic_sizing_active: dynamicSizing
+                dynamic_sizing_active: dynamicSizing,
+                enable_value_plays: enableValuePlays
             })
         });
         if (res.ok) {

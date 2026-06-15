@@ -402,11 +402,16 @@ def run_simulation_iteration(config, state):
             niche_active = config.get("niche_priority_active", False)
             niche_bypass = niche_flag and niche_active
 
-            # Check price range filters (bypassed for niche markets when priority is active)
+            # Check price range filters (bypassed for niche markets when priority is active or for value plays)
             min_price = float(config.get("min_copy_price", 0.70))
             max_price = float(config.get("max_copy_price", 0.95))
+            is_value_play = False
+            
             if price < min_price or price > max_price:
-                if niche_bypass:
+                if config.get("enable_value_plays", True) and 0.10 <= price <= 0.60:
+                    is_value_play = True
+                    add_log(state, f"VALUE PLAY: '{title}' ({outcome}) @ {price:.3f} USDC qualifies as a value play (potential 1.6x-10x payout).")
+                elif niche_bypass:
                     if price > 0.98:
                         add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Niche market but price exceeds hard ceiling 0.98 USDC (low yield yield-farm bet).")
                         state["processed_tx_hashes"].append(tx_hash)
@@ -422,6 +427,24 @@ def run_simulation_iteration(config, state):
             if condition_id:
                 market_details = fetch_market_details(condition_id)
                 if market_details:
+                    # Check liquidity and volume filters
+                    try:
+                        liquidity = float(market_details.get("liquidityNum") or market_details.get("liquidity") or 0)
+                        volume = float(market_details.get("volumeNum") or market_details.get("volume") or 0)
+                        min_liq = float(config.get("min_market_liquidity", 5000.0))
+                        min_vol = float(config.get("min_market_volume", 20000.0))
+                        
+                        if liquidity < min_liq:
+                            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Market liquidity ({liquidity:,.1f} USDC) is below minimum of {min_liq:,.1f} USDC.")
+                            state["processed_tx_hashes"].append(tx_hash)
+                            continue
+                            
+                        if volume < min_vol:
+                            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Market volume ({volume:,.1f} USDC) is below minimum of {min_vol:,.1f} USDC.")
+                            state["processed_tx_hashes"].append(tx_hash)
+                            continue
+                    except Exception as le:
+                        print(f"Error validating market liquidity/volume: {le}")
                     # Exclude crypto bets filter
                     if config.get("exclude_crypto_bets", True):
                         is_crypto = False
@@ -531,6 +554,11 @@ def run_simulation_iteration(config, state):
                 if abs(dyn_mult - 1.0) > 0.01:
                     add_log(state, f"DYNAMIC SIZING: '{title}' size adjusted by {dyn_mult:.2f}x → {copy_usdc:.2f} USDC (whale ROI/rank/conviction scaling).")
 
+            # Value Play Sizing Discount: scale down by 0.25x to manage risk
+            if is_value_play:
+                copy_usdc *= 0.25
+                add_log(state, f"VALUE PLAY SIZING: '{title}' size scaled down by 0.25x → {copy_usdc:.2f} USDC.")
+
             # Niche market bonus: +25% allocation for niche markets when priority active
             if niche_bypass:
                 niche_bonus = copy_usdc * 0.25
@@ -625,8 +653,8 @@ def run_simulation_iteration(config, state):
                 "realized_pnl": 0.0
             })
             
-            niche_tag = " [NICHE]" if niche_bypass else ""
-            add_log(state, f"COPIED BUY: {name} bought {outcome} on '{title}'{niche_tag} [Win Prob: {win_probability:.1f}%, Conviction: {conviction_score}%, Score: {best_bet_score}]. Simulated buy of {quantity:.2f} shares @ {exec_price:.3f} USDC (Total: {invest_usdc:.2f} USDC)")
+            tag = " [NICHE]" if niche_bypass else (" [VALUE PLAY]" if is_value_play else "")
+            add_log(state, f"COPIED BUY: {name} bought {outcome} on '{title}'{tag} [Win Prob: {win_probability:.1f}%, Conviction: {conviction_score}%, Score: {best_bet_score}]. Simulated buy of {quantity:.2f} shares @ {exec_price:.3f} USDC (Total: {invest_usdc:.2f} USDC)")
             trade_executed_or_resolved = True
 
         elif side == "SELL":

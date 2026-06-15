@@ -358,8 +358,20 @@
                             </div>
                             <div class="form-group">
                                 <label for="settings-max-days">Max Days to Resolution (Expiry)</label>
-                                <input type="number" id="settings-max-days" class="form-control" value="7" min="1" required>
-                                <small class="form-help">Only clone trades that resolve within this number of days (e.g., 7 days = 1 week). Prevents locking up simulated capital.</small>
+                                <input type="number" id="settings-max-days" class="form-control" value="1" min="1" required>
+                                <small class="form-help">Only clone trades that resolve within this number of days. Recommend 1 day (24h) to avoid locking up your funds.</small>
+                            </div>
+                            <div class="grid-2-columns" style="margin-top: 0; padding: 0;">
+                                <div class="form-group">
+                                    <label for="settings-min-liquidity">Min Market Liquidity (USDC)</label>
+                                    <input type="number" id="settings-min-liquidity" class="form-control" value="5000" min="0" required>
+                                    <small class="form-help">Skip copying trades in markets with liquidity below this amount, preventing paper slippage.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="settings-min-volume">Min Market Volume (USDC)</label>
+                                    <input type="number" id="settings-min-volume" class="form-control" value="20000" min="0" required>
+                                    <small class="form-help">Skip copying trades in dormant markets with volume below this threshold.</small>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="settings-exclude-sports" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
@@ -392,6 +404,13 @@
                                         Dynamic Performance-Based Sizing
                                     </label>
                                     <small class="form-help">Automatically scale trade sizes based on each whale's ROI, leaderboard rank, and trade conviction. Top-100 whales with &gt;10% weekly ROI get up to 3x sizing, while underperformers are sized down to 0.2x. Large whale bets (&gt;$25K) also receive conviction multipliers.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="settings-value-plays" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                        <input type="checkbox" id="settings-value-plays" style="width: 16px; height: 16px; cursor: pointer;">
+                                        Enable Value Plays (High Risk-Reward)
+                                    </label>
+                                    <small class="form-help">Bypasses standard price range filters to copy low-priced bets (between 0.10 and 0.60 USDC) offering a high return (1.6x to 10x payout). The copy size is automatically reduced by 0.25x (75% sizing discount) to manage bankroll risk.</small>
                                 </div>
                             </div>
                             <div class="grid-2-columns" style="margin-top: 1rem; padding: 0; align-items: center;">

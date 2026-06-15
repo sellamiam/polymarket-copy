@@ -44,6 +44,9 @@ class SettingsUpdate(BaseModel):
     copy_only_best_wins: Optional[bool] = None
     min_best_bet_score: Optional[int] = None
     max_days_to_resolution: Optional[int] = None
+    min_market_liquidity: Optional[float] = None
+    min_market_volume: Optional[float] = None
+    enable_value_plays: Optional[bool] = None
     exclude_sports_bets: Optional[bool] = None
     exclude_crypto_bets: Optional[bool] = None
     niche_priority_active: Optional[bool] = None
@@ -140,6 +143,15 @@ def update_settings(update: SettingsUpdate):
 
     if update.dynamic_sizing_active is not None:
         cfg["dynamic_sizing_active"] = update.dynamic_sizing_active
+
+    if update.min_market_liquidity is not None:
+        cfg["min_market_liquidity"] = max(0.0, update.min_market_liquidity)
+
+    if update.min_market_volume is not None:
+        cfg["min_market_volume"] = max(0.0, update.min_market_volume)
+
+    if update.enable_value_plays is not None:
+        cfg["enable_value_plays"] = update.enable_value_plays
         
     config.save_config(cfg)
     return {"status": "success", "config": cfg}

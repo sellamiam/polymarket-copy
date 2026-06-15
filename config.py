@@ -17,7 +17,10 @@ DEFAULT_CONFIG = {
     "max_copy_price": 0.95,
     "copy_only_best_wins": False,
     "min_best_bet_score": 65,
-    "max_days_to_resolution": 7,
+    "max_days_to_resolution": 1,
+    "min_market_liquidity": 5000.0,
+    "min_market_volume": 20000.0,
+    "enable_value_plays": True,
     "exclude_sports_bets": True,
     "exclude_crypto_bets": True,
     "simulation_active": True,
@@ -162,29 +165,42 @@ def load_config():
     
     global _has_loaded_config_from_gist
     github_token = os.environ.get("GITHUB_TOKEN")
+    
+    config_data = None
     if github_token and not _has_loaded_config_from_gist:
         _has_loaded_config_from_gist = True
         gist_config = fetch_from_gist("polycopy_config.json")
         if gist_config and isinstance(gist_config, dict) and gist_config:
-            with open(CONFIG_PATH, "w") as f:
-                json.dump(gist_config, f, indent=2)
-            return gist_config
+            config_data = gist_config
+            
+    if not config_data:
+        if not os.path.exists(CONFIG_PATH):
+            save_config(DEFAULT_CONFIG)
+            return DEFAULT_CONFIG
+        try:
+            with open(CONFIG_PATH, "r") as f:
+                config_data = json.load(f)
+        except Exception as e:
+            print(f"Error loading config: {e}. Resetting to default.")
+            save_config(DEFAULT_CONFIG)
+            return DEFAULT_CONFIG
 
-    if not os.path.exists(CONFIG_PATH):
-        save_config(DEFAULT_CONFIG)
-        return DEFAULT_CONFIG
-    try:
-        with open(CONFIG_PATH, "r") as f:
-            config = json.load(f)
-            # Ensure all keys from DEFAULT_CONFIG exist
-            for k, v in DEFAULT_CONFIG.items():
-                if k not in config:
-                    config[k] = v
-            return config
-    except Exception as e:
-        print(f"Error loading config: {e}. Resetting to default.")
-        save_config(DEFAULT_CONFIG)
-        return DEFAULT_CONFIG
+    # Ensure all keys from DEFAULT_CONFIG exist
+    updated = False
+    for k, v in DEFAULT_CONFIG.items():
+        if k not in config_data:
+            config_data[k] = v
+            updated = True
+            
+    # Migration: Change max_days_to_resolution from 7 to 1
+    if config_data.get("max_days_to_resolution") == 7:
+        config_data["max_days_to_resolution"] = 1
+        updated = True
+        
+    if updated:
+        save_config(config_data)
+        
+    return config_data
 
 def save_config(config):
     ensure_data_dir()
