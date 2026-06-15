@@ -289,7 +289,7 @@ function renderDashboard(data) {
     const setMinBestScore = document.getElementById('settings-min-best-score');
     if (document.activeElement !== setMinBestScore) setMinBestScore.value = config.min_best_bet_score || 65;
     const setMaxDays = document.getElementById('settings-max-days');
-    if (document.activeElement !== setMaxDays) setMaxDays.value = config.max_days_to_resolution || 30;
+    if (document.activeElement !== setMaxDays) setMaxDays.value = config.max_days_to_resolution || 90;
     const setMaxHolding = document.getElementById('settings-max-holding-hours');
     if (document.activeElement !== setMaxHolding) setMaxHolding.value = config.max_holding_hours !== undefined ? config.max_holding_hours : 24;
     const setTakeProfit = document.getElementById('settings-take-profit-pct');
