@@ -380,7 +380,7 @@ def run_simulation_iteration(config, state):
     # 1. Fetch global activities feed
     activities = []
     try:
-        url = "https://data-api.polymarket.com/v1/trades?limit=200"
+        url = "https://data-api.polymarket.com/v1/trades?limit=1000"
         res = requests.get(url, timeout=7)
         if res.status_code == 200:
             activities = res.json()
@@ -911,8 +911,8 @@ def run_simulation_iteration(config, state):
 
         # Mark processed
         state["processed_tx_hashes"].append(tx_hash)
-        if len(state["processed_tx_hashes"]) > 1000:
-            state["processed_tx_hashes"] = state["processed_tx_hashes"][-1000:]
+        if len(state["processed_tx_hashes"]) > 5000:
+            state["processed_tx_hashes"] = state["processed_tx_hashes"][-5000:]
 
     return trade_executed_or_resolved
 
