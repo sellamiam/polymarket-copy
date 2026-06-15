@@ -436,19 +436,13 @@ def run_simulation_iteration(config, state):
         slug = act.get("slug", "")
         condition_id = act.get("conditionId", "")
 
-        # Check minimum whale trade size to filter out high-frequency bot spam
-        min_whale_size = float(config.get("min_whale_trade_size", 500.0))
-        if usdc_size < min_whale_size:
-            print(f"[ENGINE] Skipped micro-trade on '{title}' ({outcome}) from {name}: {usdc_size:.2f} USDC is below minimum {min_whale_size:.2f} USDC.")
-            state["processed_tx_hashes"].append(tx_hash)
-            continue
-
-        # Fast path check for crypto/sports in title/slug to avoid unnecessary API requests and noise
+        # Fast path check for crypto/sports/weather in title/slug to avoid unnecessary API requests and noise
         title_lower = title.lower()
         slug_lower = slug.lower()
         
         is_crypto_fast = False
         is_sports_fast = False
+        is_weather_fast = False
         
         if config.get("exclude_crypto_bets", True):
             crypto_keywords = ["up or down", "price of", "bitcoin", "ethereum", "solana", "cardano", "dogecoin", "ripple", "crypto", "btc", "eth", "sol", "airdrop"]
@@ -466,6 +460,11 @@ def run_simulation_iteration(config, state):
             if any(kw in title_lower or kw in slug_lower for kw in sports_keywords):
                 is_sports_fast = True
 
+        if config.get("exclude_weather_bets", True):
+            weather_keywords = ["weather", "temperature", "celsius", "degree", "fahrenheit", "rain", "snow", "hottest", "coldest", "meteorological", "wind speed", "precipitation", "°c", "°f"]
+            if any(kw in title_lower or kw in slug_lower for kw in weather_keywords):
+                is_weather_fast = True
+
         if is_crypto_fast:
             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Crypto bets are excluded.")
             state["processed_tx_hashes"].append(tx_hash)
@@ -473,6 +472,20 @@ def run_simulation_iteration(config, state):
             
         if is_sports_fast:
             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Sports bets are excluded.")
+            state["processed_tx_hashes"].append(tx_hash)
+            continue
+
+        if is_weather_fast:
+            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Weather/temperature bets are excluded.")
+            state["processed_tx_hashes"].append(tx_hash)
+            continue
+
+        # Check minimum whale trade size to filter out high-frequency bot spam
+        min_whale_size = float(config.get("min_whale_trade_size", 500.0))
+        if usdc_size < min_whale_size:
+            print(f"[ENGINE] Skipped micro-trade on '{title}' ({outcome}) from {name}: {usdc_size:.2f} USDC is below minimum {min_whale_size:.2f} USDC.")
+            if usdc_size >= 1.0:
+                add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Trade size ({usdc_size:.1f} USDC) is below minimum of {min_whale_size:.1f} USDC.")
             state["processed_tx_hashes"].append(tx_hash)
             continue
 
@@ -556,13 +569,13 @@ def run_simulation_iteration(config, state):
                     if config.get("exclude_crypto_bets", True):
                         is_crypto = False
                         # 1. Check feeType
-                        fee_type = market_details.get("feeType", "").lower()
+                        fee_type = (market_details.get("feeType") or "").lower()
                         if "crypto" in fee_type:
                             is_crypto = True
 
                         # 2. Check keywords
-                        question_lower = market_details.get("question", "").lower()
-                        slug_lower = market_details.get("slug", "").lower()
+                        question_lower = (market_details.get("question") or "").lower()
+                        slug_lower = (market_details.get("slug") or "").lower()
                         crypto_keywords = ["up or down", "price of", "bitcoin", "ethereum", "solana", "cardano", "dogecoin", "ripple", "crypto", "btc", "eth", "sol", "airdrop"]
                         if any(kw in question_lower or kw in slug_lower for kw in crypto_keywords):
                             is_crypto = True
@@ -588,13 +601,13 @@ def run_simulation_iteration(config, state):
                                     break
                         
                         # 2. Check feeType
-                        fee_type = market_details.get("feeType", "").lower()
+                        fee_type = (market_details.get("feeType") or "").lower()
                         if "sports" in fee_type:
                             is_sports = True
 
                         # 3. Fallback text keyword matching
-                        question_lower = market_details.get("question", "").lower()
-                        slug_lower = market_details.get("slug", "").lower()
+                        question_lower = (market_details.get("question") or "").lower()
+                        slug_lower = (market_details.get("slug") or "").lower()
                         sports_keywords = [
                             " vs ", "vs.", "versus", "wnba", "nba", "nfl", "mlb", "nhl", "ufc", "mma", "pga", "mls",
                             "premier league", "champions league", "la liga", "bundesliga", "serie a", "atp", "wta",
@@ -615,8 +628,8 @@ def run_simulation_iteration(config, state):
                     # Exclude weather bets filter
                     if config.get("exclude_weather_bets", True):
                         is_weather = False
-                        question_lower = market_details.get("question", "").lower()
-                        slug_lower = market_details.get("slug", "").lower()
+                        question_lower = (market_details.get("question") or "").lower()
+                        slug_lower = (market_details.get("slug") or "").lower()
                         title_lower = (title or "").lower()
                         weather_keywords = ["weather", "temperature", "celsius", "degree", "fahrenheit", "rain", "snow", "hottest", "coldest", "meteorological", "wind speed", "precipitation"]
                         if any(kw in question_lower or kw in slug_lower or kw in title_lower for kw in weather_keywords):
