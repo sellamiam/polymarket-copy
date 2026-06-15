@@ -906,35 +906,62 @@ def run_simulation_iteration(config, state):
 
 def sync_whales_from_leaderboard(time_period="WEEK", limit=1000):
     """
-    Fetches top traders from the Polymarket leaderboard and updates
-    the followed_traders list in config.json.
+    Fetches top traders from specified timeframe(s) on the Polymarket leaderboard,
+    deduplicates them, and updates followed_traders list in config.json.
     """
-    print(f"Syncing top {limit} whales from Polymarket {time_period} leaderboard...")
-    new_traders = []
+    if isinstance(time_period, str):
+        time_periods = [time_period]
+    else:
+        time_periods = time_period
+
+    print(f"Syncing top {limit} whales from Polymarket leaderboards: {time_periods}...")
+    new_traders = {}
     
-    # Leaderboard pages of 50
-    for offset in range(0, limit, 50):
-        url = f"https://data-api.polymarket.com/v1/leaderboard?timePeriod={time_period}&limit=50&offset={offset}"
-        try:
-            res = requests.get(url, timeout=10)
-            if res.status_code == 200:
-                page_data = res.json()
-                if isinstance(page_data, list):
-                    new_traders.extend(page_data)
-                    if len(page_data) < 50:
+    for tp in time_periods:
+        print(f"Fetching {tp} leaderboard...")
+        # Leaderboard pages of 50
+        for offset in range(0, limit, 50):
+            url = f"https://data-api.polymarket.com/v1/leaderboard?timePeriod={tp}&limit=50&offset={offset}"
+            try:
+                res = requests.get(url, timeout=10)
+                if res.status_code == 200:
+                    page_data = res.json()
+                    if isinstance(page_data, list):
+                        for item in page_data:
+                            addr = item.get("proxyWallet")
+                            if not addr:
+                                continue
+                            addr_clean = addr.strip().lower()
+                            
+                            pnl = float(item.get("pnl", 0.0))
+                            vol = float(item.get("vol", 0.0))
+                            rank = item.get("rank")
+                            rank_val = int(rank) if rank else 1000
+                            name = item.get("userName") or f"Whale Rank {rank}"
+                            
+                            # Deduplicate and keep the entry with highest rank or pnl
+                            if addr_clean not in new_traders or pnl > new_traders[addr_clean]["pnl"]:
+                                new_traders[addr_clean] = {
+                                    "address": addr_clean,
+                                    "name": f"{name} ({tp} Rank {rank})",
+                                    "pnl": pnl,
+                                    "vol": vol,
+                                    "rank": rank_val
+                                }
+                        if len(page_data) < 50:
+                            break
+                    else:
                         break
                 else:
+                    print(f"Failed to fetch {tp} leaderboard page at offset {offset}: status {res.status_code}")
                     break
-            else:
-                print(f"Failed to fetch leaderboard page at offset {offset}: status {res.status_code}")
+            except Exception as e:
+                print(f"Error fetching {tp} leaderboard page at offset {offset}: {e}")
                 break
-        except Exception as e:
-            print(f"Error fetching leaderboard page at offset {offset}: {e}")
-            break
-        time.sleep(0.1)
-        
+            time.sleep(0.1)
+            
     if not new_traders:
-        print("No traders fetched from leaderboard. Sync skipped.")
+        print("No traders fetched from any leaderboard. Sync skipped.")
         return False
         
     # Load current configuration
@@ -947,43 +974,28 @@ def sync_whales_from_leaderboard(time_period="WEEK", limit=1000):
     updated_traders = []
     added_count = 0
     
-    for item in new_traders:
-        addr = item.get("proxyWallet")
-        if not addr:
-            continue
-        addr_clean = addr.strip().lower()
-        rank = item.get("rank")
-        name = item.get("userName") or f"Whale Rank {rank}"
-        
-        pnl = float(item.get("pnl", 0.0))
-        vol = float(item.get("vol", 0.0))
-        rank_val = int(rank) if rank else 1000
-        
-        # If already followed, keep existing settings but update name if username changed
+    for addr_clean, item in new_traders.items():
         if addr_clean in current_map:
             trader_cfg = current_map[addr_clean]
-            if item.get("userName") and not trader_cfg["name"].startswith(item.get("userName")):
-                trader_cfg["name"] = f"{item.get('userName')} (Rank {rank})"
-            trader_cfg["pnl"] = pnl
-            trader_cfg["vol"] = vol
-            trader_cfg["rank"] = rank_val
+            trader_cfg["pnl"] = item["pnl"]
+            trader_cfg["vol"] = item["vol"]
+            trader_cfg["rank"] = item["rank"]
             updated_traders.append(trader_cfg)
         else:
-            # Create a new followed trader
             new_trader = {
                 "address": addr_clean,
-                "name": f"{name} (Rank {rank})",
+                "name": item["name"],
                 "enabled": True,
                 "sizing_type": "fixed",
                 "sizing_value": 100.0,
-                "pnl": pnl,
-                "vol": vol,
-                "rank": rank_val
+                "pnl": item["pnl"],
+                "vol": item["vol"],
+                "rank": item["rank"]
             }
             updated_traders.append(new_trader)
             added_count += 1
             
-    # Add any traders that were manually added before but not in this top leaderboard
+    # Add any traders that were manually added before but not in these leaderboards
     new_addresses = {t["address"].lower() for t in updated_traders}
     for addr_clean, trader_cfg in current_map.items():
         if addr_clean not in new_addresses:
@@ -996,7 +1008,7 @@ def sync_whales_from_leaderboard(time_period="WEEK", limit=1000):
     # Add a system log entry if state is loaded
     try:
         state = load_state(cfg)
-        add_log(state, f"Synced {limit} top whales from {time_period} leaderboard. Added {added_count} new whales. Total: {len(updated_traders)}")
+        add_log(state, f"Synced {limit} top whales from {time_periods} leaderboards. Added {added_count} new whales. Total: {len(updated_traders)}")
         save_state(state)
     except Exception as e:
         print(f"Failed to write log for leaderboard sync: {e}")
@@ -1017,7 +1029,7 @@ def _run_loop():
             current_time = time.time()
             if current_time - _last_sync_time >= 3600:
                 try:
-                    sync_whales_from_leaderboard(time_period="WEEK", limit=1000)
+                    sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"], limit=1000)
                     _last_sync_time = current_time
                     # Reload config
                     config = load_config()

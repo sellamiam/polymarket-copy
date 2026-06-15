@@ -13,7 +13,7 @@ DEFAULT_CONFIG = {
     "poll_interval_seconds": 30,
     "execution_mode": "whale_price",  # "whale_price" or "market_price"
     "slippage_bps": 0,  # 0 bps = 0%
-    "min_copy_price": 0.70,
+    "min_copy_price": 0.40,
     "max_copy_price": 0.95,
     "copy_only_best_wins": False,
     "min_best_bet_score": 65,
@@ -206,6 +206,11 @@ def load_config():
     # Migration: Force exclude_weather_bets to True
     if config_data.get("exclude_weather_bets") is not True:
         config_data["exclude_weather_bets"] = True
+        updated = True
+        
+    # Migration: Change min_copy_price to 0.40
+    if config_data.get("min_copy_price") == 0.70:
+        config_data["min_copy_price"] = 0.40
         updated = True
         
     if updated:

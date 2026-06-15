@@ -108,6 +108,12 @@
       "cash": 12265.136008474588,
       "holdings_value": 26.143617021276597,
       "total_equity": 12291.279625495865
+    },
+    {
+      "timestamp": 1781533309,
+      "cash": 12265.136008474588,
+      "holdings_value": 26.422872340425535,
+      "total_equity": 12291.558880815013
     }
   ],
   "positions": {
@@ -121,11 +127,11 @@
       "avg_price": 0.94,
       "quantity": 26.595744680851066,
       "invested_usdc": 25.0,
-      "current_price": 0.983,
+      "current_price": 0.9935,
       "win_probability": 94.0,
       "conviction_score": 34,
       "best_bet_score": 70,
-      "last_updated": 1781485711,
+      "last_updated": 1781533309,
       "opened_at": 1781484923
     }
   },
@@ -1142,17 +1148,49 @@
     "0xd3c46b8e87426778aa0d1b781ce271280f15bb24a7f7a5b78a71862d116bb793",
     "0x303312d5fa0dcbec2718a11128ed92d071fdc20c408aebddea7c73b84e45755d",
     "0x53c272fe631f5cc63816c8a563ab94e5a10ac22704e1616277d2f9838c89beaf",
-    "0x3c687e05eba6a8d09ffd74bbd96f1e99c57fc3340b7cd957abadae7751b7900d"
+    "0x3c687e05eba6a8d09ffd74bbd96f1e99c57fc3340b7cd957abadae7751b7900d",
+    "0x86e9277c334e2c7c28d8a485b4e96bf2b2e422f79862b08cedc2921e48612762",
+    "0x35f99984bd557019f8f686901eb0ba7109602c748bb23d285a7a99f856dc4b4f",
+    "0x27355a1f72f246dea41ba86e031973fd6592b4669992ad7ce35a8dce6ba0a1b6",
+    "0xb548f3522008c061a5ec5c155fe866cc0c3f60df55b2e77aaf3da2abed1b53cf",
+    "0x38105bd817ac7700496f5a9f236a9852cf36d3822a3dd156a3821d06a8d6775a",
+    "0xbeab68ffbb1db06468293fa2c5b765154a484508eacc079aaa6747a257002a8a",
+    "0xf5f36a607051db718cf40709c2dc09098f3779075713f23e7643ac493124f3b2",
+    "0x205ec7bb7f351a9da4edb17a980d4a3ce1946b2de4e06e479571d0df139891a6",
+    "0x85202e0b9180e82fd94e2bbd5bd226aab3742517a14ed34c44c498f8af943149",
+    "0x91792027618f7eaa567da4f8cb3eaac6e6403dbe8b0ce10aee8e80e317312364",
+    "0xe642ba66544bde2785e97bb8fa5b165d6e67fc558293c816f656ad9e547d1b4c",
+    "0xdab177185b56d566ac7ff596daf87084e07aa314b76eca00a0decd8c5eec4deb",
+    "0xd94f7e982e826db46108a11e75dc4144b71f8fe0d4644daac50f863fc1a99672",
+    "0x30d62d9ef5bcc737c2cf0b9aa714ee81b88910fa7756bda54f407322816676b4",
+    "0x62a0680af99c5a1f48a61bef63be8ce5e5509ec660d297f5fb808520f8444aef",
+    "0xc0a69d9cb754f5e0a651786763f34ac7b420f614d08ef28baa811bff151c1aa6",
+    "0xa78b35ec43fa40472f142c029166986ca126bc95883e4724b0699eed339c0f12",
+    "0x515643c6dfb61a4d9939775bc7f26a824c66ff5cd24dab0f2d4818db36854103",
+    "0xfabc7db73b476ec0eff2241ecb11154ce10653ef054e6978f42b0f2bc80a26dc",
+    "0x2b403a75c8359818c4545343c8098dec03fc38910e42b56950ef6f057e42df73",
+    "0x92fc5e68a09d3c932848615d4455481fa24df822cefe13fbb92474345f19d27e",
+    "0x5d5dfadf52dce6b3811ebeb8d8d3d0d15f55ba14bdd059685cd2a43377470303",
+    "0xf55448e0fa0539981ee9d79a4e7be4e6401b6931406c867d08cc3d340233fd75",
+    "0x82d2eebd629d20ba531cf458ad7e59663cb1dd2b4494afb7a2743b04ba1c0147",
+    "0xb34be24fede585dab314285b085336db4022a5602e1f626189bcd037f668c1ae",
+    "0x9f4182d349ec942306f3983a2babb20f7ac23575f2abc219f3ef949ad4c5582b",
+    "0x8f46b5edbd65c18476392200d8bf0f2b60d2ce365ea16f27e92f4abf44fdb2f9",
+    "0xc984790cbb79126e01292c67f5248ab1ece08b853e4246e2361c851737fb4e09",
+    "0x860f305b4e22fde0067216a22af22d1958e3f9f29000cd23080a74975fe341b9",
+    "0xea7ec9411d46a09767cd482f23a9230ed5664069d133700ccde8c898138238e0",
+    "0x7a6663ce69b63c97c188f8f5816a281fa27483c765febe354b66b082ba541967",
+    "0xb24532dc0df9191d98296c611444d6bbf371f941171860e1f532d8bba3113b25",
+    "0x5f8562239eccc3068ea7948ed3a93d56ff90674efc367ae048c94ddfc4eebcea",
+    "0xc980ad0833ed3984f6af4543e096218303ab5300848f60ba7d3d380625b950a2",
+    "0x07b5c0250c0695a3c3e1ec01f1543c62d11eb9292d08b25dfde71f642a642450",
+    "0xe01b6839176a640a3c0cacd2d25da4bbf88ac115a05007ec530d09f7eab508c0",
+    "0x6e2b8e22ab2cc2384a57b17a51717ad8817ecb6808a53dfc3ff562bec9a7d9a3",
+    "0xac3283399beea1d1c9f46b85a25cccdc4a6d244062a583e7e76f91dfc1314b15",
+    "0xc5ab775889ec9c16d74ef6665585e6f983f98b055beac96876443b6452bc75f0",
+    "0xf14a1c95f5fcac6244f80b88a688e278e2d989819637026205172882edf095dc"
   ],
   "logs": [
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:50PM-9:55PM ET' (Down) from Whale Rank 83 (Rank 83): Crypto bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Spurs vs. Knicks' (Spurs) from XuRi888 (Rank 695): Sports bets are excluded."
-    },
     {
       "timestamp": 1781142814,
       "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:50PM-9:55PM ET' (Down) from nj23adsknml3 (Rank 852): Crypto bets are excluded."
@@ -3144,6 +3182,14 @@
     {
       "timestamp": 1781485263,
       "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:55PM-9:00PM ET' (Up) from UUDDLRLR (Rank 396): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781533308,
+      "message": "Synced 1000 top whales from ['WEEK', 'MONTH', 'ALL'] leaderboards. Added 1271 new whales. Total: 3175"
+    },
+    {
+      "timestamp": 1781533309,
+      "message": "Skipped BUY on 'Will IR Iran win on 2026-06-15?' (No) from gardiner (Rank 394): Sports bets are excluded."
     }
   ]
 }

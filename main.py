@@ -301,11 +301,11 @@ def reset_simulation():
 
 @app.post("/api/traders/sync-leaderboard")
 def sync_leaderboard():
-    success = bot_engine.sync_whales_from_leaderboard(time_period="WEEK", limit=1000)
+    success = bot_engine.sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"], limit=1000)
     if success:
-        return {"status": "success", "message": "Synced top 1000 weekly winners from leaderboard."}
+        return {"status": "success", "message": "Synced top whales from WEEK, MONTH, and ALL leaderboards."}
     else:
-        raise HTTPException(status_code=500, detail="Failed to sync whales from leaderboard.")
+        raise HTTPException(status_code=500, detail="Failed to sync whales from leaderboards.")
 
 @app.get("/api/leaderboard")
 def get_leaderboard(timePeriod: str = "WEEK"):
