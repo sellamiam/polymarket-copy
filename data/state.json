@@ -1,5 +1,5 @@
 {
-  "cash_usdc": 8100.0,
+  "cash_usdc": 12265.136008474588,
   "portfolio_value_history": [
     {
       "timestamp": 1781141156,
@@ -96,153 +96,21 @@
       "cash": 8100.0,
       "holdings_value": 1889.9583833663157,
       "total_equity": 9989.958383366316
+    },
+    {
+      "timestamp": 1781484924,
+      "cash": 12265.136008474588,
+      "holdings_value": 26.143617021276597,
+      "total_equity": 12291.279625495865
+    },
+    {
+      "timestamp": 1781485232,
+      "cash": 12265.136008474588,
+      "holdings_value": 26.143617021276597,
+      "total_equity": 12291.279625495865
     }
   ],
   "positions": {
-    "30569207111995760629202809780245772741365711537890183595010734356877221082635": {
-      "token_id": "30569207111995760629202809780245772741365711537890183595010734356877221082635",
-      "condition_id": "0x235693693a07f40782ff4a91d992a98a627d77a4cde305af3dd675eb982ec283",
-      "market_title": "Will SpaceX's market cap be between $1.5T and $2.0T at market close on IPO day?",
-      "market_slug": "will-spacexs-market-cap-be-between-1pt5t-and-2pt0t-at-market-close-on-ipo-day",
-      "outcome": "Yes",
-      "outcome_index": 0,
-      "avg_price": 0.295,
-      "quantity": 3389.8305,
-      "invested_usdc": 1000.0,
-      "current_price": 0.325,
-      "win_probability": 29.5,
-      "conviction_score": 85,
-      "best_bet_score": 51,
-      "last_updated": 1781373906
-    },
-    "50390998643343866027494417866347693954819112830209588212574936759883736899001": {
-      "token_id": "50390998643343866027494417866347693954819112830209588212574936759883736899001",
-      "condition_id": "0xd6faf8d22fbd55161a39c1956a55ae442a8f619b0abc2745976db0ed6518e837",
-      "market_title": "Will the highest temperature in Singapore be 32\u00b0C on June 11?",
-      "market_slug": "highest-temperature-in-singapore-on-june-11-2026-32c",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.92,
-      "quantity": 108.69565217391303,
-      "invested_usdc": 100.0,
-      "current_price": 0.9995,
-      "win_probability": 92.0,
-      "conviction_score": 30,
-      "best_bet_score": 67,
-      "last_updated": 1781373907
-    },
-    "84046278036309028847466517035113480994714180624420806147531999338743658664696": {
-      "token_id": "84046278036309028847466517035113480994714180624420806147531999338743658664696",
-      "condition_id": "0x9a63cdfb57c1194724073c974571119fcade0a4e0fea17bf4a2403407b06860a",
-      "market_title": "Will the highest temperature in Seoul be 24\u00b0C on June 11?",
-      "market_slug": "highest-temperature-in-seoul-on-june-11-2026-24c",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.77,
-      "quantity": 129.87012987012986,
-      "invested_usdc": 100.0,
-      "current_price": 0.845,
-      "win_probability": 77.0,
-      "conviction_score": 32,
-      "best_bet_score": 59,
-      "last_updated": 1781373907
-    },
-    "58123123178059189265617668807812818303602907938044426313288815736114358663179": {
-      "token_id": "58123123178059189265617668807812818303602907938044426313288815736114358663179",
-      "condition_id": "0x871a1043bf09c740717b7f08030f2d5035e5cb2ebe18527b120801e6c4007d15",
-      "market_title": "Will the highest temperature in Shenzhen be 32\u00b0C on June 11?",
-      "market_slug": "highest-temperature-in-shenzhen-on-june-11-2026-32c",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.939,
-      "quantity": 106.49627263045794,
-      "invested_usdc": 100.0,
-      "current_price": 0.0005,
-      "win_probability": 93.89999999999999,
-      "conviction_score": 22,
-      "best_bet_score": 65,
-      "last_updated": 1781373908
-    },
-    "90206887753625699785332917459812908433772088618956638019425834766645120937409": {
-      "token_id": "90206887753625699785332917459812908433772088618956638019425834766645120937409",
-      "condition_id": "0x38812d6df2fce2f14225ae644be77c899e995cbb572945d2401702a0cc565603",
-      "market_title": "Will the highest temperature in Hong Kong be 30\u00b0C on June 11?",
-      "market_slug": "highest-temperature-in-hong-kong-on-june-11-2026-30c",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.75,
-      "quantity": 133.33333333333334,
-      "invested_usdc": 100.0,
-      "current_price": 0.9995,
-      "win_probability": 75.0,
-      "conviction_score": 24,
-      "best_bet_score": 54,
-      "last_updated": 1781373909
-    },
-    "66624968808986167654330780056197487317653622893917956755226054462409477135308": {
-      "token_id": "66624968808986167654330780056197487317653622893917956755226054462409477135308",
-      "condition_id": "0x6f6b3f8fb41ff34366e0da0a627897f3bf913a02538f1c295853379c89cf2c39",
-      "market_title": "Will the highest temperature in Hong Kong be 31\u00b0C on June 11?",
-      "market_slug": "highest-temperature-in-hong-kong-on-june-11-2026-31c",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.91,
-      "quantity": 109.89010989010988,
-      "invested_usdc": 100.0,
-      "current_price": 0.9995,
-      "win_probability": 91.0,
-      "conviction_score": 26,
-      "best_bet_score": 65,
-      "last_updated": 1781373909
-    },
-    "37992416478769158079730259906687433006507440835080597947796929469407795488570": {
-      "token_id": "37992416478769158079730259906687433006507440835080597947796929469407795488570",
-      "condition_id": "0x210865931f5c279e34baf71d225504b4da565523520d03bd81bd316b253d7c87",
-      "market_title": "Will the highest temperature in Moscow be 31\u00b0C on June 11?",
-      "market_slug": "highest-temperature-in-moscow-on-june-11-2026-31c",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.77,
-      "quantity": 129.87012987012986,
-      "invested_usdc": 100.0,
-      "current_price": 0.003,
-      "win_probability": 77.0,
-      "conviction_score": 24,
-      "best_bet_score": 55,
-      "last_updated": 1781373910
-    },
-    "21341500257513699806005757998753140567965642436797535019262836495921205670344": {
-      "token_id": "21341500257513699806005757998753140567965642436797535019262836495921205670344",
-      "condition_id": "0x7cf99ff4882e22df9dc31badc471357df24bc2dbcac180ea29ab8b76aa68be75",
-      "market_title": "Will the highest temperature in Moscow be 29\u00b0C on June 11?",
-      "market_slug": "highest-temperature-in-moscow-on-june-11-2026-29c",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.79,
-      "quantity": 126.58227848101265,
-      "invested_usdc": 100.0,
-      "current_price": 0.9995,
-      "win_probability": 79.0,
-      "conviction_score": 24,
-      "best_bet_score": 57,
-      "last_updated": 1781373910
-    },
-    "20423464328881089566173909709833751781207317003818929906839036274532658163521": {
-      "token_id": "20423464328881089566173909709833751781207317003818929906839036274532658163521",
-      "condition_id": "0x13ca9f55fed9ce4094d90fe1ab5f63c0d371d1589dfffe247a3c1c13d6fb0477",
-      "market_title": "Will SpaceX IPO by June 15, 2026?",
-      "market_slug": "will-spacex-ipo-by-june-15-2026-789-854",
-      "outcome": "Yes",
-      "outcome_index": 0,
-      "avg_price": 0.9959925558312656,
-      "quantity": 125.50294604930428,
-      "invested_usdc": 125.0,
-      "current_price": 0.9955,
-      "win_probability": 99.59925558312655,
-      "conviction_score": 98,
-      "best_bet_score": 98,
-      "last_updated": 1781373911
-    },
     "9108839460228615964217641808780817903087412142850470523819241286096498177367": {
       "token_id": "9108839460228615964217641808780817903087412142850470523819241286096498177367",
       "condition_id": "0x8fb1eb6831ddcf55e8d912a4bded7e6bcaf04fe08f47d0818aa999573ae40339",
@@ -253,43 +121,12 @@
       "avg_price": 0.94,
       "quantity": 26.595744680851066,
       "invested_usdc": 25.0,
-      "current_price": 0.945,
+      "current_price": 0.983,
       "win_probability": 94.0,
       "conviction_score": 34,
       "best_bet_score": 70,
-      "last_updated": 1781373911
-    },
-    "111795793448519419792132502041465034925438399209996251005726878733042107172864": {
-      "token_id": "111795793448519419792132502041465034925438399209996251005726878733042107172864",
-      "condition_id": "0x51f2c958837ef36fdb21705d16b0e78345c173fd8a77ce6cb59b52c680f0d046",
-      "market_title": "Will Elon Musk post 160-179 tweets from June 9 to June 16, 2026?",
-      "market_slug": "elon-musk-of-tweets-june-9-june-16-160-179",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.813,
-      "quantity": 30.75030750307503,
-      "invested_usdc": 25.0,
-      "current_price": 0.8105,
-      "win_probability": 81.3,
-      "conviction_score": 32,
-      "best_bet_score": 61,
-      "last_updated": 1781373911
-    },
-    "70790248703560511772834716191156278582072464247669236568376081516160683506976": {
-      "token_id": "70790248703560511772834716191156278582072464247669236568376081516160683506976",
-      "condition_id": "0xe9dce32a233b267f2980eff3855c61ecb0911c907ffc8575e1f8d4e5dbb96c32",
-      "market_title": "Will Elon Musk post 180-199 tweets from June 9 to June 16, 2026?",
-      "market_slug": "elon-musk-of-tweets-june-9-june-16-180-199",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.71,
-      "quantity": 35.21126760563381,
-      "invested_usdc": 25.0,
-      "current_price": 0.705,
-      "win_probability": 71.0,
-      "conviction_score": 31,
-      "best_bet_score": 55,
-      "last_updated": 1781373912
+      "last_updated": 1781485232,
+      "opened_at": 1781484923
     }
   },
   "trades": [
@@ -508,6 +345,171 @@
       "best_bet_score": 55,
       "tx_hash": "0x69802c65abfb33fe0db7523faadbcd6d02ea8a5bdccde4d1932844ebf8c7e3a3",
       "realized_pnl": 0.0
+    },
+    {
+      "id": "56cbc14f-f350-450c-b687-f6ac14214d39",
+      "timestamp": 1781484870,
+      "trader_address": "resolution",
+      "trader_name": "System Resolution",
+      "market_title": "Will SpaceX's market cap be between $1.5T and $2.0T at market close on IPO day?",
+      "market_slug": "will-spacexs-market-cap-be-between-1pt5t-and-2pt0t-at-market-close-on-ipo-day",
+      "outcome": "Yes",
+      "type": "RESOLVE",
+      "quantity": 3389.8305,
+      "price": 1.0,
+      "usdc_size": 3389.8305,
+      "tx_hash": "resolution",
+      "realized_pnl": 2389.8305025
+    },
+    {
+      "id": "c3d5525c-4f31-4d94-8b49-1d71de2c3108",
+      "timestamp": 1781484870,
+      "trader_address": "resolution",
+      "trader_name": "System Resolution",
+      "market_title": "Will the highest temperature in Singapore be 32\u00b0C on June 11?",
+      "market_slug": "highest-temperature-in-singapore-on-june-11-2026-32c",
+      "outcome": "No",
+      "type": "RESOLVE",
+      "quantity": 108.69565217391303,
+      "price": 1.0,
+      "usdc_size": 108.69565217391303,
+      "tx_hash": "resolution",
+      "realized_pnl": 8.695652173913032
+    },
+    {
+      "id": "caa4550a-a9ac-4247-94c5-7d0e82e4dca1",
+      "timestamp": 1781484871,
+      "trader_address": "resolution",
+      "trader_name": "System Resolution",
+      "market_title": "Will the highest temperature in Seoul be 24\u00b0C on June 11?",
+      "market_slug": "highest-temperature-in-seoul-on-june-11-2026-24c",
+      "outcome": "No",
+      "type": "RESOLVE",
+      "quantity": 129.87012987012986,
+      "price": 1.0,
+      "usdc_size": 129.87012987012986,
+      "tx_hash": "resolution",
+      "realized_pnl": 29.87012987012986
+    },
+    {
+      "id": "851c59bc-a548-4195-b63a-254619c92ed4",
+      "timestamp": 1781484871,
+      "trader_address": "resolution",
+      "trader_name": "System Resolution",
+      "market_title": "Will the highest temperature in Shenzhen be 32\u00b0C on June 11?",
+      "market_slug": "highest-temperature-in-shenzhen-on-june-11-2026-32c",
+      "outcome": "No",
+      "type": "RESOLVE",
+      "quantity": 106.49627263045794,
+      "price": 0.0,
+      "usdc_size": 0.0,
+      "tx_hash": "resolution",
+      "realized_pnl": -100.0
+    },
+    {
+      "id": "913142cc-f513-4384-bc5b-58fa736b4d72",
+      "timestamp": 1781484871,
+      "trader_address": "resolution",
+      "trader_name": "System Resolution",
+      "market_title": "Will the highest temperature in Hong Kong be 30\u00b0C on June 11?",
+      "market_slug": "highest-temperature-in-hong-kong-on-june-11-2026-30c",
+      "outcome": "No",
+      "type": "RESOLVE",
+      "quantity": 133.33333333333334,
+      "price": 1.0,
+      "usdc_size": 133.33333333333334,
+      "tx_hash": "resolution",
+      "realized_pnl": 33.33333333333334
+    },
+    {
+      "id": "04058b76-8d20-4680-b45f-10466b574265",
+      "timestamp": 1781484872,
+      "trader_address": "resolution",
+      "trader_name": "System Resolution",
+      "market_title": "Will the highest temperature in Hong Kong be 31\u00b0C on June 11?",
+      "market_slug": "highest-temperature-in-hong-kong-on-june-11-2026-31c",
+      "outcome": "No",
+      "type": "RESOLVE",
+      "quantity": 109.89010989010988,
+      "price": 1.0,
+      "usdc_size": 109.89010989010988,
+      "tx_hash": "resolution",
+      "realized_pnl": 9.890109890109883
+    },
+    {
+      "id": "0b2734c9-11fb-4c5f-80e0-760b275a520c",
+      "timestamp": 1781484872,
+      "trader_address": "resolution",
+      "trader_name": "System Resolution",
+      "market_title": "Will the highest temperature in Moscow be 31\u00b0C on June 11?",
+      "market_slug": "highest-temperature-in-moscow-on-june-11-2026-31c",
+      "outcome": "No",
+      "type": "RESOLVE",
+      "quantity": 129.87012987012986,
+      "price": 0.0,
+      "usdc_size": 0.0,
+      "tx_hash": "resolution",
+      "realized_pnl": -100.0
+    },
+    {
+      "id": "39fa6cba-5b99-4dd8-904e-62c19f5d50d8",
+      "timestamp": 1781484873,
+      "trader_address": "resolution",
+      "trader_name": "System Resolution",
+      "market_title": "Will the highest temperature in Moscow be 29\u00b0C on June 11?",
+      "market_slug": "highest-temperature-in-moscow-on-june-11-2026-29c",
+      "outcome": "No",
+      "type": "RESOLVE",
+      "quantity": 126.58227848101265,
+      "price": 1.0,
+      "usdc_size": 126.58227848101265,
+      "tx_hash": "resolution",
+      "realized_pnl": 26.58227848101265
+    },
+    {
+      "id": "1799789a-8cee-4bc6-874d-13032d14b871",
+      "timestamp": 1781484873,
+      "trader_address": "resolution",
+      "trader_name": "System Resolution",
+      "market_title": "Will SpaceX IPO by June 15, 2026?",
+      "market_slug": "will-spacex-ipo-by-june-15-2026-789-854",
+      "outcome": "Yes",
+      "type": "RESOLVE",
+      "quantity": 125.50294604930428,
+      "price": 1.0,
+      "usdc_size": 125.50294604930428,
+      "tx_hash": "resolution",
+      "realized_pnl": 0.5029460493042848
+    },
+    {
+      "id": "16c9d6d7-1088-49e6-93e1-d19ccb3dfc9b",
+      "timestamp": 1781484923,
+      "trader_address": "exit_strategy",
+      "trader_name": "Strategy Exit: SL (-10.3%)",
+      "market_title": "Will Elon Musk post 160-179 tweets from June 9 to June 16, 2026?",
+      "market_slug": "elon-musk-of-tweets-june-9-june-16-160-179",
+      "outcome": "No",
+      "type": "SELL",
+      "quantity": 30.75030750307503,
+      "price": 0.729,
+      "usdc_size": 22.416974169741696,
+      "tx_hash": "recycle_sl",
+      "realized_pnl": -2.583025830258304
+    },
+    {
+      "id": "a8feac3e-bfe6-4709-a390-81215905e8e9",
+      "timestamp": 1781484923,
+      "trader_address": "exit_strategy",
+      "trader_name": "Strategy Exit: SL (-23.2%)",
+      "market_title": "Will Elon Musk post 180-199 tweets from June 9 to June 16, 2026?",
+      "market_slug": "elon-musk-of-tweets-june-9-june-16-180-199",
+      "outcome": "No",
+      "type": "SELL",
+      "quantity": 35.21126760563381,
+      "price": 0.54,
+      "usdc_size": 19.014084507042256,
+      "tx_hash": "recycle_sl",
+      "realized_pnl": -5.985915492957748
     }
   ],
   "whale_positions": {
@@ -551,7 +553,10 @@
       "20423464328881089566173909709833751781207317003818929906839036274532658163521": 3627.0
     },
     "0xe9076a87c5ed90ef16e6fe6529c943baeca0cff6": {
-      "17550194778971145898928481511891927274104838199065567656684247871409543119108": 0.0
+      "17550194778971145898928481511891927274104838199065567656684247871409543119108": 0.0,
+      "19265467569714540906109545284351322022959511320204054312967584211963335101104": 0.0,
+      "69811533105946073037136411730375844202282935050212185563483775993387484269041": 0.0,
+      "28508563298912772074214719307109307518904085025750423135797235005006783326548": 0.0
     },
     "0x5a218c7ad04135830a45c41aaed7294df7809318": {
       "12392739535740890653523183006207826847100239045127784914218358454009214037128": 0.0,
@@ -560,6 +565,9 @@
       "60455860637972061932984708351432546044248076687334005548989239998546301869841": 0.0,
       "49369008207155012719981675891644739978829774184626799746539866765972192596483": 0.0,
       "31377173239121824567538354733371193383806068079615630045942994786658471167613": 0.0
+    },
+    "0x10ff6cd4b1b5669d4ca87faebae0c869ad315088": {
+      "94515817676417743859440361822019027124373486072767845954197536768347678844679": 0.0
     }
   },
   "processed_tx_hashes": [
@@ -1027,93 +1035,63 @@
     "0xb67b7952ffc883c6cd561d3d33611853f63e3eaa5061a3c53ee08c64f6e67f24",
     "0x0d4a45fe579cf5701bf0c35bd8f2e9d639f009c30f5e1180737be6334ba83fde",
     "0xa7767d9ab5c30a3b8c5df29964a51fb47ddfe0e95069d6401d523e6efb94aa9e",
-    "0xfcc93dbedc5e3d778ac0702ecea46c91469ec4b15d99343c64e49627c26532f3"
+    "0xfcc93dbedc5e3d778ac0702ecea46c91469ec4b15d99343c64e49627c26532f3",
+    "0xb1d063cbbbc5094c3d13ab4a34dd2a334eb480ed9e5a606e5701a99cab7f72e2",
+    "0xde5a20d9ef9ec346b30703b3588c1dcb4ce2d0bf20aae739390d225573a7c324",
+    "0x0651cb04c6457daebf422dcc1e0067363c153c0307bc452b717ab29444b1ff34",
+    "0x884f88e04347124734d25878ea834ad6fe1e6efa401ec9b35f173b5c3413dee2",
+    "0xdbbf860d2be5d28f6fe733bde4d07eb513f84aaa12c1f012477dcdc58f4f8769",
+    "0x37718aa0620939f5ac8707a73994d2fabfc9e842ac124b926e5a4b3ab7a3834b",
+    "0xdd4301d013080e19bd884a90f194663139d3cfef742fbf565c0c6f27695df690",
+    "0x54a5e8b3ee64f804e28f998d6b3f389e83234fc123342dedae0e0c2fd6541370",
+    "0xee21afde05293724f1fc6ba1ff2f6ce50b9f8fb421eda56c05d0a1a88e7e1b14",
+    "0x6f5d237fd5ede608d7393ce4e893ce24bef7e6298dad31d64c09a836e9edf2f8",
+    "0x0cdda6c767e8ca2ea3123b92c2f2dd09b9b0ee028e95ad486f78e966b6c25e83",
+    "0xa25faeec8209b16971948c4de1df5287b453d8ebbf9b5b3f94feb5195c007d98",
+    "0x832668d70ddda8fed9e303df72be8f69db99707471a2b6373e16318b3b7e8ca1",
+    "0x5144bc1286d7ccaab1e5af361ba57e9868b90aa8dda3a487b567df089a02115b",
+    "0x92832b2e5631a723b4748e9a0cf698a576d933b68cb6db66db0be5a17e5c789f",
+    "0x4f310c540252e96b19364a3046aa613fe184091826f30f6d1abda7208d477df5",
+    "0xc5790aa8be30fcfe1879014f695111adb0c3816e7767608fda25cb0f16befb54",
+    "0x8a40672db4ae579b4f4482a0ec10734c2df69e6afc95d13e2a75491d02549ad8",
+    "0xe3cbb3e02941742516147d6801c23c1a3b75ac476b43a6ae18d4880069753ce5",
+    "0x13e6c5a5969b437d5165675425810961f86d25600325c3d2d59b7c4b45b7ac52",
+    "0xfa52125b3573e01dd0b0ee731910ed6e09ec9b1234d03ba01758ea548e7471d4",
+    "0x9cc27e3aece1d69851536d53214e2973bf48878a32ffa25cdad50f9a52d58e4a",
+    "0xa1b2510c46fdfd9062b61b8797eb6abd5e2becfaeb3c13d5e6f5ed628be5842f",
+    "0x5ac20b84da0c75495e504a494a6d30e541937015493b7b076e320053da01522e",
+    "0x6327b95c7d99c65e3346e78fabbf320f62ff658adcceeede7b94d7d7df38650a",
+    "0x93f62c84793b5d7886ecd3c9ea76f2f637c99aa3effbe21f7cea0023d94e9702",
+    "0x192f0fc63f4ee003ce8dfdbac550551ea644d7bdb2aa0d4f5ac6b0a1fa102c7e",
+    "0xdf063083a9f6bea6f65fd786bd9240fefe7cd6e670281d5f91bee6f3d9a9ca77",
+    "0x8a3a4488dca5bfecebea8772da9b0bf7bcc4c1b61cfd37864c9847114e4156d3",
+    "0xef36677e44a5a7b0f84099e5168c3b5e8f353c5a5a6b54ed1541aa0ab17f2a5a",
+    "0x265e4e3dd16ff7248c04aab0da00ee2ae306787b4f1e93b28a0aad416888266a",
+    "0x9cc97bcbfa13b4c3a46ee34a106d8feaddee0399428d78c532c524101e1158a8",
+    "0x4042df8ef9215367332ccea614a69b7857d03262e3ec0d7670a0301a611b10f6",
+    "0x4ca36d693ada1467bcdf104e64924e4682213267359f2aa3e45ad2f114a0f908",
+    "0x69c655b2496514895c2907ee2f80be5a5375daa27f0af946c21021e0217baac7",
+    "0x3afe6861a782e53825e218053deb36242b73f5c94e4ad5f48020723fbbfea7cd",
+    "0xd3068a5715356909f81d77ded1e2855b3ee2faf4452c0117d0d36703e3a75c5a",
+    "0xd9d2c724031b79ad537de706e84cc8fe2bf37c046506fa77a4f0ab4ad53e525c",
+    "0x3d944e3a490e254a276da95a3cfd329c98057f93184fb5e3637ffad937c4b5fc",
+    "0x537ad7b052f05dd44ccac942674713863dfc12b752c81fa7f4365bedc7f9b8ea",
+    "0x6844f1b6153656a82275c2b8d31cba8fabbdacee7a2ccb56274864eec71cf46e",
+    "0x03ae2e7a790f076d0e3363ca209c0767a7120a3858af8f7054bae109d8c9ae23",
+    "0x1fdc2216e4517ab6fd504a7963624ad986dfcea26b8865ef45ca6a9028606998",
+    "0x21188d7cb931dad72b4032a5cac013c9a42284ab44d50d62f20de53d8836f29e",
+    "0x01259f0d092e43e9aea5f739d408852c98ce9cc13b533b13b0bb43537c137af3",
+    "0xc2622a8c7238dca215b059e2ae12fcff1f403df221b112d8e0cd9ba268114148",
+    "0x557cf8190d77061257ac2081b7280e823cf22c20ece931b76eabb5b19c013587",
+    "0xe673d4b3d7a37c6586ccaed79ebb2eef635b683703c70b83c3071733e8251f18",
+    "0xeae4d61f4668193f0d4bc431d78e45b299514cf6d3b1a646adbf0c8c6c102f97",
+    "0x85c5f890563906cc1706252646e646fd5303ec7f9488c98f44bb0529be71b919",
+    "0x70f84e948a0f96aef79135ec5eb37162df6790d233823e4842435547459b281a",
+    "0x36666124f4e6ae4fc06616361cf18ecd49a56f7bbba450bf57551c553555d896",
+    "0xc8327dbe84631e38d69b472ee3c04b4b46a3fc18c2e7b6e31f611ad86566a4eb",
+    "0xe6f9292656fe002c2998524a794db27446908fd901effb0021119992f5e35951"
   ],
   "logs": [
-    {
-      "timestamp": 1781142629,
-      "message": "MANUAL EXECUTION: Cloned mispriced value play on SpaceX IPO ($1.5T-$2.0T bracket) at 0.295 USDC. Simulated buy of 3389.83 shares (Total: 1000.00 USDC)."
-    },
-    {
-      "timestamp": 1781142762,
-      "message": "Synced 1000 top whales from WEEK leaderboard. Added 0 new whales. Total: 1074"
-    },
-    {
-      "timestamp": 1781142762,
-      "message": "Skipped BUY on 'Atlanta Braves vs. Chicago White Sox' (Atlanta Braves) from mooseborzoi (Rank 3) @ 0.210 USDC: Outside price range [0.70, 0.95] [Win Prob: 21.0%]"
-    },
-    {
-      "timestamp": 1781142762,
-      "message": "Skipped BUY on 'Atlanta Braves vs. Chicago White Sox' (Atlanta Braves) from mooseborzoi (Rank 3) @ 0.210 USDC: Outside price range [0.70, 0.95] [Win Prob: 21.0%]"
-    },
-    {
-      "timestamp": 1781142762,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:45PM-9:50PM ET' from Whale Rank 83 (Rank 83): Could not fetch market details."
-    },
-    {
-      "timestamp": 1781142762,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:45PM-10:00PM ET' (Up) from UUDDLRLR (Rank 396) @ 0.460 USDC: Outside price range [0.70, 0.95] [Win Prob: 46.0%]"
-    },
-    {
-      "timestamp": 1781142762,
-      "message": "Skipped BUY on 'XRP Up or Down - June 10, 9:45PM-9:50PM ET' (Up) from Whale Rank 404 (Rank 404): Already passed resolution date."
-    },
-    {
-      "timestamp": 1781142762,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:45PM-9:50PM ET' (Down) from Polkadot-Frog (Rank 389) @ 0.460 USDC: Outside price range [0.70, 0.95] [Win Prob: 46.0%]"
-    },
-    {
-      "timestamp": 1781142762,
-      "message": "Skipped BUY on 'Atlanta Braves vs. Chicago White Sox' (Chicago White Sox) from 0xD9E0AACa471f48F91A26E8669A805f2 (Rank 195): Sports bets are excluded."
-    },
-    {
-      "timestamp": 1781142762,
-      "message": "Skipped BUY on 'Atlanta Braves vs. Chicago White Sox: O/U 4.5' (Under) from chillhouse123 (Rank 346) @ 0.400 USDC: Outside price range [0.70, 0.95] [Win Prob: 40.0%]"
-    },
-    {
-      "timestamp": 1781142762,
-      "message": "Skipped BUY on 'Connecticut Sun vs. Toronto Tempo' (Connecticut Sun) from shoemanhere (Rank 518) @ 0.600 USDC: Outside price range [0.70, 0.95] [Win Prob: 60.0%]"
-    },
-    {
-      "timestamp": 1781142763,
-      "message": "Skipped BUY on 'Atlanta Braves vs. Chicago White Sox' (Chicago White Sox) from swisstony: Sports bets are excluded."
-    },
-    {
-      "timestamp": 1781142763,
-      "message": "Skipped BUY on 'Atlanta Braves vs. Chicago White Sox' (Chicago White Sox) from swisstony: Sports bets are excluded."
-    },
-    {
-      "timestamp": 1781142763,
-      "message": "Skipped BUY on 'Connecticut Sun vs. Toronto Tempo' (Toronto Tempo) from swisstony @ 0.370 USDC: Outside price range [0.70, 0.95] [Win Prob: 37.0%]"
-    },
-    {
-      "timestamp": 1781142763,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:45PM-9:50PM ET' from Whale Rank 83 (Rank 83): Could not fetch market details."
-    },
-    {
-      "timestamp": 1781142763,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:45PM-9:50PM ET' from UUDDLRLR (Rank 396): Could not fetch market details."
-    },
-    {
-      "timestamp": 1781142763,
-      "message": "Skipped BUY on 'Atlanta Braves vs. Chicago White Sox: O/U 4.5' (Over) from HomeRunHazard (Rank 27) @ 0.580 USDC: Outside price range [0.70, 0.95] [Win Prob: 58.0%]"
-    },
-    {
-      "timestamp": 1781142763,
-      "message": "Skipped BUY on 'Connecticut Sun vs. Toronto Tempo' (Connecticut Sun) from curie (Rank 110) @ 0.630 USDC: Outside price range [0.70, 0.95] [Win Prob: 63.0%]"
-    },
-    {
-      "timestamp": 1781142763,
-      "message": "Skipped BUY on 'Atlanta Braves vs. Chicago White Sox: O/U 4.5' (Under) from shoemanhere (Rank 518) @ 0.400 USDC: Outside price range [0.70, 0.95] [Win Prob: 40.0%]"
-    },
-    {
-      "timestamp": 1781142763,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:45PM-9:50PM ET' (Down) from Polkadot-Frog (Rank 389) @ 0.410 USDC: Outside price range [0.70, 0.95] [Win Prob: 41.0%]"
-    },
-    {
-      "timestamp": 1781142763,
-      "message": "Skipped BUY on 'Connecticut Sun vs. Toronto Tempo' (Toronto Tempo) from BillBenter2026 (Rank 382) @ 0.370 USDC: Outside price range [0.70, 0.95] [Win Prob: 37.0%]"
-    },
     {
       "timestamp": 1781142763,
       "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:45PM-10:00PM ET' (Up) from RITB123 (Rank 130) @ 0.580 USDC: Outside price range [0.70, 0.95] [Win Prob: 58.0%]"
@@ -2853,6 +2831,266 @@
     {
       "timestamp": 1781373745,
       "message": "Skipped BUY on 'Knicks vs. Spurs' (Knicks) from mooseborzoi (Rank 3): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484870,
+      "message": "RESOLVED: 'Will SpaceX's market cap be between $1.5T and $2.0T at market close on IPO day?' (Yes) settled at 1.00 USDC. Received 3389.83 USDC (PnL: +2389.83 USDC)."
+    },
+    {
+      "timestamp": 1781484870,
+      "message": "RESOLVED: 'Will the highest temperature in Singapore be 32\u00b0C on June 11?' (No) settled at 1.00 USDC. Received 108.70 USDC (PnL: +8.70 USDC)."
+    },
+    {
+      "timestamp": 1781484871,
+      "message": "RESOLVED: 'Will the highest temperature in Seoul be 24\u00b0C on June 11?' (No) settled at 1.00 USDC. Received 129.87 USDC (PnL: +29.87 USDC)."
+    },
+    {
+      "timestamp": 1781484871,
+      "message": "RESOLVED: 'Will the highest temperature in Shenzhen be 32\u00b0C on June 11?' (No) settled at 0.00 USDC. Received 0.00 USDC (PnL: -100.00 USDC)."
+    },
+    {
+      "timestamp": 1781484871,
+      "message": "RESOLVED: 'Will the highest temperature in Hong Kong be 30\u00b0C on June 11?' (No) settled at 1.00 USDC. Received 133.33 USDC (PnL: +33.33 USDC)."
+    },
+    {
+      "timestamp": 1781484872,
+      "message": "RESOLVED: 'Will the highest temperature in Hong Kong be 31\u00b0C on June 11?' (No) settled at 1.00 USDC. Received 109.89 USDC (PnL: +9.89 USDC)."
+    },
+    {
+      "timestamp": 1781484872,
+      "message": "RESOLVED: 'Will the highest temperature in Moscow be 31\u00b0C on June 11?' (No) settled at 0.00 USDC. Received 0.00 USDC (PnL: -100.00 USDC)."
+    },
+    {
+      "timestamp": 1781484873,
+      "message": "RESOLVED: 'Will the highest temperature in Moscow be 29\u00b0C on June 11?' (No) settled at 1.00 USDC. Received 126.58 USDC (PnL: +26.58 USDC)."
+    },
+    {
+      "timestamp": 1781484873,
+      "message": "RESOLVED: 'Will SpaceX IPO by June 15, 2026?' (Yes) settled at 1.00 USDC. Received 125.50 USDC (PnL: +0.50 USDC)."
+    },
+    {
+      "timestamp": 1781484889,
+      "message": "Synced 1000 top whales from WEEK leaderboard. Added 201 new whales. Total: 1904"
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Will Elon Musk post 240-259 tweets from June 9 to June 16, 2026?' (No) from bipbipbop (Rank 636) @ 0.985 USDC: Outside price range [0.70, 0.95] [Win Prob: 98.5%]"
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-8:50PM ET' (Up) from 14881488 (Rank 799): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'XRP Up or Down - June 14, 8:45PM-8:50PM ET' (Up) from kbvcerthui (Rank 928): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Iraq vs. Norway: Norway O/U 5.5 Corners' (Over) from mooseborzoi (Rank 3): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-8:50PM ET' (Up) from Whale Rank 339 (Rank 339): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-8:50PM ET' (Down) from ejrejrkj (Rank 705): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-8:50PM ET' (Down) from 0xAAAAA (Rank 625): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Spain vs. Cabo Verde: Both Teams to Score' (Yes) from suntori (Rank 99): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-8:50PM ET' (Up) from OhioRiskManagement (Rank 959): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Solana Up or Down - June 14, 8:45PM-8:50PM ET' (Up) from sixx7 (Rank 242): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-8:50PM ET' (Down) from Garvy (Rank 486): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-8:50PM ET' (Up) from Whale Rank 339 (Rank 339): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Solana Up or Down - June 14, 8:45PM-8:50PM ET' (Up) from sixx7 (Rank 242): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-8:50PM ET' (Down) from Bonereaper (Rank 79): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-8:50PM ET' (Down) from 0x951bd740EF681d05891CA35440232488271D433 (Rank 735): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-8:50PM ET' (Up) from DoggyStyIe (Rank 759): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-8:50PM ET' (Up) from OhioRiskManagement (Rank 959): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:45PM-8:50PM ET' (Up) from suntori (Rank 99): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "VALUE PLAY: 'Will Sweden win on 2026-06-14?' (Yes) @ 0.510 USDC qualifies as a value play (potential 1.6x-10x payout)."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Will Sweden win on 2026-06-14?' (Yes) from suntori (Rank 99): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:50PM-8:55PM ET' (Down) from suntori (Rank 99): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Solana Up or Down - June 14, 8:45PM-8:50PM ET' (Up) from MILKinDenial (Rank 884): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-9:00PM ET' (Up) from Whale Rank 339 (Rank 339): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-8:50PM ET' (Up) from PBot-5 (Rank 906): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484922,
+      "message": "Skipped BUY on 'Solana Up or Down - June 14, 8:45PM-8:50PM ET' (Up) from sixx7 (Rank 242): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484923,
+      "message": "Skipped BUY on 'Will Argentina win on 2026-06-16?' (Yes) from mooseborzoi (Rank 3): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484923,
+      "message": "Skipped BUY on 'BNB Up or Down - June 14, 8:45PM-8:50PM ET' (Down) from OhioRiskManagement (Rank 959): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484923,
+      "message": "EXITED: 'Will Elon Musk post 160-179 tweets from June 9 to June 16, 2026?' (No) via SL (-10.3%). Sold 30.75 shares @ 0.729 USDC (Proceeds: 22.42 USDC, PnL: -2.58 USDC)."
+    },
+    {
+      "timestamp": 1781484924,
+      "message": "EXITED: 'Will Elon Musk post 180-199 tweets from June 9 to June 16, 2026?' (No) via SL (-23.2%). Sold 35.21 shares @ 0.540 USDC (Proceeds: 19.01 USDC, PnL: -5.99 USDC)."
+    },
+    {
+      "timestamp": 1781484955,
+      "message": "Skipped BUY on 'Will Ecuador win on 2026-06-14?' (No) from BillBenter2026 (Rank 382): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484955,
+      "message": "Skipped BUY on 'Will C\u00f4te d'Ivoire win on 2026-06-14?' (No) from e46m3 (Rank 929): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484955,
+      "message": "Skipped BUY on 'Exact Score: Sweden 0 - 1 Tunisia?' (Yes) from mooseborzoi (Rank 3) @ 0.090 USDC: Outside price range [0.70, 0.95] [Win Prob: 9.0%]"
+    },
+    {
+      "timestamp": 1781484955,
+      "message": "Skipped BUY on 'Will C\u00f4te d'Ivoire win on 2026-06-14?' (No) from BillBenter2026 (Rank 382): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484955,
+      "message": "Skipped BUY on 'Will C\u00f4te d'Ivoire win on 2026-06-14?' (Yes) from suntori (Rank 99) @ 0.085 USDC: Outside price range [0.70, 0.95] [Win Prob: 8.5%]"
+    },
+    {
+      "timestamp": 1781484955,
+      "message": "Skipped BUY on 'UFC Freedom 250: Steve Garcia vs. Diego Lopes (Featherweight, Main Card)' (Diego Lopes) from 0x2c335066FE58fe9237c3d3Dc7b275C2a034a0563-1759935795465 (Rank 49): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484955,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:55PM-9:00PM ET' (Up) from suntori (Rank 99): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484955,
+      "message": "VALUE PLAY: 'Will Sweden win on 2026-06-14?' (Yes) @ 0.510 USDC qualifies as a value play (potential 1.6x-10x payout)."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Will Sweden win on 2026-06-14?' (Yes) from suntori (Rank 99): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:50PM-8:55PM ET' (Up) from 0xAAAAA (Rank 625): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:50PM-8:55PM ET' (Up) from DoggyStyIe (Rank 759): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-9:00PM ET' (Up) from Bonereaper (Rank 79): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "VALUE PLAY: 'Will Morocco win on 2026-06-19?' (Yes) @ 0.560 USDC qualifies as a value play (potential 1.6x-10x payout)."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Will Morocco win on 2026-06-19?' (Yes) from mooseborzoi (Rank 3): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:50PM-8:55PM ET' (Down) from Polkadot-Frog (Rank 389): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:50PM-8:55PM ET' (Up) from Bonereaper (Rank 79): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:45PM-9:00PM ET' (Up) from Bonereaper (Rank 79): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Solana Up or Down - June 14, 8:50PM-8:55PM ET' (Up) from sixx7 (Rank 242): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'UFC Freedom 250: Steve Garcia vs. Diego Lopes (Featherweight, Main Card)' (Diego Lopes) from 0xE91171f655bE1568e4c63f29663c0028649e3d4e-1765651946286 (Rank 763): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'C\u00f4te d'Ivoire vs. Ecuador: Ecuador O/U 0.5' (Over) from swisstony: Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Will Belgium win on 2026-06-15?' (Yes) from mooseborzoi (Rank 3) @ 0.610 USDC: Outside price range [0.70, 0.95] [Win Prob: 61.0%]"
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:50PM-8:55PM ET' (Down) from Polkadot-Frog (Rank 389): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:50PM-8:55PM ET' (Up) from Bonereaper (Rank 79): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Spread: Sweden (-1.5)' (Tunisia) from mooseborzoi (Rank 3): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Hurricanes vs. Golden Knights' (Golden Knights) from swisstony: Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781484956,
+      "message": "Skipped BUY on 'Will C\u00f4te d'Ivoire win on 2026-06-14?' (No) from CavaSoTasty (Rank 574): Sports bets are excluded."
     }
   ]
 }

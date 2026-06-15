@@ -358,8 +358,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="settings-max-days">Max Days to Resolution (Expiry)</label>
-                                <input type="number" id="settings-max-days" class="form-control" value="1" min="1" required>
-                                <small class="form-help">Only clone trades that resolve within this number of days. Recommend 1 day (24h) to avoid locking up your funds.</small>
+                                <input type="number" id="settings-max-days" class="form-control" value="30" min="1" required>
+                                <small class="form-help">Only clone trades that resolve within this number of days. Allows tech/politics/business (15-90 days), as active recycling exits them within 24h anyway.</small>
                             </div>
                             <div class="grid-2-columns" style="margin-top: 0; padding: 0;">
                                 <div class="form-group">
@@ -387,6 +387,13 @@
                                 </label>
                                 <small class="form-help">Skip copying short-term crypto price predictions (Bitcoin/Ethereum Up or Down, price target intervals, airdrops, etc.). Guarantees focus remains on high-probability events (SpaceX IPO, political news) rather than fast-paced price swings.</small>
                             </div>
+                            <div class="form-group">
+                                <label for="settings-exclude-weather" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" id="settings-exclude-weather" style="width: 16px; height: 16px; cursor: pointer;">
+                                    Exclude Weather &amp; Temperature Bets
+                                </label>
+                                <small class="form-help">Skip copying local weather and temperature predictions (Singapore weather, Moscow hottest day, etc.). Ensures the bot is not flooded with thin, repetitive weather markets.</small>
+                            </div>
                             <div style="margin-top: 1rem; padding: 1rem; border-radius: 8px; border: 1px solid rgba(99, 102, 241, 0.2); background: rgba(99, 102, 241, 0.04);">
                                 <div style="font-size: 0.75rem; font-weight: 600; color: #818cf8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
                                     <i class="fa-solid fa-bolt"></i> Smart Strategy Features
@@ -411,6 +418,29 @@
                                         Enable Value Plays (High Risk-Reward)
                                     </label>
                                     <small class="form-help">Bypasses standard price range filters to copy low-priced bets (between 0.10 and 0.60 USDC) offering a high return (1.6x to 10x payout). The copy size is automatically reduced by 0.25x (75% sizing discount) to manage bankroll risk.</small>
+                                </div>
+                            </div>
+                            <!-- Active Capital Recycling & Exits Box -->
+                            <div style="margin-top: 1rem; padding: 1rem; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2); background: rgba(16, 185, 129, 0.04);">
+                                <div style="font-size: 0.75rem; font-weight: 600; color: #10b981; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
+                                    <i class="fa-solid fa-arrows-rotate"></i> Active Capital Recycling &amp; Exits
+                                </div>
+                                <div class="grid-3-columns" style="margin-top: 0; padding: 0;">
+                                    <div class="form-group">
+                                        <label for="settings-max-holding-hours">Max Holding Period (Hours)</label>
+                                        <input type="number" id="settings-max-holding-hours" class="form-control" value="24" min="0" required>
+                                        <small class="form-help">Sells position back to CLOB after X hours to recycle cash (e.g. 24). 0 to disable.</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="settings-take-profit-pct">Take-Profit (%)</label>
+                                        <input type="number" id="settings-take-profit-pct" class="form-control" value="15" min="0" step="0.5" required>
+                                        <small class="form-help">Trigger automatic exit if price rises by this % above cost basis. 0 to disable.</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="settings-stop-loss-pct">Stop-Loss (%)</label>
+                                        <input type="number" id="settings-stop-loss-pct" class="form-control" value="5" min="0" step="0.5" required>
+                                        <small class="form-help">Trigger automatic exit if price falls by this % below cost basis. 0 to disable.</small>
+                                    </div>
                                 </div>
                             </div>
                             <div class="grid-2-columns" style="margin-top: 1rem; padding: 0; align-items: center;">

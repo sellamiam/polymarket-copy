@@ -51,8 +51,9 @@ def is_niche_market(title, slug, question=""):
     q_lower = (question or "").lower()
     
     niche_keywords = [
-        "weather", "temperature", "singapore", "celsius", "degree", "science", "spacex", "nasa", 
-        "climate", "meteorological", "audit", "regulatory", "fda", "court", "ruling", "lawsuit", "vaccine", "space"
+        "science", "spacex", "nasa", "space", "gpt-", "openai", "anthropic", "google", "apple", "ai", 
+        "artificial intelligence", "valuation", "ipo", "merger", "acquisition", "fed", "interest rate", 
+        "sec", "election", "president", "regulatory", "court", "ruling", "lawsuit", "vaccine", "audit"
     ]
     return any(kw in title_lower or kw in slug_lower or kw in q_lower for kw in niche_keywords)
 
@@ -189,6 +190,20 @@ def resolve_positions(state):
                                 break
                         if not market:
                             market = markets[0]
+                
+                # Fallback to closed markets endpoint if not found in active markets
+                if not market:
+                    url_closed = f"https://gamma-api.polymarket.com/markets?closed=true&condition_ids={condition_id}"
+                    res_closed = requests.get(url_closed, timeout=5)
+                    if res_closed.status_code == 200:
+                        markets = res_closed.json()
+                        if isinstance(markets, list) and len(markets) > 0:
+                            for m in markets:
+                                if m.get("conditionId") == condition_id:
+                                    market = m
+                                    break
+                            if not market:
+                                market = markets[0]
             
             if market:
                 is_resolved = market.get("resolved", False)
@@ -246,6 +261,91 @@ def resolve_positions(state):
             print(f"Error checking resolution for condition {condition_id}: {e}")
             
     return resolved_any
+
+def recycle_positions_and_exit_strategies(config, state):
+    """
+    Checks open positions against active exit rules:
+    - Take Profit (TP)
+    - Stop Loss (SL)
+    - Time-based Early Exit (Capital Recycling)
+    """
+    take_profit_pct = float(config.get("take_profit_pct", 15.0))
+    stop_loss_pct = float(config.get("stop_loss_pct", 5.0))
+    max_holding_hours = float(config.get("max_holding_hours", 24))
+    
+    current_time = int(time.time())
+    recycled_any = False
+    
+    for token_id, pos in list(state["positions"].items()):
+        avg_price = pos["avg_price"]
+        current_price = pos.get("current_price", avg_price)
+        
+        # Check current price vs average price
+        pnl_pct = 0.0
+        if avg_price > 0:
+            pnl_pct = ((current_price - avg_price) / avg_price) * 100.0
+            
+        # Determine age
+        opened_at = pos.get("opened_at")
+        if opened_at is None:
+            # Fallback for legacy positions
+            opened_at = pos.get("last_updated", current_time)
+            pos["opened_at"] = opened_at
+            
+        age_hours = (current_time - opened_at) / 3600.0
+        
+        trigger_reason = None
+        exit_type = None
+        if take_profit_pct > 0 and pnl_pct >= take_profit_pct:
+            trigger_reason = f"TP (+{pnl_pct:.1f}%)"
+            exit_type = "RECYCLE_TP"
+        elif stop_loss_pct > 0 and pnl_pct <= -stop_loss_pct:
+            trigger_reason = f"SL ({pnl_pct:+.1f}%)"
+            exit_type = "RECYCLE_SL"
+        elif max_holding_hours > 0 and age_hours >= max_holding_hours:
+            trigger_reason = f"TIME LIMIT ({age_hours:.1f}h)"
+            exit_type = "RECYCLE_TIME"
+            
+        if trigger_reason and exit_type:
+            # Fetch live bid price if possible
+            exit_price = fetch_clob_price(token_id, "buy")
+            if exit_price is None:
+                exit_price = current_price
+                
+            proceeds = pos["quantity"] * exit_price
+            cost_basis = pos["avg_price"] * pos["quantity"]
+            realized_pnl = proceeds - cost_basis
+            
+            # Execute exit
+            state["cash_usdc"] += proceeds
+            
+            # Record trade history
+            trade_id = str(uuid.uuid4())
+            state["trades"].append({
+                "id": trade_id,
+                "timestamp": current_time,
+                "trader_address": "exit_strategy",
+                "trader_name": f"Strategy Exit: {trigger_reason}",
+                "market_title": pos["market_title"],
+                "market_slug": pos["market_slug"],
+                "outcome": pos["outcome"],
+                "type": "SELL",
+                "quantity": pos["quantity"],
+                "price": exit_price,
+                "usdc_size": proceeds,
+                "tx_hash": exit_type.lower(),
+                "realized_pnl": realized_pnl
+            })
+            
+            # Delete position
+            del state["positions"][token_id]
+            recycled_any = True
+            
+            msg = f"EXITED: '{pos['market_title']}' ({pos['outcome']}) via {trigger_reason}. Sold {pos['quantity']:.2f} shares @ {exit_price:.3f} USDC (Proceeds: {proceeds:.2f} USDC, PnL: {realized_pnl:+.2f} USDC)."
+            add_log(state, msg)
+            
+    return recycled_any
+
 
 def fetch_trader_activities(trader):
     address = trader["address"].lower()
@@ -505,6 +605,21 @@ def run_simulation_iteration(config, state):
                             state["processed_tx_hashes"].append(tx_hash)
                             continue
 
+                    # Exclude weather bets filter
+                    if config.get("exclude_weather_bets", True):
+                        is_weather = False
+                        question_lower = market_details.get("question", "").lower()
+                        slug_lower = market_details.get("slug", "").lower()
+                        title_lower = (title or "").lower()
+                        weather_keywords = ["weather", "temperature", "celsius", "degree", "fahrenheit", "rain", "snow", "hottest", "coldest", "meteorological", "wind speed", "precipitation"]
+                        if any(kw in question_lower or kw in slug_lower or kw in title_lower for kw in weather_keywords):
+                            is_weather = True
+                            
+                        if is_weather:
+                            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Weather/temperature bets are excluded.")
+                            state["processed_tx_hashes"].append(tx_hash)
+                            continue
+
                     # Expiry validation
                     end_date_str = market_details.get("endDate")
                     if end_date_str:
@@ -624,7 +739,8 @@ def run_simulation_iteration(config, state):
                     "win_probability": win_probability,
                     "conviction_score": conviction_score,
                     "best_bet_score": best_bet_score,
-                    "last_updated": int(time.time())
+                    "last_updated": int(time.time()),
+                    "opened_at": int(time.time())
                 }
 
             # Update tracked whale holding
@@ -875,16 +991,23 @@ def _run_loop():
                     
                     # 2. Update current prices and value of open positions
                     holdings_value = update_live_valuations(state)
+                    
+                    # 3. Check for early exits/capital recycling based on latest prices
+                    recycle_occurred = recycle_positions_and_exit_strategies(config, state)
+                    if recycle_occurred:
+                        # Recalculate valuations if positions were sold
+                        holdings_value = update_live_valuations(state)
+                        
                     total_equity = calculate_total_equity(state, holdings_value)
                     
-                    # 3. Add snapshot to portfolio history (limit frequency to keep history small)
+                    # 4. Add snapshot to portfolio history (limit frequency to keep history small)
                     last_snapshot = state["portfolio_value_history"][-1] if state["portfolio_value_history"] else None
                     current_time = int(time.time())
                     
                     should_append = False
                     if not last_snapshot:
                         should_append = True
-                    elif trade_occurred:
+                    elif trade_occurred or recycle_occurred:
                         should_append = True
                     elif current_time - last_snapshot["timestamp"] >= 300: # Every 5 minutes
                         should_append = True

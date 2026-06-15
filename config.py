@@ -17,12 +17,16 @@ DEFAULT_CONFIG = {
     "max_copy_price": 0.95,
     "copy_only_best_wins": False,
     "min_best_bet_score": 65,
-    "max_days_to_resolution": 1,
+    "max_days_to_resolution": 30,
+    "max_holding_hours": 24,
+    "take_profit_pct": 15.0,
+    "stop_loss_pct": 5.0,
     "min_market_liquidity": 5000.0,
     "min_market_volume": 20000.0,
     "enable_value_plays": True,
     "exclude_sports_bets": True,
     "exclude_crypto_bets": True,
+    "exclude_weather_bets": True,
     "simulation_active": True,
     "niche_priority_active": True,
     "dynamic_sizing_active": True,
@@ -192,9 +196,14 @@ def load_config():
             config_data[k] = v
             updated = True
             
-    # Migration: Change max_days_to_resolution from 7 to 1
-    if config_data.get("max_days_to_resolution") == 7:
-        config_data["max_days_to_resolution"] = 1
+    # Migration: Change max_days_to_resolution to 30
+    if config_data.get("max_days_to_resolution") in [1, 7]:
+        config_data["max_days_to_resolution"] = 30
+        updated = True
+
+    # Migration: Force exclude_weather_bets to True
+    if config_data.get("exclude_weather_bets") is not True:
+        config_data["exclude_weather_bets"] = True
         updated = True
         
     if updated:

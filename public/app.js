@@ -289,7 +289,13 @@ function renderDashboard(data) {
     const setMinBestScore = document.getElementById('settings-min-best-score');
     if (document.activeElement !== setMinBestScore) setMinBestScore.value = config.min_best_bet_score || 65;
     const setMaxDays = document.getElementById('settings-max-days');
-    if (document.activeElement !== setMaxDays) setMaxDays.value = config.max_days_to_resolution || 1;
+    if (document.activeElement !== setMaxDays) setMaxDays.value = config.max_days_to_resolution || 30;
+    const setMaxHolding = document.getElementById('settings-max-holding-hours');
+    if (document.activeElement !== setMaxHolding) setMaxHolding.value = config.max_holding_hours !== undefined ? config.max_holding_hours : 24;
+    const setTakeProfit = document.getElementById('settings-take-profit-pct');
+    if (document.activeElement !== setTakeProfit) setTakeProfit.value = config.take_profit_pct !== undefined ? config.take_profit_pct : 15.0;
+    const setStopLoss = document.getElementById('settings-stop-loss-pct');
+    if (document.activeElement !== setStopLoss) setStopLoss.value = config.stop_loss_pct !== undefined ? config.stop_loss_pct : 5.0;
     const setMinLiquidity = document.getElementById('settings-min-liquidity');
     if (document.activeElement !== setMinLiquidity) setMinLiquidity.value = config.min_market_liquidity !== undefined ? config.min_market_liquidity : 5000;
     const setMinVolume = document.getElementById('settings-min-volume');
@@ -298,6 +304,8 @@ function renderDashboard(data) {
     if (document.activeElement !== setExcludeSports) setExcludeSports.checked = config.exclude_sports_bets !== false;
     const setExcludeCrypto = document.getElementById('settings-exclude-crypto');
     if (document.activeElement !== setExcludeCrypto) setExcludeCrypto.checked = config.exclude_crypto_bets !== false;
+    const setExcludeWeather = document.getElementById('settings-exclude-weather');
+    if (document.activeElement !== setExcludeWeather) setExcludeWeather.checked = config.exclude_weather_bets !== false;
     const setNichePriority = document.getElementById('settings-niche-priority');
     if (document.activeElement !== setNichePriority) setNichePriority.checked = config.niche_priority_active || false;
     const setDynamicSizing = document.getElementById('settings-dynamic-sizing');
@@ -668,10 +676,14 @@ async function saveGlobalSettings(e) {
     const copyOnlyBest = document.getElementById('settings-copy-only-best').checked;
     const minBestScore = parseInt(document.getElementById('settings-min-best-score').value);
     const maxDays = parseInt(document.getElementById('settings-max-days').value);
+    const maxHolding = parseInt(document.getElementById('settings-max-holding-hours').value);
+    const takeProfit = parseFloat(document.getElementById('settings-take-profit-pct').value);
+    const stopLoss = parseFloat(document.getElementById('settings-stop-loss-pct').value);
     const minLiquidity = parseFloat(document.getElementById('settings-min-liquidity').value);
     const minVolume = parseFloat(document.getElementById('settings-min-volume').value);
     const excludeSports = document.getElementById('settings-exclude-sports').checked;
     const excludeCrypto = document.getElementById('settings-exclude-crypto').checked;
+    const excludeWeather = document.getElementById('settings-exclude-weather').checked;
     const nichePriority = document.getElementById('settings-niche-priority').checked;
     const dynamicSizing = document.getElementById('settings-dynamic-sizing').checked;
     const enableValuePlays = document.getElementById('settings-value-plays').checked;
@@ -690,10 +702,14 @@ async function saveGlobalSettings(e) {
                 copy_only_best_wins: copyOnlyBest,
                 min_best_bet_score: minBestScore,
                 max_days_to_resolution: maxDays,
+                max_holding_hours: maxHolding,
+                take_profit_pct: takeProfit,
+                stop_loss_pct: stopLoss,
                 min_market_liquidity: minLiquidity,
                 min_market_volume: minVolume,
                 exclude_sports_bets: excludeSports,
                 exclude_crypto_bets: excludeCrypto,
+                exclude_weather_bets: excludeWeather,
                 niche_priority_active: nichePriority,
                 dynamic_sizing_active: dynamicSizing,
                 enable_value_plays: enableValuePlays

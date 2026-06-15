@@ -44,11 +44,15 @@ class SettingsUpdate(BaseModel):
     copy_only_best_wins: Optional[bool] = None
     min_best_bet_score: Optional[int] = None
     max_days_to_resolution: Optional[int] = None
+    max_holding_hours: Optional[int] = None
+    take_profit_pct: Optional[float] = None
+    stop_loss_pct: Optional[float] = None
     min_market_liquidity: Optional[float] = None
     min_market_volume: Optional[float] = None
     enable_value_plays: Optional[bool] = None
     exclude_sports_bets: Optional[bool] = None
     exclude_crypto_bets: Optional[bool] = None
+    exclude_weather_bets: Optional[bool] = None
     niche_priority_active: Optional[bool] = None
     dynamic_sizing_active: Optional[bool] = None
 
@@ -138,6 +142,9 @@ def update_settings(update: SettingsUpdate):
     if update.exclude_crypto_bets is not None:
         cfg["exclude_crypto_bets"] = update.exclude_crypto_bets
 
+    if update.exclude_weather_bets is not None:
+        cfg["exclude_weather_bets"] = update.exclude_weather_bets
+
     if update.niche_priority_active is not None:
         cfg["niche_priority_active"] = update.niche_priority_active
 
@@ -152,6 +159,15 @@ def update_settings(update: SettingsUpdate):
 
     if update.enable_value_plays is not None:
         cfg["enable_value_plays"] = update.enable_value_plays
+        
+    if update.max_holding_hours is not None:
+        cfg["max_holding_hours"] = max(0, update.max_holding_hours)
+        
+    if update.take_profit_pct is not None:
+        cfg["take_profit_pct"] = max(0.0, update.take_profit_pct)
+        
+    if update.stop_loss_pct is not None:
+        cfg["stop_loss_pct"] = max(0.0, update.stop_loss_pct)
         
     config.save_config(cfg)
     return {"status": "success", "config": cfg}
