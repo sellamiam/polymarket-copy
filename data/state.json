@@ -125,7 +125,7 @@
       "win_probability": 94.0,
       "conviction_score": 34,
       "best_bet_score": 70,
-      "last_updated": 1781485232,
+      "last_updated": 1781485711,
       "opened_at": 1781484923
     }
   },
@@ -556,7 +556,8 @@
       "17550194778971145898928481511891927274104838199065567656684247871409543119108": 0.0,
       "19265467569714540906109545284351322022959511320204054312967584211963335101104": 0.0,
       "69811533105946073037136411730375844202282935050212185563483775993387484269041": 0.0,
-      "28508563298912772074214719307109307518904085025750423135797235005006783326548": 0.0
+      "28508563298912772074214719307109307518904085025750423135797235005006783326548": 0.0,
+      "29380288309058797813398679225477780247939504509698535672869844435158536412723": 0.0
     },
     "0x5a218c7ad04135830a45c41aaed7294df7809318": {
       "12392739535740890653523183006207826847100239045127784914218358454009214037128": 0.0,
@@ -568,6 +569,9 @@
     },
     "0x10ff6cd4b1b5669d4ca87faebae0c869ad315088": {
       "94515817676417743859440361822019027124373486072767845954197536768347678844679": 0.0
+    },
+    "0x24c8cf69a0e0a17eee21f69d29752bfa32e823e1": {
+      "93165696161088512376930999170413968261015485018106746563527821398897374023845": 0.0
     }
   },
   "processed_tx_hashes": [
@@ -1089,197 +1093,58 @@
     "0x70f84e948a0f96aef79135ec5eb37162df6790d233823e4842435547459b281a",
     "0x36666124f4e6ae4fc06616361cf18ecd49a56f7bbba450bf57551c553555d896",
     "0xc8327dbe84631e38d69b472ee3c04b4b46a3fc18c2e7b6e31f611ad86566a4eb",
-    "0xe6f9292656fe002c2998524a794db27446908fd901effb0021119992f5e35951"
+    "0xe6f9292656fe002c2998524a794db27446908fd901effb0021119992f5e35951",
+    "0x5995ebf3b7651656bad1e384d9c17e94071ff06db863d0d4028c38f6009ae04e",
+    "0x632bf3e3925d8da9cc9b5fce1f8cb6c05af6753d35e31d92254653548baca8de",
+    "0x37710a66c579e4157c7e7609680d52eea509687ade1ae079f9a79eca6795bfa3",
+    "0x22d71a1cfabbea592241ff7255c8a363ca914301b694c5323ff0dd28badd473e",
+    "0x80800eae789be3e17fa42f3dfa99d1839e979ae6c32958062238258fcafe5735",
+    "0xb9e9b850ccf52b60c079809b909bdcbab43e6e0beaf13bb86cc1c0fe66990d0f",
+    "0x9cc907fb1f65891cab0e95c43a37f3cc6ea9b41bcc17e7865d39f89426119455",
+    "0xc2845de628a8428b39717ec43493c1a283f079c3c29a136a8bebfd0a96a01d45",
+    "0x1116f2d41f8d29c71dc2a18650bd28a26789fef802d65589989a408cf306005b",
+    "0x8cc1f6f504f0c2bb89a75b0df5ecf87d2cdcbf1e96ca058f7397f39f0b26d29a",
+    "0xc82799a43c98e83e1c942891274466d1e5f4659789e28000aa4a85cbb1934dca",
+    "0x327e56e6351872e726abc926e6fd79b1654fb294f6af43d9b6fc814dcb634736",
+    "0xb6736a78aa51603cfb4dc2afe8dd3e967059a85cdd99145a97108b622d75f216",
+    "0x1e35bad484beb680a548ce15d1008e22af408bd3314f9f33451cb047896c43b9",
+    "0x1b9e3c35d211c464f07d804d5850e99cf4058661a478f42c8f4241fe05b41f57",
+    "0x7483a5c4bee1355b01226b75367df1dd75e0d9b0a0eb329fe12eb47ab35475ba",
+    "0x1f7ffae400a9cec92de0fdc52018a97972c014eca580f847ded32b71ecae81c2",
+    "0x31529839a9b55dc5a620d6a438b3322cf974bb94ea1034412a15833be6f05c1a",
+    "0xcc87177e871f65cf120125eab632381bc79b7a3b822fa4f29a242cb6c779dd01",
+    "0xfd1a29808b162b47ee85e83aeb89c5a0e816e2e868ed7087816c283c60a7b77e",
+    "0x2eaa676d92e731836ecce7f5bac346a98fda37d97aeab92201edb23c221e3d10",
+    "0x77e6f9f99157d04373ec538ec46330d1433b04686639ad1ac88b566c8c1388f3",
+    "0xdd3ea9f19ddde757b6f2b93895101ff5036b3d54f98a646c217607a4557bcb94",
+    "0xdb07b88e100492d011065bd7d7259eac6bdacab8101a8f9a88c6378d060cd984",
+    "0x127b21c30a96a6140ee8d3dee06cd54202784d6d52550055c6ecd1e8ff5af3e3",
+    "0x8ec84f138f4425c1d7ac45609fa5087469c0987b65547ca2ce9c09365572a7d4",
+    "0x78a22cd0e3c6329aef91c280f9d39fb9bf856de45603b1f6fe8226a8f85a4ccc",
+    "0x9b8cdb1f41bb833d64daefcf50579f759acbd5f586e4c67bce8063cb3bfb2b63",
+    "0x1897a66502ff120b41b2a869f7940bdd195afa9bbae58a080d49517f9b753906",
+    "0xdf98cea161f7c07c0826eb4f1b67cb09a31dfb194d34c386943c487ba1d9505d",
+    "0x429d1982be5069552653b222986f3510275927c8afca3ff6eaffeda935e782d7",
+    "0x66170beb83c8f0f558f9ac063ed86b4d500c923e8103c160c9ae777751433cfa",
+    "0x25b749f99254c8dff6b4eff802a169d7c2de5bd6c187fc2624d0151d0236a523",
+    "0x4c6e33f32faef334733a65271a33a045d513b4fe1f078ace93117a0fd83dc94f",
+    "0xfe8468fa07876fca8becd2abc9a2499438ef9a19210f56b726fe1179871a0de3",
+    "0xffaab853c17eae9f0e2efba59f72a4e172dfccff596266305655bb8bd1c2433f",
+    "0x8eadcf1ae797a49d640a73920e083bfdea0c8b08243d9a484804aa7fcaebd24e",
+    "0x3fec75a44580a170a7c7bb33f9d42250d3de6697fca334f3c02f1b0a4e36cb44",
+    "0x0b8f0f5eb5149dbf651be6e49d0dcb4642d2c4323187e16811496970b1c88728",
+    "0xb0b68deaad5e625055f03ca21edcbe6a46e3649668d94d46c1155ee31e69d82f",
+    "0x8f0fa0ab1397b3582abcee144577dd85c710621d76a8ad14faf5e9875a6bed56",
+    "0xad8a7031a6775d867e0c078c3a443bd59a4100670ecd5b2b63b045d04402e7db",
+    "0xc2786793b8c10fe8194d0baeea4ad78a2d3de07c828e5d4fcd8bbad32db83f10",
+    "0x1942f6d56b4c1703c2a0ae7603bca2806b14148b280277e9d50cf92362eae7e9",
+    "0x38b18a5b95201f695b5ebd0c489dfe96df483d205f81057df626aa107914b68b",
+    "0xd3c46b8e87426778aa0d1b781ce271280f15bb24a7f7a5b78a71862d116bb793",
+    "0x303312d5fa0dcbec2718a11128ed92d071fdc20c408aebddea7c73b84e45755d",
+    "0x53c272fe631f5cc63816c8a563ab94e5a10ac22704e1616277d2f9838c89beaf",
+    "0x3c687e05eba6a8d09ffd74bbd96f1e99c57fc3340b7cd957abadae7751b7900d"
   ],
   "logs": [
-    {
-      "timestamp": 1781142763,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:45PM-10:00PM ET' (Up) from RITB123 (Rank 130) @ 0.580 USDC: Outside price range [0.70, 0.95] [Win Prob: 58.0%]"
-    },
-    {
-      "timestamp": 1781142763,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:45PM-9:50PM ET' from 0xAAAAA (Rank 625): Could not fetch market details."
-    },
-    {
-      "timestamp": 1781142763,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:45PM-9:50PM ET' from 0x951bd740EF681d05891CA35440232488271D433 (Rank 735): Could not fetch market details."
-    },
-    {
-      "timestamp": 1781142764,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:45PM-9:50PM ET' from 0xAAAAA (Rank 625): Could not fetch market details."
-    },
-    {
-      "timestamp": 1781142764,
-      "message": "Skipped BUY on 'Connecticut Sun vs. Toronto Tempo' (Connecticut Sun) from swisstony @ 0.625 USDC: Outside price range [0.70, 0.95] [Win Prob: 62.5%]"
-    },
-    {
-      "timestamp": 1781142764,
-      "message": "Skipped BUY on 'Connecticut Sun vs. Toronto Tempo' (Connecticut Sun) from swisstony @ 0.630 USDC: Outside price range [0.70, 0.95] [Win Prob: 63.0%]"
-    },
-    {
-      "timestamp": 1781142764,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:45PM-9:50PM ET' (Down) from 0xb55fa1296E6ec55D0cE53d93B9237389f11764d4-1777575277609 (Rank 113) @ 0.410 USDC: Outside price range [0.70, 0.95] [Win Prob: 41.0%]"
-    },
-    {
-      "timestamp": 1781142764,
-      "message": "Skipped BUY on 'Connecticut Sun vs. Toronto Tempo' (Toronto Tempo) from 0xD9E0AACa471f48F91A26E8669A805f2 (Rank 195) @ 0.380 USDC: Outside price range [0.70, 0.95] [Win Prob: 38.0%]"
-    },
-    {
-      "timestamp": 1781142764,
-      "message": "Skipped BUY on 'Connecticut Sun vs. Toronto Tempo' (Connecticut Sun) from swisstony @ 0.630 USDC: Outside price range [0.70, 0.95] [Win Prob: 63.0%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Atlanta Braves vs. Chicago White Sox' (Chicago White Sox) from Whale Rank 456 (Rank 456): Sports bets are excluded."
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:45PM-10:00PM ET' (Up) from btcllllmmmlll (Rank 916) @ 0.598 USDC: Outside price range [0.70, 0.95] [Win Prob: 59.8%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:45PM-9:50PM ET' (Down) from btcllllmmmlll (Rank 916) @ 0.240 USDC: Outside price range [0.70, 0.95] [Win Prob: 24.0%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Connecticut Sun vs. Toronto Tempo' (Connecticut Sun) from StingTrading (Rank 489) @ 0.644 USDC: Outside price range [0.70, 0.95] [Win Prob: 64.4%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:45PM-10:00PM ET' (Down) from Whale Rank 339 (Rank 339) @ 0.540 USDC: Outside price range [0.70, 0.95] [Win Prob: 54.0%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:45PM-9:50PM ET' (Up) from vnpspa55 (Rank 655) @ 0.431 USDC: Outside price range [0.70, 0.95] [Win Prob: 43.1%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:45PM-9:50PM ET' (Up) from neversmiling (Rank 306) @ 0.462 USDC: Outside price range [0.70, 0.95] [Win Prob: 46.2%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:45PM-10:00PM ET' (Down) from screenSaver (Rank 286) @ 0.540 USDC: Outside price range [0.70, 0.95] [Win Prob: 54.0%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:45PM-9:50PM ET' (Down) from Whale Rank 83 (Rank 83) @ 0.250 USDC: Outside price range [0.70, 0.95] [Win Prob: 25.0%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:45PM-9:50PM ET' (Down) from 0xAAAAA (Rank 625) @ 0.275 USDC: Outside price range [0.70, 0.95] [Win Prob: 27.5%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'XRP Up or Down - June 10, 9:45PM-9:50PM ET' (Down) from Whale Rank 395 (Rank 395) @ 0.130 USDC: Outside price range [0.70, 0.95] [Win Prob: 13.0%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:45PM-9:50PM ET' (Down) from nj23adsknml3 (Rank 852) @ 0.500 USDC: Outside price range [0.70, 0.95] [Win Prob: 50.0%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'BNB Up or Down - June 10, 9:45PM-9:50PM ET' (Down) from nj23adsknml3 (Rank 852) @ 0.310 USDC: Outside price range [0.70, 0.95] [Win Prob: 31.0%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:45PM-9:50PM ET' (Down) from UUDDLRLR (Rank 396) @ 0.314 USDC: Outside price range [0.70, 0.95] [Win Prob: 31.4%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:45PM-10:00PM ET' (Down) from UUDDLRLR (Rank 396) @ 0.540 USDC: Outside price range [0.70, 0.95] [Win Prob: 54.0%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:45PM-10:00PM ET' (Down) from UUDDLRLR (Rank 396) @ 0.540 USDC: Outside price range [0.70, 0.95] [Win Prob: 54.0%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:45PM-9:50PM ET' (Up) from vnpspa55 (Rank 655) @ 0.483 USDC: Outside price range [0.70, 0.95] [Win Prob: 48.3%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:45PM-9:50PM ET' (Up) from sixx7 (Rank 242) @ 0.460 USDC: Outside price range [0.70, 0.95] [Win Prob: 46.0%]"
-    },
-    {
-      "timestamp": 1781142765,
-      "message": "Skipped BUY on 'Will the San Antonio Spurs win the 2026 NBA Finals?' (No) from oieshfn345 (Rank 616) @ 0.391 USDC: Outside price range [0.70, 0.95] [Win Prob: 39.1%]"
-    },
-    {
-      "timestamp": 1781142772,
-      "message": "Synced 1000 top whales from WEEK leaderboard. Added 0 new whales. Total: 1074"
-    },
-    {
-      "timestamp": 1781142779,
-      "message": "Synced 1000 top whales from WEEK leaderboard. Added 0 new whales. Total: 1074"
-    },
-    {
-      "timestamp": 1781142813,
-      "message": "Synced 1000 top whales from WEEK leaderboard. Added 0 new whales. Total: 1074"
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'BNB Up or Down - June 10, 9:50PM-9:55PM ET' (Up) from nj23adsknml3 (Rank 852): Crypto bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Minnesota Twins vs. Detroit Tigers' (Detroit Tigers) from mooseborzoi (Rank 3): Sports bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:50PM-9:55PM ET' (Down) from nj23adsknml3 (Rank 852): Crypto bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Will the price of Bitcoin be above $58,000 on June 12?' (Yes) from ftrxc64afn (Rank 846): Crypto bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:50PM-9:55PM ET' (Down) from Joble (Rank 890): Crypto bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:50PM-9:55PM ET' (Up) from trinity42 (Rank 466): Crypto bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:50PM-9:55PM ET' (Down) from 0xAAAAA (Rank 625): Crypto bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Ethereum Up or Down - June 10, 9:50PM-9:55PM ET' (Down) from nj23adsknml3 (Rank 852): Crypto bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Will Bitcoin reach $66,000 June 8-14?' (No) from 0x06dc51826bc524d9a83770e7de9dd7e005b0452 (Rank 18): Crypto bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:50PM-9:55PM ET' (Down) from Whale Rank 83 (Rank 83): Crypto bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Minnesota Twins vs. Detroit Tigers' (Detroit Tigers) from mooseborzoi (Rank 3): Sports bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'XRP Up or Down - June 10, 9:45PM-10:00PM ET' (Down) from UUDDLRLR (Rank 396): Crypto bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Spurs vs. Knicks: O/U 218.5' (Over) from chillhouse123 (Rank 346): Sports bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Spurs vs. Knicks: O/U 217.5' (Over) from swisstony: Sports bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:50PM-9:55PM ET' (Up) from nj23adsknml3 (Rank 852): Crypto bets are excluded."
-    },
-    {
-      "timestamp": 1781142814,
-      "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:50PM-9:55PM ET' (Down) from Garvy (Rank 486): Crypto bets are excluded."
-    },
     {
       "timestamp": 1781142814,
       "message": "Skipped BUY on 'Bitcoin Up or Down - June 10, 9:50PM-9:55PM ET' (Down) from Whale Rank 83 (Rank 83): Crypto bets are excluded."
@@ -3091,6 +2956,194 @@
     {
       "timestamp": 1781484956,
       "message": "Skipped BUY on 'Will C\u00f4te d'Ivoire win on 2026-06-14?' (No) from CavaSoTasty (Rank 574): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781485262,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:45PM-9:00PM ET' (Up) from sixx7 (Rank 242): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485262,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:55PM-9:00PM ET' (Down) from Bonereaper (Rank 79): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485262,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:55PM-9:00PM ET' (Up) from Polkadot-Frog (Rank 389): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Exact Score: C\u00f4te d'Ivoire 1 - 0 Ecuador?' (Yes) from lukibazdonauki754 (Rank 338): Market liquidity (4,297.2 USDC) is below minimum of 5,000.0 USDC."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:55PM-9:00PM ET' (Up) from sixx7 (Rank 242): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:55PM-9:00PM ET' (Up) from sixx7 (Rank 242): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:45PM-9:00PM ET' (Down) from Bonereaper (Rank 79): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 9:00PM-9:05PM ET' (Down) from suntori (Rank 99): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:55PM-9:00PM ET' (Down) from Bonereaper (Rank 79): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Spain vs. Cabo Verde: Both Teams to Score' (Yes) from suntori (Rank 99): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:45PM-9:00PM ET' (Down) from Bonereaper (Rank 79): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:55PM-9:00PM ET' (Up) from neversmiling (Rank 306): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'C\u00f4te d'Ivoire vs. Ecuador: Both Teams to Score' (Yes) from suntori (Rank 99): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Will C\u00f4te d'Ivoire vs. Ecuador end in a draw?' (Yes) from suntori (Rank 99): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Solana Up or Down - June 14, 8:45PM-9:00PM ET' (Down) from OhioRiskManagement (Rank 959): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:45PM-9:00PM ET' (Up) from Whale Rank 395 (Rank 395): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:45PM-9:00PM ET' (Down) from Whale Rank 404 (Rank 404): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:45PM-9:00PM ET' (Up) from Whale Rank 404 (Rank 404): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:45PM-9:00PM ET' (Down) from Whale Rank 395 (Rank 395): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:55PM-9:00PM ET' (Down) from vnpspa55 (Rank 655): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:55PM-9:00PM ET' (Up) from antsaslyku (Rank 941): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:45PM-9:00PM ET' (Down) from Whale Rank 404 (Rank 404): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Exact Score: C\u00f4te d'Ivoire 1 - 1 Ecuador?' (Yes) from suntori (Rank 99) @ 0.080 USDC: Outside price range [0.70, 0.95] [Win Prob: 8.0%]"
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:55PM-9:00PM ET' (Up) from suntori (Rank 99): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:55PM-9:00PM ET' (Down) from kbvcerthui (Rank 928): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Solana Up or Down - June 14, 8:45PM-9:00PM ET' (Down) from OhioRiskManagement (Rank 959): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Hurricanes vs. Golden Knights' (Hurricanes) from swisstony: Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:45PM-9:00PM ET' (Down) from Whale Rank 404 (Rank 404): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Spread: C\u00f4te d'Ivoire (-1.5)' (Ecuador) from swisstony @ 0.958 USDC: Outside price range [0.70, 0.95] [Win Prob: 95.8%]"
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 9:00PM-9:05PM ET' (Up) from suntori (Rank 99): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Will Crude Oil (CL) hit (HIGH) $115 by end of June?' (No) from 0xC97b0b2A2547bB3eD57167092EF8a6e816C347E5-1770003388001 (Rank 712) @ 0.987 USDC: Outside price range [0.70, 0.95] [Win Prob: 98.7%]"
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:55PM-9:00PM ET' (Down) from Whale Rank 435 (Rank 435): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:55PM-9:00PM ET' (Up) from neversmiling (Rank 306): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:45PM-9:00PM ET' (Down) from Whale Rank 395 (Rank 395): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:45PM-9:00PM ET' (Up) from Bonereaper (Rank 79): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Sweden vs. Tunisia: Both Teams to Score' (Yes) from suntori (Rank 99): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:55PM-9:00PM ET' (Up) from Bonereaper (Rank 79): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Exact Score: C\u00f4te d'Ivoire 1 - 0 Ecuador?' (Yes) from suntori (Rank 99): Market liquidity (4,297.2 USDC) is below minimum of 5,000.0 USDC."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Sweden vs. Tunisia: Sweden 1st Half O/U 0.5' (Over) from mooseborzoi (Rank 3): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Solana Up or Down - June 14, 8:55PM-9:00PM ET' (Up) from Whale Rank 395 (Rank 395): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Solana Up or Down - June 14, 8:45PM-9:00PM ET' (Up) from Whale Rank 395 (Rank 395): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Ethereum Up or Down - June 14, 8:45PM-9:00PM ET' (Up) from OhioRiskManagement (Rank 959): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Will C\u00f4te d'Ivoire vs. Ecuador end in a draw?' (Yes) from suntori (Rank 99): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Hurricanes vs. Golden Knights' (Hurricanes) from igot50k (Rank 471): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Solana Up or Down - June 14, 8:55PM-9:00PM ET' (Up) from Polkadot-Frog (Rank 389): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Solana Up or Down - June 14, 8:55PM-9:00PM ET' (Up) from Whale Rank 404 (Rank 404): Crypto bets are excluded."
+    },
+    {
+      "timestamp": 1781485263,
+      "message": "Skipped BUY on 'Bitcoin Up or Down - June 14, 8:55PM-9:00PM ET' (Up) from UUDDLRLR (Rank 396): Crypto bets are excluded."
     }
   ]
 }

@@ -47,6 +47,8 @@ class SettingsUpdate(BaseModel):
     max_holding_hours: Optional[int] = None
     take_profit_pct: Optional[float] = None
     stop_loss_pct: Optional[float] = None
+    min_whale_trade_size: Optional[float] = None
+    max_market_exposure: Optional[float] = None
     min_market_liquidity: Optional[float] = None
     min_market_volume: Optional[float] = None
     enable_value_plays: Optional[bool] = None
@@ -168,6 +170,12 @@ def update_settings(update: SettingsUpdate):
         
     if update.stop_loss_pct is not None:
         cfg["stop_loss_pct"] = max(0.0, update.stop_loss_pct)
+
+    if update.min_whale_trade_size is not None:
+        cfg["min_whale_trade_size"] = max(0.0, update.min_whale_trade_size)
+
+    if update.max_market_exposure is not None:
+        cfg["max_market_exposure"] = max(1.0, update.max_market_exposure)
         
     config.save_config(cfg)
     return {"status": "success", "config": cfg}

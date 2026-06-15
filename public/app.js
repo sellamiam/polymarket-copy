@@ -296,6 +296,10 @@ function renderDashboard(data) {
     if (document.activeElement !== setTakeProfit) setTakeProfit.value = config.take_profit_pct !== undefined ? config.take_profit_pct : 15.0;
     const setStopLoss = document.getElementById('settings-stop-loss-pct');
     if (document.activeElement !== setStopLoss) setStopLoss.value = config.stop_loss_pct !== undefined ? config.stop_loss_pct : 5.0;
+    const setMinWhaleSize = document.getElementById('settings-min-whale-trade-size');
+    if (document.activeElement !== setMinWhaleSize) setMinWhaleSize.value = config.min_whale_trade_size !== undefined ? config.min_whale_trade_size : 500.0;
+    const setMaxExposure = document.getElementById('settings-max-market-exposure');
+    if (document.activeElement !== setMaxExposure) setMaxExposure.value = config.max_market_exposure !== undefined ? config.max_market_exposure : 500.0;
     const setMinLiquidity = document.getElementById('settings-min-liquidity');
     if (document.activeElement !== setMinLiquidity) setMinLiquidity.value = config.min_market_liquidity !== undefined ? config.min_market_liquidity : 5000;
     const setMinVolume = document.getElementById('settings-min-volume');
@@ -679,6 +683,8 @@ async function saveGlobalSettings(e) {
     const maxHolding = parseInt(document.getElementById('settings-max-holding-hours').value);
     const takeProfit = parseFloat(document.getElementById('settings-take-profit-pct').value);
     const stopLoss = parseFloat(document.getElementById('settings-stop-loss-pct').value);
+    const minWhaleSize = parseFloat(document.getElementById('settings-min-whale-trade-size').value);
+    const maxExposure = parseFloat(document.getElementById('settings-max-market-exposure').value);
     const minLiquidity = parseFloat(document.getElementById('settings-min-liquidity').value);
     const minVolume = parseFloat(document.getElementById('settings-min-volume').value);
     const excludeSports = document.getElementById('settings-exclude-sports').checked;
@@ -705,6 +711,8 @@ async function saveGlobalSettings(e) {
                 max_holding_hours: maxHolding,
                 take_profit_pct: takeProfit,
                 stop_loss_pct: stopLoss,
+                min_whale_trade_size: minWhaleSize,
+                max_market_exposure: maxExposure,
                 min_market_liquidity: minLiquidity,
                 min_market_volume: minVolume,
                 exclude_sports_bets: excludeSports,

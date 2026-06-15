@@ -18275,5 +18275,7 @@
   "max_holding_hours": 24,
   "take_profit_pct": 12.0,
   "stop_loss_pct": 5.0,
-  "exclude_weather_bets": true
+  "exclude_weather_bets": true,
+  "min_whale_trade_size": 500.0,
+  "max_market_exposure": 500.0
 }

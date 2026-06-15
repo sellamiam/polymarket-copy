@@ -443,6 +443,24 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Anti-Spam & Portfolio Protection Box -->
+                            <div style="margin-top: 1rem; padding: 1rem; border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.2); background: rgba(239, 68, 68, 0.04);">
+                                <div style="font-size: 0.75rem; font-weight: 600; color: #ef4444; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
+                                    <i class="fa-solid fa-shield-halved"></i> Anti-Spam &amp; Portfolio Protection
+                                </div>
+                                <div class="grid-2-columns" style="margin-top: 0; padding: 0;">
+                                    <div class="form-group">
+                                        <label for="settings-min-whale-trade-size">Min Whale Trade Size (USDC)</label>
+                                        <input type="number" id="settings-min-whale-trade-size" class="form-control" value="500" min="0" required>
+                                        <small class="form-help">Filters out high-frequency trading bots (e.g. Corlys). Only replicates trades where the whale bets at least this much. Recommend 500.</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="settings-max-market-exposure">Max Exposure per Market (USDC)</label>
+                                        <input type="number" id="settings-max-market-exposure" class="form-control" value="500" min="1" required>
+                                        <small class="form-help">Maximum USDC to invest in any single contract (condition ID). Prevents over-allocating into the same event.</small>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="grid-2-columns" style="margin-top: 1rem; padding: 0; align-items: center;">
                                 <div class="form-group">
                                     <label for="settings-copy-only-best" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">

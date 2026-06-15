@@ -436,6 +436,13 @@ def run_simulation_iteration(config, state):
         slug = act.get("slug", "")
         condition_id = act.get("conditionId", "")
 
+        # Check minimum whale trade size to filter out high-frequency bot spam
+        min_whale_size = float(config.get("min_whale_trade_size", 500.0))
+        if usdc_size < min_whale_size:
+            print(f"[ENGINE] Skipped micro-trade on '{title}' ({outcome}) from {name}: {usdc_size:.2f} USDC is below minimum {min_whale_size:.2f} USDC.")
+            state["processed_tx_hashes"].append(tx_hash)
+            continue
+
         # Fast path check for crypto/sports in title/slug to avoid unnecessary API requests and noise
         title_lower = title.lower()
         slug_lower = slug.lower()
@@ -678,6 +685,41 @@ def run_simulation_iteration(config, state):
             if niche_bypass:
                 niche_bonus = copy_usdc * 0.25
                 copy_usdc += niche_bonus
+
+            # Check opposing outcome index protection and exposure cap
+            max_exposure = float(config.get("max_market_exposure", 500.0))
+            existing_pos = None
+            
+            # Find if we already hold a position for this market (same condition_id)
+            for tid, p in state["positions"].items():
+                if p.get("condition_id") == condition_id:
+                    existing_pos = p
+                    break
+                    
+            if existing_pos:
+                # 1. Opposing outcome index check
+                if existing_pos.get("outcome_index") != outcome_index:
+                    print(f"[ENGINE] Skipped opposing outcome on '{title}': already hold {existing_pos['outcome']} (index {existing_pos['outcome_index']}), skipped {outcome} (index {outcome_index})")
+                    state["processed_tx_hashes"].append(tx_hash)
+                    continue
+                    
+                # 2. Exposure cap check
+                invested = existing_pos.get("invested_usdc", 0.0)
+                if invested >= max_exposure:
+                    print(f"[ENGINE] Skipped copy on '{title}': already reached exposure cap of {max_exposure} USDC (current: {invested:.2f} USDC)")
+                    state["processed_tx_hashes"].append(tx_hash)
+                    continue
+                else:
+                    # Scale down trade size if it exceeds the remaining exposure space
+                    remaining = max_exposure - invested
+                    if copy_usdc > remaining:
+                        copy_usdc = remaining
+                        print(f"[ENGINE] Scaled down trade size on '{title}' to {copy_usdc:.2f} USDC to respect exposure cap of {max_exposure} USDC")
+            else:
+                # New position: ensure initial size doesn't exceed the cap
+                if copy_usdc > max_exposure:
+                    copy_usdc = max_exposure
+                    print(f"[ENGINE] Scaled down initial trade size on '{title}' to {copy_usdc:.2f} USDC to respect exposure cap of {max_exposure} USDC")
 
             # Settle size
             invest_usdc = min(copy_usdc, state["cash_usdc"])
