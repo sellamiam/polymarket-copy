@@ -13,7 +13,7 @@ STATE_PATH = os.path.join(DATA_DIR, "state.json")
 def main():
     print(f"Fetching live state from {LIVE_URL}...")
     try:
-        response = requests.get(f"{LIVE_URL}/api/state", timeout=15)
+        response = requests.get(f"{LIVE_URL}/api/state", timeout=120)
         response.raise_for_status()
         data = response.json()
     except Exception as e:
