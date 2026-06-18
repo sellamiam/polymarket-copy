@@ -414,6 +414,8 @@ def run_simulation_iteration(config, state):
 
         trader = active_traders_map[address]
         name = trader["name"]
+        
+        is_vitalik = (address == "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92")
 
         side = act.get("side")
         if side not in ["BUY", "SELL"]:
@@ -465,24 +467,24 @@ def run_simulation_iteration(config, state):
             if any(kw in title_lower or kw in slug_lower for kw in weather_keywords):
                 is_weather_fast = True
 
-        if is_crypto_fast:
+        if is_crypto_fast and not is_vitalik:
             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Crypto bets are excluded.")
             state["processed_tx_hashes"].append(tx_hash)
             continue
             
-        if is_sports_fast:
+        if is_sports_fast and not is_vitalik:
             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Sports bets are excluded.")
             state["processed_tx_hashes"].append(tx_hash)
             continue
 
-        if is_weather_fast:
+        if is_weather_fast and not is_vitalik:
             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Weather/temperature bets are excluded.")
             state["processed_tx_hashes"].append(tx_hash)
             continue
 
         # Check minimum whale trade size to filter out high-frequency bot spam
         min_whale_size = float(config.get("min_whale_trade_size", 500.0))
-        if usdc_size < min_whale_size:
+        if usdc_size < min_whale_size and not is_vitalik:
             print(f"[ENGINE] Skipped micro-trade on '{title}' ({outcome}) from {name}: {usdc_size:.2f} USDC is below minimum {min_whale_size:.2f} USDC.")
             if usdc_size >= 1.0:
                 add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Trade size ({usdc_size:.1f} USDC) is below minimum of {min_whale_size:.1f} USDC.")
@@ -527,7 +529,7 @@ def run_simulation_iteration(config, state):
             max_price = float(config.get("max_copy_price", 0.95))
             is_value_play = False
             
-            if price < min_price or price > max_price:
+            if (price < min_price or price > max_price) and not is_vitalik:
                 if config.get("enable_value_plays", True) and 0.10 <= price <= 0.60:
                     is_value_play = True
                     add_log(state, f"VALUE PLAY: '{title}' ({outcome}) @ {price:.3f} USDC qualifies as a value play (potential 1.6x-10x payout).")
@@ -554,12 +556,12 @@ def run_simulation_iteration(config, state):
                         min_liq = float(config.get("min_market_liquidity", 5000.0))
                         min_vol = float(config.get("min_market_volume", 20000.0))
                         
-                        if liquidity < min_liq:
+                        if liquidity < min_liq and not is_vitalik:
                             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Market liquidity ({liquidity:,.1f} USDC) is below minimum of {min_liq:,.1f} USDC.")
                             state["processed_tx_hashes"].append(tx_hash)
                             continue
                             
-                        if volume < min_vol:
+                        if volume < min_vol and not is_vitalik:
                             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Market volume ({volume:,.1f} USDC) is below minimum of {min_vol:,.1f} USDC.")
                             state["processed_tx_hashes"].append(tx_hash)
                             continue
@@ -584,7 +586,7 @@ def run_simulation_iteration(config, state):
                         if "spacex" in question_lower or "spacex" in slug_lower:
                             is_crypto = False
 
-                        if is_crypto:
+                        if is_crypto and not is_vitalik:
                             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Crypto bets are excluded.")
                             state["processed_tx_hashes"].append(tx_hash)
                             continue
@@ -620,7 +622,7 @@ def run_simulation_iteration(config, state):
                         if any(kw in question_lower or kw in slug_lower for kw in sports_keywords):
                             is_sports = True
 
-                        if is_sports:
+                        if is_sports and not is_vitalik:
                             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Sports bets are excluded.")
                             state["processed_tx_hashes"].append(tx_hash)
                             continue
@@ -635,7 +637,7 @@ def run_simulation_iteration(config, state):
                         if any(kw in question_lower or kw in slug_lower or kw in title_lower for kw in weather_keywords):
                             is_weather = True
                             
-                        if is_weather:
+                        if is_weather and not is_vitalik:
                             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Weather/temperature bets are excluded.")
                             state["processed_tx_hashes"].append(tx_hash)
                             continue
@@ -648,7 +650,7 @@ def run_simulation_iteration(config, state):
                             now_utc = datetime.datetime.now(datetime.timezone.utc)
                             delta = end_dt - now_utc
                             days_left = delta.total_seconds() / (24 * 3600)
-                            if days_left > max_days:
+                            if days_left > max_days and not is_vitalik:
                                 add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Resolves in {days_left:.1f} days, exceeding limit of {max_days} days.")
                                 state["processed_tx_hashes"].append(tx_hash)
                                 continue
@@ -672,7 +674,7 @@ def run_simulation_iteration(config, state):
             # Check best wins filter if enabled
             if config.get("copy_only_best_wins", False):
                 min_best_score = int(config.get("min_best_bet_score", 65))
-                if best_bet_score < min_best_score:
+                if best_bet_score < min_best_score and not is_vitalik:
                     add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Score {best_bet_score} is below minimum Best Bet Score {min_best_score} [Win Prob: {win_probability:.1f}%, Conviction: {conviction_score}%]")
                     state["processed_tx_hashes"].append(tx_hash)
                     continue
