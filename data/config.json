@@ -6,6 +6,456 @@
   "simulation_active": true,
   "followed_traders": [
     {
+      "address": "0xa4b1eac99a65ed70e3d560126febe1086e6c5143",
+      "name": "Whale Rank 94 (WEEK Rank 94)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 1320566.273603525,
+      "vol": 5607717.273387,
+      "rank": 1
+    },
+    {
+      "address": "0xe2dd72d7ca976e65495d75b8a16ba9eda62b4a23",
+      "name": "Whale Rank 88 (WEEK Rank 88)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 1244962.61790881,
+      "vol": 3792234.457598,
+      "rank": 2
+    },
+    {
+      "address": "0xf0318c32136c2db7fec88b84869aee6a1106c80c",
+      "name": "BreakTheBank (Rank 36)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 1158329.7642967924,
+      "vol": 8200108.011669001,
+      "rank": 3
+    },
+    {
+      "address": "0x709e8dcb133555794decc598e07f2c923b8366f5",
+      "name": "0xd4aa6f8e91cfea29b66a48ebff52814 (Rank 77)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 641825.6741181582,
+      "vol": 4106466.5971819996,
+      "rank": 4
+    },
+    {
+      "address": "0xe549581668a5751c1972d3ad2d1991d900bd2d54",
+      "name": "Allezpapa (Rank 761)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 362783.9062137082,
+      "vol": 4796664.155565,
+      "rank": 5
+    },
+    {
+      "address": "0xcd65c3279408a33866a9129bed6943064cb6ee96",
+      "name": "NiNo999 (Rank 40)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 296630.63577083126,
+      "vol": 5726265.185327,
+      "rank": 6
+    },
+    {
+      "address": "0xc430e5b17128df7ce78d69fa28bc7de038641ebf",
+      "name": "Gourmet1 (Rank 621)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 242288.14778162504,
+      "vol": 1203257.9775639998,
+      "rank": 7
+    },
+    {
+      "address": "0x5966db1fe50763c9e3c014d756369bad07e1f804",
+      "name": "0x5966Db1fE50763C9e3C014d756369BAd07E1F804-1777648534241 (Rank 109)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 204017.5664168354,
+      "vol": 1960926.004422,
+      "rank": 8
+    },
+    {
+      "address": "0xa7b7505abe2fdcc497c00074534f7fbd7e07962e",
+      "name": "gud.hl (WEEK Rank 689)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 197665.78646595217,
+      "vol": 1516645.72,
+      "rank": 9
+    },
+    {
+      "address": "0x557deed21fffb32eb650af4699df0f6a93801fda",
+      "name": "otsosiusa (WEEK Rank 10)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 186370.39110298292,
+      "vol": 729012.7007350001,
+      "rank": 10
+    },
+    {
+      "address": "0x987b441a20dd4aa4ba6d53069e852e7f820adf43",
+      "name": "lighthousefamily (Rank 53)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 183356.39183727512,
+      "vol": 425110.89375000005,
+      "rank": 11
+    },
+    {
+      "address": "0x8cb4ca5af7d9361322340bb307a828d288c91057",
+      "name": "Whale Rank 13 (Rank 13)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 179999.64980920963,
+      "vol": 1392112.5697589999,
+      "rank": 12
+    },
+    {
+      "address": "0x2e69bb3db7ffcedc4f83b56fe3e6f93371d1858d",
+      "name": "texasdolly (Rank 17)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 133616.5642635915,
+      "vol": 828670.9751319999,
+      "rank": 13
+    },
+    {
+      "address": "0xa8a53259e60402b0001953f49f66ccb47d35122b",
+      "name": "Paracellus (Rank 266)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 123007.16787463456,
+      "vol": 2144750.257417,
+      "rank": 14
+    },
+    {
+      "address": "0x9b89ef1f344d3e17b37ccdff3bccf62d04f04244",
+      "name": "Woaifacai (WEEK Rank 298)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 109947.34942348569,
+      "vol": 3511967.2948249998,
+      "rank": 15
+    },
+    {
+      "address": "0xa66c59e25b7efe25bb7bdeb25227c998da4bcd67",
+      "name": "trillionaire (Rank 85)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 109538.29970857718,
+      "vol": 887016.1745159999,
+      "rank": 16
+    },
+    {
+      "address": "0x3aeabc15cb01dd5f75b7eb152935f4d24d04a649",
+      "name": "BingFing (WEEK Rank 17)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 109182.31387,
+      "vol": 626246.8399999999,
+      "rank": 17
+    },
+    {
+      "address": "0x81da605d7dac06478367ed1bae0593b7791ca109",
+      "name": "gardenshed (Rank 18)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 106458.6379911548,
+      "vol": 441078.09247899987,
+      "rank": 18
+    },
+    {
+      "address": "0x751a2b86cab503496efd325c8344e10159349ea1",
+      "name": "Sharky6999 (Rank 991)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 93625.35841453308,
+      "vol": 732718.95502,
+      "rank": 22
+    },
+    {
+      "address": "0xa4fd70a8d79c3433ca2eb967ee605a356986748b",
+      "name": "alexdave888 (WEEK Rank 23)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 88547.10099596487,
+      "vol": 588506.7669180001,
+      "rank": 23
+    },
+    {
+      "address": "0xfc25f141ed27bb1787338d2c4e7f51e3a15e1f7f",
+      "name": "Sisyphus. (Rank 419)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 87671.72763329899,
+      "vol": 1894487.716665,
+      "rank": 24
+    },
+    {
+      "address": "0x8b3234f9027f4e994e949df4b48b90ab79015950",
+      "name": "Gametheory-394 (Rank 842)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 79748.35414416748,
+      "vol": 473645.156605,
+      "rank": 26
+    },
+    {
+      "address": "0xde294a409a8870b3029b935e451a696e13ef89b1",
+      "name": "boobaz (WEEK Rank 27)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 78698.06904277997,
+      "vol": 403008.14216299995,
+      "rank": 27
+    },
+    {
+      "address": "0x4bff30af91642dc7d2b19a8664378fe55c45fc26",
+      "name": "Sassy-Bucket (Rank 308)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 72586.73176076915,
+      "vol": 2360044.071127,
+      "rank": 28
+    },
+    {
+      "address": "0x26437896ed9dfeb2f69765edcafe8fdceaab39ae",
+      "name": "Latina (Rank 19)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 72371.44980174582,
+      "vol": 373261.42775200005,
+      "rank": 29
+    },
+    {
+      "address": "0x1f28a0404133776151339ff618c876b81a59266e",
+      "name": "vbv19 (Rank 350)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 71435.98050000006,
+      "vol": 629096.5517409999,
+      "rank": 30
+    },
+    {
+      "address": "0x412fe1a101554f0b382181c3af932e4b2d8030fa",
+      "name": "GrizzliesSuck (MONTH Rank 194)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 68733.43344759449,
+      "vol": 422737.993269,
+      "rank": 31
+    },
+    {
+      "address": "0x3dfb153c197d4c19d3b31c1ecd2c7b6860eeabaf",
+      "name": "0x3DFb153c197D4C19D3B31c1ecD2c7B6860eeabAf-1722957908185 (WEEK Rank 9)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 65502.074189582374,
+      "vol": 5107149.258547,
+      "rank": 32
+    },
+    {
+      "address": "0xd095e63d9c3e156bbd569c41cbc260c79b0edcd9",
+      "name": "joshlick9321 (WEEK Rank 33)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 64740.56643886781,
+      "vol": 490786.612826,
+      "rank": 33
+    },
+    {
+      "address": "0x5f659bccbc353dbf7bcdffdee73bee60bb482036",
+      "name": "0x5F659BcCBC353dBf7BcdffDEE73beE60bB482036-1780496231400 (Rank 73)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 63729.92510595289,
+      "vol": 2111795.5660570003,
+      "rank": 34
+    },
+    {
+      "address": "0xac4773707daddd3792efed5a91f5ec7651a7d234",
+      "name": "HBAFlover98 (Rank 56)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 62806.76759120615,
+      "vol": 351975.72489099996,
+      "rank": 35
+    },
+    {
+      "address": "0xc660ae71765d0d9eaf5fa8328c1c959841d2bd28",
+      "name": "BoggsFromShawshank (Rank 249)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 61833.57782429535,
+      "vol": 867981.5885109999,
+      "rank": 36
+    },
+    {
+      "address": "0x0a6356d95e871f7288063d56a2db518ea004fc03",
+      "name": "f3arless (Rank 827)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 61263.207276173984,
+      "vol": 874561.517649,
+      "rank": 37
+    },
+    {
+      "address": "0x2d7be5170a8026c18709eaea1027c7f12e8ce2ce",
+      "name": "caicai888888 (Rank 95)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 60413.172366615385,
+      "vol": 1484502.230968,
+      "rank": 38
+    },
+    {
+      "address": "0xf59db7ef18f784e17862c182d1134d5c8df38f85",
+      "name": "kfkNBApro1 (WEEK Rank 39)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 60229.60103999998,
+      "vol": 1079425.46,
+      "rank": 39
+    },
+    {
+      "address": "0xed2f4c1a5b2ea42eb0fbc9c03adc267a04c39897",
+      "name": "0xeD2F4C1a5b2Ea42eb0FbC9c03ADc267a04C39897-1781388683963 (WEEK Rank 539)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 52932.40840937931,
+      "vol": 137384.095736,
+      "rank": 40
+    },
+    {
+      "address": "0x06f22ff6d9362ce82243f8ca594c97485d9c1269",
+      "name": "vkvkgjerkgk (WEEK Rank 464)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 51668.91372103624,
+      "vol": 3829883.0867419997,
+      "rank": 41
+    },
+    {
+      "address": "0x8b887c9ad761b851d9e14510ea9aae04a01e8f33",
+      "name": "lluucckkyy (Rank 84)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 47070.794040704524,
+      "vol": 437478.44207600004,
+      "rank": 43
+    },
+    {
+      "address": "0x594d0c9a3eb7f958b9fc100e3088ffc5de99059d",
+      "name": "Whale Rank 32 (Rank 32)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 46328.65830751427,
+      "vol": 264774.78045,
+      "rank": 44
+    },
+    {
+      "address": "0xd776f0a066fd3014ecfac89cfd414440982bffeb",
+      "name": "bomber (Rank 174)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 44772.2776693551,
+      "vol": 279105.03906099993,
+      "rank": 45
+    },
+    {
+      "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
+      "name": "cigarettes",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 42134.320211001635,
+      "vol": 1735065.2409529993,
+      "rank": 46
+    },
+    {
+      "address": "0xf501ea4171a1d703fe71abfa436283144ee78063",
+      "name": "0xf501ea4171A1D703FE71ABFa436283144eE78063-1782055378919 (WEEK Rank 47)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 42068.15697736418,
+      "vol": 395612.13222599996,
+      "rank": 47
+    },
+    {
+      "address": "0x84cfffc3f16dcc353094de30d4a45226eccd2f63",
+      "name": "mooseborzoi (Rank 3)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 41138.958552382224,
+      "vol": 2670871.695627001,
+      "rank": 48
+    },
+    {
+      "address": "0xa16a1302ca05463f30faebeb5c045767fde233a1",
+      "name": "KimiTalibantonelli (MONTH Rank 941)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 40450.51213449023,
+      "vol": 805024.3419239997,
+      "rank": 49
+    },
+    {
+      "address": "0xe734e7bf7cfb9e464681f71822f6c2f6be514f0c",
+      "name": "boyau (Rank 143)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 39781.74409004878,
+      "vol": 1215174.1368890002,
+      "rank": 50
+    },
+    {
       "address": "0x96cfcb0c30942cfcd1cdf76c7d408794d66b1acb",
       "name": "mintblade (WEEK Rank 6)",
       "enabled": true,
@@ -36,16 +486,6 @@
       "rank": 3
     },
     {
-      "address": "0xf0318c32136c2db7fec88b84869aee6a1106c80c",
-      "name": "BreakTheBank (Rank 36)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 5772013.425911361,
-      "vol": 31651176.433016002,
-      "rank": 4
-    },
-    {
       "address": "0x204f72f35326db932158cba6adff0b9a1da95e14",
       "name": "swisstony",
       "enabled": true,
@@ -54,16 +494,6 @@
       "pnl": 10171412.585834373,
       "vol": 982417428.3069247,
       "rank": 4
-    },
-    {
-      "address": "0xcd65c3279408a33866a9129bed6943064cb6ee96",
-      "name": "NiNo999 (Rank 40)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 1055889.9588451164,
-      "vol": 9456643.946977999,
-      "rank": 6
     },
     {
       "address": "0x2e25b222e2080c377fc1fb2b9f926315f0f4d49e",
@@ -76,23 +506,13 @@
       "rank": 7
     },
     {
-      "address": "0x709e8dcb133555794decc598e07f2c923b8366f5",
-      "name": "0xd4aa6f8e91cfea29b66a48ebff52814 (Rank 77)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 1516151.5749431031,
-      "vol": 30703370.832902,
-      "rank": 91
-    },
-    {
       "address": "0x89dd49bf87c41be422927372a0b75c6ab577f662",
       "name": "0x8139E8F571eb4372ecc8498771f6a319Cb5bBe43-1767828467116 (WEEK Rank 38)",
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 930578.7785999146,
-      "vol": 9384641.926184,
+      "pnl": 897750.91388014,
+      "vol": 9938119.082237,
       "rank": 9
     },
     {
@@ -106,16 +526,6 @@
       "rank": 53
     },
     {
-      "address": "0x8cb4ca5af7d9361322340bb307a828d288c91057",
-      "name": "Whale Rank 13 (Rank 13)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 1651017.44282148,
-      "vol": 7683304.906718999,
-      "rank": 9
-    },
-    {
       "address": "0x03e8a544e97eeff5753bc1e90d46e5ef22af1697",
       "name": "weflyhigh",
       "enabled": true,
@@ -124,6 +534,16 @@
       "pnl": 2954795.406830166,
       "vol": 128300674.95666796,
       "rank": 41
+    },
+    {
+      "address": "0x97cb27132b9dd66a2ef49390893cbeb26c3fe4d0",
+      "name": "YoYo8899 (Rank 50)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 815984.5675640085,
+      "vol": 2668371.30823,
+      "rank": 17
     },
     {
       "address": "0xc41d736bded9ed1accd6a44235039266219774fd",
@@ -136,6 +556,16 @@
       "rank": 128
     },
     {
+      "address": "0x2a69660046d7acc4ab204d7cc5ba78b0776cd2f7",
+      "name": "UpTheBlues (WEEK Rank 18)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 579426.5497493332,
+      "vol": 10161238.439404998,
+      "rank": 15
+    },
+    {
       "address": "0x349606c1b77f3ba668879cbc9347f15a44cf8fc4",
       "name": "skk1ch (Rank 8)",
       "enabled": true,
@@ -143,27 +573,7 @@
       "sizing_value": 100.0,
       "pnl": 575858.1521102036,
       "vol": 8293964.004984001,
-      "rank": 14
-    },
-    {
-      "address": "0x2a69660046d7acc4ab204d7cc5ba78b0776cd2f7",
-      "name": "UpTheBlues (WEEK Rank 18)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 570307.8378762327,
-      "vol": 9935634.299404997,
-      "rank": 15
-    },
-    {
-      "address": "0x97cb27132b9dd66a2ef49390893cbeb26c3fe4d0",
-      "name": "YoYo8899 (Rank 50)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 815984.5675640085,
-      "vol": 2668371.30823,
-      "rank": 17
+      "rank": 16
     },
     {
       "address": "0xfd22b8843ae03a33a8a4c5e39ef1e5ff33ebad91",
@@ -186,16 +596,6 @@
       "rank": 71
     },
     {
-      "address": "0x987b441a20dd4aa4ba6d53069e852e7f820adf43",
-      "name": "lighthousefamily (Rank 53)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 602562.3064932099,
-      "vol": 2055695.2193530002,
-      "rank": 282
-    },
-    {
       "address": "0x1b47e9b128e6b671edebfb2cac23dd3efc40d814",
       "name": "sbsigner (Rank 127)",
       "enabled": true,
@@ -204,6 +604,16 @@
       "pnl": 1353689.917628086,
       "vol": 17801750.626488,
       "rank": 104
+    },
+    {
+      "address": "0x2005d16a84ceefa912d4e380cd32e7ff827875ea",
+      "name": "RN1",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 9901129.199839475,
+      "vol": 682994297.5557202,
+      "rank": 5
     },
     {
       "address": "0x5c3a1a602848565bb16165fcd460b00c3d43020b",
@@ -226,26 +636,6 @@
       "rank": 43
     },
     {
-      "address": "0x2005d16a84ceefa912d4e380cd32e7ff827875ea",
-      "name": "RN1",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 9901129.199839475,
-      "vol": 682994297.5557202,
-      "rank": 5
-    },
-    {
-      "address": "0xc660ae71765d0d9eaf5fa8328c1c959841d2bd28",
-      "name": "BoggsFromShawshank (Rank 249)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 613971.2978156577,
-      "vol": 8219903.5459630005,
-      "rank": 28
-    },
-    {
       "address": "0xcf6c5492124794394dd9eac46498a8babbe47e66",
       "name": "one8tyfive (Rank 32)",
       "enabled": true,
@@ -261,29 +651,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 331551.865886213,
+      "pnl": 331551.86588621116,
       "vol": 2901425.199594,
       "rank": 26
-    },
-    {
-      "address": "0x4bff30af91642dc7d2b19a8664378fe55c45fc26",
-      "name": "Sassy-Bucket (Rank 308)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 638354.9713903768,
-      "vol": 15075084.365825001,
-      "rank": 24
-    },
-    {
-      "address": "0x5966db1fe50763c9e3c014d756369bad07e1f804",
-      "name": "0x5966Db1fE50763C9e3C014d756369BAd07E1F804-1777648534241 (Rank 109)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 1998077.946320338,
-      "vol": 21825873.184975002,
-      "rank": 61
     },
     {
       "address": "0xbaa2bcb5439e985ce4ccf815b4700027d1b92c73",
@@ -301,19 +671,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 397330.94455901097,
-      "vol": 56169786.90748699,
-      "rank": 57
-    },
-    {
-      "address": "0xe734e7bf7cfb9e464681f71822f6c2f6be514f0c",
-      "name": "boyau (Rank 143)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 749577.3179707194,
-      "vol": 27910950.011272,
-      "rank": 213
+      "pnl": 407991.3511840074,
+      "vol": 56544533.20567498,
+      "rank": 55
     },
     {
       "address": "0x780a7539200e74e882dde303952029bda21684f0",
@@ -326,23 +686,13 @@
       "rank": 331
     },
     {
-      "address": "0xa7b7505abe2fdcc497c00074534f7fbd7e07962e",
-      "name": "gud.hl (WEEK Rank 689)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 222753.2748099435,
-      "vol": 10837465.934122002,
-      "rank": 94
-    },
-    {
       "address": "0xdb859a551fcf56e49416160911476bea7307152f",
       "name": "AV23IUa (Rank 141)",
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 197717.2171791299,
-      "vol": 3264572.333212,
+      "pnl": 208788.61487329908,
+      "vol": 3284187.102818,
       "rank": 34
     },
     {
@@ -361,19 +711,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 287263.57417231984,
-      "vol": 1712507.252125,
+      "pnl": 287442.07207231986,
+      "vol": 1712507.2521249999,
       "rank": 73
-    },
-    {
-      "address": "0x34f62ce5beaf9b3b325726ec4b6c733df8534535",
-      "name": "PatienceCapital (Rank 196)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 247512.73209540197,
-      "vol": 2702008.827217,
-      "rank": 724
     },
     {
       "address": "0x23d81ba9371e576015c1e562db09c689f56b0288",
@@ -384,6 +724,16 @@
       "pnl": 340048.53497130313,
       "vol": 5126913.723908,
       "rank": 514
+    },
+    {
+      "address": "0x34f62ce5beaf9b3b325726ec4b6c733df8534535",
+      "name": "PatienceCapital (Rank 196)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 247512.73209540197,
+      "vol": 2702008.827217,
+      "rank": 724
     },
     {
       "address": "0x5bdd63899629bcfa0375496df6fdc271c18dc4cb",
@@ -401,19 +751,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 175100.9845974779,
-      "vol": 3868415.523068,
+      "pnl": 173135.05258608845,
+      "vol": 3876509.513491,
       "rank": 40
-    },
-    {
-      "address": "0x3dfb153c197d4c19d3b31c1ecd2c7b6860eeabaf",
-      "name": "0x3DFb153c197D4C19D3B31c1ecD2c7B6860eeabAf-1722957908185 (WEEK Rank 9)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 171628.42018631182,
-      "vol": 7553745.241600001,
-      "rank": 41
     },
     {
       "address": "0x9703676286b93c2eca71ca96e8757104519a69c2",
@@ -431,19 +771,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 212722.50690218905,
+      "pnl": 207142.50690218905,
       "vol": 2608799.209473,
-      "rank": 99
-    },
-    {
-      "address": "0x37e4728b3c4607fb2b3b205386bb1d1fb1a8c991",
-      "name": "SemyonMarmeladov (WEEK Rank 48)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 149050.84373637446,
-      "vol": 4143605.787064,
-      "rank": 44
+      "rank": 101
     },
     {
       "address": "0xdf17f4a8dd01a4cfa6fc3da323a2baee5f8697d1",
@@ -456,14 +786,14 @@
       "rank": 190
     },
     {
-      "address": "0x412fe1a101554f0b382181c3af932e4b2d8030fa",
-      "name": "GrizzliesSuck (MONTH Rank 194)",
+      "address": "0x37e4728b3c4607fb2b3b205386bb1d1fb1a8c991",
+      "name": "SemyonMarmeladov (WEEK Rank 48)",
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 194288.49058558673,
-      "vol": 2213224.5145900003,
-      "rank": 110
+      "pnl": 143702.48652272852,
+      "vol": 4291561.724544,
+      "rank": 45
     },
     {
       "address": "0x44c1dfe43260c94ed4f1d00de2e1f80fb113ebc1",
@@ -476,16 +806,6 @@
       "rank": 48
     },
     {
-      "address": "0x83255595ba1fadd2e734cb30a0fb8110301a19cc",
-      "name": "Mind.The.Gap (Rank 308)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 188461.47880795196,
-      "vol": 4565608.721074,
-      "rank": 955
-    },
-    {
       "address": "0xdb83e85ffd22faa4009273034770f96ffc5b1e50",
       "name": "sentrio (ALL Rank 837)",
       "enabled": true,
@@ -496,34 +816,14 @@
       "rank": 632
     },
     {
-      "address": "0xc84f7e76ec28ef20e7773b7b4926bfb7378be0c5",
-      "name": "BrightStars (Rank 27)",
+      "address": "0x83255595ba1fadd2e734cb30a0fb8110301a19cc",
+      "name": "Mind.The.Gap (Rank 308)",
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 668584.999347539,
-      "vol": 18230600.587504,
-      "rank": 244
-    },
-    {
-      "address": "0x81da605d7dac06478367ed1bae0593b7791ca109",
-      "name": "gardenshed (Rank 18)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 891004.8954442608,
-      "vol": 2161836.6775680003,
-      "rank": 16
-    },
-    {
-      "address": "0x0c0e270cf879583d6a0142fc817e05b768d0434e",
-      "name": "The Spirit of Ukraine>UMA",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 1946724.6008046113,
-      "vol": 115960039.45748697,
-      "rank": 66
+      "pnl": 188461.47880795196,
+      "vol": 4565608.721074,
+      "rank": 955
     },
     {
       "address": "0x162f6fff88a52864f2ecc9833e58089d5254798d",
@@ -534,6 +834,16 @@
       "pnl": 487402.3654452948,
       "vol": 5953648.557271,
       "rank": 40
+    },
+    {
+      "address": "0x0c0e270cf879583d6a0142fc817e05b768d0434e",
+      "name": "The Spirit of Ukraine>UMA",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 1946724.6008046113,
+      "vol": 115960039.45748697,
+      "rank": 66
     },
     {
       "address": "0x39d3c773be30fcc73161fc6768f46d563a779ef0",
@@ -561,8 +871,8 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 258737.70161684236,
-      "vol": 47704301.052168,
+      "pnl": 260302.31276633206,
+      "vol": 48366742.48091599,
       "rank": 79
     },
     {
@@ -611,9 +921,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 150805.50065127457,
-      "vol": 4304996.469566,
-      "rank": 139
+      "pnl": 144015.53208015,
+      "vol": 4466283.47867,
+      "rank": 143
     },
     {
       "address": "0x5f8691f6ee3f48a29ec8f2d909dd20900cdfa769",
@@ -621,9 +931,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 105298.18979740226,
-      "vol": 16303649.523023002,
-      "rank": 62
+      "pnl": 109444.48361266292,
+      "vol": 16809882.984008998,
+      "rank": 190
     },
     {
       "address": "0xbca08c1bc204a34f2fddbe47b438b9bd42ac9705",
@@ -693,7 +1003,7 @@
       "sizing_value": 100.0,
       "pnl": 152644.99986098573,
       "vol": 476318.205958,
-      "rank": 137
+      "rank": 138
     },
     {
       "address": "0x6c3aae17140c5e3cde62380daaa323e38575c459",
@@ -771,8 +1081,8 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 123039.76615674532,
-      "vol": 2159603.941741,
+      "pnl": 123039.70667212852,
+      "vol": 2159615.8399440004,
       "rank": 165
     },
     {
@@ -791,9 +1101,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 129648.46451286426,
-      "vol": 1374023.6497399998,
-      "rank": 157
+      "pnl": 130930.82963706096,
+      "vol": 1452703.129422,
+      "rank": 154
     },
     {
       "address": "0xb1ca909e848cc24ec4e220ce1c453bc290c51705",
@@ -801,8 +1111,8 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 109671.2967877782,
-      "vol": 3764118.277257,
+      "pnl": 110625.79907833682,
+      "vol": 3764198.0572570004,
       "rank": 189
     },
     {
@@ -811,8 +1121,8 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 193322.45242976045,
-      "vol": 2198823.772152,
+      "pnl": 194739.25242976044,
+      "vol": 2239303.772152,
       "rank": 111
     },
     {
@@ -821,9 +1131,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 173104.84559868867,
-      "vol": 1968110.7351969997,
-      "rank": 122
+      "pnl": 173693.60099868858,
+      "vol": 2055110.7351969997,
+      "rank": 121
     },
     {
       "address": "0xc96e5287ab294ac0388c2ddb00180fc464cff1f9",
@@ -834,16 +1144,6 @@
       "pnl": 326877.69118841656,
       "vol": 5824811.0494719995,
       "rank": 532
-    },
-    {
-      "address": "0x5f659bccbc353dbf7bcdffdee73bee60bb482036",
-      "name": "0x5F659BcCBC353dBf7BcdffDEE73beE60bB482036-1780496231400 (Rank 73)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 86320.23793376877,
-      "vol": 6879584.415862,
-      "rank": 84
     },
     {
       "address": "0x1136368d7f6728e94ed14c532ab95a932f710c2e",
@@ -901,9 +1201,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 309399.3712354112,
-      "vol": 54242605.151048005,
-      "rank": 70
+      "pnl": 311140.1167098586,
+      "vol": 54370069.580464,
+      "rank": 69
     },
     {
       "address": "0x03805a13a0b3e058f55f6c6af95389d4f431073d",
@@ -931,9 +1231,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 119801.44996830873,
+      "pnl": 119868.75900581441,
       "vol": 1155686.201312,
-      "rank": 177
+      "rank": 176
     },
     {
       "address": "0x53e55bc7cb3d67ad177c023ce891ad076a9d6177",
@@ -991,9 +1291,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 130544.29425470182,
-      "vol": 291963.7070059999,
-      "rank": 154
+      "pnl": 130544.34530470183,
+      "vol": 291973.917006,
+      "rank": 155
     },
     {
       "address": "0xae2b0aaea325a32870f56ff19df3b87acaa190ea",
@@ -1051,8 +1351,8 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 93880.56905683257,
-      "vol": 1945000.4698339999,
+      "pnl": 92770.12544183258,
+      "vol": 2167222.4698340003,
       "rank": 232
     },
     {
@@ -1076,24 +1376,14 @@
       "rank": 107
     },
     {
-      "address": "0x8b3234f9027f4e994e949df4b48b90ab79015950",
-      "name": "Gametheory-394 (Rank 842)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 667441.578894511,
-      "vol": 27363818.131758004,
-      "rank": 245
-    },
-    {
       "address": "0xf49ce459b52f60b70ce0fe9aa6203e6bf90f9786",
       "name": "TradingWave (Rank 553)",
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 129416.00681474459,
-      "vol": 82543799.47653201,
-      "rank": 158
+      "pnl": 123343.08651616435,
+      "vol": 83265764.243402,
+      "rank": 163
     },
     {
       "address": "0xbc43c8bfbc4d77c2fc9011adad38ba43b88996d3",
@@ -1101,9 +1391,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 139504.40479635296,
-      "vol": 2141615.554229,
-      "rank": 147
+      "pnl": 140197.92449593794,
+      "vol": 2280365.321728,
+      "rank": 145
     },
     {
       "address": "0xa36fcb6947c4ac1f09ee894aa1fd0756b90e180b",
@@ -1241,9 +1531,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 87930.45139154601,
+      "pnl": 88005.6192328831,
       "vol": 978005.048813,
-      "rank": 246
+      "rank": 243
     },
     {
       "address": "0x2663daca3cecf3767ca1c3b126002a8578a8ed1f",
@@ -1361,9 +1651,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 187729.90501362886,
-      "vol": 3352906.7448299993,
-      "rank": 113
+      "pnl": 222806.10265802877,
+      "vol": 3352906.74483,
+      "rank": 95
     },
     {
       "address": "0xa1f39b9b21a7bfb0f540cf106b92e240c7b7d99c",
@@ -1391,9 +1681,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 114173.87096289766,
-      "vol": 493430.090233,
-      "rank": 184
+      "pnl": 113986.37596289765,
+      "vol": 530929.090233,
+      "rank": 185
     },
     {
       "address": "0x5268527977f700f9bf9b6d5cd843859e4e70135d",
@@ -1404,16 +1694,6 @@
       "pnl": 1195737.8651357954,
       "vol": 97149284.90583801,
       "rank": 110
-    },
-    {
-      "address": "0xd776f0a066fd3014ecfac89cfd414440982bffeb",
-      "name": "bomber (Rank 174)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 363799.4232217316,
-      "vol": 6026147.715964001,
-      "rank": 486
     },
     {
       "address": "0x44c58184f89a5c2f699dc8943009cb3d75a08d45",
@@ -1431,9 +1711,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 89814.81839142914,
-      "vol": 1834476.516663,
-      "rank": 239
+      "pnl": 94597.08362166357,
+      "vol": 1900409.403585,
+      "rank": 227
     },
     {
       "address": "0x9c1c6b754bbe38ead37160ba42bf2f16b77f7980",
@@ -1451,9 +1731,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 95091.04367583749,
+      "pnl": 91049.60474373144,
       "vol": 861480.164286,
-      "rank": 230
+      "rank": 234
     },
     {
       "address": "0xee67f4f549180f564dd5910b1024b8c6729cef38",
@@ -1481,9 +1761,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 152997.57281139123,
-      "vol": 6077145.968011,
-      "rank": 136
+      "pnl": 159470.2101754317,
+      "vol": 6099078.417611,
+      "rank": 132
     },
     {
       "address": "0x3d8a89a20aa73fba0f30d080e8120de9f9555724",
@@ -1531,8 +1811,8 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 172245.58039899165,
-      "vol": 1700633.254496,
+      "pnl": 172539.85691956664,
+      "vol": 1882287.331611,
       "rank": 123
     },
     {
@@ -1631,9 +1911,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 90161.5557849993,
-      "vol": 3272251.361756,
-      "rank": 238
+      "pnl": 89914.68732289292,
+      "vol": 3292251.355284,
+      "rank": 237
     },
     {
       "address": "0x38337de21ff0bb0a11a40761507d51e318d633d1",
@@ -1676,16 +1956,6 @@
       "rank": 467
     },
     {
-      "address": "0xd218e474776403a330142299f7796e8ba32eb5c9",
-      "name": "cigarettes",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 1588322.4433157246,
-      "vol": 522667260.82644594,
-      "rank": 86
-    },
-    {
       "address": "0x02e2799f96d5a3a97934fb7e413ecb65c3bccd40",
       "name": "Facaixiaoshou (WEEK Rank 143)",
       "enabled": true,
@@ -1713,7 +1983,7 @@
       "sizing_value": 100.0,
       "pnl": 108660.2320641525,
       "vol": 1485197.294735,
-      "rank": 193
+      "rank": 194
     },
     {
       "address": "0x1e7792acc779a6af8304bd7991ff31d16d468c33",
@@ -1722,7 +1992,7 @@
       "sizing_type": "fixed",
       "sizing_value": 100.0,
       "pnl": 133818.23801073607,
-      "vol": 1898897.531659,
+      "vol": 1898897.5316589999,
       "rank": 151
     },
     {
@@ -1741,7 +2011,7 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 263307.38516564784,
+      "pnl": 263599.7262656477,
       "vol": 2831296.036598,
       "rank": 78
     },
@@ -1951,9 +2221,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 273030.32191840373,
+      "pnl": 273679.3745094666,
       "vol": 4028634.840808,
-      "rank": 75
+      "rank": 76
     },
     {
       "address": "0x336bf6f91a4619d54f0711a20fe468adf4d71233",
@@ -2054,16 +2324,6 @@
       "pnl": 37217.70272650271,
       "vol": 93080.946535,
       "rank": 205
-    },
-    {
-      "address": "0x594d0c9a3eb7f958b9fc100e3088ffc5de99059d",
-      "name": "Whale Rank 32 (Rank 32)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 389607.4454150747,
-      "vol": 2469587.5512170005,
-      "rank": 457
     },
     {
       "address": "0xed107a85a4585a381e48c7f7ca4144909e7dd2e5",
@@ -2172,8 +2432,8 @@
       "sizing_type": "fixed",
       "sizing_value": 100.0,
       "pnl": 130015.23108872754,
-      "vol": 992207.4573710001,
-      "rank": 155
+      "vol": 992207.457371,
+      "rank": 156
     },
     {
       "address": "0x443bcce588e26763987e9ae44b6b7845f09fe8bb",
@@ -2191,8 +2451,8 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 358199.34107358387,
-      "vol": 1873088.900236,
+      "pnl": 359259.48531385587,
+      "vol": 1873088.9002360003,
       "rank": 62
     },
     {
@@ -2211,9 +2471,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 306011.9190029027,
-      "vol": 3968586.8065160005,
-      "rank": 71
+      "pnl": 306346.4168466927,
+      "vol": 4036129.9414879996,
+      "rank": 70
     },
     {
       "address": "0x0d18e30e252008d83f51dae00d36873ddd9e24a6",
@@ -2341,7 +2601,7 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 178713.33396565396,
+      "pnl": 178824.09370684996,
       "vol": 876475.316503,
       "rank": 118
     },
@@ -2473,7 +2733,7 @@
       "sizing_value": 100.0,
       "pnl": 113444.66130399967,
       "vol": 28742975.431862,
-      "rank": 185
+      "rank": 186
     },
     {
       "address": "0x876f2215243816eb2f3c20c2057fc0cc4bcdc21a",
@@ -2581,8 +2841,8 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 121684.26753862365,
-      "vol": 754795.694027,
+      "pnl": 121515.55019706467,
+      "vol": 760795.6940269999,
       "rank": 171
     },
     {
@@ -2626,16 +2886,6 @@
       "rank": 373
     },
     {
-      "address": "0x9b89ef1f344d3e17b37ccdff3bccf62d04f04244",
-      "name": "Woaifacai (WEEK Rank 298)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 26183.848452000002,
-      "vol": 341126.293586,
-      "rank": 263
-    },
-    {
       "address": "0xde9f7f4e77a1595623ceb58e469f776257ccd43c",
       "name": "tradecraft (Rank 91)",
       "enabled": true,
@@ -2671,9 +2921,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 118987.63765629499,
-      "vol": 2422836.416023,
-      "rank": 178
+      "pnl": 111220.01730664347,
+      "vol": 2474836.39989,
+      "rank": 188
     },
     {
       "address": "0xaf458bee32b8f1d9ba39ee876f20c7e3ce62ec7d",
@@ -2881,9 +3131,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 93130.9139649965,
-      "vol": 622598.24446,
-      "rank": 235
+      "pnl": 93133.6365691155,
+      "vol": 634289.53446,
+      "rank": 231
     },
     {
       "address": "0xb51b3beffd13cde071ed799e70a7b0b598e8b4d9",
@@ -2963,7 +3213,7 @@
       "sizing_value": 100.0,
       "pnl": 238329.00846622305,
       "vol": 1618741.18568,
-      "rank": 88
+      "rank": 759
     },
     {
       "address": "0xcf7379b4b891c06d88807f6f70efa75378120215",
@@ -3191,9 +3441,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 93999.55115594363,
-      "vol": 1360164.138907,
-      "rank": 231
+      "pnl": 93648.58622033763,
+      "vol": 1360164.1389069997,
+      "rank": 229
     },
     {
       "address": "0xc6a71cad90060abc0c1ff8ebd6f6a8fc02ed504e",
@@ -3231,9 +3481,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 87381.7013215113,
-      "vol": 13642946.538134003,
-      "rank": 247
+      "pnl": 87417.9931407662,
+      "vol": 13663585.338134,
+      "rank": 245
     },
     {
       "address": "0x1af3cb90ba090b77de6dac23ee37c0f8337fb3b4",
@@ -3281,9 +3531,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 121954.06169747098,
+      "pnl": 121954.06169477597,
       "vol": 225210.585532,
-      "rank": 169
+      "rank": 168
     },
     {
       "address": "0x39932ca2b7a1b8ab6cbf0b8f7419261b950ccded",
@@ -3583,7 +3833,7 @@
       "sizing_value": 100.0,
       "pnl": 129243.99748612072,
       "vol": 678494.666665,
-      "rank": 161
+      "rank": 160
     },
     {
       "address": "0x8fe67871dcd05d1f9b27e7bd38f72c6d6d8a7027",
@@ -3891,9 +4141,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 128500.79576008952,
-      "vol": 7406579.274418,
-      "rank": 163
+      "pnl": 128532.97677318573,
+      "vol": 7412138.188736999,
+      "rank": 161
     },
     {
       "address": "0x4f1d5ae26fc31472966e951af3183308736d8de2",
@@ -4041,8 +4291,8 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 99048.91834052962,
-      "vol": 423517.4150370001,
+      "pnl": 99085.28724120863,
+      "vol": 423517.41503699997,
       "rank": 220
     },
     {
@@ -4331,9 +4581,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 88116.00547171697,
-      "vol": 1104493.40922,
-      "rank": 245
+      "pnl": 88288.80469937339,
+      "vol": 1114026.725288,
+      "rank": 241
     },
     {
       "address": "0x23cd72083dffe91eadba0c41b7a67973579ca835",
@@ -5131,9 +5381,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 105493.24283686998,
-      "vol": 3640657.436151,
-      "rank": 200
+      "pnl": 104632.10803901534,
+      "vol": 3647432.587735,
+      "rank": 203
     },
     {
       "address": "0x274c45994bfa0912cf8bee503190952e6af7da86",
@@ -5261,9 +5511,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 95129.91079219575,
+      "pnl": 95337.76462897075,
       "vol": 184569.322604,
-      "rank": 227
+      "rank": 226
     },
     {
       "address": "0x63040aeb337861755eeed2c97dfe3e31a64bc7e5",
@@ -5291,9 +5541,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 88138.08061936052,
-      "vol": 17106804.505867,
-      "rank": 244
+      "pnl": 88143.24700085954,
+      "vol": 17161052.145867,
+      "rank": 242
     },
     {
       "address": "0x8806a6f1a847ba4360599ce0f54ce96167712e83",
@@ -5431,9 +5681,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 105126.91562819494,
-      "vol": 730716.2158619999,
-      "rank": 202
+      "pnl": 108467.171483895,
+      "vol": 730716.215862,
+      "rank": 195
     },
     {
       "address": "0xc4a8dc28bef056390986c8c65bf0587e2e10246d",
@@ -5653,7 +5903,7 @@
       "sizing_value": 100.0,
       "pnl": 122092.0998247254,
       "vol": 174130.45091100002,
-      "rank": 167
+      "rank": 166
     },
     {
       "address": "0x5d47b49c4edb1ad4ec3343ad6557c6c0cff5d0a2",
@@ -5671,9 +5921,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 101783.29808853101,
-      "vol": 2055934.5503060003,
-      "rank": 212
+      "pnl": 101634.14860811041,
+      "vol": 2073576.9897240002,
+      "rank": 209
     },
     {
       "address": "0x2eae44ed3f82297f748c923a283c823f58d7ac27",
@@ -5771,9 +6021,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 108269.37287998019,
-      "vol": 3445815.9139690003,
-      "rank": 195
+      "pnl": 107111.38024937824,
+      "vol": 3480725.443965,
+      "rank": 197
     },
     {
       "address": "0x4e0ecb61e58c6b1d37408e41dfde771604066afd",
@@ -6931,9 +7181,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 97294.42887851995,
+      "pnl": 96026.16637851993,
       "vol": 561317.174756,
-      "rank": 224
+      "rank": 223
     },
     {
       "address": "0xcfc51c0a1a5a78845127d9d9dcb1236f700dc7cf",
@@ -7781,9 +8031,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 116445.27100892432,
+      "pnl": 117147.4443892628,
       "vol": 1492227.1616159999,
-      "rank": 182
+      "rank": 181
     },
     {
       "address": "0x26f8af9d49328e5fdae2c24e62e5c523bebd3452",
@@ -7972,7 +8222,7 @@
       "sizing_type": "fixed",
       "sizing_value": 100.0,
       "pnl": 245072.38759296574,
-      "vol": 2600009.404933,
+      "vol": 2600009.4049330004,
       "rank": 82
     },
     {
@@ -8611,9 +8861,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 103880.82929951714,
-      "vol": 1855067.4509349999,
-      "rank": 207
+      "pnl": 103315.70369951714,
+      "vol": 1855067.450935,
+      "rank": 206
     },
     {
       "address": "0xa3cd5d3215df99bdd26c1363f1b48f0a511ccc59",
@@ -8744,16 +8994,6 @@
       "pnl": 6075.226309984622,
       "vol": 209497.608388,
       "rank": 874
-    },
-    {
-      "address": "0x751a2b86cab503496efd325c8344e10159349ea1",
-      "name": "Sharky6999 (Rank 991)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 920927.3210474922,
-      "vol": 220138571.17546004,
-      "rank": 162
     },
     {
       "address": "0x911b788bf209579f9bc47dd3de43cbb81a08344f",
@@ -9521,9 +9761,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 129370.14688975344,
-      "vol": 3758069.795495,
-      "rank": 159
+      "pnl": 134055.2048846229,
+      "vol": 3768737.269901,
+      "rank": 150
     },
     {
       "address": "0x0b13ffcfaa14fdf81196a961e1c5750b697a5957",
@@ -10016,16 +10256,6 @@
       "rank": 28
     },
     {
-      "address": "0x26437896ed9dfeb2f69765edcafe8fdceaab39ae",
-      "name": "Latina (Rank 19)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 2787186.3163597393,
-      "vol": 37172479.598859,
-      "rank": 6
-    },
-    {
       "address": "0xb91aeb5accc33a5f9a8615b8ed6b2d352e913987",
       "name": "afghj2421",
       "enabled": true,
@@ -10066,14 +10296,14 @@
       "rank": 246
     },
     {
-      "address": "0x2e69bb3db7ffcedc4f83b56fe3e6f93371d1858d",
-      "name": "texasdolly (Rank 17)",
+      "address": "0xc84f7e76ec28ef20e7773b7b4926bfb7378be0c5",
+      "name": "BrightStars (Rank 27)",
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 473690.5289046995,
-      "vol": 726308.069497,
-      "rank": 42
+      "pnl": 668584.999347539,
+      "vol": 18230600.587504,
+      "rank": 244
     },
     {
       "address": "0xe16d3f2a5807999b358affd9445c3a09e45e5e30",
@@ -10152,8 +10382,8 @@
       "sizing_type": "fixed",
       "sizing_value": 100.0,
       "pnl": 320350.4788180101,
-      "vol": 1844228.24227,
-      "rank": 69
+      "vol": 1844228.2422699998,
+      "rank": 68
     },
     {
       "address": "0xdc71bed951076a6dfd27f6a341c441b8543ed033",
@@ -10191,7 +10421,7 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 254894.74260311847,
+      "pnl": 254894.74260311853,
       "vol": 5326642.856423,
       "rank": 80
     },
@@ -10232,7 +10462,7 @@
       "sizing_type": "fixed",
       "sizing_value": 100.0,
       "pnl": 242925.60850658262,
-      "vol": 3094167.5013829996,
+      "vol": 3094167.501383,
       "rank": 85
     },
     {
@@ -10246,6 +10476,16 @@
       "rank": 608
     },
     {
+      "address": "0xcfb69f94b3764e75228515ad9d169570d5f906da",
+      "name": "athelstan (Rank 106)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 241989.62460027583,
+      "vol": 18744897.301538,
+      "rank": 87
+    },
+    {
       "address": "0x0f0edbb5fca07a7efffe283624f085a7b2e2a019",
       "name": "prayingnotbroke (MONTH Rank 71)",
       "enabled": true,
@@ -10253,17 +10493,7 @@
       "sizing_value": 100.0,
       "pnl": 225020.685792,
       "vol": 622024.5894010001,
-      "rank": 93
-    },
-    {
-      "address": "0xcfb69f94b3764e75228515ad9d169570d5f906da",
-      "name": "athelstan (Rank 106)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 216407.9420445311,
-      "vol": 18740574.374776002,
-      "rank": 98
+      "rank": 94
     },
     {
       "address": "0xb10047d6a254b2ebb306d7a7d13bf59171ab6461",
@@ -10274,16 +10504,6 @@
       "pnl": 693445.2493632972,
       "vol": 57034635.70080301,
       "rank": 232
-    },
-    {
-      "address": "0xe549581668a5751c1972d3ad2d1991d900bd2d54",
-      "name": "Allezpapa (Rank 761)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 201290.24521576136,
-      "vol": 16220908.207719,
-      "rank": 104
     },
     {
       "address": "0x40ea9faef8f8eeac2b3262f2e1b75f9fbb16832f",
@@ -10371,9 +10591,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 124488.08314701688,
-      "vol": 257193.102159,
-      "rank": 164
+      "pnl": 124530.10395738037,
+      "vol": 257193.10215899997,
+      "rank": 162
     },
     {
       "address": "0xd426adbc3c4461c86099c26221c877f20e42334a",
@@ -10393,7 +10613,17 @@
       "sizing_value": 100.0,
       "pnl": 121959.61642089539,
       "vol": 496196.1417079999,
-      "rank": 168
+      "rank": 167
+    },
+    {
+      "address": "0xf705fa045201391d9632b7f3cde06a5e24453ca7",
+      "name": "Whale Rank 56",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 1969937.7324945352,
+      "vol": 76276102.18712,
+      "rank": 64
     },
     {
       "address": "0x95f68294fa57ee29b65930fc4fc5a782ddcc0b51",
@@ -10423,7 +10653,7 @@
       "sizing_value": 100.0,
       "pnl": 117351.2053248671,
       "vol": 161560.349049,
-      "rank": 181
+      "rank": 180
     },
     {
       "address": "0x12553d779e0e756962620ca77965fbbea816dc0f",
@@ -10433,57 +10663,7 @@
       "sizing_value": 100.0,
       "pnl": 108913.68514497858,
       "vol": 1003884.128031,
-      "rank": 192
-    },
-    {
-      "address": "0x87da2f16cf98af9b3e2f6ba6d9c4c470815b53d1",
-      "name": "GeorgeRe (Rank 978)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 283539.4056371626,
-      "vol": 12040967.821994001,
-      "rank": 630
-    },
-    {
-      "address": "0x72a0d79b4325638bc2bcfc9a2b8a380c2d81c059",
-      "name": "Whale Rank 377 (Rank 377)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 227450.32609572136,
-      "vol": 7267197.167547,
-      "rank": 795
-    },
-    {
-      "address": "0xd6966eb1ae7b52320ba7ab1016680198c9e08a49",
-      "name": "EIf (Rank 41)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 104987.41437880292,
-      "vol": 1599266.089313,
-      "rank": 203
-    },
-    {
-      "address": "0x2b3ff45c91540e46fae1e0c72f61f4b049453446",
-      "name": "Mentallyillgambld (Rank 332)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 1044505.3297499905,
-      "vol": 17003568.104266997,
-      "rank": 129
-    },
-    {
-      "address": "0xf705fa045201391d9632b7f3cde06a5e24453ca7",
-      "name": "Whale Rank 56",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 1969937.7324945352,
-      "vol": 76276102.18712,
-      "rank": 64
+      "rank": 193
     },
     {
       "address": "0x84ad9c5c547a82ec9a08547b94bd922446e5bfb7",
@@ -10496,14 +10676,44 @@
       "rank": 668
     },
     {
-      "address": "0xa41cb0ef63d0ae1df955cfb2f111c79c6e3afade",
-      "name": "endxd (Rank 651)",
+      "address": "0xd6966eb1ae7b52320ba7ab1016680198c9e08a49",
+      "name": "EIf (Rank 41)",
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 102172.04393184202,
-      "vol": 922178.1681469999,
-      "rank": 211
+      "pnl": 104937.47275880304,
+      "vol": 1603266.089313,
+      "rank": 201
+    },
+    {
+      "address": "0x87da2f16cf98af9b3e2f6ba6d9c4c470815b53d1",
+      "name": "GeorgeRe (Rank 978)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 283539.4056371626,
+      "vol": 12040967.821994001,
+      "rank": 630
+    },
+    {
+      "address": "0x2b3ff45c91540e46fae1e0c72f61f4b049453446",
+      "name": "Mentallyillgambld (Rank 332)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 1044505.3297499905,
+      "vol": 17003568.104266997,
+      "rank": 129
+    },
+    {
+      "address": "0x72a0d79b4325638bc2bcfc9a2b8a380c2d81c059",
+      "name": "Whale Rank 377 (Rank 377)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 227450.32609572136,
+      "vol": 7267197.167547,
+      "rank": 795
     },
     {
       "address": "0xfc2f4f50ce2f6045d35558a5e2d8d4b2ac6610c7",
@@ -10511,9 +10721,19 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 101757.88640942617,
-      "vol": 10697133.135622999,
-      "rank": 213
+      "pnl": 100777.55897873109,
+      "vol": 10712007.101329997,
+      "rank": 212
+    },
+    {
+      "address": "0xc851cd9bee7d262afd78674f861f9f576a12cd2a",
+      "name": "betwick (Rank 218)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 721438.3851341889,
+      "vol": 33483905.173608996,
+      "rank": 220
     },
     {
       "address": "0xd6c913dfbae16a532f93f4a9385379a42696396d",
@@ -10523,7 +10743,17 @@
       "sizing_value": 100.0,
       "pnl": 99989.52436938699,
       "vol": 188659.48,
-      "rank": 217
+      "rank": 215
+    },
+    {
+      "address": "0xa41cb0ef63d0ae1df955cfb2f111c79c6e3afade",
+      "name": "endxd (Rank 651)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 99979.46985789103,
+      "vol": 940696.6866639999,
+      "rank": 216
     },
     {
       "address": "0xf1528f12e645462c344799b62b1b421a6a4c64aa",
@@ -10546,24 +10776,14 @@
       "rank": 513
     },
     {
-      "address": "0xc851cd9bee7d262afd78674f861f9f576a12cd2a",
-      "name": "betwick (Rank 218)",
+      "address": "0x6304679c4bee05e560ebb637758a617086d4e570",
+      "name": "TheVeteran77 (Rank 217)",
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 721438.3851341889,
-      "vol": 33483905.173608996,
-      "rank": 220
-    },
-    {
-      "address": "0xa2b5bafa01d0f81926a2a88e5628a95b59fc4582",
-      "name": "BruceWayne77 (Rank 182)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 519228.86750866025,
-      "vol": 21349483.456968997,
-      "rank": 332
+      "pnl": 91693.33888490472,
+      "vol": 553129.664965,
+      "rank": 233
     },
     {
       "address": "0x35c82cc0b533d0c3491b6d66e9e348532241ce5c",
@@ -10571,9 +10791,9 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 90553.19157100684,
-      "vol": 1876411.571341,
-      "rank": 237
+      "pnl": 90555.19156687683,
+      "vol": 1876811.581341,
+      "rank": 236
     },
     {
       "address": "0x629bc4a1e53e1d475beb7ea3d388791e96dd995a",
@@ -10593,17 +10813,7 @@
       "sizing_value": 100.0,
       "pnl": 88415.4422739462,
       "vol": 3412912.562582,
-      "rank": 241
-    },
-    {
-      "address": "0x6304679c4bee05e560ebb637758a617086d4e570",
-      "name": "TheVeteran77 (Rank 217)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 88377.27282566471,
-      "vol": 553129.664965,
-      "rank": 242
+      "rank": 239
     },
     {
       "address": "0x36cacb8b6626e8cb275e45612d60e0c814531067",
@@ -10613,7 +10823,7 @@
       "sizing_value": 100.0,
       "pnl": 88355.0438552242,
       "vol": 153615.03634299999,
-      "rank": 243
+      "rank": 240
     },
     {
       "address": "0x48185887c8dc95de60ee89722f1d0ee7894cbf0b",
@@ -10621,19 +10831,19 @@
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 86991.73766357615,
-      "vol": 962560.250822,
-      "rank": 248
+      "pnl": 86729.18334922419,
+      "vol": 962860.250822,
+      "rank": 246
     },
     {
-      "address": "0x448861155279dbf833d041b963e3ac854599e319",
-      "name": "Flipadelphia (Rank 145)",
+      "address": "0xa2b5bafa01d0f81926a2a88e5628a95b59fc4582",
+      "name": "BruceWayne77 (Rank 182)",
       "enabled": true,
       "sizing_type": "fixed",
       "sizing_value": 100.0,
-      "pnl": 588442.7156380095,
-      "vol": 60691454.88041499,
-      "rank": 286
+      "pnl": 519228.86750866025,
+      "vol": 21349483.456968997,
+      "rank": 332
     },
     {
       "address": "0x3da89a55cdd4b5c69f80e5cd3ef1782a3e0480c3",
@@ -10644,6 +10854,16 @@
       "pnl": 84902.01035236494,
       "vol": 1408004.1814899999,
       "rank": 251
+    },
+    {
+      "address": "0x448861155279dbf833d041b963e3ac854599e319",
+      "name": "Flipadelphia (Rank 145)",
+      "enabled": true,
+      "sizing_type": "fixed",
+      "sizing_value": 100.0,
+      "pnl": 588442.7156380095,
+      "vol": 60691454.88041499,
+      "rank": 286
     },
     {
       "address": "0x65503c7f9e142ac88b1ce09df3363ff77f188451",
@@ -12014,16 +12234,6 @@
       "pnl": 253961.79639553893,
       "vol": 5399737.5444249995,
       "rank": 705
-    },
-    {
-      "address": "0xfc25f141ed27bb1787338d2c4e7f51e3a15e1f7f",
-      "name": "Sisyphus. (Rank 419)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 546153.3914860468,
-      "vol": 332908516.06352603,
-      "rank": 306
     },
     {
       "address": "0x67ac9e1ad7d7e74ef0215d14fc8edb538e4fedf1",
@@ -14474,16 +14684,6 @@
       "pnl": 16556.68791070846,
       "vol": 522403.6649770001,
       "rank": 985
-    },
-    {
-      "address": "0xa16a1302ca05463f30faebeb5c045767fde233a1",
-      "name": "KimiTalibantonelli (MONTH Rank 941)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 16493.41469857549,
-      "vol": 9256522.163190002,
-      "rank": 987
     },
     {
       "address": "0xecb14ac6e9ca447ce2f2912e6217b43d7b655da3",
@@ -22536,16 +22736,6 @@
       "rank": 758
     },
     {
-      "address": "0xed2f4c1a5b2ea42eb0fbc9c03adc267a04c39897",
-      "name": "0xeD2F4C1a5b2Ea42eb0FbC9c03ADc267a04C39897-1781388683963 (WEEK Rank 539)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 6233.1482709610455,
-      "vol": 717352.140741,
-      "rank": 823
-    },
-    {
       "address": "0x6e4b8009426dd540f27797ffc326188c223b3c6d",
       "name": "Phantom69 (WEEK Rank 957)",
       "enabled": true,
@@ -23186,16 +23376,6 @@
       "rank": 727
     },
     {
-      "address": "0x0a6356d95e871f7288063d56a2db518ea004fc03",
-      "name": "f3arless (Rank 827)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 16348.551301741178,
-      "vol": 1387322.9424589998,
-      "rank": 971
-    },
-    {
       "address": "0x7bb380292fd13b5ca4851dbcd73234d30d1b2682",
       "name": "tajir (Rank 720)",
       "enabled": true,
@@ -23524,16 +23704,6 @@
       "pnl": 10248.829294352046,
       "vol": 72842.236922,
       "rank": 540
-    },
-    {
-      "address": "0x06f22ff6d9362ce82243f8ca594c97485d9c1269",
-      "name": "vkvkgjerkgk (WEEK Rank 464)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 8036.728883038386,
-      "vol": 5728740.312769,
-      "rank": 645
     },
     {
       "address": "0x41b4cd880a61de2f5728594decf7f2cbfc2a10da",
@@ -24946,26 +25116,6 @@
       "rank": 955
     },
     {
-      "address": "0xa66c59e25b7efe25bb7bdeb25227c998da4bcd67",
-      "name": "trillionaire (Rank 85)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 15616.482789357997,
-      "vol": 1043523.907752,
-      "rank": 989
-    },
-    {
-      "address": "0x8b887c9ad761b851d9e14510ea9aae04a01e8f33",
-      "name": "lluucckkyy (Rank 84)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 187719.41786999177,
-      "vol": 4501442.421592,
-      "rank": 953
-    },
-    {
       "address": "0x4cc3522b689a6bf1fb4a2444c523e7776db47552",
       "name": "CrunchWrapoDeLaFuente (Rank 484)",
       "enabled": true,
@@ -25286,16 +25436,6 @@
       "rank": 83
     },
     {
-      "address": "0x2d7be5170a8026c18709eaea1027c7f12e8ce2ce",
-      "name": "caicai888888 (Rank 95)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 368285.1732201927,
-      "vol": 20921323.411375,
-      "rank": 478
-    },
-    {
       "address": "0x224a89dbe0db0d6124b335edabd15b3f877da3d5",
       "name": "wr0ngw4yb3tt0r (Rank 6)",
       "enabled": true,
@@ -25394,16 +25534,6 @@
       "pnl": 17202.431243488034,
       "vol": 672037.7462340001,
       "rank": 251
-    },
-    {
-      "address": "0xa8a53259e60402b0001953f49f66ccb47d35122b",
-      "name": "Paracellus (Rank 266)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 224706.25208876657,
-      "vol": 5548736.986872001,
-      "rank": 798
     },
     {
       "address": "0x83720820a8aa6c3f20ad71850e7a1a17d16c5223",
@@ -29996,36 +30126,6 @@
       "rank": 899
     },
     {
-      "address": "0xac4773707daddd3792efed5a91f5ec7651a7d234",
-      "name": "HBAFlover98 (Rank 56)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 37400.54189497458,
-      "vol": 3461151.611037,
-      "rank": 442
-    },
-    {
-      "address": "0xe2dd72d7ca976e65495d75b8a16ba9eda62b4a23",
-      "name": "Whale Rank 88 (WEEK Rank 88)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 27299.996461464994,
-      "vol": 1401369.888796,
-      "rank": 88
-    },
-    {
-      "address": "0xa4b1eac99a65ed70e3d560126febe1086e6c5143",
-      "name": "Whale Rank 94 (WEEK Rank 94)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 24499.97817277495,
-      "vol": 699999.3763650001,
-      "rank": 94
-    },
-    {
       "address": "0xfaa2b54347bd9a9f62d6e4bfb2d3180da53de80a",
       "name": "easymoney9 (Rank 825)",
       "enabled": true,
@@ -32236,16 +32336,6 @@
       "rank": 1
     },
     {
-      "address": "0x84cfffc3f16dcc353094de30d4a45226eccd2f63",
-      "name": "mooseborzoi (Rank 3)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 157349.55158522693,
-      "vol": 55002992.45057201,
-      "rank": 99
-    },
-    {
       "address": "0xee8e24c26b7d591a543972fd7ac424d8a8310a7b",
       "name": "itzlebrian (Rank 646)",
       "enabled": true,
@@ -33306,16 +33396,6 @@
       "rank": 775
     },
     {
-      "address": "0xc430e5b17128df7ce78d69fa28bc7de038641ebf",
-      "name": "Gourmet1 (Rank 621)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 12028.590963617546,
-      "vol": 255480.28965599995,
-      "rank": 783
-    },
-    {
       "address": "0xc0e65a5689d25a1757c8b223bd3bd7095c767358",
       "name": "C0E65A5689d25A1757C8b223bD3BD7095C767358 (Rank 509)",
       "enabled": true,
@@ -34314,16 +34394,6 @@
       "pnl": 22004.07864619483,
       "vol": 553552.978991,
       "rank": 348
-    },
-    {
-      "address": "0x1f28a0404133776151339ff618c876b81a59266e",
-      "name": "vbv19 (Rank 350)",
-      "enabled": true,
-      "sizing_type": "fixed",
-      "sizing_value": 100.0,
-      "pnl": 21896.237108793284,
-      "vol": 497692.24110600003,
-      "rank": 350
     },
     {
       "address": "0x979fc186184ae75754d32c4ef68d8ca00f744032",
@@ -39106,7 +39176,7 @@
   "min_copy_price": 0.4,
   "max_copy_price": 0.95,
   "copy_only_best_wins": true,
-  "min_best_bet_score": 70,
+  "min_best_bet_score": 65,
   "max_days_to_resolution": 90,
   "exclude_sports_bets": true,
   "exclude_crypto_bets": true,
@@ -39116,9 +39186,12 @@
   "min_market_volume": 5000.0,
   "enable_value_plays": true,
   "max_holding_hours": 0,
-  "take_profit_pct": 0.0,
-  "stop_loss_pct": 0.0,
+  "take_profit_pct": 15.0,
+  "stop_loss_pct": 15.0,
   "exclude_weather_bets": true,
   "min_whale_trade_size": 1000.0,
-  "max_market_exposure": 500.0
+  "max_market_exposure": 500.0,
+  "stop_loss_grace_hours": 4.0,
+  "min_whale_roi": 0.01,
+  "max_whale_volume": 20000000.0
 }
