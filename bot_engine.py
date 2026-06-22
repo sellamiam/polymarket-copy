@@ -270,7 +270,8 @@ def recycle_positions_and_exit_strategies(config, state):
     - Time-based Early Exit (Capital Recycling)
     """
     take_profit_pct = float(config.get("take_profit_pct", 15.0))
-    stop_loss_pct = float(config.get("stop_loss_pct", 5.0))
+    stop_loss_pct = float(config.get("stop_loss_pct", 15.0))
+    stop_loss_grace_hours = float(config.get("stop_loss_grace_hours", 4.0))
     max_holding_hours = float(config.get("max_holding_hours", 24))
     
     current_time = int(time.time())
@@ -299,7 +300,7 @@ def recycle_positions_and_exit_strategies(config, state):
         if take_profit_pct > 0 and pnl_pct >= take_profit_pct:
             trigger_reason = f"TP (+{pnl_pct:.1f}%)"
             exit_type = "RECYCLE_TP"
-        elif stop_loss_pct > 0 and pnl_pct <= -stop_loss_pct:
+        elif stop_loss_pct > 0 and pnl_pct <= -stop_loss_pct and age_hours >= stop_loss_grace_hours:
             trigger_reason = f"SL ({pnl_pct:+.1f}%)"
             exit_type = "RECYCLE_SL"
         elif max_holding_hours > 0 and age_hours >= max_holding_hours:
@@ -534,8 +535,8 @@ def run_simulation_iteration(config, state):
                     is_value_play = True
                     add_log(state, f"VALUE PLAY: '{title}' ({outcome}) @ {price:.3f} USDC qualifies as a value play (potential 1.6x-10x payout).")
                 elif niche_bypass:
-                    if price > 0.98:
-                        add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Niche market but price exceeds hard ceiling 0.98 USDC (low yield yield-farm bet).")
+                    if price > 0.90:
+                        add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Niche market but price exceeds hard ceiling 0.90 USDC (low yield yield-farm bet).")
                         state["processed_tx_hashes"].append(tx_hash)
                         continue
                     add_log(state, f"NICHE BYPASS: '{title}' ({outcome}) from {name} @ {price:.3f} USDC bypassed price filter [{min_price:.2f}, {max_price:.2f}] — niche market priority active.")
@@ -983,6 +984,9 @@ def sync_whales_from_leaderboard(time_period="WEEK", limit=1000):
     from config import save_config
     cfg = load_config()
     
+    min_roi = float(cfg.get("min_whale_roi", 0.01))
+    max_vol = float(cfg.get("max_whale_volume", 20000000.0))
+    
     current_traders = cfg.get("followed_traders", [])
     current_map = {t["address"].lower(): t for t in current_traders}
     
@@ -990,6 +994,12 @@ def sync_whales_from_leaderboard(time_period="WEEK", limit=1000):
     added_count = 0
     
     for addr_clean, item in new_traders.items():
+        pnl = item["pnl"]
+        vol = item["vol"]
+        roi = (pnl / vol) if vol > 0 else 0
+        if roi < min_roi or vol > max_vol:
+            continue
+            
         if addr_clean in current_map:
             trader_cfg = current_map[addr_clean]
             trader_cfg["pnl"] = item["pnl"]

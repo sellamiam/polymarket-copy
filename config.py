@@ -15,16 +15,19 @@ DEFAULT_CONFIG = {
     "slippage_bps": 0,  # 0 bps = 0%
     "min_copy_price": 0.40,
     "max_copy_price": 0.95,
-    "copy_only_best_wins": False,
+    "copy_only_best_wins": True,
     "min_best_bet_score": 65,
     "max_days_to_resolution": 90,
     "max_holding_hours": 24,
     "take_profit_pct": 15.0,
-    "stop_loss_pct": 5.0,
+    "stop_loss_pct": 15.0,
+    "stop_loss_grace_hours": 4.0,
     "min_whale_trade_size": 10.0,
     "max_market_exposure": 500.0,
     "min_market_liquidity": 1000.0,
     "min_market_volume": 5000.0,
+    "min_whale_roi": 0.01,
+    "max_whale_volume": 20000000.0,
     "enable_value_plays": True,
     "exclude_sports_bets": True,
     "exclude_crypto_bets": True,
@@ -227,7 +230,17 @@ def load_config():
     if config_data.get("min_market_volume") == 20000.0:
         config_data["min_market_volume"] = 5000.0
         updated = True
-        
+
+    # Migration: Change stop_loss_pct to 15.0 if it was 5.0
+    if config_data.get("stop_loss_pct") == 5.0:
+        config_data["stop_loss_pct"] = 15.0
+        updated = True
+
+    # Migration: Force copy_only_best_wins to True if it was False
+    if config_data.get("copy_only_best_wins") is False:
+        config_data["copy_only_best_wins"] = True
+        updated = True
+
     if updated:
         save_config(config_data)
         
