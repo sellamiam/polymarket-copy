@@ -2,7 +2,6 @@
 let activeTab = 'dashboard';
 let refreshTimer = 30;
 let timerInterval = null;
-let chart = null;
 let leaderboardPeriod = 'WEEK';
 
 // DOM Elements
@@ -103,6 +102,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch Initial Data
     fetchData();
+    fetchTraders();
+    fetchHistory();
+    fetchLogs();
 });
 
 // Timer Management
@@ -123,6 +125,13 @@ function startRefreshTimer() {
 function forceRefreshData() {
     startRefreshTimer();
     fetchData();
+    if (activeTab === 'traders') {
+        fetchTraders();
+    } else if (activeTab === 'history') {
+        fetchHistory();
+    } else if (activeTab === 'logs') {
+        fetchLogs();
+    }
 }
 
 // Tab Swapping Logic
@@ -165,6 +174,12 @@ function switchTab(tabName) {
     // Trigger sub-tab updates
     if (tabName === 'leaderboard') {
         fetchLeaderboard();
+    } else if (tabName === 'traders') {
+        fetchTraders();
+    } else if (tabName === 'history') {
+        fetchHistory();
+    } else if (tabName === 'logs') {
+        fetchLogs();
     }
 }
 
@@ -202,6 +217,39 @@ async function fetchData() {
         renderDashboard(data);
     } catch (e) {
         console.error('Error fetching data: ', e);
+    }
+}
+
+async function fetchTraders() {
+    try {
+        const res = await fetch('/api/traders');
+        if (!res.ok) throw new Error('Failed to fetch followed traders.');
+        const data = await res.json();
+        renderFollowedTraders(data.followed_traders || [], data.whale_positions || {});
+    } catch (e) {
+        console.error('Error fetching traders:', e);
+    }
+}
+
+async function fetchHistory() {
+    try {
+        const res = await fetch('/api/history');
+        if (!res.ok) throw new Error('Failed to fetch history.');
+        const data = await res.json();
+        renderHistoryTable(data.trades || []);
+    } catch (e) {
+        console.error('Error fetching history:', e);
+    }
+}
+
+async function fetchLogs() {
+    try {
+        const res = await fetch('/api/logs');
+        if (!res.ok) throw new Error('Failed to fetch logs.');
+        const data = await res.json();
+        renderLogsConsole(data.logs || []);
+    } catch (e) {
+        console.error('Error fetching logs:', e);
     }
 }
 
@@ -254,21 +302,12 @@ function renderDashboard(data) {
     // Render Positions Table
     renderPositionsTable(state.positions);
 
-    // Render Followed Traders List
-    renderFollowedTraders(config.followed_traders, state.whale_positions);
-
-    // Render History Table
-    renderHistoryTable(state.trades);
-
-    // Render Console Logs
-    renderLogsConsole(state.logs);
-
     // Update settings form default values if not currently focused
     const setCapital = document.getElementById('settings-capital');
     if (document.activeElement !== setCapital) {
         setCapital.value = config.starting_capital;
         // Lock starting capital if trades exist
-        if (state.trades.length > 0) {
+        if (state.has_trades || (state.trades && state.trades.length > 0)) {
             setCapital.disabled = true;
         } else {
             setCapital.disabled = false;
@@ -317,10 +356,6 @@ function renderDashboard(data) {
     const setEnableValuePlays = document.getElementById('settings-value-plays');
     if (document.activeElement !== setEnableValuePlays) setEnableValuePlays.checked = config.enable_value_plays !== false;
 
-    // Render Chart
-    if (state.portfolio_value_history && state.portfolio_value_history.length > 0) {
-        drawChart(state.portfolio_value_history);
-    }
 }
 
 function renderPositionsTable(positions) {
@@ -527,82 +562,6 @@ function escapeHTML(str) {
     );
 }
 
-// Chart drawing logic
-function drawChart(history) {
-    const ctx = document.getElementById('equityChart').getContext('2d');
-    
-    // Sort chronologically
-    const sortedHistory = [...history].sort((a, b) => a.timestamp - b.timestamp);
-    
-    const labels = sortedHistory.map(h => {
-        const d = new Date(h.timestamp * 1000);
-        return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    });
-    
-    const dataPoints = sortedHistory.map(h => h.total_equity);
-    
-    if (chart) {
-        chart.data.labels = labels;
-        chart.data.datasets[0].data = dataPoints;
-        chart.update();
-        return;
-    }
-    
-    const gradient = ctx.createLinearGradient(0, 0, 0, 260);
-    gradient.addColorStop(0, 'rgba(99, 102, 241, 0.35)');
-    gradient.addColorStop(1, 'rgba(99, 102, 241, 0.00)');
-    
-    chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Simulated Equity',
-                data: dataPoints,
-                borderColor: '#6366f1',
-                borderWidth: 2.5,
-                backgroundColor: gradient,
-                fill: true,
-                tension: 0.2,
-                pointBackgroundColor: '#6366f1',
-                pointBorderColor: '#ffffff',
-                pointHoverRadius: 6,
-                pointRadius: 1.5
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    backgroundColor: '#0f172a',
-                    titleColor: '#f8fafc',
-                    bodyColor: '#94a3b8',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
-                    borderWidth: 1,
-                    displayColors: false,
-                    callbacks: {
-                        label: context => `Value: $${context.raw.toFixed(2)} USDC`
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    grid: { color: 'rgba(255, 255, 255, 0.03)' },
-                    ticks: { color: '#64748b', maxTicksLimit: 6, autoSkip: true }
-                },
-                y: {
-                    grid: { color: 'rgba(255, 255, 255, 0.03)' },
-                    ticks: {
-                        color: '#64748b',
-                        callback: value => `$${value}`
-                    }
-                }
-            }
-        }
-    });
-}
 
 // Controller Actions
 async function toggleBotStatus() {
@@ -634,10 +593,6 @@ async function resetSimulationAccount() {
     try {
         const res = await fetch('/api/control/reset', { method: 'POST' });
         if (res.ok) {
-            if (chart) {
-                chart.destroy();
-                chart = null;
-            }
             forceRefreshData();
         }
     } catch (e) {

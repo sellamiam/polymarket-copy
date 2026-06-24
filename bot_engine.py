@@ -914,8 +914,8 @@ def run_simulation_iteration(config, state):
 
         # Mark processed
         state["processed_tx_hashes"].append(tx_hash)
-        if len(state["processed_tx_hashes"]) > 5000:
-            state["processed_tx_hashes"] = state["processed_tx_hashes"][-5000:]
+        if len(state["processed_tx_hashes"]) > 1000:
+            state["processed_tx_hashes"] = state["processed_tx_hashes"][-1000:]
 
     return trade_executed_or_resolved
 
@@ -1092,9 +1092,9 @@ def _run_loop():
                         should_append = True
                         
                     if should_append:
-                        # Limit history length to ~2000 points
-                        if len(state["portfolio_value_history"]) > 2000:
-                            state["portfolio_value_history"] = state["portfolio_value_history"][-2000:]
+                        # Limit history length to ~500 points
+                        if len(state["portfolio_value_history"]) > 500:
+                            state["portfolio_value_history"] = state["portfolio_value_history"][-500:]
                         state["portfolio_value_history"].append({
                             "timestamp": current_time,
                             "cash": state["cash_usdc"],

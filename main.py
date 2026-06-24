@@ -3,6 +3,7 @@ import contextlib
 import requests
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Optional
@@ -24,6 +25,9 @@ async def lifespan(app: FastAPI):
     bot_engine.stop_engine()
 
 app = FastAPI(title="Polymarket Copy-Trading Simulator", lifespan=lifespan)
+
+# Enable response compression
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 # Enable CORS for browser access
 app.add_middleware(
@@ -90,12 +94,44 @@ def get_state():
         total_equity = state["cash_usdc"] + holdings_value
         config.save_state(state)
         
+    # Create lightweight config (exclude followed_traders)
+    light_config = {k: v for k, v in cfg.items() if k != "followed_traders"}
+    
+    # Create lightweight state (exclude trades and logs)
+    light_state = {
+        "cash_usdc": state.get("cash_usdc"),
+        "positions": state.get("positions"),
+        "portfolio_value_history": state.get("portfolio_value_history", []),
+        "has_trades": len(state.get("trades", [])) > 0
+    }
+        
     return {
-        "config": cfg,
-        "state": state,
+        "config": light_config,
+        "state": light_state,
         "holdings_value": holdings_value,
         "total_equity": total_equity
     }
+
+@app.get("/api/traders")
+def get_traders():
+    cfg = config.load_config()
+    state = config.load_state(cfg)
+    return {
+        "followed_traders": cfg.get("followed_traders", []),
+        "whale_positions": state.get("whale_positions", {})
+    }
+
+@app.get("/api/history")
+def get_history():
+    cfg = config.load_config()
+    state = config.load_state(cfg)
+    return {"trades": state.get("trades", [])}
+
+@app.get("/api/logs")
+def get_logs():
+    cfg = config.load_config()
+    state = config.load_state(cfg)
+    return {"logs": state.get("logs", [])}
 
 @app.post("/api/settings")
 def update_settings(update: SettingsUpdate):

@@ -10,8 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css?v=1.0.2">
 </head>
@@ -129,48 +127,32 @@
                     </div>
                 </div>
 
-                <!-- Chart and Open Positions Layout -->
-                <div class="dashboard-split">
-                    <!-- Left: Equity Curve -->
-                    <div class="card chart-card">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="fa-solid fa-chart-area"></i> Equity Growth Curve</h3>
-                            <span class="card-subtitle">USDC Total Value over time</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="chart-container">
-                                <canvas id="equityChart"></canvas>
-                            </div>
-                        </div>
+                <!-- Active Positions Layout -->
+                <div class="card positions-card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa-solid fa-briefcase"></i> Active Positions</h3>
+                        <span class="card-subtitle">Currently holding simulated shares</span>
                     </div>
-
-                    <!-- Right: Active Positions -->
-                    <div class="card positions-card">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="fa-solid fa-briefcase"></i> Active Positions</h3>
-                            <span class="card-subtitle">Currently holding simulated shares</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table" id="table-positions">
-                                    <thead>
-                                        <tr>
-                                            <th>Market / Outcome</th>
-                                            <th>Win Prob / Score</th>
-                                            <th>Quantity</th>
-                                            <th>Avg Entry</th>
-                                            <th>Current</th>
-                                            <th>Invested</th>
-                                            <th>Unrealized PnL</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="7" class="text-center text-muted">No open positions. Select a whale and start the simulation.</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="table-positions">
+                                <thead>
+                                    <tr>
+                                        <th>Market / Outcome</th>
+                                        <th>Win Prob / Score</th>
+                                        <th>Quantity</th>
+                                        <th>Avg Entry</th>
+                                        <th>Current</th>
+                                        <th>Invested</th>
+                                        <th>Unrealized PnL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted">No open positions. Select a whale and start the simulation.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
