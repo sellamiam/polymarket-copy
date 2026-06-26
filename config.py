@@ -22,7 +22,7 @@ DEFAULT_CONFIG = {
     "take_profit_pct": 15.0,
     "stop_loss_pct": 15.0,
     "stop_loss_grace_hours": 4.0,
-    "min_whale_trade_size": 10.0,
+    "min_whale_trade_size": 500.0,
     "max_market_exposure": 500.0,
     "min_market_liquidity": 1000.0,
     "min_market_volume": 5000.0,
@@ -217,9 +217,9 @@ def load_config():
         config_data["min_copy_price"] = 0.40
         updated = True
         
-    # Migration: Change min_whale_trade_size default to 10.0
-    if config_data.get("min_whale_trade_size") == 500.0:
-        config_data["min_whale_trade_size"] = 10.0
+    # Migration: Change min_whale_trade_size to 500.0 if it was 1000.0
+    if config_data.get("min_whale_trade_size") == 1000.0:
+        config_data["min_whale_trade_size"] = 500.0
         updated = True
         
     # Migration: Change min_market_liquidity default to 1000.0
