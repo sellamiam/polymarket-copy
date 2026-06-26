@@ -297,7 +297,11 @@ def recycle_positions_and_exit_strategies(config, state):
         
         trigger_reason = None
         exit_type = None
-        if take_profit_pct > 0 and pnl_pct >= take_profit_pct:
+        maturity_threshold = float(config.get("maturity_threshold", 0.98))
+        if current_price >= maturity_threshold:
+            trigger_reason = f"MATURITY ({current_price:.2f})"
+            exit_type = "RECYCLE_MATURITY"
+        elif take_profit_pct > 0 and pnl_pct >= take_profit_pct:
             trigger_reason = f"TP (+{pnl_pct:.1f}%)"
             exit_type = "RECYCLE_TP"
         elif stop_loss_pct > 0 and pnl_pct <= -stop_loss_pct and age_hours >= stop_loss_grace_hours:

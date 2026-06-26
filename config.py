@@ -14,11 +14,11 @@ DEFAULT_CONFIG = {
     "execution_mode": "whale_price",  # "whale_price" or "market_price"
     "slippage_bps": 0,  # 0 bps = 0%
     "min_copy_price": 0.40,
-    "max_copy_price": 0.95,
+    "max_copy_price": 0.85,
     "copy_only_best_wins": True,
-    "min_best_bet_score": 65,
+    "min_best_bet_score": 55,
     "max_days_to_resolution": 90,
-    "max_holding_hours": 24,
+    "max_holding_hours": 72,
     "take_profit_pct": 15.0,
     "stop_loss_pct": 15.0,
     "stop_loss_grace_hours": 4.0,
@@ -35,6 +35,7 @@ DEFAULT_CONFIG = {
     "simulation_active": True,
     "niche_priority_active": True,
     "dynamic_sizing_active": True,
+    "maturity_threshold": 0.98,
     "followed_traders": [
         {
             "address": "0x56687bf447db6ffa42ffe2204a05edaa20f55839",
@@ -240,6 +241,22 @@ def load_config():
     if config_data.get("copy_only_best_wins") is False:
         config_data["copy_only_best_wins"] = True
         updated = True
+
+    # Migration: Change max_copy_price to 0.85 if it was 0.95
+    if config_data.get("max_copy_price") == 0.95:
+        config_data["max_copy_price"] = 0.85
+        updated = True
+
+    # Migration: Change min_best_bet_score to 55 if it was 65
+    if config_data.get("min_best_bet_score") == 65:
+        config_data["min_best_bet_score"] = 55
+        updated = True
+
+    # Migration: Change max_holding_hours to 72 if it was 0 or 24
+    if config_data.get("max_holding_hours") in [0, 24]:
+        config_data["max_holding_hours"] = 72
+        updated = True
+
 
     if updated:
         save_config(config_data)
