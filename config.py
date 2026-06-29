@@ -11,7 +11,7 @@ STATE_PATH = os.path.join(DATA_DIR, "state.json")
 DEFAULT_CONFIG = {
     "starting_capital": 10000.0,
     "poll_interval_seconds": 30,
-    "execution_mode": "market_price",  # "whale_price" or "market_price"
+    "execution_mode": "whale_price",  # "whale_price" or "market_price"
     "slippage_bps": 0,  # 0 bps = 0%
     "min_copy_price": 0.40,
     "max_copy_price": 0.85,
@@ -261,9 +261,9 @@ def load_config():
         config_data["max_holding_hours"] = 72
         updated = True
 
-    # Migration: Change execution_mode to market_price
-    if config_data.get("execution_mode") == "whale_price":
-        config_data["execution_mode"] = "market_price"
+    # Migration: Change execution_mode to whale_price for instant v1.7 execution
+    if config_data.get("execution_mode") == "market_price":
+        config_data["execution_mode"] = "whale_price"
         updated = True
 
 
@@ -318,15 +318,6 @@ def load_state(config=None):
         _has_loaded_state_from_gist = True
         gist_state = fetch_from_gist("polycopy_state.json")
         if gist_state and isinstance(gist_state, dict) and gist_state:
-            if gist_state.get("cash_usdc", 0) != 10340.33 or len(gist_state.get("positions", {})) > 0:
-                gist_state["cash_usdc"] = 10340.33
-                gist_state["positions"] = {}
-                if gist_state.get("portfolio_value_history"):
-                    gist_state["portfolio_value_history"][-1]["cash"] = 10340.33
-                    gist_state["portfolio_value_history"][-1]["holdings_value"] = 0.0
-                    gist_state["portfolio_value_history"][-1]["total_equity"] = 10340.33
-                import threading
-                threading.Thread(target=save_to_gist_async, args=("polycopy_state.json", gist_state), daemon=True).start()
             with open(STATE_PATH, "w") as f:
                 json.dump(gist_state, f, indent=2)
             return gist_state
@@ -351,14 +342,6 @@ def load_state(config=None):
                         state[key] = {}
                     elif key in ["trades", "processed_tx_hashes", "logs"]:
                         state[key] = []
-            if state.get("cash_usdc", 0) != 10340.33 or len(state.get("positions", {})) > 0:
-                state["cash_usdc"] = 10340.33
-                state["positions"] = {}
-                if state.get("portfolio_value_history"):
-                    state["portfolio_value_history"][-1]["cash"] = 10340.33
-                    state["portfolio_value_history"][-1]["holdings_value"] = 0.0
-                    state["portfolio_value_history"][-1]["total_equity"] = 10340.33
-                save_state(state)
             return state
     except Exception as e:
         print(f"Error loading state: {e}. Reinitializing.")
