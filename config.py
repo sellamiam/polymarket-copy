@@ -11,7 +11,7 @@ STATE_PATH = os.path.join(DATA_DIR, "state.json")
 DEFAULT_CONFIG = {
     "starting_capital": 10000.0,
     "poll_interval_seconds": 30,
-    "execution_mode": "whale_price",  # "whale_price" or "market_price"
+    "execution_mode": "market_price",  # "whale_price" or "market_price"
     "slippage_bps": 0,  # 0 bps = 0%
     "min_copy_price": 0.40,
     "max_copy_price": 0.85,
@@ -20,10 +20,12 @@ DEFAULT_CONFIG = {
     "max_days_to_resolution": 90,
     "max_holding_hours": 72,
     "take_profit_pct": 15.0,
+    "value_play_take_profit_pct": 40.0,
     "stop_loss_pct": 15.0,
     "stop_loss_grace_hours": 4.0,
     "min_whale_trade_size": 500.0,
     "max_market_exposure": 500.0,
+    "max_cluster_exposure": 600.0,
     "min_market_liquidity": 1000.0,
     "min_market_volume": 5000.0,
     "min_whale_roi": 0.01,
@@ -35,6 +37,8 @@ DEFAULT_CONFIG = {
     "simulation_active": True,
     "niche_priority_active": True,
     "dynamic_sizing_active": True,
+    "enable_whale_auto_pruning": True,
+    "min_whale_win_rate": 40.0,
     "maturity_threshold": 0.98,
     "followed_traders": [
         {
@@ -255,6 +259,11 @@ def load_config():
     # Migration: Change max_holding_hours to 72 if it was 0 or 24
     if config_data.get("max_holding_hours") in [0, 24]:
         config_data["max_holding_hours"] = 72
+        updated = True
+
+    # Migration: Change execution_mode to market_price
+    if config_data.get("execution_mode") == "whale_price":
+        config_data["execution_mode"] = "market_price"
         updated = True
 
 
