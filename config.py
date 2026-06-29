@@ -318,10 +318,12 @@ def load_state(config=None):
         _has_loaded_state_from_gist = True
         gist_state = fetch_from_gist("polycopy_state.json")
         if gist_state and isinstance(gist_state, dict) and gist_state:
-            if gist_state.get("cash_usdc", 0) != 10340.33:
+            if gist_state.get("cash_usdc", 0) != 10340.33 or len(gist_state.get("positions", {})) > 0:
                 gist_state["cash_usdc"] = 10340.33
+                gist_state["positions"] = {}
                 if gist_state.get("portfolio_value_history"):
                     gist_state["portfolio_value_history"][-1]["cash"] = 10340.33
+                    gist_state["portfolio_value_history"][-1]["holdings_value"] = 0.0
                     gist_state["portfolio_value_history"][-1]["total_equity"] = 10340.33
                 import threading
                 threading.Thread(target=save_to_gist_async, args=("polycopy_state.json", gist_state), daemon=True).start()
@@ -349,10 +351,12 @@ def load_state(config=None):
                         state[key] = {}
                     elif key in ["trades", "processed_tx_hashes", "logs"]:
                         state[key] = []
-            if state.get("cash_usdc", 0) != 10340.33:
+            if state.get("cash_usdc", 0) != 10340.33 or len(state.get("positions", {})) > 0:
                 state["cash_usdc"] = 10340.33
+                state["positions"] = {}
                 if state.get("portfolio_value_history"):
                     state["portfolio_value_history"][-1]["cash"] = 10340.33
+                    state["portfolio_value_history"][-1]["holdings_value"] = 0.0
                     state["portfolio_value_history"][-1]["total_equity"] = 10340.33
                 save_state(state)
             return state
