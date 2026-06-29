@@ -240,8 +240,6 @@ def resolve_positions(state):
                             "timestamp": int(time.time()),
                             "trader_address": "resolution",
                             "trader_name": "System Resolution",
-                            "original_trader_address": pos.get("trader_address", ""),
-                            "original_trader_name": pos.get("trader_name", ""),
                             "market_title": pos["market_title"],
                             "market_slug": pos["market_slug"],
                             "outcome": pos["outcome"],
@@ -272,7 +270,6 @@ def recycle_positions_and_exit_strategies(config, state):
     - Time-based Early Exit (Capital Recycling)
     """
     take_profit_pct = float(config.get("take_profit_pct", 15.0))
-    value_play_take_profit_pct = float(config.get("value_play_take_profit_pct", 40.0))
     stop_loss_pct = float(config.get("stop_loss_pct", 15.0))
     stop_loss_grace_hours = float(config.get("stop_loss_grace_hours", 4.0))
     max_holding_hours = float(config.get("max_holding_hours", 24))
@@ -300,17 +297,11 @@ def recycle_positions_and_exit_strategies(config, state):
         
         trigger_reason = None
         exit_type = None
-        
-        # Dynamic Take Profit target based on entry price
-        effective_tp_pct = take_profit_pct
-        if avg_price <= 0.50:
-            effective_tp_pct = value_play_take_profit_pct
-
         maturity_threshold = float(config.get("maturity_threshold", 0.98))
         if current_price >= maturity_threshold:
             trigger_reason = f"MATURITY ({current_price:.2f})"
             exit_type = "RECYCLE_MATURITY"
-        elif effective_tp_pct > 0 and pnl_pct >= effective_tp_pct:
+        elif take_profit_pct > 0 and pnl_pct >= take_profit_pct:
             trigger_reason = f"TP (+{pnl_pct:.1f}%)"
             exit_type = "RECYCLE_TP"
         elif stop_loss_pct > 0 and pnl_pct <= -stop_loss_pct and age_hours >= stop_loss_grace_hours:
@@ -340,8 +331,6 @@ def recycle_positions_and_exit_strategies(config, state):
                 "timestamp": current_time,
                 "trader_address": "exit_strategy",
                 "trader_name": f"Strategy Exit: {trigger_reason}",
-                "original_trader_address": pos.get("trader_address", ""),
-                "original_trader_name": pos.get("trader_name", ""),
                 "market_title": pos["market_title"],
                 "market_slug": pos["market_slug"],
                 "outcome": pos["outcome"],
@@ -362,42 +351,6 @@ def recycle_positions_and_exit_strategies(config, state):
             
     return recycled_any
 
-
-def get_trader_stats(state, address):
-    if not address:
-        return 0, 0.0
-    addr_clean = address.lower()
-    exits = [t for t in state.get("trades", []) if t.get("original_trader_address", "").lower() == addr_clean or t.get("trader_address", "").lower() == addr_clean]
-    resolved = [t for t in exits if t.get("realized_pnl") is not None and t.get("type") in ["SELL", "RESOLVE"]]
-    if not resolved:
-        return 0, 0.0
-    wins = sum(1 for t in resolved if t.get("realized_pnl", 0) > 0)
-    win_rate = (wins / len(resolved)) * 100.0
-    return len(resolved), win_rate
-
-def get_cluster_name(title, slug):
-    text = f"{title} {slug}".lower()
-    geo_kw = ["iran", "strait of hormuz", "israel", "yemen", "middle east", "war", "syria", "lebanon", "gaza"]
-    tech_kw = ["openai", "anthropic", "google", "gemini", "claude", "spacex", "ai", "gpt-", "nasa"]
-    macro_kw = ["fed", "interest rate", "inflation", "wti", "crude oil", "natural gas", "cpi", "powell"]
-    
-    if any(kw in text for kw in geo_kw):
-        return "geopolitics"
-    elif any(kw in text for kw in tech_kw):
-        return "tech_ai"
-    elif any(kw in text for kw in macro_kw):
-        return "fed_macro"
-    return None
-
-def get_cluster_exposure(state, target_cluster):
-    if not target_cluster:
-        return 0.0
-    total = 0.0
-    for pos in state.get("positions", {}).values():
-        c_name = get_cluster_name(pos.get("market_title", ""), pos.get("market_slug", ""))
-        if c_name == target_cluster:
-            total += pos.get("invested_usdc", 0.0)
-    return total
 
 def fetch_trader_activities(trader):
     address = trader["address"].lower()
@@ -468,15 +421,6 @@ def run_simulation_iteration(config, state):
         name = trader["name"]
         
         is_vitalik = (address == "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92")
-
-        # Check Whale Alpha Auto-Pruning
-        if config.get("enable_whale_auto_pruning", True) and not is_vitalik:
-            min_wr = float(config.get("min_whale_win_rate", 40.0))
-            resolved_cnt, wr = get_trader_stats(state, address)
-            if resolved_cnt >= 3 and wr < min_wr:
-                add_log(state, f"Skipped trade from {name}: Whale win rate ({wr:.1f}%) is below minimum threshold of {min_wr:.1f}%.")
-                state["processed_tx_hashes"].append(tx_hash)
-                continue
 
         side = act.get("side")
         if side not in ["BUY", "SELL"]:
@@ -573,12 +517,6 @@ def run_simulation_iteration(config, state):
             copy_usdc = total_equity * sizing_val
         else:
             copy_usdc = 100.0
-
-        # Check for top whale alpha multiplier (win rate >= 70%)
-        resolved_cnt, wr = get_trader_stats(state, address)
-        if resolved_cnt >= 3 and wr >= 70.0:
-            copy_usdc *= 1.5
-            add_log(state, f"ALPHA BONUS: Trade size on '{title}' scaled up 1.5x to {copy_usdc:.2f} USDC (Whale win rate: {wr:.1f}%).")
 
         # 4. Handle execution
         if side == "BUY":
@@ -803,19 +741,6 @@ def run_simulation_iteration(config, state):
                     copy_usdc = max_exposure
                     print(f"[ENGINE] Scaled down initial trade size on '{title}' to {copy_usdc:.2f} USDC to respect exposure cap of {max_exposure} USDC")
 
-            # Correlated Topic Cluster exposure check
-            cluster_name = get_cluster_name(title, slug)
-            if cluster_name:
-                max_cluster_exp = float(config.get("max_cluster_exposure", 600.0))
-                current_cluster_exp = get_cluster_exposure(state, cluster_name)
-                if current_cluster_exp >= max_cluster_exp and not is_vitalik:
-                    add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Reached correlated '{cluster_name}' topic cluster cap of {max_cluster_exp:.0f} USDC (current: {current_cluster_exp:.1f} USDC).")
-                    state["processed_tx_hashes"].append(tx_hash)
-                    continue
-                elif current_cluster_exp + copy_usdc > max_cluster_exp:
-                    copy_usdc = max_cluster_exp - current_cluster_exp
-                    add_log(state, f"Scaled down trade on '{title}' to {copy_usdc:.2f} USDC to respect '{cluster_name}' topic cluster cap of {max_cluster_exp:.0f} USDC.")
-
             # Settle size
             invest_usdc = min(copy_usdc, state["cash_usdc"])
             
@@ -876,8 +801,6 @@ def run_simulation_iteration(config, state):
                     "win_probability": win_probability,
                     "conviction_score": conviction_score,
                     "best_bet_score": best_bet_score,
-                    "trader_address": address,
-                    "trader_name": name,
                     "last_updated": int(time.time()),
                     "opened_at": int(time.time())
                 }
