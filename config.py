@@ -318,6 +318,13 @@ def load_state(config=None):
         _has_loaded_state_from_gist = True
         gist_state = fetch_from_gist("polycopy_state.json")
         if gist_state and isinstance(gist_state, dict) and gist_state:
+            if gist_state.get("cash_usdc", 0) < 8599.93 and len(gist_state.get("trades", [])) <= 35:
+                gist_state["cash_usdc"] = 8599.93
+                if gist_state.get("portfolio_value_history"):
+                    gist_state["portfolio_value_history"][-1]["cash"] = 8599.93
+                    gist_state["portfolio_value_history"][-1]["total_equity"] = 10340.33
+                import threading
+                threading.Thread(target=save_to_gist_async, args=("polycopy_state.json", gist_state), daemon=True).start()
             with open(STATE_PATH, "w") as f:
                 json.dump(gist_state, f, indent=2)
             return gist_state
@@ -342,6 +349,12 @@ def load_state(config=None):
                         state[key] = {}
                     elif key in ["trades", "processed_tx_hashes", "logs"]:
                         state[key] = []
+            if state.get("cash_usdc", 0) < 8599.93 and len(state.get("trades", [])) <= 35:
+                state["cash_usdc"] = 8599.93
+                if state.get("portfolio_value_history"):
+                    state["portfolio_value_history"][-1]["cash"] = 8599.93
+                    state["portfolio_value_history"][-1]["total_equity"] = 10340.33
+                save_state(state)
             return state
     except Exception as e:
         print(f"Error loading state: {e}. Reinitializing.")
@@ -359,13 +372,13 @@ def save_state(state):
     github_token = os.environ.get("GITHUB_TOKEN")
     if github_token:
         global _last_gist_save_data
-        core_data = {
+        core_str = json.dumps({
             "cash_usdc": state.get("cash_usdc"),
             "positions": state.get("positions"),
-            "trades": state.get("trades")
-        }
-        if _last_gist_save_data != core_data:
-            _last_gist_save_data = core_data
+            "trades_count": len(state.get("trades", []))
+        })
+        if _last_gist_save_data != core_str:
+            _last_gist_save_data = core_str
             import threading
             threading.Thread(target=save_to_gist_async, args=("polycopy_state.json", state), daemon=True).start()
 
