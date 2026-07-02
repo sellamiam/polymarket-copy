@@ -280,6 +280,13 @@ function renderDashboard(data) {
     const countPositions = Object.keys(state.positions).length;
     document.getElementById('val-open-positions').textContent = `${countPositions} Active Positions`;
 
+    // Render Win Rate
+    const winRate = state.win_rate !== undefined ? state.win_rate : 0.0;
+    const resolvedCount = state.resolved_count !== undefined ? state.resolved_count : 0;
+    const winsCount = state.wins_count !== undefined ? state.wins_count : 0;
+    document.getElementById('val-win-rate').textContent = `${winRate.toFixed(1)}%`;
+    document.getElementById('val-resolved-count').textContent = `${winsCount} wins / ${resolvedCount} resolved`;
+
     // Profit Calculations
     const startingCapital = config.starting_capital;
     const pnlUsd = totalEquity - startingCapital;

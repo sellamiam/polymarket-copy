@@ -94,6 +94,12 @@ def get_state():
         total_equity = state["cash_usdc"] + holdings_value
         config.save_state(state)
         
+    # Calculate win rate stats
+    trades = state.get("trades", [])
+    resolved_trades = [t for t in trades if t.get("type") in ["SELL", "RESOLVE"]]
+    wins_count = sum(1 for t in resolved_trades if t.get("realized_pnl", 0.0) > 0.0)
+    win_rate = (wins_count / len(resolved_trades) * 100.0) if resolved_trades else 0.0
+
     # Create lightweight config (exclude followed_traders)
     light_config = {k: v for k, v in cfg.items() if k != "followed_traders"}
     
@@ -102,7 +108,10 @@ def get_state():
         "cash_usdc": state.get("cash_usdc"),
         "positions": state.get("positions"),
         "portfolio_value_history": state.get("portfolio_value_history", []),
-        "has_trades": len(state.get("trades", [])) > 0
+        "has_trades": len(trades) > 0,
+        "win_rate": win_rate,
+        "resolved_count": len(resolved_trades),
+        "wins_count": wins_count
     }
         
     return {

@@ -406,6 +406,9 @@ body {
 .metric-card:nth-child(4)::before {
     background-color: var(--color-primary);
 }
+.metric-card:nth-child(5)::before {
+    background-color: var(--color-warning);
+}
 
 .metric-header {
     display: flex;

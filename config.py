@@ -24,8 +24,8 @@ DEFAULT_CONFIG = {
     "stop_loss_pct": 15.0,
     "stop_loss_grace_hours": 4.0,
     "min_whale_trade_size": 500.0,
-    "max_market_exposure": 500.0,
-    "max_cluster_exposure": 600.0,
+    "max_market_exposure": 1000.0,
+    "max_cluster_exposure": 1200.0,
     "min_market_liquidity": 1000.0,
     "min_market_volume": 5000.0,
     "min_whale_roi": 0.01,
@@ -46,21 +46,21 @@ DEFAULT_CONFIG = {
             "name": "Theo4 (Rank 1)",
             "enabled": True,
             "sizing_type": "fixed",
-            "sizing_value": 100.0
+            "sizing_value": 200.0
         },
         {
             "address": "0x1f2dd6d473f3e824cd2f8a89d9c69fb96f6ad0cf",
             "name": "Fredi9999 (Rank 2)",
             "enabled": True,
             "sizing_type": "fixed",
-            "sizing_value": 100.0
+            "sizing_value": 200.0
         },
         {
             "address": "0x6a72f61820b26b1fe4d956e17b6dc2a1ea3033ee",
             "name": "kch123 (Rank 3)",
             "enabled": True,
             "sizing_type": "fixed",
-            "sizing_value": 100.0
+            "sizing_value": 200.0
         }
     ]
 }
