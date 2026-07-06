@@ -17,7 +17,7 @@
       "best_bet_score": 86,
       "trader_address": "0xbf961d0c79db0bf55050cadc0995835f09c09942",
       "trader_name": "browne (MONTH Rank 844)",
-      "last_updated": 1783378225,
+      "last_updated": 1783378292,
       "opened_at": 1783155975,
       "bid_price": 0.81
     },
@@ -37,7 +37,7 @@
       "best_bet_score": 58,
       "trader_address": "0x9ca119b8cd7bdb890aecf1ff3b0f6e3a45cc13b5",
       "trader_name": "JoeBlack01 (MONTH Rank 1000)",
-      "last_updated": 1783378225,
+      "last_updated": 1783378292,
       "opened_at": 1783205605,
       "bid_price": 0.53
     },
@@ -57,7 +57,7 @@
       "best_bet_score": 67,
       "trader_address": "0xce1d15f4ab2e11cca6fefe4fe7d70889e6531b9b",
       "trader_name": "armads (WEEK Rank 392)",
-      "last_updated": 1783378226,
+      "last_updated": 1783378293,
       "opened_at": 1783229249,
       "bid_price": 0.45
     },
@@ -77,7 +77,7 @@
       "best_bet_score": 85,
       "trader_address": "0xe7387473b067235436884d16799777cf279edf65",
       "trader_name": "Huludubu (ALL Rank 662)",
-      "last_updated": 1783378226,
+      "last_updated": 1783378293,
       "opened_at": 1783231794,
       "bid_price": 0.805
     },
@@ -97,7 +97,7 @@
       "best_bet_score": 84,
       "trader_address": "0x3c918a8ef8c379304f744592120cbb4d76149af7",
       "trader_name": "Vilgefortz (ALL Rank 703)",
-      "last_updated": 1783378227,
+      "last_updated": 1783378294,
       "opened_at": 1783261149,
       "bid_price": 0.81
     },
@@ -117,7 +117,7 @@
       "best_bet_score": 82,
       "trader_address": "0xc2e98eb992cf48744c9761797497fada7b64e288",
       "trader_name": "dreivierteljaeger (MONTH Rank 834)",
-      "last_updated": 1783378227,
+      "last_updated": 1783378294,
       "opened_at": 1783314243,
       "bid_price": 0.77
     },
@@ -137,7 +137,7 @@
       "best_bet_score": 77,
       "trader_address": "0xa8c63f775ddbbe66b56614191747def3021444e8",
       "trader_name": "Tenebrus7 (MONTH Rank 912)",
-      "last_updated": 1783378228,
+      "last_updated": 1783378295,
       "opened_at": 1783327727,
       "bid_price": 0.7
     },
@@ -157,18 +157,12 @@
       "best_bet_score": 83,
       "trader_address": "0x69c96d22e1be6f6cd9fa32bb45f5fd5b7b423b29",
       "trader_name": "Akvyr (WEEK Rank 969)",
-      "last_updated": 1783378228,
+      "last_updated": 1783378295,
       "opened_at": 1783335484,
       "bid_price": 0.84
     }
   },
   "portfolio_value_history": [
-    {
-      "timestamp": 1783209553,
-      "cash": 7840.778588967318,
-      "holdings_value": 2223.1007667230415,
-      "total_equity": 10063.879355690358
-    },
     {
       "timestamp": 1783209878,
       "cash": 7840.778588967318,
@@ -3168,6 +3162,12 @@
       "cash": 8529.222884373203,
       "holdings_value": 1488.6675095166165,
       "total_equity": 10017.890393889818
+    },
+    {
+      "timestamp": 1783378295,
+      "cash": 8529.222884373203,
+      "holdings_value": 1488.6675095166165,
+      "total_equity": 10017.890393889818
     }
   ],
   "has_trades": true,
@@ -3185,7 +3185,8 @@
     "0x5fbe42e477a49d061d83c30c0f025067dea4e537581b789c6fc86219146a06d2",
     "0x42d0ffd1a1092371775daab7f0cd01029225a64477cce9b44203c97ed2d1589c",
     "0x7b0aa2ebf7570b2d11419d6d5ad245f8c5e4daffda989b9349052e25b3ea26f4",
-    "0x69377437bc14efb88d8ae45c0c239adb3f7e9143ab3ac723a55a682c08d2b75f"
+    "0x69377437bc14efb88d8ae45c0c239adb3f7e9143ab3ac723a55a682c08d2b75f",
+    "0x93b3437f105b57b90cca1cae89a039ba0905320e3c2ef80eda3593ba93ee49a7"
   ],
   "logs": [
     {
@@ -3243,6 +3244,14 @@
     {
       "timestamp": 1783378254,
       "message": "Synced 50 top whales from leaderboards. Added 1, pruned 1 stale. Total: 86"
+    },
+    {
+      "timestamp": 1783378291,
+      "message": "Skipped BUY on 'United States vs. Belgium: O/U 1.5' (Over) from Zzzz87 (WEEK Rank 12): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1783378321,
+      "message": "Synced 50 top whales from leaderboards. Added 0, pruned 0 stale. Total: 86"
     }
   ]
 }

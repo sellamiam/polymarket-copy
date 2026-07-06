@@ -372,12 +372,6 @@ def get_leaderboard(timePeriod: str = "WEEK"):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching leaderboard: {str(e)}")
 
-@app.post("/api/control/restore-state-secret-123")
-def restore_state_secret_123(new_state: dict):
-    with bot_engine._state_lock:
-        config.save_state(new_state)
-    return {"status": "success", "message": "State restored and saved to Gist successfully."}
-
 # Ensure frontend directories exist
 PUBLIC_DIR = os.path.join(config.BASE_DIR, "public")
 if not os.path.exists(PUBLIC_DIR):
