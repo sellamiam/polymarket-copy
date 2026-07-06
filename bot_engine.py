@@ -136,13 +136,19 @@ def update_live_valuations(state):
     for token_id, pos in list(state["positions"].items()):
         # Query CLOB midpoint price (fairest valuation)
         price = fetch_clob_midpoint(token_id)
+        bid = fetch_clob_price(token_id, "buy")
+        
         if price is not None:
             pos["current_price"] = price
         else:
             # Fallback to best bid
-            bid = fetch_clob_price(token_id, "buy")
             price = bid if bid is not None else pos.get("current_price", pos["avg_price"])
             pos["current_price"] = price
+            
+        if bid is not None:
+            pos["bid_price"] = bid
+        else:
+            pos["bid_price"] = price
         
         pos_value = pos["quantity"] * price
         total_holdings_value += pos_value
@@ -274,6 +280,7 @@ def recycle_positions_and_exit_strategies(config, state):
     take_profit_pct = float(config.get("take_profit_pct", 15.0))
     value_play_take_profit_pct = float(config.get("value_play_take_profit_pct", 40.0))
     stop_loss_pct = float(config.get("stop_loss_pct", 15.0))
+    catastrophic_stop_loss_pct = float(config.get("catastrophic_stop_loss_pct", 35.0))
     stop_loss_grace_hours = float(config.get("stop_loss_grace_hours", 4.0))
     max_holding_hours = float(config.get("max_holding_hours", 24))
     
@@ -282,7 +289,8 @@ def recycle_positions_and_exit_strategies(config, state):
     
     for token_id, pos in list(state["positions"].items()):
         avg_price = pos["avg_price"]
-        current_price = pos.get("current_price", avg_price)
+        # Use bid price for evaluating exits to avoid artificial midpoint spikes
+        current_price = pos.get("bid_price", pos.get("current_price", avg_price))
         
         # Check current price vs average price
         pnl_pct = 0.0
@@ -313,9 +321,11 @@ def recycle_positions_and_exit_strategies(config, state):
         elif effective_tp_pct > 0 and pnl_pct >= effective_tp_pct:
             trigger_reason = f"TP (+{pnl_pct:.1f}%)"
             exit_type = "RECYCLE_TP"
-        elif stop_loss_pct > 0 and pnl_pct <= -stop_loss_pct and age_hours >= stop_loss_grace_hours:
-            trigger_reason = f"SL ({pnl_pct:+.1f}%)"
-            exit_type = "RECYCLE_SL"
+        elif stop_loss_pct > 0 and pnl_pct <= -stop_loss_pct:
+            is_catastrophic = (catastrophic_stop_loss_pct > 0 and pnl_pct <= -catastrophic_stop_loss_pct)
+            if age_hours >= stop_loss_grace_hours or is_catastrophic:
+                trigger_reason = f"SL ({pnl_pct:+.1f}%)"
+                exit_type = "RECYCLE_SL"
         elif max_holding_hours > 0 and age_hours >= max_holding_hours:
             trigger_reason = f"TIME LIMIT ({age_hours:.1f}h)"
             exit_type = "RECYCLE_TIME"
@@ -1001,11 +1011,17 @@ def run_simulation_iteration(config, state):
     return trade_executed_or_resolved
 
 
-def sync_whales_from_leaderboard(time_period="WEEK", limit=1000):
+def sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"], limit=None):
     """
     Fetches top traders from specified timeframe(s) on the Polymarket leaderboard,
     deduplicates them, and updates followed_traders list in config.json.
     """
+    from config import save_config, load_config
+    cfg = load_config()
+    
+    if limit is None or limit == 1000:
+        limit = int(cfg.get("leaderboard_sync_limit", 50))
+
     if isinstance(time_period, str):
         time_periods = [time_period]
     else:
@@ -1043,7 +1059,8 @@ def sync_whales_from_leaderboard(time_period="WEEK", limit=1000):
                                     "name": f"{name} ({tp} Rank {rank})",
                                     "pnl": pnl,
                                     "vol": vol,
-                                    "rank": rank_val
+                                    "rank": rank_val,
+                                    "auto_synced": True
                                 }
                         if len(page_data) < 50:
                             break
@@ -1061,10 +1078,6 @@ def sync_whales_from_leaderboard(time_period="WEEK", limit=1000):
         print("No traders fetched from any leaderboard. Sync skipped.")
         return False
         
-    # Load current configuration
-    from config import save_config
-    cfg = load_config()
-    
     min_roi = float(cfg.get("min_whale_roi", 0.01))
     max_vol = float(cfg.get("max_whale_volume", 20000000.0))
     
@@ -1074,6 +1087,7 @@ def sync_whales_from_leaderboard(time_period="WEEK", limit=1000):
     updated_traders = []
     added_count = 0
     
+    # 1. Process active leaderboard whales
     for addr_clean, item in new_traders.items():
         pnl = item["pnl"]
         vol = item["vol"]
@@ -1086,6 +1100,7 @@ def sync_whales_from_leaderboard(time_period="WEEK", limit=1000):
             trader_cfg["pnl"] = item["pnl"]
             trader_cfg["vol"] = item["vol"]
             trader_cfg["rank"] = item["rank"]
+            trader_cfg["auto_synced"] = True # Ensure tag exists
             updated_traders.append(trader_cfg)
         else:
             new_trader = {
@@ -1096,25 +1111,31 @@ def sync_whales_from_leaderboard(time_period="WEEK", limit=1000):
                 "sizing_value": 100.0,
                 "pnl": item["pnl"],
                 "vol": item["vol"],
-                "rank": item["rank"]
+                "rank": item["rank"],
+                "auto_synced": True
             }
             updated_traders.append(new_trader)
             added_count += 1
             
-    # Add any traders that were manually added before but not in these leaderboards
+    # 2. Retain manual followed traders and prune stale auto-synced ones
     new_addresses = {t["address"].lower() for t in updated_traders}
+    pruned_count = 0
     for addr_clean, trader_cfg in current_map.items():
         if addr_clean not in new_addresses:
-            updated_traders.append(trader_cfg)
-            
+            # If not in the new leaderboard lists, ONLY retain if it was manually added (not tagged as auto_synced)
+            if not trader_cfg.get("auto_synced", False):
+                updated_traders.append(trader_cfg)
+            else:
+                pruned_count += 1
+                
     cfg["followed_traders"] = updated_traders
     save_config(cfg)
-    print(f"Leaderboard sync completed. Added {added_count} new whales. Total followed whales: {len(updated_traders)}")
+    print(f"Leaderboard sync completed. Added {added_count} new whales, pruned {pruned_count} stale auto-synced whales. Total followed whales: {len(updated_traders)}")
     
     # Add a system log entry if state is loaded
     try:
         state = load_state(cfg)
-        add_log(state, f"Synced {limit} top whales from {time_periods} leaderboards. Added {added_count} new whales. Total: {len(updated_traders)}")
+        add_log(state, f"Synced {limit} top whales from leaderboards. Added {added_count}, pruned {pruned_count} stale. Total: {len(updated_traders)}")
         save_state(state)
     except Exception as e:
         print(f"Failed to write log for leaderboard sync: {e}")
@@ -1135,7 +1156,7 @@ def _run_loop():
             current_time = time.time()
             if current_time - _last_sync_time >= 3600:
                 try:
-                    sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"], limit=1000)
+                    sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"])
                     _last_sync_time = current_time
                     # Reload config
                     config = load_config()

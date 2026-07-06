@@ -40,6 +40,8 @@ DEFAULT_CONFIG = {
     "enable_whale_auto_pruning": True,
     "min_whale_win_rate": 40.0,
     "maturity_threshold": 0.98,
+    "leaderboard_sync_limit": 50,
+    "catastrophic_stop_loss_pct": 35.0,
     "followed_traders": [
         {
             "address": "0x56687bf447db6ffa42ffe2204a05edaa20f55839",
@@ -260,6 +262,18 @@ def load_config():
     if config_data.get("max_holding_hours") in [0, 24]:
         config_data["max_holding_hours"] = 72
         updated = True
+
+    # Migration: Mark existing auto-synced followed traders (excluding default hand-picked ones) with auto_synced = True
+    default_addresses = {
+        "0x56687bf447db6ffa42ffe2204a05edaa20f55839",
+        "0x1f2dd6d473f3e824cd2f8a89d9c69fb96f6ad0cf",
+        "0x6a72f61820b26b1fe4d956e17b6dc2a1ea3033ee"
+    }
+    for trader in config_data.get("followed_traders", []):
+        addr = trader.get("address", "").strip().lower()
+        if addr not in default_addresses and "auto_synced" not in trader:
+            trader["auto_synced"] = True
+            updated = True
 
 
     if updated:
