@@ -1,3524 +1,3248 @@
 {
-  "cash_usdc": 6372.159381164173,
+  "cash_usdc": 8529.222884373203,
   "positions": {
-    "90713175285238837229141362456380660699457701142142655731293716395090014512187": {
-      "token_id": "90713175285238837229141362456380660699457701142142655731293716395090014512187",
-      "condition_id": "0x4ede078cae84a5877ac32d7fb48811e5c23549a1904b7df06ff7935c6d79d831",
-      "market_title": "Will the Fed decrease interest rates by 25 bps after the July 2026 meeting?",
-      "market_slug": "will-the-fed-decrease-interest-rates-by-25-bps-after-the-july-2026-meeting",
+    "110868166890001558521729124967806292012287685900188653582015718186210230012112": {
+      "token_id": "110868166890001558521729124967806292012287685900188653582015718186210230012112",
+      "condition_id": "0xbad91c213787a7542345b8abd72a1d55754987c47ba82ef5d4aa625ac046f024",
+      "market_title": "Iran full airspace closure by August 31?",
+      "market_slug": "iran-full-airspace-closure-by-august-31-20260625195254151",
       "outcome": "No",
       "outcome_index": 1,
-      "avg_price": 0.976,
-      "quantity": 64.03688524590164,
-      "invested_usdc": 62.5,
-      "current_price": 0.9885,
-      "win_probability": 97.6,
-      "conviction_score": 53,
-      "best_bet_score": 79,
-      "last_updated": 1782431287,
-      "opened_at": 1781590052
-    },
-    "114751107762971644970449748001471899808339049185805315153522723418275189216027": {
-      "token_id": "114751107762971644970449748001471899808339049185805315153522723418275189216027",
-      "condition_id": "0xb3158189640c764ce69b40b15759c38959b10e143383f1691a801ffed1801a3f",
-      "market_title": "Will Natural Gas (NG) hit (LOW) $2.60 in June?",
-      "market_slug": "will-ng-dip-to-2-60-in-june-2026",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.9296267508438902,
-      "quantity": 107.57005422791748,
-      "invested_usdc": 100.0,
-      "current_price": 0.9865,
-      "win_probability": 92.962675084389,
-      "conviction_score": 67,
-      "best_bet_score": 81,
-      "last_updated": 1782431287,
-      "opened_at": 1781590710
-    },
-    "50213736974673775328742162481203859951544523772143275750971594075670843644962": {
-      "token_id": "50213736974673775328742162481203859951544523772143275750971594075670843644962",
-      "condition_id": "0xf594894c1077567713bc88219fd6bcfcec8ea1e0f6e29cbcc9d7688f1c9c11c9",
-      "market_title": "Will SpaceX's valuation hit (HIGH) $4.0T by June 30?",
-      "market_slug": "will-spacexs-valuation-hit-high-4pt0t-by-june-30",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.9247142857142857,
-      "quantity": 67.58844430712189,
-      "invested_usdc": 62.5,
-      "current_price": 0.9985,
-      "win_probability": 92.47142857142858,
-      "conviction_score": 82,
-      "best_bet_score": 88,
-      "last_updated": 1782431288,
-      "opened_at": 1781596335
-    },
-    "73236020982042322107719049752749478285487797346322886261660588599081906662415": {
-      "token_id": "73236020982042322107719049752749478285487797346322886261660588599081906662415",
-      "condition_id": "0x8a8e093b25d7909ae01e944e746a1dee88801224fcff001c1c890ca43e2a66e1",
-      "market_title": "Will Google have the best AI model at the end of July 2026?",
-      "market_slug": "will-google-have-the-best-ai-model-at-the-end-of-july-2026",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.9089999999888767,
-      "quantity": 68.75687568841012,
-      "invested_usdc": 62.5,
-      "current_price": 0.8875,
-      "win_probability": 90.89999999888767,
-      "conviction_score": 57,
-      "best_bet_score": 77,
-      "last_updated": 1782431288,
-      "opened_at": 1781600192
-    },
-    "13027444340625636231565472574863301094252851747124685652247868441631219021669": {
-      "token_id": "13027444340625636231565472574863301094252851747124685652247868441631219021669",
-      "condition_id": "0xed5356b5d6f3b0d1095e21d586214de01b438ccb8d0ae5c59b55647d8fc95e97",
-      "market_title": "Will OpenAI have the best AI model at the end of July 2026?",
-      "market_slug": "will-openai-have-the-best-ai-model-at-the-end-of-july-2026",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.9369999994104119,
-      "quantity": 66.70224123727519,
-      "invested_usdc": 62.5,
-      "current_price": 0.975,
-      "win_probability": 93.69999994104118,
-      "conviction_score": 58,
-      "best_bet_score": 79,
-      "last_updated": 1782431288,
-      "opened_at": 1781600192
-    },
-    "59148378005891809491211416100126897026310179790411869168117833625964267167611": {
-      "token_id": "59148378005891809491211416100126897026310179790411869168117833625964267167611",
-      "condition_id": "0x734c6c32a62f8a27035a222e45fc388d59eeffe89bb31ab26054bc29bcc3eee7",
-      "market_title": "Will OpenAI have the best AI model at the end of June 2026?",
-      "market_slug": "will-openai-have-the-best-ai-model-at-the-end-of-june-2026",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.975,
-      "quantity": 192.30769230769232,
-      "invested_usdc": 187.5,
-      "current_price": 0.9975,
-      "win_probability": 97.5,
-      "conviction_score": 50,
-      "best_bet_score": 78,
-      "last_updated": 1782431289,
-      "opened_at": 1781601811
-    },
-    "55343546711440719852073804567266677523610031228702521608443447223099518953270": {
-      "token_id": "55343546711440719852073804567266677523610031228702521608443447223099518953270",
-      "condition_id": "0x0bd1b836a2494f80aaee62927cf01e5f6fceb19114e96fc517c6440aea4576e4",
-      "market_title": "Will Google have the best AI model at the end of June 2026?",
-      "market_slug": "will-google-have-the-best-ai-model-at-the-end-of-june-2026",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.9499999801752891,
-      "quantity": 197.3684251713389,
-      "invested_usdc": 187.5,
-      "current_price": 0.9965,
-      "win_probability": 94.99999801752891,
-      "conviction_score": 49,
-      "best_bet_score": 76,
-      "last_updated": 1782431289,
-      "opened_at": 1781601811
-    },
-    "28018301924515699276187669321374775330876489832195957471203403043828118352708": {
-      "token_id": "28018301924515699276187669321374775330876489832195957471203403043828118352708",
-      "condition_id": "0x9d1baa5763fc4ca1fa5b32a9ad451f7c3b7f34593535114099172b819554629a",
-      "market_title": "Will SpaceX's market cap be at least $3.5T at market close on last trading day of IPO month?",
-      "market_slug": "will-spacexs-market-cap-be-at-least-3pt5t-at-market-close-on-last-trading-day-of-ipo-month-20260606222847124",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.9075385925695278,
-      "quantity": 241.0365815746191,
-      "invested_usdc": 218.75,
-      "current_price": 0.9995,
-      "win_probability": 90.75385925695278,
-      "conviction_score": 58,
-      "best_bet_score": 75,
-      "last_updated": 1782431289,
-      "opened_at": 1781604040
-    },
-    "89755163131692314992853995455183326337741558387158779764054722427047458369201": {
-      "token_id": "89755163131692314992853995455183326337741558387158779764054722427047458369201",
-      "condition_id": "0xe5738e9bcb60cec74a360d76a4dd29a91613a053506bb562b8f909d5a8da9d8f",
-      "market_title": "Will SpaceX's market cap be between $1.0T and $1.5T at market close on last trading day of IPO month?",
-      "market_slug": "will-spacexs-market-cap-be-between-1pt0t-and-1pt5t-at-market-close-on-last-trading-day-of-ipo-month-20260606222847119",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.969714075165807,
-      "quantity": 225.58195823093212,
-      "invested_usdc": 218.75,
-      "current_price": 0.9785,
-      "win_probability": 96.9714075165807,
-      "conviction_score": 59,
-      "best_bet_score": 80,
-      "last_updated": 1782431290,
-      "opened_at": 1781604040
-    },
-    "114104472306591945268915757804008548140968826233118465750493181618161515891788": {
-      "token_id": "114104472306591945268915757804008548140968826233118465750493181618161515891788",
-      "condition_id": "0xfda39f53af27c1bc9848abde483fdb98969d1dfc285bc6a2fe5d56e9c1c677cb",
-      "market_title": "Will Benjamin Netanyahu sign a U.S. x Iran deal by July 31?",
-      "market_slug": "will-benjamin-netanyahu-sign-a-uptspt-x-iran-deal-by-july-31-20260611235950076",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.949248903168588,
-      "quantity": 184.3562836004876,
-      "invested_usdc": 175.0,
-      "current_price": 0.976,
-      "win_probability": 94.92489031685881,
-      "conviction_score": 74,
-      "best_bet_score": 86,
-      "last_updated": 1782431290,
-      "opened_at": 1781604705
-    },
-    "2835051977182340629127676763565214541008322782277578957590789074321754131169": {
-      "token_id": "2835051977182340629127676763565214541008322782277578957590789074321754131169",
-      "condition_id": "0xb248b9dfdd554f6a6507b6addab97228fdbe5ce7f8e4f1abceb5267c6c8ef9ab",
-      "market_title": "Will Crude Oil (CL) hit (HIGH) $95 by end of June?",
-      "market_slug": "will-crude-oil-cl-hit-high-95-by-end-of-june",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.9500000000000001,
-      "quantity": 157.89473684210526,
-      "invested_usdc": 150.0,
-      "current_price": 0.993,
-      "win_probability": 95.0,
-      "conviction_score": 87,
-      "best_bet_score": 92,
-      "last_updated": 1782431290,
-      "opened_at": 1781607255
-    },
-    "57636856479288876949329778030986031957874207957018742680442136509694492101231": {
-      "token_id": "57636856479288876949329778030986031957874207957018742680442136509694492101231",
-      "condition_id": "0xe105fe12d6846691be333319de4ea7ea5f354d051810edd25ad88b23f79e9c7b",
-      "market_title": "Will the next Google Gemini Pro model be released by July 31, 2026?",
-      "market_slug": "will-the-next-google-gemini-pro-model-be-released-by-july-31-2026-20260601225410822",
-      "outcome": "Yes",
-      "outcome_index": 0,
-      "avg_price": 0.9658714995615317,
-      "quantity": 97.06260102152189,
-      "invested_usdc": 93.75,
-      "current_price": 0.932,
-      "win_probability": 96.58714995615317,
-      "conviction_score": 72,
-      "best_bet_score": 86,
-      "last_updated": 1782431290,
-      "opened_at": 1781608205
-    },
-    "114266735877811876021362945683127542532778925409590599016489267644246881997088": {
-      "token_id": "114266735877811876021362945683127542532778925409590599016489267644246881997088",
-      "condition_id": "0x79afea6a94f0b3dffb5e0886fa1dbd740d688029f7aba351dc46911bcb1b1f95",
-      "market_title": "Will NVIDIA be the largest company in the world by market cap on June 30?",
-      "market_slug": "will-nvidia-be-the-largest-company-in-the-world-by-market-cap-on-june-30-824",
-      "outcome": "Yes",
-      "outcome_index": 0,
-      "avg_price": 0.9319999999027546,
-      "quantity": 32.18884120507534,
-      "invested_usdc": 30.0,
-      "current_price": 0.9855,
-      "win_probability": 93.19999999027546,
-      "conviction_score": 67,
-      "best_bet_score": 82,
-      "last_updated": 1782431291,
-      "opened_at": 1781626203
-    },
-    "5995818470950870559449457123419251498368225206017900936911750444697009520458": {
-      "token_id": "5995818470950870559449457123419251498368225206017900936911750444697009520458",
-      "condition_id": "0x1723b7ee4118dee6ae6be8802cb7b6e239c37d199997b20a8191e32553a5bd68",
-      "market_title": "Iran agrees to unrestricted shipping through Hormuz by June 30?",
-      "market_slug": "iran-agrees-to-unrestricted-shipping-through-hormuz-by-june-30",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.8934243762069114,
-      "quantity": 263.03289484635184,
-      "invested_usdc": 235.0,
-      "current_price": 0.982,
-      "win_probability": 89.27217447549664,
-      "conviction_score": 94,
-      "best_bet_score": 90,
-      "last_updated": 1782431291,
-      "opened_at": 1781717690
-    },
-    "111604417349377875799825956621596386269673370070912696668140891647145772186047": {
-      "token_id": "111604417349377875799825956621596386269673370070912696668140891647145772186047",
-      "condition_id": "0x8bf1c1536ecb1c08fe13c6b71e8ab1f58bf3461c4cb79f5f1679f869a06aef86",
-      "market_title": "Will there be no change in Fed interest rates after the July 2026 meeting?",
-      "market_slug": "will-there-be-no-change-in-fed-interest-rates-after-the-july-2026-meeting",
-      "outcome": "Yes",
-      "outcome_index": 0,
-      "avg_price": 0.8253521797963833,
-      "quantity": 242.32079940630987,
+      "avg_price": 0.7807799999999999,
+      "quantity": 256.1541023079485,
       "invested_usdc": 200.0,
+      "current_price": 0.815,
+      "win_probability": 78.0,
+      "conviction_score": 100,
+      "best_bet_score": 86,
+      "trader_address": "0xbf961d0c79db0bf55050cadc0995835f09c09942",
+      "trader_name": "browne (MONTH Rank 844)",
+      "last_updated": 1783378225,
+      "opened_at": 1783155975,
+      "bid_price": 0.81
+    },
+    "27439106235775318645595032971458838971379139916658536272028798702332813745098": {
+      "token_id": "27439106235775318645595032971458838971379139916658536272028798702332813745098",
+      "condition_id": "0x06c901b3983cd58bec34252a72a74d4a2f2a64e6ad359967a864dc424997967a",
+      "market_title": "Will Russia capture Kostyantynivka by July 31?",
+      "market_slug": "will-russia-capture-kostyantynivka-by-july-31",
+      "outcome": "No",
+      "outcome_index": 1,
+      "avg_price": 0.45649375361589994,
+      "quantity": 657.183143523195,
+      "invested_usdc": 300.0,
+      "current_price": 0.535,
+      "win_probability": 45.603771589999994,
+      "conviction_score": 79,
+      "best_bet_score": 58,
+      "trader_address": "0x9ca119b8cd7bdb890aecf1ff3b0f6e3a45cc13b5",
+      "trader_name": "JoeBlack01 (MONTH Rank 1000)",
+      "last_updated": 1783378225,
+      "opened_at": 1783205605,
+      "bid_price": 0.53
+    },
+    "31155599200443620024532103683912072563894181253510224263086924270624693692711": {
+      "token_id": "31155599200443620024532103683912072563894181253510224263086924270624693692711",
+      "condition_id": "0x79b7408f02df2eba4034ca4c06ddf17b8dbeacc5adbe8595969e7573912c4e3b",
+      "market_title": "US-Iran Final Nuclear Deal by December 31, 2026?",
+      "market_slug": "us-iran-final-nuclear-deal-by-december-31-2026",
+      "outcome": "Yes",
+      "outcome_index": 0,
+      "avg_price": 0.46046,
+      "quantity": 434.34826043521696,
+      "invested_usdc": 200.0,
+      "current_price": 0.455,
+      "win_probability": 46.0,
+      "conviction_score": 100,
+      "best_bet_score": 67,
+      "trader_address": "0xce1d15f4ab2e11cca6fefe4fe7d70889e6531b9b",
+      "trader_name": "armads (WEEK Rank 392)",
+      "last_updated": 1783378226,
+      "opened_at": 1783229249,
+      "bid_price": 0.45
+    },
+    "85507714663871495328289692618057549744685527165243000648106612695910333327655": {
+      "token_id": "85507714663871495328289692618057549744685527165243000648106612695910333327655",
+      "condition_id": "0x7905865e603b1ca3f443319ecaf13675d8265c299d072c60ac175bcb3758c164",
+      "market_title": "Will 40 ships transit the Strait of Hormuz on any day by July 31, 2026?",
+      "market_slug": "will-40-ships-transit-the-strait-of-hormuz-on-any-day-by-july-31-2026",
+      "outcome": "Yes",
+      "outcome_index": 0,
+      "avg_price": 0.8647915427151,
+      "quantity": 144.54350421553607,
+      "invested_usdc": 125.0,
+      "current_price": 0.816,
+      "win_probability": 86.39276151,
+      "conviction_score": 85,
+      "best_bet_score": 85,
+      "trader_address": "0xe7387473b067235436884d16799777cf279edf65",
+      "trader_name": "Huludubu (ALL Rank 662)",
+      "last_updated": 1783378226,
+      "opened_at": 1783231794,
+      "bid_price": 0.805
+    },
+    "45577571045586354580867723590187610737440858320952646656400929424079181641802": {
+      "token_id": "45577571045586354580867723590187610737440858320952646656400929424079181641802",
+      "condition_id": "0xcfa5b3d9e618d3f7dbda457b95af3b45d23e53d5b90b7474638769d0003a30bf",
+      "market_title": "Will WTI Crude Oil (WTI) hit (LOW) $60 in July?",
+      "market_slug": "will-wti-dip-to-60-in-july-2026-528",
+      "outcome": "No",
+      "outcome_index": 1,
+      "avg_price": 0.8008,
+      "quantity": 124.87512487512488,
+      "invested_usdc": 100.0,
+      "current_price": 0.82,
+      "win_probability": 80.0,
+      "conviction_score": 92,
+      "best_bet_score": 84,
+      "trader_address": "0x3c918a8ef8c379304f744592120cbb4d76149af7",
+      "trader_name": "Vilgefortz (ALL Rank 703)",
+      "last_updated": 1783378227,
+      "opened_at": 1783261149,
+      "bid_price": 0.81
+    },
+    "52063604762598593872145555045732203439433940877860974867139149583650011855442": {
+      "token_id": "52063604762598593872145555045732203439433940877860974867139149583650011855442",
+      "condition_id": "0x415f0ea19ba0b3bbcae27ffc1253e7514389dc273adff12d67acbefb7860a9d7",
+      "market_title": "Mojtaba Khamenei seen in public by August 31?",
+      "market_slug": "mojtaba-khamenei-seen-in-public-by-august-31-223",
+      "outcome": "No",
+      "outcome_index": 999,
+      "avg_price": 0.8108099999999999,
+      "quantity": 370.00037000037,
+      "invested_usdc": 300.0,
       "current_price": 0.775,
-      "win_probability": 82.4527652144239,
-      "conviction_score": 95,
-      "best_bet_score": 87,
-      "last_updated": 1782431291,
-      "opened_at": 1781721030
+      "win_probability": 81.0,
+      "conviction_score": 84,
+      "best_bet_score": 82,
+      "trader_address": "0xc2e98eb992cf48744c9761797497fada7b64e288",
+      "trader_name": "dreivierteljaeger (MONTH Rank 834)",
+      "last_updated": 1783378227,
+      "opened_at": 1783314243,
+      "bid_price": 0.77
     },
-    "7548654576472278962331253512253790143205975738913020484544464390815009920345": {
-      "token_id": "7548654576472278962331253512253790143205975738913020484544464390815009920345",
-      "condition_id": "0x1b0ef6a7dd0725f44b6d3de662f291ae28564ff65a0f97c5ff83521eb41403fc",
-      "market_title": "Will Mishal Al-Ahmad Al-Jaber Al-Sabah sign a U.S. x Iran deal by July 31?",
-      "market_slug": "will-mishal-al-ahmad-al-jaber-al-sabah-sign-a-uptspt-x-iran-deal-by-july-31-20260611235950083",
+    "4466616660652546287878751206339167591280005786877395317935492986989321679360": {
+      "token_id": "4466616660652546287878751206339167591280005786877395317935492986989321679360",
+      "condition_id": "0x4219333003bec448d39151bfe3ea3d6fa91f15bedf23c3f26e28d304be5c893a",
+      "market_title": "Mojtaba Khamenei seen in public by September 30?",
+      "market_slug": "mojtaba-khamenei-seen-in-public-by-september-30-944",
       "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.9109099999999999,
-      "quantity": 109.78032956054935,
+      "outcome_index": 999,
+      "avg_price": 0.7488052404833,
+      "quantity": 133.54607392365094,
       "invested_usdc": 100.0,
-      "current_price": 0.915,
-      "win_probability": 91.0,
-      "conviction_score": 91,
-      "best_bet_score": 91,
-      "last_updated": 1782431292,
-      "opened_at": 1781737357
-    },
-    "115582905239284776622786910155624065066180900356528127351115264932386500663112": {
-      "token_id": "115582905239284776622786910155624065066180900356528127351115264932386500663112",
-      "condition_id": "0x6710345bfeba57d1108207ee22c847b4628a376f6282404ae9987cd9d163f800",
-      "market_title": "Will WTI Crude Oil (WTI) hit (LOW) $60 in June?",
-      "market_slug": "will-wti-dip-to-60-in-june-2026-371-314-412-288-264-636-149",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.9439429999999999,
-      "quantity": 158.90790015922573,
-      "invested_usdc": 150.0,
-      "current_price": 0.9825,
-      "win_probability": 94.3,
-      "conviction_score": 87,
-      "best_bet_score": 91,
-      "last_updated": 1782431292,
-      "opened_at": 1781762077
-    },
-    "31257690721782087545855558909530748024291398703956697759040950846127149299962": {
-      "token_id": "31257690721782087545855558909530748024291398703956697759040950846127149299962",
-      "condition_id": "0xa4d72632ac0ddadcac5247ffc586a193f1bc3bc839cf9ce993c2471e0d599cca",
-      "market_title": "Will Anthropic have the best AI model at the end of June 2026?",
-      "market_slug": "will-anthropic-have-the-best-ai-model-at-the-end-of-june-2026",
-      "outcome": "Yes",
-      "outcome_index": 0,
-      "avg_price": 0.9635619827847285,
-      "quantity": 129.7269944573213,
-      "invested_usdc": 125.0,
-      "current_price": 0.9855,
-      "win_probability": 96.25993834013272,
-      "conviction_score": 100,
-      "best_bet_score": 97,
-      "last_updated": 1782431292,
-      "opened_at": 1781784807
-    },
-    "41891626705072796463652186951603605384016957343429878758408823291731995289417": {
-      "token_id": "41891626705072796463652186951603605384016957343429878758408823291731995289417",
-      "condition_id": "0xc11f41372087c4d934ae7adb869ff08272b2bcb3e242d4e628330353c130e480",
-      "market_title": "Iran agrees to surrender enriched uranium stockpile by July 31, 2026?",
-      "market_slug": "iran-agrees-to-surrender-enriched-uranium-stockpile-by-july-31-2026",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.9509499999999999,
-      "quantity": 78.86849992113152,
-      "invested_usdc": 75.0,
-      "current_price": 0.9625,
-      "win_probability": 95.0,
-      "conviction_score": 100,
-      "best_bet_score": 97,
-      "last_updated": 1782431292,
-      "opened_at": 1781786505
-    },
-    "94550935559450775195846709926390173894976112617632411747282341371217265864905": {
-      "token_id": "94550935559450775195846709926390173894976112617632411747282341371217265864905",
-      "condition_id": "0xde92ee9116b4ec9859e1af0921d98ef0088ba09c439e354265353113f6f1cb3f",
-      "market_title": "Will Elon Musk post 280-299 tweets from June 19 to June 26, 2026?",
-      "market_slug": "elon-musk-of-tweets-june-19-june-26-280-299",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.9389379999999998,
-      "quantity": 159.75495719632184,
-      "invested_usdc": 150.0,
-      "current_price": 0.9765,
-      "win_probability": 93.8,
-      "conviction_score": 94,
-      "best_bet_score": 93,
-      "last_updated": 1782431293,
-      "opened_at": 1782324924
-    },
-    "108492940972562775157754460446381692543840813377629475521497281736101973682497": {
-      "token_id": "108492940972562775157754460446381692543840813377629475521497281736101973682497",
-      "condition_id": "0x253676d94edd8f3e92060410bec8bca9117890d117d06664d31867db0e396c56",
-      "market_title": "Mojtaba Khamenei seen in public by July 31?",
-      "market_slug": "mojtaba-khamenei-seen-in-public-by-july-31-827",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.6872571979434446,
-      "quantity": 72.75296664715991,
-      "invested_usdc": 50.0,
-      "current_price": 0.645,
-      "win_probability": 68.65706273161287,
-      "conviction_score": 90,
+      "current_price": 0.715,
+      "win_probability": 74.80571833,
+      "conviction_score": 82,
       "best_bet_score": 77,
-      "last_updated": 1782431293,
-      "opened_at": 1782332873
+      "trader_address": "0xa8c63f775ddbbe66b56614191747def3021444e8",
+      "trader_name": "Tenebrus7 (MONTH Rank 912)",
+      "last_updated": 1783378228,
+      "opened_at": 1783327727,
+      "bid_price": 0.7
     },
-    "17973586937761078448873484917108971852340583833844287573538816307502825884858": {
-      "token_id": "17973586937761078448873484917108971852340583833844287573538816307502825884858",
-      "condition_id": "0xb12f5e328a7d9f7a26e0a074625ea775025104e673c776d575dab422a472ef59",
-      "market_title": "Israel closes its airspace by July 31?",
-      "market_slug": "israel-closes-its-airspace-by-july-31",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.8708699999999999,
-      "quantity": 143.534626293247,
-      "invested_usdc": 125.0,
-      "current_price": 0.865,
-      "win_probability": 87.0,
-      "conviction_score": 98,
-      "best_bet_score": 91,
-      "last_updated": 1782431293,
-      "opened_at": 1782374571
-    },
-    "69810272131058949299749068560154458454151791747012966002391839360139401075124": {
-      "token_id": "69810272131058949299749068560154458454151791747012966002391839360139401075124",
-      "condition_id": "0x1de00a36f75df703e458bde878d1730e59349f74960872f40f4b06ab06f0a5c1",
-      "market_title": "Will SpaceX's valuation hit (LOW) $1.35T by June 30?",
-      "market_slug": "will-spacexs-valuation-hit-low-1pt35t-by-june-30-826-776-326-269",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.931385451130611,
-      "quantity": 67.10433357546127,
-      "invested_usdc": 62.5,
-      "current_price": 0.9655,
-      "win_probability": 93.04549961344766,
-      "conviction_score": 93,
-      "best_bet_score": 93,
-      "last_updated": 1782431293,
-      "opened_at": 1782394969
-    },
-    "102979714187432523726496609637889951679226430871494531752837414533106422105296": {
-      "token_id": "102979714187432523726496609637889951679226430871494531752837414533106422105296",
-      "condition_id": "0xb5c0abeecb5502e6e8d83155c27819174d8317af3c425c3afc5a8c45257a3793",
-      "market_title": "Will the Fed increase interest rates by 25 bps after the July 2026 meeting?",
-      "market_slug": "will-the-fed-increase-interest-rates-by-25-bps-after-the-july-2026-meeting",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.786786,
-      "quantity": 79.4371023378657,
-      "invested_usdc": 62.5,
-      "current_price": 0.8255,
-      "win_probability": 78.60000000000001,
-      "conviction_score": 100,
-      "best_bet_score": 87,
-      "last_updated": 1782431294,
-      "opened_at": 1782396833
-    },
-    "77669758102929718590160851391714019116736856202333459817343190730743895177270": {
-      "token_id": "77669758102929718590160851391714019116736856202333459817343190730743895177270",
-      "condition_id": "0x348cd9adf4f6855f58bd9c6dbf9ff251c4142ef77233a5dc95c65b4b61cd2187",
-      "market_title": "Strait of Hormuz traffic returns to normal by end of June?",
-      "market_slug": "strait-of-hormuz-traffic-returns-to-normal-by-end-of-june",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.9109034334399999,
-      "quantity": 102.91980089037088,
-      "invested_usdc": 93.75,
-      "current_price": 0.9615,
-      "win_probability": 90.99934400000001,
-      "conviction_score": 100,
-      "best_bet_score": 94,
-      "last_updated": 1782431294,
-      "opened_at": 1782400463
-    },
-    "110055634198836019282064984999510038099262932901449181983391865403423717757928": {
-      "token_id": "110055634198836019282064984999510038099262932901449181983391865403423717757928",
-      "condition_id": "0xc38b96e6fb12fc68d003ff326f2a11eb3c8f04c2fce7fcfc9d62f5e18131817c",
-      "market_title": "Will 60 ships transit the Strait of Hormuz on any day by June 30, 2026?",
-      "market_slug": "will-60-ships-transit-the-strait-of-hormuz-on-any-day-by-june-30-2026",
+    "101375071970146006948608106993031034784073338973111508638725273187168120160648": {
+      "token_id": "101375071970146006948608106993031034784073338973111508638725273187168120160648",
+      "condition_id": "0x692a6ca1e06d445944eeb9a09dffd2cb64b8c9237589cca21c12fadb3c6422ef",
+      "market_title": "Tamas Sulyok out as President of Hungary by July 31?",
+      "market_slug": "tamas-sulyok-out-as-president-of-hungary-by-july-31-20260626200424352",
       "outcome": "Yes",
       "outcome_index": 0,
-      "avg_price": 0.5398581477022878,
-      "quantity": 393.6219188400321,
-      "invested_usdc": 212.5,
-      "current_price": 0.545,
-      "win_probability": 53.931882887341445,
-      "conviction_score": 85,
-      "best_bet_score": 66,
-      "last_updated": 1782431294,
-      "opened_at": 1782405326
-    },
-    "49232347074200257286333705540570950896584522176544392767367009767750446431044": {
-      "token_id": "49232347074200257286333705540570950896584522176544392767367009767750446431044",
-      "condition_id": "0x3fe18d2b6303ee3a7e406aab679dbc0b0f7504dc6b477a31c69c6ffb04e9e11c",
-      "market_title": "Israel strike on Yemen by June 30, 2026?",
-      "market_slug": "israel-strike-on-yemen-by-june-30-2026-285-633-267-857",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.9478497593384988,
-      "quantity": 52.750976098675,
-      "invested_usdc": 50.0,
-      "current_price": 0.936,
-      "win_probability": 94.6902856482017,
-      "conviction_score": 94,
-      "best_bet_score": 94,
-      "last_updated": 1782431294,
-      "opened_at": 1782415315
-    },
-    "35600405023007026690792769618276046675588493623969149550929635257490271313011": {
-      "token_id": "35600405023007026690792769618276046675588493623969149550929635257490271313011",
-      "condition_id": "0xb8e6d129a06d0ccb21d7b32eb529ea455eddba3cf29bfa097112202cbdf5bf21",
-      "market_title": "Strait of Hormuz traffic returns to normal by July 31?",
-      "market_slug": "strait-of-hormuz-traffic-returns-to-normal-by-july-31",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.47046999999999994,
-      "quantity": 132.8458775267286,
-      "invested_usdc": 62.5,
-      "current_price": 0.525,
-      "win_probability": 47.0,
-      "conviction_score": 94,
-      "best_bet_score": 65,
-      "last_updated": 1782431295,
-      "opened_at": 1782416919
-    },
-    "268831443455520900216404390678027029685542316312811622431219884755192743948": {
-      "token_id": "268831443455520900216404390678027029685542316312811622431219884755192743948",
-      "condition_id": "0x8f21e67bc25fcaa809f3f739e7bfc9d4e1a42e915709d32632d5438c068e1e8e",
-      "market_title": "Will 80 ships transit the Strait of Hormuz on any day by June 30, 2026?",
-      "market_slug": "will-80-ships-transit-the-strait-of-hormuz-on-any-day-by-june-30-2026",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.9107313306899285,
-      "quantity": 205.87849970853486,
-      "invested_usdc": 187.5,
-      "current_price": 0.898,
-      "win_probability": 90.9821509180748,
-      "conviction_score": 85,
-      "best_bet_score": 88,
-      "last_updated": 1782431295,
-      "opened_at": 1782418539
-    },
-    "68614156644302362977357204584567487780941419822610203929769051637552644450348": {
-      "token_id": "68614156644302362977357204584567487780941419822610203929769051637552644450348",
-      "condition_id": "0xb0b4220af7493e1d17c0696f9e4c0b6633daf08d7001e2d75972e43fc6446492",
-      "market_title": "Will Claude Fable 5 be restored for US customers by June 26?",
-      "market_slug": "will-claude-fable-5-be-restored-for-us-customers-by-june-26",
-      "outcome": "No",
-      "outcome_index": 1,
-      "avg_price": 0.92092,
-      "quantity": 217.17413021760848,
-      "invested_usdc": 200.0,
-      "current_price": 0.96,
-      "win_probability": 92.0,
-      "conviction_score": 94,
-      "best_bet_score": 92,
-      "last_updated": 1782431295,
-      "opened_at": 1782422409
+      "avg_price": 0.8245534207911,
+      "quantity": 151.5972123189683,
+      "invested_usdc": 125.0,
+      "current_price": 0.845,
+      "win_probability": 82.37296911,
+      "conviction_score": 84,
+      "best_bet_score": 83,
+      "trader_address": "0x69c96d22e1be6f6cd9fa32bb45f5fd5b7b423b29",
+      "trader_name": "Akvyr (WEEK Rank 969)",
+      "last_updated": 1783378228,
+      "opened_at": 1783335484,
+      "bid_price": 0.84
     }
   },
   "portfolio_value_history": [
     {
-      "timestamp": 1781750814,
-      "cash": 4875.858870088665,
-      "holdings_value": 5250.611236725132,
-      "total_equity": 10126.470106813797
+      "timestamp": 1783209553,
+      "cash": 7840.778588967318,
+      "holdings_value": 2223.1007667230415,
+      "total_equity": 10063.879355690358
     },
     {
-      "timestamp": 1781751170,
-      "cash": 4875.858870088665,
-      "holdings_value": 5270.058885371206,
-      "total_equity": 10145.917755459872
+      "timestamp": 1783209878,
+      "cash": 7840.778588967318,
+      "holdings_value": 2215.4147608723697,
+      "total_equity": 10056.193349839687
     },
     {
-      "timestamp": 1781751522,
-      "cash": 4875.858870088665,
-      "holdings_value": 5277.5477720580575,
-      "total_equity": 10153.406642146721
+      "timestamp": 1783209988,
+      "cash": 7946.192655420346,
+      "holdings_value": 2108.378939550834,
+      "total_equity": 10054.57159497118
     },
     {
-      "timestamp": 1781751822,
-      "cash": 4875.858870088665,
-      "holdings_value": 5280.443035254986,
-      "total_equity": 10156.301905343651
+      "timestamp": 1783210309,
+      "cash": 7946.192655420346,
+      "holdings_value": 2109.42587879292,
+      "total_equity": 10055.618534213265
     },
     {
-      "timestamp": 1781752125,
-      "cash": 4875.858870088665,
-      "holdings_value": 5292.302034697402,
-      "total_equity": 10168.160904786066
+      "timestamp": 1783210628,
+      "cash": 7946.192655420346,
+      "holdings_value": 2110.5569940544697,
+      "total_equity": 10056.749649474816
     },
     {
-      "timestamp": 1781752430,
-      "cash": 4875.858870088665,
-      "holdings_value": 5280.590829115256,
-      "total_equity": 10156.44969920392
+      "timestamp": 1783210946,
+      "cash": 7946.192655420346,
+      "holdings_value": 2118.192705577898,
+      "total_equity": 10064.385360998243
     },
     {
-      "timestamp": 1781752747,
-      "cash": 4875.858870088665,
-      "holdings_value": 5276.570340191383,
-      "total_equity": 10152.429210280048
+      "timestamp": 1783211251,
+      "cash": 7946.192655420346,
+      "holdings_value": 2119.233331618524,
+      "total_equity": 10065.42598703887
     },
     {
-      "timestamp": 1781753095,
-      "cash": 4875.858870088665,
-      "holdings_value": 5276.646233935856,
-      "total_equity": 10152.50510402452
+      "timestamp": 1783211571,
+      "cash": 7946.192655420346,
+      "holdings_value": 2118.192705577898,
+      "total_equity": 10064.385360998243
     },
     {
-      "timestamp": 1781753405,
-      "cash": 4875.858870088665,
-      "holdings_value": 5265.83140357017,
-      "total_equity": 10141.690273658834
+      "timestamp": 1783211893,
+      "cash": 7946.192655420346,
+      "holdings_value": 2119.233331618524,
+      "total_equity": 10065.42598703887
     },
     {
-      "timestamp": 1781753719,
-      "cash": 4875.858870088665,
-      "holdings_value": 5269.734931451063,
-      "total_equity": 10145.593801539728
+      "timestamp": 1783212212,
+      "cash": 7946.192655420346,
+      "holdings_value": 2119.1629600941983,
+      "total_equity": 10065.355615514543
     },
     {
-      "timestamp": 1781754079,
-      "cash": 4875.858870088665,
-      "holdings_value": 5268.871304593754,
-      "total_equity": 10144.73017468242
+      "timestamp": 1783212532,
+      "cash": 7946.192655420346,
+      "holdings_value": 2120.377424445233,
+      "total_equity": 10066.570079865578
     },
     {
-      "timestamp": 1781754441,
-      "cash": 4875.858870088665,
-      "holdings_value": 5272.089779035767,
-      "total_equity": 10147.948649124432
+      "timestamp": 1783212851,
+      "cash": 7946.192655420346,
+      "holdings_value": 2119.3367984046067,
+      "total_equity": 10065.529453824953
     },
     {
-      "timestamp": 1781754786,
-      "cash": 4875.858870088665,
-      "holdings_value": 5278.28375820423,
-      "total_equity": 10154.142628292895
+      "timestamp": 1783213171,
+      "cash": 7946.192655420346,
+      "holdings_value": 2118.225800839655,
+      "total_equity": 10064.41845626
     },
     {
-      "timestamp": 1781755115,
-      "cash": 4875.858870088665,
-      "holdings_value": 5278.8213065892505,
-      "total_equity": 10154.680176677915
+      "timestamp": 1783213490,
+      "cash": 7946.192655420346,
+      "holdings_value": 2121.508539706783,
+      "total_equity": 10067.701195127129
     },
     {
-      "timestamp": 1781755513,
-      "cash": 4875.858870088665,
-      "holdings_value": 5284.517899239921,
-      "total_equity": 10160.376769328584
+      "timestamp": 1783213809,
+      "cash": 7946.192655420346,
+      "holdings_value": 2118.1755470119283,
+      "total_equity": 10064.368202432273
     },
     {
-      "timestamp": 1781755891,
-      "cash": 4875.858870088665,
-      "holdings_value": 5283.7114245403645,
-      "total_equity": 10159.57029462903
+      "timestamp": 1783214129,
+      "cash": 7946.192655420346,
+      "holdings_value": 2112.7009491460262,
+      "total_equity": 10058.893604566372
     },
     {
-      "timestamp": 1781756244,
-      "cash": 4875.858870088665,
-      "holdings_value": 5281.50126205785,
-      "total_equity": 10157.360132146514
+      "timestamp": 1783214449,
+      "cash": 7946.192655420346,
+      "holdings_value": 2112.7009491460262,
+      "total_equity": 10058.893604566372
     },
     {
-      "timestamp": 1781756589,
-      "cash": 4875.858870088665,
-      "holdings_value": 5259.964872748463,
-      "total_equity": 10135.823742837129
+      "timestamp": 1783214799,
+      "cash": 7946.192655420346,
+      "holdings_value": 2112.7009491460262,
+      "total_equity": 10058.893604566372
     },
     {
-      "timestamp": 1781756932,
-      "cash": 4875.858870088665,
-      "holdings_value": 5248.713342116153,
-      "total_equity": 10124.572212204817
+      "timestamp": 1783215121,
+      "cash": 7946.192655420346,
+      "holdings_value": 2114.9229442759292,
+      "total_equity": 10061.115599696275
     },
     {
-      "timestamp": 1781757276,
-      "cash": 4875.858870088665,
-      "holdings_value": 5266.690853406487,
-      "total_equity": 10142.54972349515
+      "timestamp": 1783215442,
+      "cash": 7946.192655420346,
+      "holdings_value": 2116.0339418408807,
+      "total_equity": 10062.226597261226
     },
     {
-      "timestamp": 1781757623,
-      "cash": 4875.858870088665,
-      "holdings_value": 5274.795148329917,
-      "total_equity": 10150.654018418581
+      "timestamp": 1783215763,
+      "cash": 7946.192655420346,
+      "holdings_value": 2112.751202973753,
+      "total_equity": 10058.9438583941
     },
     {
-      "timestamp": 1781757969,
-      "cash": 4875.858870088665,
-      "holdings_value": 5254.474718020116,
-      "total_equity": 10130.33358810878
+      "timestamp": 1783216084,
+      "cash": 7946.192655420346,
+      "holdings_value": 2120.3837781462094,
+      "total_equity": 10066.576433566555
     },
     {
-      "timestamp": 1781758309,
-      "cash": 4875.858870088665,
-      "holdings_value": 5234.2154109192625,
-      "total_equity": 10110.074281007928
+      "timestamp": 1783216405,
+      "cash": 7946.192655420346,
+      "holdings_value": 2128.056806431722,
+      "total_equity": 10074.249461852069
     },
     {
-      "timestamp": 1781758655,
-      "cash": 4875.858870088665,
-      "holdings_value": 5240.43733091607,
-      "total_equity": 10116.296201004734
+      "timestamp": 1783216729,
+      "cash": 7946.192655420346,
+      "holdings_value": 2143.4555596938467,
+      "total_equity": 10089.648215114192
     },
     {
-      "timestamp": 1781759000,
-      "cash": 4875.858870088665,
-      "holdings_value": 5257.814309495008,
-      "total_equity": 10133.673179583673
+      "timestamp": 1783217049,
+      "cash": 7946.192655420346,
+      "holdings_value": 2143.538908783331,
+      "total_equity": 10089.731564203677
     },
     {
-      "timestamp": 1781759371,
-      "cash": 4755.858870088665,
-      "holdings_value": 5341.804254916371,
-      "total_equity": 10097.663125005036
+      "timestamp": 1783217372,
+      "cash": 7946.192655420346,
+      "holdings_value": 2150.037191843749,
+      "total_equity": 10096.229847264094
     },
     {
-      "timestamp": 1781759712,
-      "cash": 4755.858870088665,
-      "holdings_value": 5369.863392514912,
-      "total_equity": 10125.722262603576
+      "timestamp": 1783217695,
+      "cash": 7946.192655420346,
+      "holdings_value": 2148.9965658031233,
+      "total_equity": 10095.189221223469
     },
     {
-      "timestamp": 1781760053,
-      "cash": 4755.858870088665,
-      "holdings_value": 5369.965808854331,
-      "total_equity": 10125.824678942996
+      "timestamp": 1783218017,
+      "cash": 7946.192655420346,
+      "holdings_value": 2147.7821014520887,
+      "total_equity": 10093.974756872434
     },
     {
-      "timestamp": 1781760388,
-      "cash": 4755.858870088665,
-      "holdings_value": 5377.11298901872,
-      "total_equity": 10132.971859107385
+      "timestamp": 1783218341,
+      "cash": 7946.192655420346,
+      "holdings_value": 2145.6103601499126,
+      "total_equity": 10091.803015570258
     },
     {
-      "timestamp": 1781760731,
-      "cash": 4755.858870088665,
-      "holdings_value": 5344.731798967199,
-      "total_equity": 10100.590669055864
+      "timestamp": 1783218652,
+      "cash": 7946.192655420346,
+      "holdings_value": 2148.872981320442,
+      "total_equity": 10095.065636740786
     },
     {
-      "timestamp": 1781761070,
-      "cash": 4755.858870088665,
-      "holdings_value": 5359.412218750354,
-      "total_equity": 10115.27108883902
+      "timestamp": 1783218795,
+      "cash": 8045.992855220546,
+      "holdings_value": 2046.8222542697151,
+      "total_equity": 10092.81510949026
     },
     {
-      "timestamp": 1781761411,
-      "cash": 4755.858870088665,
-      "holdings_value": 5387.769160150767,
-      "total_equity": 10143.628030239432
+      "timestamp": 1783219107,
+      "cash": 8045.992855220546,
+      "holdings_value": 2047.9332518346666,
+      "total_equity": 10093.926107055213
     },
     {
-      "timestamp": 1781761754,
-      "cash": 4821.666905154127,
-      "holdings_value": 5348.965010395305,
-      "total_equity": 10170.631915549431
+      "timestamp": 1783219422,
+      "cash": 8045.992855220546,
+      "holdings_value": 2047.9332518346666,
+      "total_equity": 10093.926107055213
     },
     {
-      "timestamp": 1781762092,
-      "cash": 4671.666905154127,
-      "holdings_value": 5486.080922912028,
-      "total_equity": 10157.747828066154
+      "timestamp": 1783219734,
+      "cash": 8045.992855220546,
+      "holdings_value": 2047.862880310341,
+      "total_equity": 10093.855735530888
     },
     {
-      "timestamp": 1781762431,
-      "cash": 4671.666905154127,
-      "holdings_value": 5472.25296746481,
-      "total_equity": 10143.919872618937
+      "timestamp": 1783220048,
+      "cash": 8045.992855220546,
+      "holdings_value": 2042.3954225758785,
+      "total_equity": 10088.388277796425
     },
     {
-      "timestamp": 1781762770,
-      "cash": 4671.666905154127,
-      "holdings_value": 5491.014017107672,
-      "total_equity": 10162.6809222618
+      "timestamp": 1783220361,
+      "cash": 8045.992855220546,
+      "holdings_value": 2045.6077899186805,
+      "total_equity": 10091.600645139226
     },
     {
-      "timestamp": 1781763082,
-      "cash": 4671.666905154127,
-      "holdings_value": 5500.369477720728,
-      "total_equity": 10172.036382874856
+      "timestamp": 1783220676,
+      "cash": 8045.992855220546,
+      "holdings_value": 2046.718787483632,
+      "total_equity": 10092.711642704178
     },
     {
-      "timestamp": 1781763421,
-      "cash": 4671.666905154127,
-      "holdings_value": 5494.925729113551,
-      "total_equity": 10166.592634267678
+      "timestamp": 1783220989,
+      "cash": 8045.992855220546,
+      "holdings_value": 2044.5671638780545,
+      "total_equity": 10090.5600190986
     },
     {
-      "timestamp": 1781763759,
-      "cash": 4671.666905154127,
-      "holdings_value": 5496.912632980226,
-      "total_equity": 10168.579538134352
+      "timestamp": 1783221303,
+      "cash": 8045.992855220546,
+      "holdings_value": 2045.678161443006,
+      "total_equity": 10091.671016663551
     },
     {
-      "timestamp": 1781764101,
-      "cash": 4671.666905154127,
-      "holdings_value": 5498.315747037936,
-      "total_equity": 10169.982652192062
+      "timestamp": 1783221616,
+      "cash": 8045.992855220546,
+      "holdings_value": 2045.6077899186805,
+      "total_equity": 10091.600645139226
     },
     {
-      "timestamp": 1781764437,
-      "cash": 4671.666905154127,
-      "holdings_value": 5520.824132660919,
-      "total_equity": 10192.491037815045
+      "timestamp": 1783221930,
+      "cash": 8045.992855220546,
+      "holdings_value": 2046.718787483632,
+      "total_equity": 10092.711642704178
     },
     {
-      "timestamp": 1781764781,
-      "cash": 4671.666905154127,
-      "holdings_value": 5530.50112157524,
-      "total_equity": 10202.168026729367
+      "timestamp": 1783222241,
+      "cash": 8045.992855220546,
+      "holdings_value": 2045.6077899186805,
+      "total_equity": 10091.600645139226
     },
     {
-      "timestamp": 1781764837,
-      "cash": 4812.916734384705,
-      "holdings_value": 5388.349188448919,
-      "total_equity": 10201.265922833623
+      "timestamp": 1783222555,
+      "cash": 8045.992855220546,
+      "holdings_value": 2046.718787483632,
+      "total_equity": 10092.711642704178
     },
     {
-      "timestamp": 1781765117,
-      "cash": 4762.916734384705,
-      "holdings_value": 5458.255538342865,
-      "total_equity": 10221.17227272757
+      "timestamp": 1783222869,
+      "cash": 8045.992855220546,
+      "holdings_value": 2045.6077899186805,
+      "total_equity": 10091.600645139226
     },
     {
-      "timestamp": 1781765455,
-      "cash": 4762.916734384705,
-      "holdings_value": 5510.92592387926,
-      "total_equity": 10273.842658263966
+      "timestamp": 1783223184,
+      "cash": 8045.992855220546,
+      "holdings_value": 2045.6077899186805,
+      "total_equity": 10091.600645139226
     },
     {
-      "timestamp": 1781765800,
-      "cash": 4762.916734384705,
-      "holdings_value": 5498.199704710957,
-      "total_equity": 10261.116439095662
+      "timestamp": 1783223499,
+      "cash": 8045.992855220546,
+      "holdings_value": 2046.6484159593065,
+      "total_equity": 10092.641271179851
     },
     {
-      "timestamp": 1781766137,
-      "cash": 4762.916734384705,
-      "holdings_value": 5476.195129769083,
-      "total_equity": 10239.111864153787
+      "timestamp": 1783223814,
+      "cash": 8045.992855220546,
+      "holdings_value": 2046.7962003360215,
+      "total_equity": 10092.789055556566
     },
     {
-      "timestamp": 1781766472,
-      "cash": 4762.916734384705,
-      "holdings_value": 5467.625898865574,
-      "total_equity": 10230.54263325028
+      "timestamp": 1783224129,
+      "cash": 8045.992855220546,
+      "holdings_value": 2045.90335867211,
+      "total_equity": 10091.896213892656
     },
     {
-      "timestamp": 1781766778,
-      "cash": 4762.916734384705,
-      "holdings_value": 5492.328161624844,
-      "total_equity": 10255.24489600955
+      "timestamp": 1783224446,
+      "cash": 8045.992855220546,
+      "holdings_value": 2045.90335867211,
+      "total_equity": 10091.896213892656
     },
     {
-      "timestamp": 1781767116,
-      "cash": 4762.916734384705,
-      "holdings_value": 5489.324758403121,
-      "total_equity": 10252.241492787827
+      "timestamp": 1783224762,
+      "cash": 8045.992855220546,
+      "holdings_value": 2049.199075104397,
+      "total_equity": 10095.191930324941
     },
     {
-      "timestamp": 1781767454,
-      "cash": 5039.535597768931,
-      "holdings_value": 5215.931493986227,
-      "total_equity": 10255.46709175516
+      "timestamp": 1783225081,
+      "cash": 8045.992855220546,
+      "holdings_value": 2049.199075104397,
+      "total_equity": 10095.191930324941
     },
     {
-      "timestamp": 1781767787,
-      "cash": 5039.535597768931,
-      "holdings_value": 5203.924622584434,
-      "total_equity": 10243.460220353365
+      "timestamp": 1783225398,
+      "cash": 8045.992855220546,
+      "holdings_value": 2052.4849908220126,
+      "total_equity": 10098.477846042559
     },
     {
-      "timestamp": 1781768121,
-      "cash": 5039.535597768931,
-      "holdings_value": 5212.759786874758,
-      "total_equity": 10252.29538464369
+      "timestamp": 1783225710,
+      "cash": 8045.992855220546,
+      "holdings_value": 2051.4443647813864,
+      "total_equity": 10097.437220001932
     },
     {
-      "timestamp": 1781768454,
-      "cash": 5039.535597768931,
-      "holdings_value": 5211.6684304581195,
-      "total_equity": 10251.20402822705
+      "timestamp": 1783226028,
+      "cash": 8045.992855220546,
+      "holdings_value": 2050.4107800688244,
+      "total_equity": 10096.40363528937
     },
     {
-      "timestamp": 1781768787,
-      "cash": 5039.535597768931,
-      "holdings_value": 5210.27230953815,
-      "total_equity": 10249.80790730708
+      "timestamp": 1783226346,
+      "cash": 8045.992855220546,
+      "holdings_value": 2050.48115159315,
+      "total_equity": 10096.474006813696
     },
     {
-      "timestamp": 1781769123,
-      "cash": 5039.535597768931,
-      "holdings_value": 5209.917797692597,
-      "total_equity": 10249.453395461529
+      "timestamp": 1783226663,
+      "cash": 8045.992855220546,
+      "holdings_value": 2050.48115159315,
+      "total_equity": 10096.474006813696
     },
     {
-      "timestamp": 1781769463,
-      "cash": 5039.535597768931,
-      "holdings_value": 5214.051301719755,
-      "total_equity": 10253.586899488688
+      "timestamp": 1783226981,
+      "cash": 8045.992855220546,
+      "holdings_value": 2049.3500363315998,
+      "total_equity": 10095.342891552145
     },
     {
-      "timestamp": 1781769801,
-      "cash": 5039.535597768931,
-      "holdings_value": 5214.167734009079,
-      "total_equity": 10253.703331778011
+      "timestamp": 1783227301,
+      "cash": 8045.992855220546,
+      "holdings_value": 2049.3500363315998,
+      "total_equity": 10095.342891552145
     },
     {
-      "timestamp": 1781770140,
-      "cash": 5039.535597768931,
-      "holdings_value": 5213.234077287954,
-      "total_equity": 10252.769675056887
+      "timestamp": 1783227620,
+      "cash": 8045.992855220546,
+      "holdings_value": 2050.4610338965513,
+      "total_equity": 10096.453889117096
     },
     {
-      "timestamp": 1781770339,
-      "cash": 5278.612316974652,
-      "holdings_value": 4974.025558670803,
-      "total_equity": 10252.637875645454
+      "timestamp": 1783227939,
+      "cash": 8045.992855220546,
+      "holdings_value": 2049.4204078559255,
+      "total_equity": 10095.41326307647
     },
     {
-      "timestamp": 1781770670,
-      "cash": 5278.612316974652,
-      "holdings_value": 4973.994031248195,
-      "total_equity": 10252.606348222846
+      "timestamp": 1783228256,
+      "cash": 8045.992855220546,
+      "holdings_value": 2050.4610338965513,
+      "total_equity": 10096.453889117096
     },
     {
-      "timestamp": 1781771006,
-      "cash": 5278.612316974652,
-      "holdings_value": 4973.888273282136,
-      "total_equity": 10252.500590256786
+      "timestamp": 1783228576,
+      "cash": 8045.992855220546,
+      "holdings_value": 2052.6327751987274,
+      "total_equity": 10098.625630419272
     },
     {
-      "timestamp": 1781771344,
-      "cash": 5278.612316974652,
-      "holdings_value": 4973.6064199094435,
-      "total_equity": 10252.218736884095
+      "timestamp": 1783228896,
+      "cash": 8045.992855220546,
+      "holdings_value": 2051.5921491581016,
+      "total_equity": 10097.585004378647
     },
     {
-      "timestamp": 1781771682,
-      "cash": 5278.612316974652,
-      "holdings_value": 4968.551517217608,
-      "total_equity": 10247.163834192259
+      "timestamp": 1783229251,
+      "cash": 7845.992855220546,
+      "holdings_value": 2250.261233696751,
+      "total_equity": 10096.254088917296
     },
     {
-      "timestamp": 1781771795,
-      "cash": 5228.612316974652,
-      "holdings_value": 5019.700996938595,
-      "total_equity": 10248.313313913248
+      "timestamp": 1783229568,
+      "cash": 7845.992855220546,
+      "holdings_value": 2249.220607656125,
+      "total_equity": 10095.21346287667
     },
     {
-      "timestamp": 1781772133,
-      "cash": 5228.612316974652,
-      "holdings_value": 5020.205465941222,
-      "total_equity": 10248.817782915874
+      "timestamp": 1783229885,
+      "cash": 7845.992855220546,
+      "holdings_value": 2253.547149414367,
+      "total_equity": 10099.540004634913
     },
     {
-      "timestamp": 1781772469,
-      "cash": 5228.612316974652,
-      "holdings_value": 5022.237715441229,
-      "total_equity": 10250.850032415881
+      "timestamp": 1783230203,
+      "cash": 7845.992855220546,
+      "holdings_value": 2252.506523373741,
+      "total_equity": 10098.499378594286
     },
     {
-      "timestamp": 1781772804,
-      "cash": 5228.612316974652,
-      "holdings_value": 5011.685017836547,
-      "total_equity": 10240.2973348112
+      "timestamp": 1783230520,
+      "cash": 7845.992855220546,
+      "holdings_value": 2253.547149414367,
+      "total_equity": 10099.540004634913
     },
     {
-      "timestamp": 1781773138,
-      "cash": 5228.612316974652,
-      "holdings_value": 5017.7007147400245,
-      "total_equity": 10246.313031714675
+      "timestamp": 1783230838,
+      "cash": 7845.992855220546,
+      "holdings_value": 2254.7616137654013,
+      "total_equity": 10100.754468985946
     },
     {
-      "timestamp": 1781773472,
-      "cash": 5228.612316974652,
-      "holdings_value": 5019.087576441175,
-      "total_equity": 10247.699893415825
+      "timestamp": 1783231156,
+      "cash": 7845.992855220546,
+      "holdings_value": 2251.4756980477855,
+      "total_equity": 10097.46855326833
     },
     {
-      "timestamp": 1781773808,
-      "cash": 5278.12926634674,
-      "holdings_value": 4967.493585046772,
-      "total_equity": 10245.622851393513
+      "timestamp": 1783231477,
+      "cash": 7845.992855220546,
+      "holdings_value": 2251.4756980477855,
+      "total_equity": 10097.46855326833
     },
     {
-      "timestamp": 1781774160,
-      "cash": 5278.12926634674,
-      "holdings_value": 4965.241559083755,
-      "total_equity": 10243.370825430495
+      "timestamp": 1783231797,
+      "cash": 7720.992855220546,
+      "holdings_value": 2375.1161369465212,
+      "total_equity": 10096.108992167066
     },
     {
-      "timestamp": 1781774492,
-      "cash": 5278.12926634674,
-      "holdings_value": 4961.370134370132,
-      "total_equity": 10239.499400716872
+      "timestamp": 1783232118,
+      "cash": 7720.992855220546,
+      "holdings_value": 2376.156762987147,
+      "total_equity": 10097.149618207692
     },
     {
-      "timestamp": 1781774822,
-      "cash": 5312.89516276869,
-      "holdings_value": 4922.882879834675,
-      "total_equity": 10235.778042603364
+      "timestamp": 1783232441,
+      "cash": 7720.992855220546,
+      "holdings_value": 2377.197389027773,
+      "total_equity": 10098.190244248319
     },
     {
-      "timestamp": 1781775151,
-      "cash": 5312.89516276869,
-      "holdings_value": 4925.005901250911,
-      "total_equity": 10237.901064019601
+      "timestamp": 1783232762,
+      "cash": 7720.992855220546,
+      "holdings_value": 2377.197389027773,
+      "total_equity": 10098.190244248319
     },
     {
-      "timestamp": 1781775478,
-      "cash": 5312.89516276869,
-      "holdings_value": 4921.978706747932,
-      "total_equity": 10234.873869516621
+      "timestamp": 1783233068,
+      "cash": 7720.992855220546,
+      "holdings_value": 2377.197389027773,
+      "total_equity": 10098.190244248319
     },
     {
-      "timestamp": 1781775807,
-      "cash": 5312.89516276869,
-      "holdings_value": 4926.2338568666755,
-      "total_equity": 10239.129019635366
+      "timestamp": 1783233391,
+      "cash": 7720.992855220546,
+      "holdings_value": 2380.483304745389,
+      "total_equity": 10101.476159965934
     },
     {
-      "timestamp": 1781776139,
-      "cash": 5312.89516276869,
-      "holdings_value": 4930.638928411589,
-      "total_equity": 10243.53409118028
+      "timestamp": 1783233713,
+      "cash": 7720.992855220546,
+      "holdings_value": 2380.483304745389,
+      "total_equity": 10101.476159965934
     },
     {
-      "timestamp": 1781776468,
-      "cash": 5312.89516276869,
-      "holdings_value": 4928.621707697613,
-      "total_equity": 10241.516870466303
+      "timestamp": 1783234036,
+      "cash": 7720.992855220546,
+      "holdings_value": 2380.483304745389,
+      "total_equity": 10101.476159965934
     },
     {
-      "timestamp": 1781776800,
-      "cash": 5312.89516276869,
-      "holdings_value": 4929.049316371107,
-      "total_equity": 10241.944479139798
+      "timestamp": 1783234358,
+      "cash": 7720.992855220546,
+      "holdings_value": 2380.483304745389,
+      "total_equity": 10101.476159965934
     },
     {
-      "timestamp": 1781777132,
-      "cash": 5312.89516276869,
-      "holdings_value": 4931.442596184756,
-      "total_equity": 10244.337758953447
+      "timestamp": 1783234684,
+      "cash": 7720.992855220546,
+      "holdings_value": 2381.5943023103405,
+      "total_equity": 10102.587157530887
     },
     {
-      "timestamp": 1781777506,
-      "cash": 5312.89516276869,
-      "holdings_value": 4933.315351955333,
-      "total_equity": 10246.210514724024
+      "timestamp": 1783235006,
+      "cash": 7720.992855220546,
+      "holdings_value": 2382.7052998752924,
+      "total_equity": 10103.698155095837
     },
     {
-      "timestamp": 1781777848,
-      "cash": 5312.89516276869,
-      "holdings_value": 4937.348821132673,
-      "total_equity": 10250.243983901364
+      "timestamp": 1783235333,
+      "cash": 7720.992855220546,
+      "holdings_value": 2380.9266578755337,
+      "total_equity": 10101.91951309608
     },
     {
-      "timestamp": 1781778178,
-      "cash": 5312.89516276869,
-      "holdings_value": 4934.105987160584,
-      "total_equity": 10247.001149929274
+      "timestamp": 1783235657,
+      "cash": 7720.992855220546,
+      "holdings_value": 2376.023842328212,
+      "total_equity": 10097.016697548757
     },
     {
-      "timestamp": 1781778511,
-      "cash": 5312.89516276869,
-      "holdings_value": 4932.123727850052,
-      "total_equity": 10245.018890618743
+      "timestamp": 1783235982,
+      "cash": 7720.992855220546,
+      "holdings_value": 2378.0290222017916,
+      "total_equity": 10099.021877422338
     },
     {
-      "timestamp": 1781778848,
-      "cash": 5312.89516276869,
-      "holdings_value": 4935.822112483641,
-      "total_equity": 10248.717275252331
+      "timestamp": 1783236307,
+      "cash": 7720.992855220546,
+      "holdings_value": 2378.173565706007,
+      "total_equity": 10099.166420926553
     },
     {
-      "timestamp": 1781779182,
-      "cash": 5312.89516276869,
-      "holdings_value": 4940.285373254718,
-      "total_equity": 10253.180536023408
+      "timestamp": 1783236619,
+      "cash": 7720.992855220546,
+      "holdings_value": 2378.7517397228694,
+      "total_equity": 10099.744594943415
     },
     {
-      "timestamp": 1781779514,
-      "cash": 5312.89516276869,
-      "holdings_value": 4936.160335457388,
-      "total_equity": 10249.055498226078
+      "timestamp": 1783236942,
+      "cash": 7720.992855220546,
+      "holdings_value": 2375.465824005253,
+      "total_equity": 10096.458679225798
     },
     {
-      "timestamp": 1781779847,
-      "cash": 5312.89516276869,
-      "holdings_value": 4919.004297193601,
-      "total_equity": 10231.899459962291
+      "timestamp": 1783237268,
+      "cash": 7720.992855220546,
+      "holdings_value": 2376.576821570205,
+      "total_equity": 10097.56967679075
     },
     {
-      "timestamp": 1781780178,
-      "cash": 5312.89516276869,
-      "holdings_value": 4918.428153413975,
-      "total_equity": 10231.323316182665
+      "timestamp": 1783237594,
+      "cash": 7720.992855220546,
+      "holdings_value": 2375.465824005253,
+      "total_equity": 10096.458679225798
     },
     {
-      "timestamp": 1781780520,
-      "cash": 5312.89516276869,
-      "holdings_value": 4919.384234021179,
-      "total_equity": 10232.279396789869
+      "timestamp": 1783237919,
+      "cash": 7720.992855220546,
+      "holdings_value": 2375.465824005253,
+      "total_equity": 10096.458679225798
     },
     {
-      "timestamp": 1781780868,
-      "cash": 5312.89516276869,
-      "holdings_value": 4925.001029495999,
-      "total_equity": 10237.896192264689
+      "timestamp": 1783238245,
+      "cash": 7720.992855220546,
+      "holdings_value": 2375.465824005253,
+      "total_equity": 10096.458679225798
     },
     {
-      "timestamp": 1781781172,
-      "cash": 5312.89516276869,
-      "holdings_value": 4923.8241982967065,
-      "total_equity": 10236.719361065396
+      "timestamp": 1783238571,
+      "cash": 7720.992855220546,
+      "holdings_value": 2376.576821570205,
+      "total_equity": 10097.56967679075
     },
     {
-      "timestamp": 1781781506,
-      "cash": 5312.89516276869,
-      "holdings_value": 4922.634817228366,
-      "total_equity": 10235.529979997056
+      "timestamp": 1783238896,
+      "cash": 7720.992855220546,
+      "holdings_value": 2375.7095605449117,
+      "total_equity": 10096.702415765458
     },
     {
-      "timestamp": 1781781842,
-      "cash": 5312.89516276869,
-      "holdings_value": 4923.239058686601,
-      "total_equity": 10236.134221455291
+      "timestamp": 1783239222,
+      "cash": 7720.992855220546,
+      "holdings_value": 2385.5673076977596,
+      "total_equity": 10106.560162918306
     },
     {
-      "timestamp": 1781782180,
-      "cash": 5312.89516276869,
-      "holdings_value": 4923.225737957638,
-      "total_equity": 10236.120900726328
+      "timestamp": 1783239547,
+      "cash": 7720.992855220546,
+      "holdings_value": 2384.456310132808,
+      "total_equity": 10105.449165353353
     },
     {
-      "timestamp": 1781782516,
-      "cash": 5312.89516276869,
-      "holdings_value": 4909.71174935988,
-      "total_equity": 10222.60691212857
+      "timestamp": 1783239872,
+      "cash": 7720.992855220546,
+      "holdings_value": 2383.415684092182,
+      "total_equity": 10104.408539312728
     },
     {
-      "timestamp": 1781782847,
-      "cash": 5312.89516276869,
-      "holdings_value": 4905.764100224562,
-      "total_equity": 10218.659262993253
+      "timestamp": 1783240182,
+      "cash": 7720.992855220546,
+      "holdings_value": 2382.3750580515557,
+      "total_equity": 10103.3679132721
     },
     {
-      "timestamp": 1781783181,
-      "cash": 5312.89516276869,
-      "holdings_value": 4901.186150955345,
-      "total_equity": 10214.081313724035
+      "timestamp": 1783240511,
+      "cash": 7720.992855220546,
+      "holdings_value": 2382.3046865272304,
+      "total_equity": 10103.297541747776
     },
     {
-      "timestamp": 1781783514,
-      "cash": 5312.89516276869,
-      "holdings_value": 4910.956317639375,
-      "total_equity": 10223.851480408066
+      "timestamp": 1783240841,
+      "cash": 7720.992855220546,
+      "holdings_value": 2374.692229051372,
+      "total_equity": 10095.685084271918
     },
     {
-      "timestamp": 1781783849,
-      "cash": 5031.64516276869,
-      "holdings_value": 5196.443057142835,
-      "total_equity": 10228.088219911526
+      "timestamp": 1783241168,
+      "cash": 7720.992855220546,
+      "holdings_value": 2391.121807639452,
+      "total_equity": 10112.114662859998
     },
     {
-      "timestamp": 1781784183,
-      "cash": 5031.64516276869,
-      "holdings_value": 5193.33164831983,
-      "total_equity": 10224.97681108852
+      "timestamp": 1783241495,
+      "cash": 7720.992855220546,
+      "holdings_value": 2404.265470509916,
+      "total_equity": 10125.258325730461
     },
     {
-      "timestamp": 1781784515,
-      "cash": 5031.64516276869,
-      "holdings_value": 5180.501833162562,
-      "total_equity": 10212.146995931253
+      "timestamp": 1783241824,
+      "cash": 7720.992855220546,
+      "holdings_value": 2391.121807639452,
+      "total_equity": 10112.114662859998
     },
     {
-      "timestamp": 1781784821,
-      "cash": 4906.64516276869,
-      "holdings_value": 5313.171860659888,
-      "total_equity": 10219.817023428579
+      "timestamp": 1783242150,
+      "cash": 7720.992855220546,
+      "holdings_value": 2388.876517962462,
+      "total_equity": 10109.869373183008
     },
     {
-      "timestamp": 1781785162,
-      "cash": 4906.64516276869,
-      "holdings_value": 5309.238375147271,
-      "total_equity": 10215.883537915961
+      "timestamp": 1783242478,
+      "cash": 7720.992855220546,
+      "holdings_value": 2389.7437789877554,
+      "total_equity": 10110.7366342083
     },
     {
-      "timestamp": 1781785498,
-      "cash": 4906.64516276869,
-      "holdings_value": 5310.026730310727,
-      "total_equity": 10216.671893079416
+      "timestamp": 1783242806,
+      "cash": 7720.992855220546,
+      "holdings_value": 2391.916796912638,
+      "total_equity": 10112.909652133183
     },
     {
-      "timestamp": 1781785838,
-      "cash": 4906.64516276869,
-      "holdings_value": 5308.309709148361,
-      "total_equity": 10214.954871917053
+      "timestamp": 1783243134,
+      "cash": 7720.992855220546,
+      "holdings_value": 2395.179418083167,
+      "total_equity": 10116.172273303713
     },
     {
-      "timestamp": 1781786179,
-      "cash": 4906.64516276869,
-      "holdings_value": 5314.861285835512,
-      "total_equity": 10221.506448604203
+      "timestamp": 1783243460,
+      "cash": 7720.992855220546,
+      "holdings_value": 2393.0277944775894,
+      "total_equity": 10114.020649698135
     },
     {
-      "timestamp": 1781786519,
-      "cash": 4831.64516276869,
-      "holdings_value": 5385.786080699591,
-      "total_equity": 10217.431243468282
+      "timestamp": 1783243775,
+      "cash": 7720.992855220546,
+      "holdings_value": 2395.730670816694,
+      "total_equity": 10116.72352603724
     },
     {
-      "timestamp": 1781786865,
-      "cash": 4831.64516276869,
-      "holdings_value": 5374.977427837931,
-      "total_equity": 10206.622590606621
+      "timestamp": 1783244106,
+      "cash": 7720.992855220546,
+      "holdings_value": 2395.152496799832,
+      "total_equity": 10116.145352020378
     },
     {
-      "timestamp": 1781787202,
-      "cash": 4831.64516276869,
-      "holdings_value": 5383.03106538648,
-      "total_equity": 10214.676228155171
+      "timestamp": 1783244436,
+      "cash": 7720.992855220546,
+      "holdings_value": 2391.889875629303,
+      "total_equity": 10112.882730849848
     },
     {
-      "timestamp": 1781787552,
-      "cash": 4831.64516276869,
-      "holdings_value": 5373.905698539245,
-      "total_equity": 10205.550861307936
+      "timestamp": 1783244766,
+      "cash": 7720.992855220546,
+      "holdings_value": 2389.7670735348424,
+      "total_equity": 10110.759928755388
     },
     {
-      "timestamp": 1781787888,
-      "cash": 4831.64516276869,
-      "holdings_value": 5379.096590198109,
-      "total_equity": 10210.741752966798
+      "timestamp": 1783245096,
+      "cash": 7720.992855220546,
+      "holdings_value": 2390.8076995754686,
+      "total_equity": 10111.800554796015
     },
     {
-      "timestamp": 1781788226,
-      "cash": 4732.403705934158,
-      "holdings_value": 5479.512962535794,
-      "total_equity": 10211.916668469952
+      "timestamp": 1783245425,
+      "cash": 7720.992855220546,
+      "holdings_value": 2389.8393452869504,
+      "total_equity": 10110.832200507495
     },
     {
-      "timestamp": 1781788534,
-      "cash": 4732.403705934158,
-      "holdings_value": 5473.8950528535115,
-      "total_equity": 10206.29875878767
+      "timestamp": 1783245754,
+      "cash": 7720.992855220546,
+      "holdings_value": 2389.4779865264113,
+      "total_equity": 10110.470841746957
     },
     {
-      "timestamp": 1781788872,
-      "cash": 4732.403705934158,
-      "holdings_value": 5477.661034669916,
-      "total_equity": 10210.064740604073
+      "timestamp": 1783246085,
+      "cash": 7720.992855220546,
+      "holdings_value": 2390.5186125670375,
+      "total_equity": 10111.511467787583
     },
     {
-      "timestamp": 1781789213,
-      "cash": 4732.403705934158,
-      "holdings_value": 5470.127306212319,
-      "total_equity": 10202.531012146477
+      "timestamp": 1783246414,
+      "cash": 7720.992855220546,
+      "holdings_value": 2377.3749496965734,
+      "total_equity": 10098.36780491712
     },
     {
-      "timestamp": 1781789555,
-      "cash": 4732.403705934158,
-      "holdings_value": 5460.738206794747,
-      "total_equity": 10193.141912728905
+      "timestamp": 1783246743,
+      "cash": 7720.992855220546,
+      "holdings_value": 2377.1581344402503,
+      "total_equity": 10098.150989660797
     },
     {
-      "timestamp": 1781789893,
-      "cash": 4732.403705934158,
-      "holdings_value": 5466.664262684525,
-      "total_equity": 10199.067968618683
+      "timestamp": 1783247075,
+      "cash": 7720.992855220546,
+      "holdings_value": 2376.0471368752987,
+      "total_equity": 10097.039992095844
     },
     {
-      "timestamp": 1781790237,
-      "cash": 4732.403705934158,
-      "holdings_value": 5444.946136614371,
-      "total_equity": 10177.34984254853
+      "timestamp": 1783247392,
+      "cash": 7720.992855220546,
+      "holdings_value": 2375.0065108346726,
+      "total_equity": 10095.999366055217
     },
     {
-      "timestamp": 1781790581,
-      "cash": 4732.403705934158,
-      "holdings_value": 5427.180748762476,
-      "total_equity": 10159.584454696633
+      "timestamp": 1783247725,
+      "cash": 7720.992855220546,
+      "holdings_value": 2375.830321618975,
+      "total_equity": 10096.82317683952
     },
     {
-      "timestamp": 1781790972,
-      "cash": 4732.403705934158,
-      "holdings_value": 5419.4635967342265,
-      "total_equity": 10151.867302668385
+      "timestamp": 1783248055,
+      "cash": 7720.992855220546,
+      "holdings_value": 2374.2837933135947,
+      "total_equity": 10095.27664853414
     },
     {
-      "timestamp": 1781791379,
-      "cash": 4732.403705934158,
-      "holdings_value": 5404.939799454079,
-      "total_equity": 10137.343505388237
+      "timestamp": 1783248388,
+      "cash": 7720.992855220546,
+      "holdings_value": 2373.9947063051636,
+      "total_equity": 10094.98756152571
     },
     {
-      "timestamp": 1781791703,
-      "cash": 4732.403705934158,
-      "holdings_value": 5395.9935561371485,
-      "total_equity": 10128.397262071307
+      "timestamp": 1783248718,
+      "cash": 7720.992855220546,
+      "holdings_value": 2375.03533234579,
+      "total_equity": 10096.028187566335
     },
     {
-      "timestamp": 1781792009,
-      "cash": 4732.403705934158,
-      "holdings_value": 5420.414750863645,
-      "total_equity": 10152.818456797802
+      "timestamp": 1783249049,
+      "cash": 7720.992855220546,
+      "holdings_value": 2373.9947063051636,
+      "total_equity": 10094.98756152571
     },
     {
-      "timestamp": 1781792315,
-      "cash": 4732.403705934158,
-      "holdings_value": 5419.109598043087,
-      "total_equity": 10151.513303977245
+      "timestamp": 1783249383,
+      "cash": 7720.992855220546,
+      "holdings_value": 2379.545513129111,
+      "total_equity": 10100.538368349657
     },
     {
-      "timestamp": 1781792659,
-      "cash": 4732.403705934158,
-      "holdings_value": 5423.397852602646,
-      "total_equity": 10155.801558536805
+      "timestamp": 1783249714,
+      "cash": 7720.992855220546,
+      "holdings_value": 2380.051415393865,
+      "total_equity": 10101.044270614411
     },
     {
-      "timestamp": 1781793003,
-      "cash": 4732.403705934158,
-      "holdings_value": 5421.8564134176795,
-      "total_equity": 10154.260119351839
+      "timestamp": 1783250046,
+      "cash": 7720.992855220546,
+      "holdings_value": 2380.051415393865,
+      "total_equity": 10101.044270614411
     },
     {
-      "timestamp": 1781793178,
-      "cash": 4607.403705934158,
-      "holdings_value": 5555.670022080218,
-      "total_equity": 10163.073728014377
+      "timestamp": 1783250377,
+      "cash": 7820.88264628534,
+      "holdings_value": 2278.9506369832734,
+      "total_equity": 10099.833283268614
     },
     {
-      "timestamp": 1781793525,
-      "cash": 4605.516597310231,
-      "holdings_value": 5578.876282445508,
-      "total_equity": 10184.392879755738
+      "timestamp": 1783250695,
+      "cash": 7820.88264628534,
+      "holdings_value": 2278.9506369832734,
+      "total_equity": 10099.833283268614
     },
     {
-      "timestamp": 1781793864,
-      "cash": 4605.516597310231,
-      "holdings_value": 5580.258635242854,
-      "total_equity": 10185.775232553086
+      "timestamp": 1783250998,
+      "cash": 7820.88264628534,
+      "holdings_value": 2275.6647212656576,
+      "total_equity": 10096.547367550998
     },
     {
-      "timestamp": 1781794207,
-      "cash": 4605.516597310231,
-      "holdings_value": 5577.7484907944445,
-      "total_equity": 10183.265088104676
+      "timestamp": 1783251316,
+      "cash": 7820.88264628534,
+      "holdings_value": 2278.226262288737,
+      "total_equity": 10099.108908574077
     },
     {
-      "timestamp": 1781794546,
-      "cash": 4605.516597310231,
-      "holdings_value": 5580.77788686625,
-      "total_equity": 10186.29448417648
+      "timestamp": 1783251636,
+      "cash": 7820.88264628534,
+      "holdings_value": 2278.1539905366294,
+      "total_equity": 10099.03663682197
     },
     {
-      "timestamp": 1781794884,
-      "cash": 4605.516597310231,
-      "holdings_value": 5581.801757359096,
-      "total_equity": 10187.318354669327
+      "timestamp": 1783251954,
+      "cash": 7820.88264628534,
+      "holdings_value": 2278.1539905366294,
+      "total_equity": 10099.03663682197
     },
     {
-      "timestamp": 1781795233,
-      "cash": 4605.516597310231,
-      "holdings_value": 5589.362489623579,
-      "total_equity": 10194.87908693381
+      "timestamp": 1783252273,
+      "cash": 7820.88264628534,
+      "holdings_value": 2277.9138460657155,
+      "total_equity": 10098.796492351055
     },
     {
-      "timestamp": 1781795609,
-      "cash": 4605.516597310231,
-      "holdings_value": 5588.946794480142,
-      "total_equity": 10194.463391790374
+      "timestamp": 1783252592,
+      "cash": 7820.88264628534,
+      "holdings_value": 2277.9138460657155,
+      "total_equity": 10098.796492351055
     },
     {
-      "timestamp": 1781795945,
-      "cash": 4605.516597310231,
-      "holdings_value": 5614.122038476689,
-      "total_equity": 10219.63863578692
+      "timestamp": 1783252910,
+      "cash": 7820.88264628534,
+      "holdings_value": 2275.7421047635394,
+      "total_equity": 10096.62475104888
     },
     {
-      "timestamp": 1781796286,
-      "cash": 4605.516597310231,
-      "holdings_value": 5619.856674728888,
-      "total_equity": 10225.37327203912
+      "timestamp": 1783253230,
+      "cash": 7820.88264628534,
+      "holdings_value": 2273.5703634613633,
+      "total_equity": 10094.453009746703
     },
     {
-      "timestamp": 1781796768,
-      "cash": 4605.516597310231,
-      "holdings_value": 5583.913652649534,
-      "total_equity": 10189.430249959765
+      "timestamp": 1783253548,
+      "cash": 7820.88264628534,
+      "holdings_value": 2273.5703634613633,
+      "total_equity": 10094.453009746703
     },
     {
-      "timestamp": 1781797190,
-      "cash": 4605.516597310231,
-      "holdings_value": 5580.291222606953,
-      "total_equity": 10185.807819917183
+      "timestamp": 1783253868,
+      "cash": 7820.88264628534,
+      "holdings_value": 2273.5703634613633,
+      "total_equity": 10094.453009746703
     },
     {
-      "timestamp": 1781797772,
-      "cash": 4605.516597310231,
-      "holdings_value": 5563.450482167833,
-      "total_equity": 10168.967079478065
+      "timestamp": 1783254188,
+      "cash": 7820.88264628534,
+      "holdings_value": 2270.867487122259,
+      "total_equity": 10091.750133407599
     },
     {
-      "timestamp": 1781798431,
-      "cash": 4605.516597310231,
-      "holdings_value": 5533.327747130538,
-      "total_equity": 10138.84434444077
+      "timestamp": 1783254533,
+      "cash": 7820.88264628534,
+      "holdings_value": 2270.867487122259,
+      "total_equity": 10091.750133407599
     },
     {
-      "timestamp": 1781798775,
-      "cash": 4605.516597310231,
-      "holdings_value": 5451.81020092796,
-      "total_equity": 10057.326798238191
+      "timestamp": 1783254854,
+      "cash": 7820.88264628534,
+      "holdings_value": 2269.8268610816326,
+      "total_equity": 10090.709507366973
     },
     {
-      "timestamp": 1781799227,
-      "cash": 4605.516597310231,
-      "holdings_value": 5488.544434344078,
-      "total_equity": 10094.06103165431
+      "timestamp": 1783255175,
+      "cash": 7820.88264628534,
+      "holdings_value": 2270.867487122259,
+      "total_equity": 10091.750133407599
     },
     {
-      "timestamp": 1781799568,
-      "cash": 4605.516597310231,
-      "holdings_value": 5458.797727139829,
-      "total_equity": 10064.31432445006
+      "timestamp": 1783255495,
+      "cash": 7820.88264628534,
+      "holdings_value": 2272.168378660199,
+      "total_equity": 10093.05102494554
     },
     {
-      "timestamp": 1782321018,
-      "cash": 7179.959970531494,
-      "holdings_value": 3094.224968659661,
-      "total_equity": 10274.184939191155
+      "timestamp": 1783255783,
+      "cash": 8089.554643152956,
+      "holdings_value": 2002.235699623135,
+      "total_equity": 10091.79034277609
     },
     {
-      "timestamp": 1782321080,
-      "cash": 7340.12222859641,
-      "holdings_value": 2933.8866063500373,
-      "total_equity": 10274.008834946448
+      "timestamp": 1783256103,
+      "cash": 8217.300460553945,
+      "holdings_value": 1873.7722090906789,
+      "total_equity": 10091.072669644624
     },
     {
-      "timestamp": 1782321382,
-      "cash": 7340.12222859641,
-      "holdings_value": 2933.8866063500373,
-      "total_equity": 10274.008834946448
+      "timestamp": 1783256416,
+      "cash": 8217.300460553945,
+      "holdings_value": 1873.7722090906789,
+      "total_equity": 10091.072669644624
     },
     {
-      "timestamp": 1782321753,
-      "cash": 7340.12222859641,
-      "holdings_value": 2933.8866063500373,
-      "total_equity": 10274.008834946448
+      "timestamp": 1783256728,
+      "cash": 8217.300460553945,
+      "holdings_value": 1873.7722090906789,
+      "total_equity": 10091.072669644624
     },
     {
-      "timestamp": 1782322108,
-      "cash": 7340.12222859641,
-      "holdings_value": 2933.8866063500373,
-      "total_equity": 10274.008834946448
+      "timestamp": 1783257042,
+      "cash": 8217.300460553945,
+      "holdings_value": 1874.812835131305,
+      "total_equity": 10092.113295685249
     },
     {
-      "timestamp": 1782322382,
-      "cash": 7575.115507315449,
-      "holdings_value": 2691.7944582205214,
-      "total_equity": 10266.90996553597
+      "timestamp": 1783257356,
+      "cash": 8217.300460553945,
+      "holdings_value": 1863.914461937831,
+      "total_equity": 10081.214922491776
     },
     {
-      "timestamp": 1782322736,
-      "cash": 7575.115507315449,
-      "holdings_value": 2693.0657214217954,
-      "total_equity": 10268.181228737245
+      "timestamp": 1783257672,
+      "cash": 8217.300460553945,
+      "holdings_value": 1848.6602895263686,
+      "total_equity": 10065.960750080314
     },
     {
-      "timestamp": 1782323079,
-      "cash": 7575.115507315449,
-      "holdings_value": 2693.1674705606442,
-      "total_equity": 10268.282977876093
+      "timestamp": 1783257985,
+      "cash": 8217.300460553945,
+      "holdings_value": 1871.5171560454648,
+      "total_equity": 10088.81761659941
     },
     {
-      "timestamp": 1782323421,
-      "cash": 7575.115507315449,
-      "holdings_value": 2693.1674705606442,
-      "total_equity": 10268.282977876093
+      "timestamp": 1783258287,
+      "cash": 8217.300460553945,
+      "holdings_value": 1878.7394332496667,
+      "total_equity": 10096.03989380361
     },
     {
-      "timestamp": 1782323721,
-      "cash": 7575.115507315449,
-      "holdings_value": 2692.783653449511,
-      "total_equity": 10267.899160764959
+      "timestamp": 1783258602,
+      "cash": 8217.300460553945,
+      "holdings_value": 1879.317607266529,
+      "total_equity": 10096.618067820473
     },
     {
-      "timestamp": 1782324057,
-      "cash": 7575.115507315449,
-      "holdings_value": 2692.8570101786654,
-      "total_equity": 10267.972517494114
+      "timestamp": 1783258915,
+      "cash": 8217.300460553945,
+      "holdings_value": 1879.2165140033042,
+      "total_equity": 10096.51697455725
     },
     {
-      "timestamp": 1782324394,
-      "cash": 7575.115507315449,
-      "holdings_value": 2693.6798981530924,
-      "total_equity": 10268.795405468542
+      "timestamp": 1783259230,
+      "cash": 8217.300460553945,
+      "holdings_value": 1880.5896772933518,
+      "total_equity": 10097.890137847297
     },
     {
-      "timestamp": 1782324593,
-      "cash": 7450.115507315449,
-      "holdings_value": 2819.4469882058966,
-      "total_equity": 10269.562495521346
+      "timestamp": 1783259545,
+      "cash": 8217.300460553945,
+      "holdings_value": 1876.4408552705695,
+      "total_equity": 10093.741315824514
     },
     {
-      "timestamp": 1782324932,
-      "cash": 7300.115507315449,
-      "holdings_value": 2968.7571848487673,
-      "total_equity": 10268.872692164216
+      "timestamp": 1783259861,
+      "cash": 8217.300460553945,
+      "holdings_value": 1871.309560870918,
+      "total_equity": 10088.610021424862
     },
     {
-      "timestamp": 1782325233,
-      "cash": 7300.115507315449,
-      "holdings_value": 2970.3979564329024,
-      "total_equity": 10270.513463748352
+      "timestamp": 1783259896,
+      "cash": 8092.3004605539445,
+      "holdings_value": 1995.578850448277,
+      "total_equity": 10087.879311002222
     },
     {
-      "timestamp": 1782325535,
-      "cash": 7300.115507315449,
-      "holdings_value": 2971.5162411332767,
-      "total_equity": 10271.631748448726
+      "timestamp": 1783260210,
+      "cash": 8092.3004605539445,
+      "holdings_value": 1987.1410485677181,
+      "total_equity": 10079.441509121663
     },
     {
-      "timestamp": 1782325836,
-      "cash": 7300.115507315449,
-      "holdings_value": 2970.464520998401,
-      "total_equity": 10270.580028313849
+      "timestamp": 1783260524,
+      "cash": 8092.3004605539445,
+      "holdings_value": 1987.9559291551107,
+      "total_equity": 10080.256389709055
     },
     {
-      "timestamp": 1782326140,
-      "cash": 7300.115507315449,
-      "holdings_value": 2968.427645294148,
-      "total_equity": 10268.543152609596
+      "timestamp": 1783260837,
+      "cash": 8092.3004605539445,
+      "holdings_value": 1986.1389410453185,
+      "total_equity": 10078.439401599262
     },
     {
-      "timestamp": 1782326443,
-      "cash": 7300.115507315449,
-      "holdings_value": 2970.742617044567,
-      "total_equity": 10270.858124360017
+      "timestamp": 1783261151,
+      "cash": 7992.3004605539445,
+      "holdings_value": 2087.913191780021,
+      "total_equity": 10080.213652333965
     },
     {
-      "timestamp": 1782326746,
-      "cash": 7300.115507315449,
-      "holdings_value": 2973.6556927792085,
-      "total_equity": 10273.771200094658
+      "timestamp": 1783261470,
+      "cash": 7992.3004605539445,
+      "holdings_value": 2087.6689619925774,
+      "total_equity": 10079.969422546521
     },
     {
-      "timestamp": 1782327048,
-      "cash": 7300.115507315449,
-      "holdings_value": 2979.8271691731843,
-      "total_equity": 10279.942676488634
+      "timestamp": 1783261776,
+      "cash": 7992.3004605539445,
+      "holdings_value": 2088.919797721372,
+      "total_equity": 10081.220258275316
     },
     {
-      "timestamp": 1782327351,
-      "cash": 7300.115507315449,
-      "holdings_value": 2979.797279739427,
-      "total_equity": 10279.912787054876
+      "timestamp": 1783262094,
+      "cash": 7992.3004605539445,
+      "holdings_value": 2088.2231503448884,
+      "total_equity": 10080.523610898832
     },
     {
-      "timestamp": 1782327655,
-      "cash": 7300.115507315449,
-      "holdings_value": 2978.951236553652,
-      "total_equity": 10279.066743869102
+      "timestamp": 1783262412,
+      "cash": 7992.3004605539445,
+      "holdings_value": 2092.317067370426,
+      "total_equity": 10084.61752792437
     },
     {
-      "timestamp": 1782327958,
-      "cash": 7300.115507315449,
-      "holdings_value": 2979.1877531281352,
-      "total_equity": 10279.303260443583
+      "timestamp": 1783262731,
+      "cash": 7792.3004605539445,
+      "holdings_value": 2264.2627197618654,
+      "total_equity": 10056.56318031581
     },
     {
-      "timestamp": 1782328294,
-      "cash": 7300.115507315449,
-      "holdings_value": 2978.3022263121097,
-      "total_equity": 10278.417733627559
+      "timestamp": 1783263053,
+      "cash": 7792.3004605539445,
+      "holdings_value": 2274.9337406670525,
+      "total_equity": 10067.234201220997
     },
     {
-      "timestamp": 1782328597,
-      "cash": 7300.115507315449,
-      "holdings_value": 2977.6387647743177,
-      "total_equity": 10277.754272089765
+      "timestamp": 1783263199,
+      "cash": 7934.904563347635,
+      "holdings_value": 2138.4827184755463,
+      "total_equity": 10073.387281823181
     },
     {
-      "timestamp": 1782328901,
-      "cash": 7300.115507315449,
-      "holdings_value": 2977.0543195964206,
-      "total_equity": 10277.16982691187
+      "timestamp": 1783263515,
+      "cash": 7934.904563347635,
+      "holdings_value": 2130.5322850750667,
+      "total_equity": 10065.436848422702
     },
     {
-      "timestamp": 1782329206,
-      "cash": 7300.115507315449,
-      "holdings_value": 2977.3875801614054,
-      "total_equity": 10277.503087476854
+      "timestamp": 1783263832,
+      "cash": 7934.904563347635,
+      "holdings_value": 2146.150589047171,
+      "total_equity": 10081.055152394805
     },
     {
-      "timestamp": 1782329511,
-      "cash": 7300.115507315449,
-      "holdings_value": 2977.851218768723,
-      "total_equity": 10277.96672608417
+      "timestamp": 1783264150,
+      "cash": 7934.904563347635,
+      "holdings_value": 2181.5177645180192,
+      "total_equity": 10116.422327865654
     },
     {
-      "timestamp": 1782329818,
-      "cash": 7300.115507315449,
-      "holdings_value": 2979.6926986066424,
-      "total_equity": 10279.80820592209
+      "timestamp": 1783264468,
+      "cash": 7934.904563347635,
+      "holdings_value": 2148.045259161681,
+      "total_equity": 10082.949822509316
     },
     {
-      "timestamp": 1782330125,
-      "cash": 7300.115507315449,
-      "holdings_value": 2979.791382819228,
-      "total_equity": 10279.906890134676
+      "timestamp": 1783264787,
+      "cash": 7934.904563347635,
+      "holdings_value": 2107.6119961950876,
+      "total_equity": 10042.516559542722
     },
     {
-      "timestamp": 1782330429,
-      "cash": 7300.115507315449,
-      "holdings_value": 2979.307686992903,
-      "total_equity": 10279.423194308352
+      "timestamp": 1783265108,
+      "cash": 7934.904563347635,
+      "holdings_value": 2103.605840709745,
+      "total_equity": 10038.51040405738
     },
     {
-      "timestamp": 1782330735,
-      "cash": 7300.115507315449,
-      "holdings_value": 2979.154381211976,
-      "total_equity": 10279.269888527426
+      "timestamp": 1783265416,
+      "cash": 7934.904563347635,
+      "holdings_value": 2104.078263452049,
+      "total_equity": 10038.982826799685
     },
     {
-      "timestamp": 1782330952,
-      "cash": 7442.019058309908,
-      "holdings_value": 2834.822757800861,
-      "total_equity": 10276.84181611077
+      "timestamp": 1783265737,
+      "cash": 7934.904563347635,
+      "holdings_value": 2109.725809469082,
+      "total_equity": 10044.630372816717
     },
     {
-      "timestamp": 1782331252,
-      "cash": 7442.019058309908,
-      "holdings_value": 2835.247872479037,
-      "total_equity": 10277.266930788945
+      "timestamp": 1783266057,
+      "cash": 7934.904563347635,
+      "holdings_value": 2103.532912056752,
+      "total_equity": 10038.437475404387
     },
     {
-      "timestamp": 1782331553,
-      "cash": 7442.019058309908,
-      "holdings_value": 2834.9060560225307,
-      "total_equity": 10276.92511433244
+      "timestamp": 1783266377,
+      "cash": 7934.904563347635,
+      "holdings_value": 2107.0872048662,
+      "total_equity": 10041.991768213835
     },
     {
-      "timestamp": 1782331885,
-      "cash": 7442.019058309908,
-      "holdings_value": 2835.117501901812,
-      "total_equity": 10277.13656021172
+      "timestamp": 1783266697,
+      "cash": 7934.904563347635,
+      "holdings_value": 2114.2798538082097,
+      "total_equity": 10049.184417155844
     },
     {
-      "timestamp": 1782332187,
-      "cash": 7442.019058309908,
-      "holdings_value": 2835.4229179761005,
-      "total_equity": 10277.441976286009
+      "timestamp": 1783267018,
+      "cash": 7934.904563347635,
+      "holdings_value": 2109.383846823372,
+      "total_equity": 10044.288410171008
     },
     {
-      "timestamp": 1782332491,
-      "cash": 7442.019058309908,
-      "holdings_value": 2836.4119457548013,
-      "total_equity": 10278.43100406471
+      "timestamp": 1783267339,
+      "cash": 7934.904563347635,
+      "holdings_value": 2113.678432416261,
+      "total_equity": 10048.582995763896
     },
     {
-      "timestamp": 1782332794,
-      "cash": 7442.019058309908,
-      "holdings_value": 2834.88640028009,
-      "total_equity": 10276.905458589998
+      "timestamp": 1783267660,
+      "cash": 7934.904563347635,
+      "holdings_value": 2106.792334166412,
+      "total_equity": 10041.696897514048
     },
     {
-      "timestamp": 1782332881,
-      "cash": 7392.019058309908,
-      "holdings_value": 2884.822358265998,
-      "total_equity": 10276.841416575906
+      "timestamp": 1783267982,
+      "cash": 7934.904563347635,
+      "holdings_value": 2106.358703653765,
+      "total_equity": 10041.2632670014
     },
     {
-      "timestamp": 1782333181,
-      "cash": 7392.019058309908,
-      "holdings_value": 2883.4546087934896,
-      "total_equity": 10275.473667103397
+      "timestamp": 1783268305,
+      "cash": 7934.904563347635,
+      "holdings_value": 2109.4919260010915,
+      "total_equity": 10044.396489348726
     },
     {
-      "timestamp": 1782333482,
-      "cash": 7392.019058309908,
-      "holdings_value": 2882.635051885406,
-      "total_equity": 10274.654110195315
+      "timestamp": 1783268627,
+      "cash": 7934.904563347635,
+      "holdings_value": 2110.2341894871875,
+      "total_equity": 10045.138752834822
     },
     {
-      "timestamp": 1782333786,
-      "cash": 7392.019058309908,
-      "holdings_value": 2884.7134336513886,
-      "total_equity": 10276.732491961297
+      "timestamp": 1783268950,
+      "cash": 7934.904563347635,
+      "holdings_value": 2120.400141009994,
+      "total_equity": 10055.30470435763
     },
     {
-      "timestamp": 1782334090,
-      "cash": 7392.019058309908,
-      "holdings_value": 2885.341641940309,
-      "total_equity": 10277.360700250218
+      "timestamp": 1783269260,
+      "cash": 7934.904563347635,
+      "holdings_value": 2115.331707493212,
+      "total_equity": 10050.236270840847
     },
     {
-      "timestamp": 1782334394,
-      "cash": 7392.019058309908,
-      "holdings_value": 2886.3714068122986,
-      "total_equity": 10278.390465122207
+      "timestamp": 1783269583,
+      "cash": 7934.904563347635,
+      "holdings_value": 2114.4123775817147,
+      "total_equity": 10049.31694092935
     },
     {
-      "timestamp": 1782334697,
-      "cash": 7392.019058309908,
-      "holdings_value": 2887.7166059581227,
-      "total_equity": 10279.735664268032
+      "timestamp": 1783269905,
+      "cash": 7934.904563347635,
+      "holdings_value": 2079.314086253394,
+      "total_equity": 10014.218649601029
     },
     {
-      "timestamp": 1782335002,
-      "cash": 7392.019058309908,
-      "holdings_value": 2886.5905814211783,
-      "total_equity": 10278.609639731087
+      "timestamp": 1783270228,
+      "cash": 7934.904563347635,
+      "holdings_value": 2074.134514522659,
+      "total_equity": 10009.039077870295
     },
     {
-      "timestamp": 1782335305,
-      "cash": 7392.019058309908,
-      "holdings_value": 2886.3251131192746,
-      "total_equity": 10278.344171429184
+      "timestamp": 1783270550,
+      "cash": 7934.904563347635,
+      "holdings_value": 2035.7012233945652,
+      "total_equity": 9970.6057867422
     },
     {
-      "timestamp": 1782335640,
-      "cash": 7392.019058309908,
-      "holdings_value": 2888.3962949004413,
-      "total_equity": 10280.41535321035
+      "timestamp": 1783270874,
+      "cash": 7934.904563347635,
+      "holdings_value": 2035.5208724647382,
+      "total_equity": 9970.425435812373
     },
     {
-      "timestamp": 1782335944,
-      "cash": 7392.019058309908,
-      "holdings_value": 2889.7721646929945,
-      "total_equity": 10281.791223002903
+      "timestamp": 1783271197,
+      "cash": 7934.904563347635,
+      "holdings_value": 2056.5963526605287,
+      "total_equity": 9991.500916008164
     },
     {
-      "timestamp": 1782336248,
-      "cash": 7392.019058309908,
-      "holdings_value": 2888.0683214669907,
-      "total_equity": 10280.087379776898
+      "timestamp": 1783271522,
+      "cash": 7934.904563347635,
+      "holdings_value": 2053.6911918182805,
+      "total_equity": 9988.595755165916
     },
     {
-      "timestamp": 1782336552,
-      "cash": 7392.019058309908,
-      "holdings_value": 2888.3002850475027,
-      "total_equity": 10280.31934335741
+      "timestamp": 1783271847,
+      "cash": 7934.904563347635,
+      "holdings_value": 2054.3227485231173,
+      "total_equity": 9989.227311870753
     },
     {
-      "timestamp": 1782336857,
-      "cash": 7392.019058309908,
-      "holdings_value": 2888.8698050077114,
-      "total_equity": 10280.88886331762
+      "timestamp": 1783272171,
+      "cash": 7934.904563347635,
+      "holdings_value": 2061.485373730872,
+      "total_equity": 9996.389937078508
     },
     {
-      "timestamp": 1782337204,
-      "cash": 7392.019058309908,
-      "holdings_value": 2888.6312303187233,
-      "total_equity": 10280.650288628633
+      "timestamp": 1783272498,
+      "cash": 7934.904563347635,
+      "holdings_value": 2059.446160112147,
+      "total_equity": 9994.350723459782
     },
     {
-      "timestamp": 1782337513,
-      "cash": 7392.019058309908,
-      "holdings_value": 2887.5619711882596,
-      "total_equity": 10279.581029498167
+      "timestamp": 1783272808,
+      "cash": 7934.904563347635,
+      "holdings_value": 2066.001789791923,
+      "total_equity": 10000.906353139559
     },
     {
-      "timestamp": 1782337815,
-      "cash": 7392.019058309908,
-      "holdings_value": 2889.528130286854,
-      "total_equity": 10281.547188596762
+      "timestamp": 1783273134,
+      "cash": 7934.904563347635,
+      "holdings_value": 2083.8689948437236,
+      "total_equity": 10018.773558191358
     },
     {
-      "timestamp": 1782338117,
-      "cash": 7392.019058309908,
-      "holdings_value": 2885.5548291422224,
-      "total_equity": 10277.57388745213
+      "timestamp": 1783273461,
+      "cash": 7934.904563347635,
+      "holdings_value": 2097.820266743034,
+      "total_equity": 10032.724830090669
     },
     {
-      "timestamp": 1782338423,
-      "cash": 7392.019058309908,
-      "holdings_value": 2887.748812282618,
-      "total_equity": 10279.767870592526
+      "timestamp": 1783273786,
+      "cash": 7934.904563347635,
+      "holdings_value": 2094.07408725636,
+      "total_equity": 10028.978650603996
     },
     {
-      "timestamp": 1782338728,
-      "cash": 7392.019058309908,
-      "holdings_value": 2888.5590270694174,
-      "total_equity": 10280.578085379326
+      "timestamp": 1783274113,
+      "cash": 7934.904563347635,
+      "holdings_value": 2092.012336170862,
+      "total_equity": 10026.916899518497
     },
     {
-      "timestamp": 1782339065,
-      "cash": 7392.019058309908,
-      "holdings_value": 2889.0730653112064,
-      "total_equity": 10281.092123621114
+      "timestamp": 1783274440,
+      "cash": 7934.904563347635,
+      "holdings_value": 2083.598373337515,
+      "total_equity": 10018.50293668515
     },
     {
-      "timestamp": 1782339370,
-      "cash": 7392.019058309908,
-      "holdings_value": 2888.1325688330157,
-      "total_equity": 10280.151627142925
+      "timestamp": 1783274768,
+      "cash": 7934.904563347635,
+      "holdings_value": 2060.625463691362,
+      "total_equity": 9995.530027038996
     },
     {
-      "timestamp": 1782339674,
-      "cash": 7392.019058309908,
-      "holdings_value": 2888.7901510701317,
-      "total_equity": 10280.80920938004
+      "timestamp": 1783275095,
+      "cash": 7934.904563347635,
+      "holdings_value": 2067.027797284385,
+      "total_equity": 10001.932360632021
     },
     {
-      "timestamp": 1782339977,
-      "cash": 7392.019058309908,
-      "holdings_value": 2888.7976249364674,
-      "total_equity": 10280.816683246376
+      "timestamp": 1783275423,
+      "cash": 7934.904563347635,
+      "holdings_value": 2072.4392039574423,
+      "total_equity": 10007.343767305078
     },
     {
-      "timestamp": 1782340281,
-      "cash": 7392.019058309908,
-      "holdings_value": 2890.207718635373,
-      "total_equity": 10282.226776945281
+      "timestamp": 1783275749,
+      "cash": 7934.904563347635,
+      "holdings_value": 2077.461522283247,
+      "total_equity": 10012.366085630882
     },
     {
-      "timestamp": 1782340586,
-      "cash": 7392.019058309908,
-      "holdings_value": 2888.8150876011314,
-      "total_equity": 10280.83414591104
+      "timestamp": 1783276076,
+      "cash": 7934.904563347635,
+      "holdings_value": 2066.346124278123,
+      "total_equity": 10001.250687625758
     },
     {
-      "timestamp": 1782340893,
-      "cash": 7392.019058309908,
-      "holdings_value": 2890.575678127133,
-      "total_equity": 10282.59473643704
+      "timestamp": 1783276389,
+      "cash": 7934.904563347635,
+      "holdings_value": 2050.5612754695176,
+      "total_equity": 9985.465838817152
     },
     {
-      "timestamp": 1782341202,
-      "cash": 7392.019058309908,
-      "holdings_value": 2888.9172982571235,
-      "total_equity": 10280.936356567032
+      "timestamp": 1783276717,
+      "cash": 7934.904563347635,
+      "holdings_value": 2054.80858204579,
+      "total_equity": 9989.713145393425
     },
     {
-      "timestamp": 1782341509,
-      "cash": 7392.019058309908,
-      "holdings_value": 2889.4210312525865,
-      "total_equity": 10281.440089562495
+      "timestamp": 1783277045,
+      "cash": 7934.904563347635,
+      "holdings_value": 2058.345299592875,
+      "total_equity": 9993.24986294051
     },
     {
-      "timestamp": 1782341819,
-      "cash": 7392.019058309908,
-      "holdings_value": 2890.0145374129675,
-      "total_equity": 10282.033595722876
+      "timestamp": 1783277157,
+      "cash": 7981.639759505541,
+      "holdings_value": 2008.8127401879365,
+      "total_equity": 9990.452499693478
     },
     {
-      "timestamp": 1782342126,
-      "cash": 7392.019058309908,
-      "holdings_value": 2891.1346841158243,
-      "total_equity": 10283.153742425733
+      "timestamp": 1783277480,
+      "cash": 7981.639759505541,
+      "holdings_value": 2010.9844814901126,
+      "total_equity": 9992.624240995654
     },
     {
-      "timestamp": 1782342430,
-      "cash": 7392.019058309908,
-      "holdings_value": 2891.8849232062025,
-      "total_equity": 10283.90398151611
+      "timestamp": 1783277805,
+      "cash": 7981.639759505541,
+      "holdings_value": 2009.9438554494866,
+      "total_equity": 9991.583614955029
     },
     {
-      "timestamp": 1782342769,
-      "cash": 7392.019058309908,
-      "holdings_value": 2892.3233213206354,
-      "total_equity": 10284.342379630543
+      "timestamp": 1783278132,
+      "cash": 7981.639759505541,
+      "holdings_value": 2016.4590793560149,
+      "total_equity": 9998.098838861557
     },
     {
-      "timestamp": 1782343073,
-      "cash": 7392.019058309908,
-      "holdings_value": 2892.371852621146,
-      "total_equity": 10284.390910931055
+      "timestamp": 1783278457,
+      "cash": 7981.639759505541,
+      "holdings_value": 2016.4590793560149,
+      "total_equity": 9998.098838861557
     },
     {
-      "timestamp": 1782343380,
-      "cash": 7392.019058309908,
-      "holdings_value": 2890.5479025656678,
-      "total_equity": 10282.566960875576
+      "timestamp": 1783278785,
+      "cash": 7981.639759505541,
+      "holdings_value": 2005.589527673658,
+      "total_equity": 9987.2292871792
     },
     {
-      "timestamp": 1782343685,
-      "cash": 7392.019058309908,
-      "holdings_value": 2891.9259001820687,
-      "total_equity": 10283.944958491977
+      "timestamp": 1783279112,
+      "cash": 7981.639759505541,
+      "holdings_value": 2013.2454353905064,
+      "total_equity": 9994.885194896047
     },
     {
-      "timestamp": 1782343993,
-      "cash": 7392.019058309908,
-      "holdings_value": 2891.3856187977317,
-      "total_equity": 10283.40467710764
+      "timestamp": 1783279438,
+      "cash": 7981.639759505541,
+      "holdings_value": 2013.2454353905064,
+      "total_equity": 9994.885194896047
     },
     {
-      "timestamp": 1782344301,
-      "cash": 7392.019058309908,
-      "holdings_value": 2892.6943237357827,
-      "total_equity": 10284.713382045691
+      "timestamp": 1783279766,
+      "cash": 7981.639759505541,
+      "holdings_value": 2013.2454353905064,
+      "total_equity": 9994.885194896047
     },
     {
-      "timestamp": 1782344609,
-      "cash": 7392.019058309908,
-      "holdings_value": 2892.753045529026,
-      "total_equity": 10284.772103838935
+      "timestamp": 1783280080,
+      "cash": 7981.639759505541,
+      "holdings_value": 2015.53039175009,
+      "total_equity": 9997.170151255632
     },
     {
-      "timestamp": 1782344917,
-      "cash": 7392.019058309908,
-      "holdings_value": 2892.9128004862223,
-      "total_equity": 10284.931858796132
+      "timestamp": 1783280407,
+      "cash": 7981.639759505541,
+      "holdings_value": 2021.4939510346364,
+      "total_equity": 10003.133710540178
     },
     {
-      "timestamp": 1782345226,
-      "cash": 7392.019058309908,
-      "holdings_value": 2892.739713259753,
-      "total_equity": 10284.75877156966
+      "timestamp": 1783280734,
+      "cash": 7981.639759505541,
+      "holdings_value": 2021.4216792825287,
+      "total_equity": 10003.06143878807
     },
     {
-      "timestamp": 1782345540,
-      "cash": 7392.019058309908,
-      "holdings_value": 2892.739713259753,
-      "total_equity": 10284.75877156966
+      "timestamp": 1783281062,
+      "cash": 7981.639759505541,
+      "holdings_value": 2021.4216792825287,
+      "total_equity": 10003.06143878807
     },
     {
-      "timestamp": 1782345850,
-      "cash": 7392.019058309908,
-      "holdings_value": 2892.223912203991,
-      "total_equity": 10284.2429705139
+      "timestamp": 1783281390,
+      "cash": 7981.639759505541,
+      "holdings_value": 2024.7075950001447,
+      "total_equity": 10006.347354505686
     },
     {
-      "timestamp": 1782346160,
-      "cash": 7392.019058309908,
-      "holdings_value": 2892.9127015200684,
-      "total_equity": 10284.931759829977
+      "timestamp": 1783281721,
+      "cash": 7981.639759505541,
+      "holdings_value": 2025.8217694155844,
+      "total_equity": 10007.461528921125
     },
     {
-      "timestamp": 1782346494,
-      "cash": 7392.019058309908,
-      "holdings_value": 2892.994615945752,
-      "total_equity": 10285.01367425566
+      "timestamp": 1783282051,
+      "cash": 7981.639759505541,
+      "holdings_value": 2022.5358536979686,
+      "total_equity": 10004.17561320351
     },
     {
-      "timestamp": 1782346803,
-      "cash": 7392.019058309908,
-      "holdings_value": 2893.1711324968533,
-      "total_equity": 10285.190190806761
+      "timestamp": 1783282382,
+      "cash": 7981.639759505541,
+      "holdings_value": 2025.8217694155844,
+      "total_equity": 10007.461528921125
     },
     {
-      "timestamp": 1782347117,
-      "cash": 7392.019058309908,
-      "holdings_value": 2892.953325931357,
-      "total_equity": 10284.972384241266
+      "timestamp": 1783282712,
+      "cash": 7981.639759505541,
+      "holdings_value": 2012.6781065451205,
+      "total_equity": 9994.317866050662
     },
     {
-      "timestamp": 1782347425,
-      "cash": 7392.019058309908,
-      "holdings_value": 2893.1789224119643,
-      "total_equity": 10285.197980721872
+      "timestamp": 1783282899,
+      "cash": 8123.164901030683,
+      "holdings_value": 1874.6029183333328,
+      "total_equity": 9997.767819364015
     },
     {
-      "timestamp": 1782347736,
-      "cash": 7392.019058309908,
-      "holdings_value": 2891.4862130598326,
-      "total_equity": 10283.50527136974
+      "timestamp": 1783283225,
+      "cash": 8123.164901030683,
+      "holdings_value": 1872.723852778531,
+      "total_equity": 9995.888753809213
     },
     {
-      "timestamp": 1782348045,
-      "cash": 7392.019058309908,
-      "holdings_value": 2889.5289148898146,
-      "total_equity": 10281.547973199722
+      "timestamp": 1783283534,
+      "cash": 8123.164901030683,
+      "holdings_value": 1871.495232992699,
+      "total_equity": 9994.660134023381
     },
     {
-      "timestamp": 1782348353,
-      "cash": 7392.019058309908,
-      "holdings_value": 2890.6683043565563,
-      "total_equity": 10282.687362666464
+      "timestamp": 1783283861,
+      "cash": 8123.164901030683,
+      "holdings_value": 1870.9170589758367,
+      "total_equity": 9994.081960006519
     },
     {
-      "timestamp": 1782348667,
-      "cash": 7392.019058309908,
-      "holdings_value": 2891.7079648648178,
-      "total_equity": 10283.727023174726
+      "timestamp": 1783284188,
+      "cash": 8123.164901030683,
+      "holdings_value": 1879.3870467536897,
+      "total_equity": 10002.551947784372
     },
     {
-      "timestamp": 1782348979,
-      "cash": 7392.019058309908,
-      "holdings_value": 2889.9216060384088,
-      "total_equity": 10281.940664348316
+      "timestamp": 1783284514,
+      "cash": 8123.164901030683,
+      "holdings_value": 1881.2697010474346,
+      "total_equity": 10004.434602078118
     },
     {
-      "timestamp": 1782349295,
-      "cash": 7392.019058309908,
-      "holdings_value": 2891.983764431312,
-      "total_equity": 10284.00282274122
+      "timestamp": 1783284841,
+      "cash": 8123.164901030683,
+      "holdings_value": 1882.3834362125885,
+      "total_equity": 10005.548337243272
     },
     {
-      "timestamp": 1782349607,
-      "cash": 7392.019058309908,
-      "holdings_value": 2892.0632183813914,
-      "total_equity": 10284.0822766913
+      "timestamp": 1783285166,
+      "cash": 8123.164901030683,
+      "holdings_value": 1881.949805699942,
+      "total_equity": 10005.114706730625
     },
     {
-      "timestamp": 1782349953,
-      "cash": 7392.019058309908,
-      "holdings_value": 2891.385067072468,
-      "total_equity": 10283.404125382376
+      "timestamp": 1783285493,
+      "cash": 8123.164901030683,
+      "holdings_value": 1879.9984683930322,
+      "total_equity": 10003.163369423715
     },
     {
-      "timestamp": 1782350266,
-      "cash": 7392.019058309908,
-      "holdings_value": 2889.510418438159,
-      "total_equity": 10281.529476748066
+      "timestamp": 1783285818,
+      "cash": 8123.164901030683,
+      "holdings_value": 1880.6489141620023,
+      "total_equity": 10003.813815192685
     },
     {
-      "timestamp": 1782350578,
-      "cash": 7392.019058309908,
-      "holdings_value": 2892.325195983651,
-      "total_equity": 10284.344254293559
+      "timestamp": 1783286144,
+      "cash": 8123.164901030683,
+      "holdings_value": 1880.8657294183256,
+      "total_equity": 10004.030630449008
     },
     {
-      "timestamp": 1782350887,
-      "cash": 7392.019058309908,
-      "holdings_value": 2891.4332308059716,
-      "total_equity": 10283.45228911588
+      "timestamp": 1783286470,
+      "cash": 8123.164901030683,
+      "holdings_value": 1880.9380011704334,
+      "total_equity": 10004.102902201117
     },
     {
-      "timestamp": 1782351196,
-      "cash": 7392.019058309908,
-      "holdings_value": 2892.631059395118,
-      "total_equity": 10284.650117705027
+      "timestamp": 1783286798,
+      "cash": 8123.164901030683,
+      "holdings_value": 1874.2782337596896,
+      "total_equity": 9997.443134790372
     },
     {
-      "timestamp": 1782351507,
-      "cash": 7392.019058309908,
-      "holdings_value": 2890.642746875237,
-      "total_equity": 10282.661805185146
+      "timestamp": 1783287112,
+      "cash": 8123.164901030683,
+      "holdings_value": 1874.2059620075818,
+      "total_equity": 9997.370863038264
     },
     {
-      "timestamp": 1782351820,
-      "cash": 7392.019058309908,
-      "holdings_value": 2890.5162124703916,
-      "total_equity": 10282.5352707803
+      "timestamp": 1783287440,
+      "cash": 8123.164901030683,
+      "holdings_value": 1871.4721501622334,
+      "total_equity": 9994.637051192916
     },
     {
-      "timestamp": 1782352048,
-      "cash": 7329.519058309908,
-      "holdings_value": 2954.117325477324,
-      "total_equity": 10283.636383787232
+      "timestamp": 1783287767,
+      "cash": 8123.164901030683,
+      "holdings_value": 1848.3984683868139,
+      "total_equity": 9971.563369417498
     },
     {
-      "timestamp": 1782352350,
-      "cash": 7329.519058309908,
-      "holdings_value": 2952.727576023111,
-      "total_equity": 10282.24663433302
+      "timestamp": 1783288096,
+      "cash": 8123.164901030683,
+      "holdings_value": 1848.3984683868139,
+      "total_equity": 9971.563369417498
     },
     {
-      "timestamp": 1782352656,
-      "cash": 7329.519058309908,
-      "holdings_value": 2953.140300582749,
-      "total_equity": 10282.659358892657
+      "timestamp": 1783288423,
+      "cash": 8123.164901030683,
+      "holdings_value": 1851.6843841044297,
+      "total_equity": 9974.849285135113
     },
     {
-      "timestamp": 1782352959,
-      "cash": 7329.519058309908,
-      "holdings_value": 2953.3658825409802,
-      "total_equity": 10282.884940850889
+      "timestamp": 1783288753,
+      "cash": 8123.164901030683,
+      "holdings_value": 1847.7740927624384,
+      "total_equity": 9970.938993793121
     },
     {
-      "timestamp": 1782353267,
-      "cash": 7329.519058309908,
-      "holdings_value": 2953.206974640821,
-      "total_equity": 10282.72603295073
+      "timestamp": 1783289084,
+      "cash": 8123.164901030683,
+      "holdings_value": 1848.207723275085,
+      "total_equity": 9971.372624305768
     },
     {
-      "timestamp": 1782353603,
-      "cash": 7329.519058309908,
-      "holdings_value": 2953.0390345740075,
-      "total_equity": 10282.558092883915
+      "timestamp": 1783289414,
+      "cash": 8123.164901030683,
+      "holdings_value": 1848.1354515229773,
+      "total_equity": 9971.30035255366
     },
     {
-      "timestamp": 1782353906,
-      "cash": 7329.519058309908,
-      "holdings_value": 2952.7436778757688,
-      "total_equity": 10282.262736185678
+      "timestamp": 1783289746,
+      "cash": 8123.164901030683,
+      "holdings_value": 1856.5477636336698,
+      "total_equity": 9979.712664664352
     },
     {
-      "timestamp": 1782354208,
-      "cash": 7329.519058309908,
-      "holdings_value": 2952.0009680294042,
-      "total_equity": 10281.520026339313
+      "timestamp": 1783290073,
+      "cash": 8123.164901030683,
+      "holdings_value": 1855.9274159985232,
+      "total_equity": 9979.092317029206
     },
     {
-      "timestamp": 1782354513,
-      "cash": 7329.519058309908,
-      "holdings_value": 2952.4769200231317,
-      "total_equity": 10281.99597833304
+      "timestamp": 1783290402,
+      "cash": 8123.164901030683,
+      "holdings_value": 1867.9569044535472,
+      "total_equity": 9991.12180548423
     },
     {
-      "timestamp": 1782354815,
-      "cash": 7329.519058309908,
-      "holdings_value": 2952.763700159692,
-      "total_equity": 10282.2827584696
+      "timestamp": 1783290718,
+      "cash": 8123.164901030683,
+      "holdings_value": 1867.6311432582206,
+      "total_equity": 9990.796044288903
     },
     {
-      "timestamp": 1782355120,
-      "cash": 7329.519058309908,
-      "holdings_value": 2952.3847410549824,
-      "total_equity": 10281.90379936489
+      "timestamp": 1783291051,
+      "cash": 8123.164901030683,
+      "holdings_value": 1875.3951184135,
+      "total_equity": 9998.560019444183
     },
     {
-      "timestamp": 1782355427,
-      "cash": 7329.519058309908,
-      "holdings_value": 2953.160802021964,
-      "total_equity": 10282.679860331873
+      "timestamp": 1783291351,
+      "cash": 8123.164901030683,
+      "holdings_value": 1875.3951184135,
+      "total_equity": 9998.560019444183
     },
     {
-      "timestamp": 1782355733,
-      "cash": 7329.519058309908,
-      "holdings_value": 2954.2078416028285,
-      "total_equity": 10283.726899912737
+      "timestamp": 1783291684,
+      "cash": 8123.164901030683,
+      "holdings_value": 1875.3951184135,
+      "total_equity": 9998.560019444183
     },
     {
-      "timestamp": 1782356038,
-      "cash": 7329.519058309908,
-      "holdings_value": 2954.1279641242304,
-      "total_equity": 10283.64702243414
+      "timestamp": 1783292018,
+      "cash": 8123.164901030683,
+      "holdings_value": 1873.1400280218397,
+      "total_equity": 9996.304929052523
     },
     {
-      "timestamp": 1782356341,
-      "cash": 7329.519058309908,
-      "holdings_value": 2953.207766000045,
-      "total_equity": 10282.726824309953
+      "timestamp": 1783292388,
+      "cash": 8123.164901030683,
+      "holdings_value": 1869.2152163164906,
+      "total_equity": 9992.380117347173
     },
     {
-      "timestamp": 1782356647,
-      "cash": 7329.519058309908,
-      "holdings_value": 2952.844001166809,
-      "total_equity": 10282.363059476716
+      "timestamp": 1783292722,
+      "cash": 8123.164901030683,
+      "holdings_value": 1867.9664650677391,
+      "total_equity": 9991.131366098421
     },
     {
-      "timestamp": 1782356954,
-      "cash": 7329.519058309908,
-      "holdings_value": 2952.578450951421,
-      "total_equity": 10282.09750926133
+      "timestamp": 1783293056,
+      "cash": 8123.164901030683,
+      "holdings_value": 1859.9038754834105,
+      "total_equity": 9983.068776514094
     },
     {
-      "timestamp": 1782357288,
-      "cash": 7329.519058309908,
-      "holdings_value": 2953.3708441151216,
-      "total_equity": 10282.88990242503
+      "timestamp": 1783293390,
+      "cash": 8123.164901030683,
+      "holdings_value": 1859.9038754834105,
+      "total_equity": 9983.068776514094
     },
     {
-      "timestamp": 1782357595,
-      "cash": 7329.519058309908,
-      "holdings_value": 2952.2451976412144,
-      "total_equity": 10281.764255951122
+      "timestamp": 1783293725,
+      "cash": 8123.164901030683,
+      "holdings_value": 1868.152623293441,
+      "total_equity": 9991.317524324124
     },
     {
-      "timestamp": 1782357902,
-      "cash": 7329.519058309908,
-      "holdings_value": 2952.2451976412144,
-      "total_equity": 10281.764255951122
+      "timestamp": 1783294058,
+      "cash": 8123.164901030683,
+      "holdings_value": 1868.7769989178166,
+      "total_equity": 9991.941899948499
     },
     {
-      "timestamp": 1782358210,
-      "cash": 7329.519058309908,
-      "holdings_value": 2952.2798771591197,
-      "total_equity": 10281.798935469029
+      "timestamp": 1783294375,
+      "cash": 8123.164901030683,
+      "holdings_value": 1868.7769989178166,
+      "total_equity": 9991.941899948499
     },
     {
-      "timestamp": 1782358516,
-      "cash": 7329.519058309908,
-      "holdings_value": 2950.227509360991,
-      "total_equity": 10279.7465676709
+      "timestamp": 1783294709,
+      "cash": 8123.164901030683,
+      "holdings_value": 1868.7769989178166,
+      "total_equity": 9991.941899948499
     },
     {
-      "timestamp": 1782358822,
-      "cash": 7329.519058309908,
-      "holdings_value": 2950.197024301606,
-      "total_equity": 10279.716082611514
+      "timestamp": 1783295011,
+      "cash": 8123.164901030683,
+      "holdings_value": 1870.9451514810498,
+      "total_equity": 9994.110052511733
     },
     {
-      "timestamp": 1782359127,
-      "cash": 7329.519058309908,
-      "holdings_value": 2950.0578779227953,
-      "total_equity": 10279.576936232705
+      "timestamp": 1783295315,
+      "cash": 8123.164901030683,
+      "holdings_value": 1870.2947057120798,
+      "total_equity": 9993.459606742763
     },
     {
-      "timestamp": 1782359432,
-      "cash": 7329.519058309908,
-      "holdings_value": 2950.7366385126406,
-      "total_equity": 10280.255696822549
+      "timestamp": 1783295647,
+      "cash": 8123.164901030683,
+      "holdings_value": 1870.222433959972,
+      "total_equity": 9993.387334990655
     },
     {
-      "timestamp": 1782359741,
-      "cash": 7329.519058309908,
-      "holdings_value": 2950.355126887928,
-      "total_equity": 10279.874185197836
+      "timestamp": 1783295984,
+      "cash": 8123.164901030683,
+      "holdings_value": 1870.222433959972,
+      "total_equity": 9993.387334990655
     },
     {
-      "timestamp": 1782360047,
-      "cash": 7329.519058309908,
-      "holdings_value": 2951.164657537887,
-      "total_equity": 10280.683715847796
+      "timestamp": 1783296319,
+      "cash": 8123.164901030683,
+      "holdings_value": 1874.8478260948693,
+      "total_equity": 9998.012727125551
     },
     {
-      "timestamp": 1782360357,
-      "cash": 7329.519058309908,
-      "holdings_value": 2952.296738522401,
-      "total_equity": 10281.81579683231
+      "timestamp": 1783296620,
+      "cash": 8123.164901030683,
+      "holdings_value": 1870.69464935196,
+      "total_equity": 9993.859550382644
     },
     {
-      "timestamp": 1782360664,
-      "cash": 7329.519058309908,
-      "holdings_value": 2951.966324809784,
-      "total_equity": 10281.485383119692
+      "timestamp": 1783296920,
+      "cash": 8123.164901030683,
+      "holdings_value": 1870.405562343529,
+      "total_equity": 9993.570463374212
     },
     {
-      "timestamp": 1782361001,
-      "cash": 7329.519058309908,
-      "holdings_value": 2951.298486211621,
-      "total_equity": 10280.81754452153
+      "timestamp": 1783297257,
+      "cash": 8123.164901030683,
+      "holdings_value": 1870.4778340956368,
+      "total_equity": 9993.64273512632
     },
     {
-      "timestamp": 1782361308,
-      "cash": 7329.519058309908,
-      "holdings_value": 2949.534272077293,
-      "total_equity": 10279.053330387202
+      "timestamp": 1783297558,
+      "cash": 8123.164901030683,
+      "holdings_value": 1870.5501058477446,
+      "total_equity": 9993.715006878427
     },
     {
-      "timestamp": 1782361614,
-      "cash": 7329.519058309908,
-      "holdings_value": 2949.9964680617823,
-      "total_equity": 10279.515526371692
+      "timestamp": 1783297863,
+      "cash": 8123.164901030683,
+      "holdings_value": 1868.815583797158,
+      "total_equity": 9991.98048482784
     },
     {
-      "timestamp": 1782361922,
-      "cash": 7329.519058309908,
-      "holdings_value": 2950.857640822843,
-      "total_equity": 10280.376699132752
+      "timestamp": 1783298189,
+      "cash": 8123.164901030683,
+      "holdings_value": 1868.7433120450503,
+      "total_equity": 9991.908213075732
     },
     {
-      "timestamp": 1782362232,
-      "cash": 7329.519058309908,
-      "holdings_value": 2951.664624439394,
-      "total_equity": 10281.183682749303
+      "timestamp": 1783298491,
+      "cash": 8123.164901030683,
+      "holdings_value": 1868.2374097802958,
+      "total_equity": 9991.40231081098
     },
     {
-      "timestamp": 1782362541,
-      "cash": 7329.519058309908,
-      "holdings_value": 2952.4190497092054,
-      "total_equity": 10281.938108019114
+      "timestamp": 1783298793,
+      "cash": 8123.164901030683,
+      "holdings_value": 1868.3096815324036,
+      "total_equity": 9991.474582563087
     },
     {
-      "timestamp": 1782362851,
-      "cash": 7329.519058309908,
-      "holdings_value": 2952.894457333726,
-      "total_equity": 10282.413515643635
+      "timestamp": 1783299130,
+      "cash": 8123.164901030683,
+      "holdings_value": 1872.6531641367558,
+      "total_equity": 9995.81806516744
     },
     {
-      "timestamp": 1782363161,
-      "cash": 7329.519058309908,
-      "holdings_value": 2951.2933770020627,
-      "total_equity": 10280.812435311971
+      "timestamp": 1783299433,
+      "cash": 8123.164901030683,
+      "holdings_value": 1872.7977076409713,
+      "total_equity": 9995.962608671654
     },
     {
-      "timestamp": 1782363471,
-      "cash": 7329.519058309908,
-      "holdings_value": 2951.406182072761,
-      "total_equity": 10280.925240382669
+      "timestamp": 1783299735,
+      "cash": 8123.164901030683,
+      "holdings_value": 1872.7254358888636,
+      "total_equity": 9995.890336919547
     },
     {
-      "timestamp": 1782363787,
-      "cash": 7329.519058309908,
-      "holdings_value": 2950.3409199276557,
-      "total_equity": 10279.859978237564
+      "timestamp": 1783300039,
+      "cash": 8123.164901030683,
+      "holdings_value": 1872.7254358888636,
+      "total_equity": 9995.890336919547
     },
     {
-      "timestamp": 1782364106,
-      "cash": 7329.519058309908,
-      "holdings_value": 2950.1694141151984,
-      "total_equity": 10279.688472425107
+      "timestamp": 1783300346,
+      "cash": 8123.164901030683,
+      "holdings_value": 1872.6531641367558,
+      "total_equity": 9995.81806516744
     },
     {
-      "timestamp": 1782364447,
-      "cash": 7329.519058309908,
-      "holdings_value": 2951.148201970685,
-      "total_equity": 10280.667260280594
+      "timestamp": 1783300650,
+      "cash": 8123.164901030683,
+      "holdings_value": 1876.0113516064796,
+      "total_equity": 9999.176252637162
     },
     {
-      "timestamp": 1782364757,
-      "cash": 7329.519058309908,
-      "holdings_value": 2951.307109870844,
-      "total_equity": 10280.826168180753
+      "timestamp": 1783300956,
+      "cash": 8123.164901030683,
+      "holdings_value": 1875.9390798543718,
+      "total_equity": 9999.103980885055
     },
     {
-      "timestamp": 1782365066,
-      "cash": 7329.519058309908,
-      "holdings_value": 2951.7575716165766,
-      "total_equity": 10281.276629926484
+      "timestamp": 1783301261,
+      "cash": 8123.164901030683,
+      "holdings_value": 1876.0836233585874,
+      "total_equity": 9999.24852438927
     },
     {
-      "timestamp": 1782365379,
-      "cash": 7329.519058309908,
-      "holdings_value": 2951.9325739373385,
-      "total_equity": 10281.451632247246
+      "timestamp": 1783301586,
+      "cash": 8123.164901030683,
+      "holdings_value": 1876.0836233585874,
+      "total_equity": 9999.24852438927
     },
     {
-      "timestamp": 1782365695,
-      "cash": 7329.519058309908,
-      "holdings_value": 2951.605448292973,
-      "total_equity": 10281.124506602882
+      "timestamp": 1783301893,
+      "cash": 8123.164901030683,
+      "holdings_value": 1875.9390798543718,
+      "total_equity": 9999.103980885055
     },
     {
-      "timestamp": 1782366009,
-      "cash": 7329.519058309908,
-      "holdings_value": 2950.3715809939454,
-      "total_equity": 10279.890639303854
+      "timestamp": 1783302199,
+      "cash": 8123.164901030683,
+      "holdings_value": 1873.7372404183723,
+      "total_equity": 9996.902141449054
     },
     {
-      "timestamp": 1782366321,
-      "cash": 7329.519058309908,
-      "holdings_value": 2949.856889598324,
-      "total_equity": 10279.375947908233
+      "timestamp": 1783302504,
+      "cash": 8123.164901030683,
+      "holdings_value": 1877.0231561359883,
+      "total_equity": 10000.188057166672
     },
     {
-      "timestamp": 1782366635,
-      "cash": 7329.519058309908,
-      "holdings_value": 2947.5130697093587,
-      "total_equity": 10277.032128019267
+      "timestamp": 1783302811,
+      "cash": 8123.164901030683,
+      "holdings_value": 1877.0231561359883,
+      "total_equity": 10000.188057166672
     },
     {
-      "timestamp": 1782366945,
-      "cash": 7329.519058309908,
-      "holdings_value": 2947.1344116534506,
-      "total_equity": 10276.65346996336
+      "timestamp": 1783303119,
+      "cash": 8123.164901030683,
+      "holdings_value": 1877.095427888096,
+      "total_equity": 10000.26032891878
     },
     {
-      "timestamp": 1782367258,
-      "cash": 7329.519058309908,
-      "holdings_value": 2946.6603217250254,
-      "total_equity": 10276.179380034933
+      "timestamp": 1783303427,
+      "cash": 8123.164901030683,
+      "holdings_value": 1877.095427888096,
+      "total_equity": 10000.26032891878
     },
     {
-      "timestamp": 1782367572,
-      "cash": 7329.519058309908,
-      "holdings_value": 2942.573217605543,
-      "total_equity": 10272.092275915451
+      "timestamp": 1783303736,
+      "cash": 8123.164901030683,
+      "holdings_value": 1877.095427888096,
+      "total_equity": 10000.26032891878
     },
     {
-      "timestamp": 1782367887,
-      "cash": 7329.519058309908,
-      "holdings_value": 2941.7956657204763,
-      "total_equity": 10271.314724030384
+      "timestamp": 1783304044,
+      "cash": 8123.164901030683,
+      "holdings_value": 1877.095427888096,
+      "total_equity": 10000.26032891878
     },
     {
-      "timestamp": 1782368230,
-      "cash": 7329.519058309908,
-      "holdings_value": 2935.652119543932,
-      "total_equity": 10265.171177853841
+      "timestamp": 1783304353,
+      "cash": 8123.164901030683,
+      "holdings_value": 1877.095427888096,
+      "total_equity": 10000.26032891878
     },
     {
-      "timestamp": 1782368543,
-      "cash": 7329.519058309908,
-      "holdings_value": 2934.431739454845,
-      "total_equity": 10263.950797764754
+      "timestamp": 1783304662,
+      "cash": 8123.164901030683,
+      "holdings_value": 1877.095427888096,
+      "total_equity": 10000.26032891878
     },
     {
-      "timestamp": 1782368856,
-      "cash": 7329.519058309908,
-      "holdings_value": 2935.7023170509005,
-      "total_equity": 10265.221375360808
+      "timestamp": 1783304968,
+      "cash": 8123.164901030683,
+      "holdings_value": 1876.878612631773,
+      "total_equity": 10000.043513662456
     },
     {
-      "timestamp": 1782369170,
-      "cash": 7329.519058309908,
-      "holdings_value": 2938.3045265813003,
-      "total_equity": 10267.823584891208
+      "timestamp": 1783305008,
+      "cash": 8339.653578630094,
+      "holdings_value": 1658.1348446407012,
+      "total_equity": 9997.788423270795
     },
     {
-      "timestamp": 1782369482,
-      "cash": 7329.519058309908,
-      "holdings_value": 2937.397309646136,
-      "total_equity": 10266.916367956044
+      "timestamp": 1783305336,
+      "cash": 8339.653578630094,
+      "holdings_value": 1658.1348446407012,
+      "total_equity": 9997.788423270795
     },
     {
-      "timestamp": 1782369798,
-      "cash": 7329.519058309908,
-      "holdings_value": 2936.367581489429,
-      "total_equity": 10265.886639799337
+      "timestamp": 1783305643,
+      "cash": 8339.653578630094,
+      "holdings_value": 1658.1348446407012,
+      "total_equity": 9997.788423270795
     },
     {
-      "timestamp": 1782370111,
-      "cash": 7329.519058309908,
-      "holdings_value": 2933.0326279200863,
-      "total_equity": 10262.551686229996
+      "timestamp": 1783305949,
+      "cash": 8339.653578630094,
+      "holdings_value": 1658.1348446407012,
+      "total_equity": 9997.788423270795
     },
     {
-      "timestamp": 1782370424,
-      "cash": 7329.519058309908,
-      "holdings_value": 2933.3155531913103,
-      "total_equity": 10262.83461150122
+      "timestamp": 1783306254,
+      "cash": 8339.653578630094,
+      "holdings_value": 1658.1348446407012,
+      "total_equity": 9997.788423270795
     },
     {
-      "timestamp": 1782370738,
-      "cash": 7329.519058309908,
-      "holdings_value": 2933.653426091187,
-      "total_equity": 10263.172484401095
+      "timestamp": 1783306559,
+      "cash": 8339.653578630094,
+      "holdings_value": 1658.1348446407012,
+      "total_equity": 9997.788423270795
     },
     {
-      "timestamp": 1782371060,
-      "cash": 7329.519058309908,
-      "holdings_value": 2933.2515775676143,
-      "total_equity": 10262.770635877523
+      "timestamp": 1783306865,
+      "cash": 8339.653578630094,
+      "holdings_value": 1658.1348446407012,
+      "total_equity": 9997.788423270795
     },
     {
-      "timestamp": 1782371381,
-      "cash": 7329.519058309908,
-      "holdings_value": 2935.15295930474,
-      "total_equity": 10264.672017614648
+      "timestamp": 1783307173,
+      "cash": 8339.653578630094,
+      "holdings_value": 1658.1348446407012,
+      "total_equity": 9997.788423270795
     },
     {
-      "timestamp": 1782371724,
-      "cash": 7329.519058309908,
-      "holdings_value": 2931.6222943201765,
-      "total_equity": 10261.141352630086
+      "timestamp": 1783307481,
+      "cash": 8339.653578630094,
+      "holdings_value": 1658.1348446407012,
+      "total_equity": 9997.788423270795
     },
     {
-      "timestamp": 1782372039,
-      "cash": 7329.519058309908,
-      "holdings_value": 2934.5046080527763,
-      "total_equity": 10264.023666362686
+      "timestamp": 1783307788,
+      "cash": 8339.653578630094,
+      "holdings_value": 1658.1348446407012,
+      "total_equity": 9997.788423270795
     },
     {
-      "timestamp": 1782372358,
-      "cash": 7329.519058309908,
-      "holdings_value": 2936.3254050898004,
-      "total_equity": 10265.84446339971
+      "timestamp": 1783308096,
+      "cash": 8339.653578630094,
+      "holdings_value": 1658.1348446407012,
+      "total_equity": 9997.788423270795
     },
     {
-      "timestamp": 1782372674,
-      "cash": 7329.519058309908,
-      "holdings_value": 2937.7852711730307,
-      "total_equity": 10267.304329482939
+      "timestamp": 1783308403,
+      "cash": 8339.653578630094,
+      "holdings_value": 1658.1348446407012,
+      "total_equity": 9997.788423270795
     },
     {
-      "timestamp": 1782372992,
-      "cash": 7329.519058309908,
-      "holdings_value": 2937.945026130227,
-      "total_equity": 10267.464084440135
+      "timestamp": 1783308710,
+      "cash": 8339.653578630094,
+      "holdings_value": 1658.1348446407012,
+      "total_equity": 9997.788423270795
     },
     {
-      "timestamp": 1782373305,
-      "cash": 7329.519058309908,
-      "holdings_value": 2934.6029167950514,
-      "total_equity": 10264.12197510496
+      "timestamp": 1783309039,
+      "cash": 8339.653578630094,
+      "holdings_value": 1661.603888741874,
+      "total_equity": 10001.257467371968
     },
     {
-      "timestamp": 1782373622,
-      "cash": 7329.519058309908,
-      "holdings_value": 2935.880956452622,
-      "total_equity": 10265.40001476253
+      "timestamp": 1783309349,
+      "cash": 8339.653578630094,
+      "holdings_value": 1661.9652475024127,
+      "total_equity": 10001.618826132506
     },
     {
-      "timestamp": 1782373941,
-      "cash": 7329.519058309908,
-      "holdings_value": 2933.2106212210383,
-      "total_equity": 10262.729679530947
+      "timestamp": 1783309657,
+      "cash": 8339.653578630094,
+      "holdings_value": 1660.664355964473,
+      "total_equity": 10000.317934594566
     },
     {
-      "timestamp": 1782374259,
-      "cash": 7329.519058309908,
-      "holdings_value": 2933.6285457326103,
-      "total_equity": 10263.147604042519
+      "timestamp": 1783309968,
+      "cash": 8339.653578630094,
+      "holdings_value": 1659.9416384433953,
+      "total_equity": 9999.595217073489
     },
     {
-      "timestamp": 1782374578,
-      "cash": 7204.519058309908,
-      "holdings_value": 3056.6070208759575,
-      "total_equity": 10261.126079185866
+      "timestamp": 1783310280,
+      "cash": 8339.653578630094,
+      "holdings_value": 1659.6525514349642,
+      "total_equity": 9999.306130065059
     },
     {
-      "timestamp": 1782374887,
-      "cash": 7204.519058309908,
-      "holdings_value": 3052.5732764136023,
-      "total_equity": 10257.092334723511
+      "timestamp": 1783310591,
+      "cash": 8339.653578630094,
+      "holdings_value": 1661.603888741874,
+      "total_equity": 10001.257467371968
     },
     {
-      "timestamp": 1782375196,
-      "cash": 7204.519058309908,
-      "holdings_value": 3053.802051338824,
-      "total_equity": 10258.321109648732
+      "timestamp": 1783310900,
+      "cash": 8339.653578630094,
+      "holdings_value": 1660.4475407081497,
+      "total_equity": 10000.101119338244
     },
     {
-      "timestamp": 1782375538,
-      "cash": 7204.519058309908,
-      "holdings_value": 3054.608751897848,
-      "total_equity": 10259.127810207756
+      "timestamp": 1783311210,
+      "cash": 8339.653578630094,
+      "holdings_value": 1659.8693666912875,
+      "total_equity": 9999.522945321381
     },
     {
-      "timestamp": 1782375843,
-      "cash": 7204.519058309908,
-      "holdings_value": 3054.6898535523633,
-      "total_equity": 10259.208911862272
+      "timestamp": 1783311519,
+      "cash": 8339.653578630094,
+      "holdings_value": 1659.8693666912875,
+      "total_equity": 9999.522945321381
     },
     {
-      "timestamp": 1782376150,
-      "cash": 7204.519058309908,
-      "holdings_value": 3054.997226234731,
-      "total_equity": 10259.51628454464
+      "timestamp": 1783311827,
+      "cash": 8339.653578630094,
+      "holdings_value": 1659.8693666912875,
+      "total_equity": 9999.522945321381
     },
     {
-      "timestamp": 1782376457,
-      "cash": 7204.519058309908,
-      "holdings_value": 3054.6548551766605,
-      "total_equity": 10259.17391348657
+      "timestamp": 1783312144,
+      "cash": 8339.653578630094,
+      "holdings_value": 1659.8693666912875,
+      "total_equity": 9999.522945321381
     },
     {
-      "timestamp": 1782376767,
-      "cash": 7204.519058309908,
-      "holdings_value": 3053.1093131351854,
-      "total_equity": 10257.628371445095
+      "timestamp": 1783312445,
+      "cash": 8339.653578630094,
+      "holdings_value": 1659.8693666912875,
+      "total_equity": 9999.522945321381
     },
     {
-      "timestamp": 1782377075,
-      "cash": 7204.519058309908,
-      "holdings_value": 3053.907617998669,
-      "total_equity": 10258.426676308578
+      "timestamp": 1783312756,
+      "cash": 8339.653578630094,
+      "holdings_value": 1659.8693666912875,
+      "total_equity": 9999.522945321381
     },
     {
-      "timestamp": 1782377392,
-      "cash": 7204.519058309908,
-      "holdings_value": 3054.125788930373,
-      "total_equity": 10258.64484724028
+      "timestamp": 1783313065,
+      "cash": 8339.653578630094,
+      "holdings_value": 1659.8693666912875,
+      "total_equity": 9999.522945321381
     },
     {
-      "timestamp": 1782377727,
-      "cash": 7204.519058309908,
-      "holdings_value": 3052.8376067898907,
-      "total_equity": 10257.3566650998
+      "timestamp": 1783313377,
+      "cash": 8339.653578630094,
+      "holdings_value": 1659.8693666912875,
+      "total_equity": 9999.522945321381
     },
     {
-      "timestamp": 1782378035,
-      "cash": 7204.519058309908,
-      "holdings_value": 3054.730470213301,
-      "total_equity": 10259.249528523209
+      "timestamp": 1783313691,
+      "cash": 8339.653578630094,
+      "holdings_value": 1659.8693666912875,
+      "total_equity": 9999.522945321381
     },
     {
-      "timestamp": 1782378343,
-      "cash": 7204.519058309908,
-      "holdings_value": 3054.627334899769,
-      "total_equity": 10259.146393209678
+      "timestamp": 1783314007,
+      "cash": 8339.653578630094,
+      "holdings_value": 1659.8693666912875,
+      "total_equity": 9999.522945321381
     },
     {
-      "timestamp": 1782378652,
-      "cash": 7204.519058309908,
-      "holdings_value": 3055.38497049874,
-      "total_equity": 10259.904028808649
+      "timestamp": 1783314245,
+      "cash": 8039.653578630094,
+      "holdings_value": 1954.0196608415818,
+      "total_equity": 9993.673239471675
     },
     {
-      "timestamp": 1782378985,
-      "cash": 7204.519058309908,
-      "holdings_value": 3055.5164869461637,
-      "total_equity": 10260.035545256073
+      "timestamp": 1783314555,
+      "cash": 8039.653578630094,
+      "holdings_value": 1954.0196608415818,
+      "total_equity": 9993.673239471675
     },
     {
-      "timestamp": 1782379073,
-      "cash": 7079.519058309908,
-      "holdings_value": 3180.3916118212887,
-      "total_equity": 10259.910670131198
+      "timestamp": 1783314864,
+      "cash": 8039.653578630094,
+      "holdings_value": 1954.0196608415818,
+      "total_equity": 9993.673239471675
     },
     {
-      "timestamp": 1782379383,
-      "cash": 7079.519058309908,
-      "holdings_value": 3181.2686567234823,
-      "total_equity": 10260.787715033392
+      "timestamp": 1783315175,
+      "cash": 8039.653578630094,
+      "holdings_value": 1954.0196608415818,
+      "total_equity": 9993.673239471675
     },
     {
-      "timestamp": 1782379692,
-      "cash": 7079.519058309908,
-      "holdings_value": 3183.132041028921,
-      "total_equity": 10262.65109933883
+      "timestamp": 1783315486,
+      "cash": 8039.653578630094,
+      "holdings_value": 1949.032699332881,
+      "total_equity": 9988.686277962976
     },
     {
-      "timestamp": 1782380004,
-      "cash": 7079.519058309908,
-      "holdings_value": 3183.195400558398,
-      "total_equity": 10262.714458868306
+      "timestamp": 1783315796,
+      "cash": 8039.653578630094,
+      "holdings_value": 1951.5261800872313,
+      "total_equity": 9991.179758717324
     },
     {
-      "timestamp": 1782380316,
-      "cash": 7079.519058309908,
-      "holdings_value": 3180.4717648374744,
-      "total_equity": 10259.990823147382
+      "timestamp": 1783316126,
+      "cash": 8039.653578630094,
+      "holdings_value": 1953.3761819372332,
+      "total_equity": 9993.029760567328
     },
     {
-      "timestamp": 1782380627,
-      "cash": 7079.519058309908,
-      "holdings_value": 3180.9102334114255,
-      "total_equity": 10260.429291721333
+      "timestamp": 1783316436,
+      "cash": 8039.653578630094,
+      "holdings_value": 1953.3761819372332,
+      "total_equity": 9993.029760567328
     },
     {
-      "timestamp": 1782380942,
-      "cash": 7079.519058309908,
-      "holdings_value": 3181.4546360552795,
-      "total_equity": 10260.973694365188
+      "timestamp": 1783316747,
+      "cash": 8039.653578630094,
+      "holdings_value": 1953.3761819372332,
+      "total_equity": 9993.029760567328
     },
     {
-      "timestamp": 1782381254,
-      "cash": 7079.519058309908,
-      "holdings_value": 3174.5171291177726,
-      "total_equity": 10254.03618742768
+      "timestamp": 1783317059,
+      "cash": 8039.653578630094,
+      "holdings_value": 1952.866690933536,
+      "total_equity": 9992.520269563629
     },
     {
-      "timestamp": 1782381566,
-      "cash": 6954.519058309908,
-      "holdings_value": 3299.294963125212,
-      "total_equity": 10253.81402143512
+      "timestamp": 1783317370,
+      "cash": 8039.653578630094,
+      "holdings_value": 1952.9389626856437,
+      "total_equity": 9992.592541315738
     },
     {
-      "timestamp": 1782381880,
-      "cash": 6954.519058309908,
-      "holdings_value": 3299.04734945025,
-      "total_equity": 10253.566407760158
+      "timestamp": 1783317680,
+      "cash": 8039.653578630094,
+      "holdings_value": 1955.4720627483584,
+      "total_equity": 9995.125641378452
     },
     {
-      "timestamp": 1782382197,
-      "cash": 6954.519058309908,
-      "holdings_value": 3294.513347560328,
-      "total_equity": 10249.032405870235
+      "timestamp": 1783317992,
+      "cash": 8039.653578630094,
+      "holdings_value": 1950.7672213834676,
+      "total_equity": 9990.420800013562
     },
     {
-      "timestamp": 1782382539,
-      "cash": 6954.519058309908,
-      "holdings_value": 3298.5929061835286,
-      "total_equity": 10253.111964493437
+      "timestamp": 1783318305,
+      "cash": 8039.653578630094,
+      "holdings_value": 1952.3773313927575,
+      "total_equity": 9992.030910022851
     },
     {
-      "timestamp": 1782382854,
-      "cash": 6954.519058309908,
-      "holdings_value": 3299.2631406186097,
-      "total_equity": 10253.782198928518
+      "timestamp": 1783318617,
+      "cash": 8039.653578630094,
+      "holdings_value": 1956.7208139971096,
+      "total_equity": 9996.374392627204
     },
     {
-      "timestamp": 1782383171,
-      "cash": 6892.019058309908,
-      "holdings_value": 3361.2794944346115,
-      "total_equity": 10253.29855274452
+      "timestamp": 1783318929,
+      "cash": 8039.653578630094,
+      "holdings_value": 1956.2149117323554,
+      "total_equity": 9995.868490362449
     },
     {
-      "timestamp": 1782383490,
-      "cash": 6892.019058309908,
-      "holdings_value": 3356.203329775578,
-      "total_equity": 10248.222388085487
+      "timestamp": 1783319242,
+      "cash": 8039.653578630094,
+      "holdings_value": 1956.7208139971096,
+      "total_equity": 9996.374392627204
     },
     {
-      "timestamp": 1782383807,
-      "cash": 6892.019058309908,
-      "holdings_value": 3353.441037421271,
-      "total_equity": 10245.46009573118
+      "timestamp": 1783319555,
+      "cash": 8039.653578630094,
+      "holdings_value": 1954.2896445700399,
+      "total_equity": 9993.943223200135
     },
     {
-      "timestamp": 1782384126,
-      "cash": 6892.019058309908,
-      "holdings_value": 3347.4792839489473,
-      "total_equity": 10239.498342258856
+      "timestamp": 1783319857,
+      "cash": 8039.653578630094,
+      "holdings_value": 1954.0728293137165,
+      "total_equity": 9993.72640794381
     },
     {
-      "timestamp": 1782384320,
-      "cash": 6942.67594858944,
-      "holdings_value": 3289.408195329178,
-      "total_equity": 10232.084143918619
+      "timestamp": 1783320169,
+      "cash": 8039.653578630094,
+      "holdings_value": 1954.4803896817689,
+      "total_equity": 9994.133968311862
     },
     {
-      "timestamp": 1782384640,
-      "cash": 6942.67594858944,
-      "holdings_value": 3289.611348031734,
-      "total_equity": 10232.287296621174
+      "timestamp": 1783320484,
+      "cash": 8039.653578630094,
+      "holdings_value": 1954.408117929661,
+      "total_equity": 9994.061696559755
     },
     {
-      "timestamp": 1782384961,
-      "cash": 6942.67594858944,
-      "holdings_value": 3289.440937663121,
-      "total_equity": 10232.116886252561
+      "timestamp": 1783320798,
+      "cash": 8039.653578630094,
+      "holdings_value": 1948.2542527836717,
+      "total_equity": 9987.907831413766
     },
     {
-      "timestamp": 1782385282,
-      "cash": 6942.67594858944,
-      "holdings_value": 3287.814242206897,
-      "total_equity": 10230.490190796336
+      "timestamp": 1783321114,
+      "cash": 8039.653578630094,
+      "holdings_value": 1947.820622271025,
+      "total_equity": 9987.474200901119
     },
     {
-      "timestamp": 1782385599,
-      "cash": 6942.67594858944,
-      "holdings_value": 3285.92698806457,
-      "total_equity": 10228.60293665401
+      "timestamp": 1783321430,
+      "cash": 8039.653578630094,
+      "holdings_value": 1947.1962466466493,
+      "total_equity": 9986.849825276742
     },
     {
-      "timestamp": 1782385917,
-      "cash": 6942.67594858944,
-      "holdings_value": 3281.090746476006,
-      "total_equity": 10223.766695065446
+      "timestamp": 1783321743,
+      "cash": 8039.653578630094,
+      "holdings_value": 1946.5718710222739,
+      "total_equity": 9986.225449652367
     },
     {
-      "timestamp": 1782386256,
-      "cash": 6942.67594858944,
-      "holdings_value": 3281.8473059696876,
-      "total_equity": 10224.523254559128
+      "timestamp": 1783322059,
+      "cash": 8039.653578630094,
+      "holdings_value": 1944.4660882707458,
+      "total_equity": 9984.119666900839
     },
     {
-      "timestamp": 1782386570,
-      "cash": 6942.67594858944,
-      "holdings_value": 3282.524474767698,
-      "total_equity": 10225.200423357139
+      "timestamp": 1783322373,
+      "cash": 8039.653578630094,
+      "holdings_value": 1944.8274470312847,
+      "total_equity": 9984.481025661378
     },
     {
-      "timestamp": 1782386883,
-      "cash": 6942.67594858944,
-      "holdings_value": 3282.4477407143654,
-      "total_equity": 10225.123689303806
+      "timestamp": 1783322687,
+      "cash": 8039.653578630094,
+      "holdings_value": 1944.755175279177,
+      "total_equity": 9984.40875390927
     },
     {
-      "timestamp": 1782387200,
-      "cash": 6942.67594858944,
-      "holdings_value": 3280.6078281557534,
-      "total_equity": 10223.283776745193
+      "timestamp": 1783323002,
+      "cash": 8039.653578630094,
+      "holdings_value": 1952.9425514245866,
+      "total_equity": 9992.59613005468
     },
     {
-      "timestamp": 1782387517,
-      "cash": 6942.67594858944,
-      "holdings_value": 3281.6730765769216,
-      "total_equity": 10224.34902516636
+      "timestamp": 1783323309,
+      "cash": 8039.653578630094,
+      "holdings_value": 1952.6534644161557,
+      "total_equity": 9992.30704304625
     },
     {
-      "timestamp": 1782387796,
-      "cash": 7047.927839555617,
-      "holdings_value": 3172.268617418867,
-      "total_equity": 10220.196456974483
+      "timestamp": 1783323623,
+      "cash": 8039.653578630094,
+      "holdings_value": 1952.3643774077245,
+      "total_equity": 9992.017956037818
     },
     {
-      "timestamp": 1782388107,
-      "cash": 7047.927839555617,
-      "holdings_value": 3172.952121789682,
-      "total_equity": 10220.8799613453
+      "timestamp": 1783323938,
+      "cash": 8039.653578630094,
+      "holdings_value": 1952.0752903992934,
+      "total_equity": 9991.728869029386
     },
     {
-      "timestamp": 1782388421,
-      "cash": 7047.927839555617,
-      "holdings_value": 3170.696750309213,
-      "total_equity": 10218.62458986483
+      "timestamp": 1783324252,
+      "cash": 8039.653578630094,
+      "holdings_value": 1952.0752903992934,
+      "total_equity": 9991.728869029386
     },
     {
-      "timestamp": 1782388734,
-      "cash": 7047.927839555617,
-      "holdings_value": 3171.0082056464144,
-      "total_equity": 10218.93604520203
+      "timestamp": 1783324569,
+      "cash": 8039.653578630094,
+      "holdings_value": 1952.0752903992934,
+      "total_equity": 9991.728869029386
     },
     {
-      "timestamp": 1782389049,
-      "cash": 7047.927839555617,
-      "holdings_value": 3169.935708199581,
-      "total_equity": 10217.863547755198
+      "timestamp": 1783324884,
+      "cash": 8039.653578630094,
+      "holdings_value": 1953.5929971935566,
+      "total_equity": 9993.24657582365
     },
     {
-      "timestamp": 1782389361,
-      "cash": 7047.927839555617,
-      "holdings_value": 3170.859214712209,
-      "total_equity": 10218.787054267825
+      "timestamp": 1783325201,
+      "cash": 8039.653578630094,
+      "holdings_value": 1953.5929971935566,
+      "total_equity": 9993.24657582365
     },
     {
-      "timestamp": 1782389676,
-      "cash": 7047.927839555617,
-      "holdings_value": 3176.7499434691,
-      "total_equity": 10224.677783024716
+      "timestamp": 1783325517,
+      "cash": 8039.653578630094,
+      "holdings_value": 1949.2495145892044,
+      "total_equity": 9988.903093219298
     },
     {
-      "timestamp": 1782389979,
-      "cash": 7047.927839555617,
-      "holdings_value": 3176.5516815083865,
-      "total_equity": 10224.479521064004
+      "timestamp": 1783325835,
+      "cash": 8039.653578630094,
+      "holdings_value": 1953.3003214461824,
+      "total_equity": 9992.953900076276
     },
     {
-      "timestamp": 1782390294,
-      "cash": 7047.927839555617,
-      "holdings_value": 3175.091106918419,
-      "total_equity": 10223.018946474036
+      "timestamp": 1783326153,
+      "cash": 8039.653578630094,
+      "holdings_value": 1954.962571744661,
+      "total_equity": 9994.616150374755
     },
     {
-      "timestamp": 1782390606,
-      "cash": 7164.9064337513555,
-      "holdings_value": 3056.7017465827903,
-      "total_equity": 10221.608180334146
+      "timestamp": 1783326470,
+      "cash": 8039.653578630094,
+      "holdings_value": 1951.9958411692996,
+      "total_equity": 9991.649419799392
     },
     {
-      "timestamp": 1782390909,
-      "cash": 7164.9064337513555,
-      "holdings_value": 3057.1736463463635,
-      "total_equity": 10222.08008009772
+      "timestamp": 1783326788,
+      "cash": 8039.653578630094,
+      "holdings_value": 1949.4627411065846,
+      "total_equity": 9989.116319736679
     },
     {
-      "timestamp": 1782391217,
-      "cash": 7164.9064337513555,
-      "holdings_value": 3056.1178150389937,
-      "total_equity": 10221.024248790349
+      "timestamp": 1783327092,
+      "cash": 8039.653578630094,
+      "holdings_value": 1949.968643371339,
+      "total_equity": 9989.622222001433
     },
     {
-      "timestamp": 1782391529,
-      "cash": 7164.9064337513555,
-      "holdings_value": 3056.064480848903,
-      "total_equity": 10220.970914600259
+      "timestamp": 1783327409,
+      "cash": 8039.653578630094,
+      "holdings_value": 1951.269534909279,
+      "total_equity": 9990.923113539373
     },
     {
-      "timestamp": 1782391838,
-      "cash": 7164.9064337513555,
-      "holdings_value": 3055.6934871684257,
-      "total_equity": 10220.599920919782
+      "timestamp": 1783327729,
+      "cash": 7939.653578630094,
+      "holdings_value": 2050.0213578606727,
+      "total_equity": 9989.674936490766
     },
     {
-      "timestamp": 1782392144,
-      "cash": 7039.9064337513555,
-      "holdings_value": 3180.023270932462,
-      "total_equity": 10219.929704683818
+      "timestamp": 1783328042,
+      "cash": 7939.653578630094,
+      "holdings_value": 2030.6700691777864,
+      "total_equity": 9970.32364780788
     },
     {
-      "timestamp": 1782392458,
-      "cash": 7039.9064337513555,
-      "holdings_value": 3178.5901154538724,
-      "total_equity": 10218.496549205229
+      "timestamp": 1783328357,
+      "cash": 7939.653578630094,
+      "holdings_value": 2030.6700691777864,
+      "total_equity": 9970.32364780788
     },
     {
-      "timestamp": 1782392773,
-      "cash": 7039.9064337513555,
-      "holdings_value": 3180.1076155286373,
-      "total_equity": 10220.014049279993
+      "timestamp": 1783328672,
+      "cash": 7939.653578630094,
+      "holdings_value": 2030.6700691777864,
+      "total_equity": 9970.32364780788
     },
     {
-      "timestamp": 1782393089,
-      "cash": 7039.9064337513555,
-      "holdings_value": 3180.412932300467,
-      "total_equity": 10220.319366051823
+      "timestamp": 1783328986,
+      "cash": 7939.653578630094,
+      "holdings_value": 2030.6700691777864,
+      "total_equity": 9970.32364780788
     },
     {
-      "timestamp": 1782393428,
-      "cash": 7039.9064337513555,
-      "holdings_value": 3174.662123644541,
-      "total_equity": 10214.568557395896
+      "timestamp": 1783329094,
+      "cash": 8213.29298270428,
+      "holdings_value": 1752.6871824992475,
+      "total_equity": 9965.980165203528
     },
     {
-      "timestamp": 1782393480,
-      "cash": 7135.297154142076,
-      "holdings_value": 3073.658329458929,
-      "total_equity": 10208.955483601005
+      "timestamp": 1783329402,
+      "cash": 8213.29298270428,
+      "holdings_value": 1752.6149107471397,
+      "total_equity": 9965.90789345142
     },
     {
-      "timestamp": 1782393790,
-      "cash": 7135.297154142076,
-      "holdings_value": 3072.0193391508597,
-      "total_equity": 10207.316493292936
+      "timestamp": 1783329712,
+      "cash": 8213.29298270428,
+      "holdings_value": 1752.6149107471397,
+      "total_equity": 9965.90789345142
     },
     {
-      "timestamp": 1782394100,
-      "cash": 7135.297154142076,
-      "holdings_value": 3072.29416627759,
-      "total_equity": 10207.591320419666
+      "timestamp": 1783330024,
+      "cash": 8609.698902366015,
+      "holdings_value": 1354.0309365817702,
+      "total_equity": 9963.729838947786
     },
     {
-      "timestamp": 1782394366,
-      "cash": 7248.37398659712,
-      "holdings_value": 2952.7428044189246,
-      "total_equity": 10201.116791016044
+      "timestamp": 1783330330,
+      "cash": 8609.698902366015,
+      "holdings_value": 1354.0309365817702,
+      "total_equity": 9963.729838947786
     },
     {
-      "timestamp": 1782394670,
-      "cash": 7248.37398659712,
-      "holdings_value": 2953.6086262899566,
-      "total_equity": 10201.982612887077
+      "timestamp": 1783330659,
+      "cash": 8609.698902366015,
+      "holdings_value": 1354.0309365817702,
+      "total_equity": 9963.729838947786
     },
     {
-      "timestamp": 1782394977,
-      "cash": 7185.87398659712,
-      "holdings_value": 3016.723890835945,
-      "total_equity": 10202.597877433065
+      "timestamp": 1783330966,
+      "cash": 8609.698902366015,
+      "holdings_value": 1354.0309365817702,
+      "total_equity": 9963.729838947786
     },
     {
-      "timestamp": 1782395335,
-      "cash": 7185.87398659712,
-      "holdings_value": 3017.043178982095,
-      "total_equity": 10202.917165579216
+      "timestamp": 1783331273,
+      "cash": 8609.698902366015,
+      "holdings_value": 1361.2704983866204,
+      "total_equity": 9970.969400752636
     },
     {
-      "timestamp": 1782395647,
-      "cash": 7185.87398659712,
-      "holdings_value": 3018.794282579217,
-      "total_equity": 10204.668269176338
+      "timestamp": 1783331581,
+      "cash": 8609.698902366015,
+      "holdings_value": 1361.2704983866204,
+      "total_equity": 9970.969400752636
     },
     {
-      "timestamp": 1782395956,
-      "cash": 7185.87398659712,
-      "holdings_value": 3019.3462516292398,
-      "total_equity": 10205.22023822636
+      "timestamp": 1783331890,
+      "cash": 8609.698902366015,
+      "holdings_value": 1361.2704983866204,
+      "total_equity": 9970.969400752636
     },
     {
-      "timestamp": 1782396265,
-      "cash": 7185.87398659712,
-      "holdings_value": 3020.742160179594,
-      "total_equity": 10206.616146776714
+      "timestamp": 1783332198,
+      "cash": 8609.698902366015,
+      "holdings_value": 1361.2704983866204,
+      "total_equity": 9970.969400752636
     },
     {
-      "timestamp": 1782396574,
-      "cash": 7185.87398659712,
-      "holdings_value": 3020.8174634743687,
-      "total_equity": 10206.691450071488
+      "timestamp": 1783332505,
+      "cash": 8609.698902366015,
+      "holdings_value": 1361.2704983866204,
+      "total_equity": 9970.969400752636
     },
     {
-      "timestamp": 1782396841,
-      "cash": 7123.37398659712,
-      "holdings_value": 3082.5407989199643,
-      "total_equity": 10205.914785517085
+      "timestamp": 1783332811,
+      "cash": 8609.698902366015,
+      "holdings_value": 1361.2704983866204,
+      "total_equity": 9970.969400752636
     },
     {
-      "timestamp": 1782397180,
-      "cash": 7123.37398659712,
-      "holdings_value": 3081.3896460477604,
-      "total_equity": 10204.763632644881
+      "timestamp": 1783333119,
+      "cash": 8609.698902366015,
+      "holdings_value": 1361.2704983866204,
+      "total_equity": 9970.969400752636
     },
     {
-      "timestamp": 1782397493,
-      "cash": 7123.37398659712,
-      "holdings_value": 3079.9045756561495,
-      "total_equity": 10203.27856225327
+      "timestamp": 1783333427,
+      "cash": 8609.698902366015,
+      "holdings_value": 1361.2704983866204,
+      "total_equity": 9970.969400752636
     },
     {
-      "timestamp": 1782397806,
-      "cash": 7123.37398659712,
-      "holdings_value": 3081.7299940795792,
-      "total_equity": 10205.1039806767
+      "timestamp": 1783333738,
+      "cash": 8609.698902366015,
+      "holdings_value": 1364.5564141042364,
+      "total_equity": 9974.255316470251
     },
     {
-      "timestamp": 1782398116,
-      "cash": 7123.37398659712,
-      "holdings_value": 3083.6704679165114,
-      "total_equity": 10207.04445451363
+      "timestamp": 1783334052,
+      "cash": 8609.698902366015,
+      "holdings_value": 1364.5564141042364,
+      "total_equity": 9974.255316470251
     },
     {
-      "timestamp": 1782398428,
-      "cash": 7123.37398659712,
-      "holdings_value": 3085.3713899597074,
-      "total_equity": 10208.745376556828
+      "timestamp": 1783334356,
+      "cash": 8609.698902366015,
+      "holdings_value": 1364.5564141042364,
+      "total_equity": 9974.255316470251
     },
     {
-      "timestamp": 1782398758,
-      "cash": 7123.37398659712,
-      "holdings_value": 3085.410271051761,
-      "total_equity": 10208.78425764888
+      "timestamp": 1783334663,
+      "cash": 8609.698902366015,
+      "holdings_value": 1364.5564141042364,
+      "total_equity": 9974.255316470251
     },
     {
-      "timestamp": 1782399069,
-      "cash": 7123.37398659712,
-      "holdings_value": 3082.4661802272817,
-      "total_equity": 10205.840166824402
+      "timestamp": 1783334972,
+      "cash": 8609.698902366015,
+      "holdings_value": 1364.5564141042364,
+      "total_equity": 9974.255316470251
     },
     {
-      "timestamp": 1782399381,
-      "cash": 7123.37398659712,
-      "holdings_value": 3080.6914557813416,
-      "total_equity": 10204.065442378462
+      "timestamp": 1783335280,
+      "cash": 8609.698902366015,
+      "holdings_value": 1361.2704983866204,
+      "total_equity": 9970.969400752636
     },
     {
-      "timestamp": 1782399698,
-      "cash": 7123.37398659712,
-      "holdings_value": 3079.616112373616,
-      "total_equity": 10202.990098970737
+      "timestamp": 1783335487,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.3381985497692,
+      "total_equity": 9971.037100915784
     },
     {
-      "timestamp": 1782400020,
-      "cash": 7123.37398659712,
-      "holdings_value": 3080.006978688049,
-      "total_equity": 10203.380965285169
+      "timestamp": 1783335796,
+      "cash": 8484.698902366015,
+      "holdings_value": 1485.5802124881743,
+      "total_equity": 9970.27911485419
     },
     {
-      "timestamp": 1782400156,
-      "cash": 7060.87398659712,
-      "holdings_value": 3146.0024708770193,
-      "total_equity": 10206.87645747414
+      "timestamp": 1783336104,
+      "cash": 8484.698902366015,
+      "holdings_value": 1485.5802124881743,
+      "total_equity": 9970.27911485419
     },
     {
-      "timestamp": 1782400471,
-      "cash": 7030.576421666396,
-      "holdings_value": 3177.7069156544003,
-      "total_equity": 10208.283337320796
+      "timestamp": 1783336416,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.3381985497692,
+      "total_equity": 9971.037100915784
     },
     {
-      "timestamp": 1782400780,
-      "cash": 7030.576421666396,
-      "holdings_value": 3177.565473454716,
-      "total_equity": 10208.141895121113
+      "timestamp": 1783336727,
+      "cash": 8484.698902366015,
+      "holdings_value": 1487.0961846113642,
+      "total_equity": 9971.79508697738
     },
     {
-      "timestamp": 1782401099,
-      "cash": 7030.576421666396,
-      "holdings_value": 3182.73316475714,
-      "total_equity": 10213.309586423537
+      "timestamp": 1783337038,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.3381985497692,
+      "total_equity": 9971.037100915784
     },
     {
-      "timestamp": 1782401462,
-      "cash": 7030.576421666396,
-      "holdings_value": 3181.541197473191,
-      "total_equity": 10212.117619139586
+      "timestamp": 1783337347,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.3381985497692,
+      "total_equity": 9971.037100915784
     },
     {
-      "timestamp": 1782401781,
-      "cash": 7030.576421666396,
-      "holdings_value": 3182.576145214367,
-      "total_equity": 10213.152566880763
+      "timestamp": 1783337659,
+      "cash": 8484.698902366015,
+      "holdings_value": 1487.0961846113642,
+      "total_equity": 9971.79508697738
     },
     {
-      "timestamp": 1782402100,
-      "cash": 7030.576421666396,
-      "holdings_value": 3183.454351319155,
-      "total_equity": 10214.03077298555
+      "timestamp": 1783337993,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.3381985497692,
+      "total_equity": 9971.037100915784
     },
     {
-      "timestamp": 1782402422,
-      "cash": 7030.576421666396,
-      "holdings_value": 3181.6703752781,
-      "total_equity": 10212.246796944495
+      "timestamp": 1783338305,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.3381985497692,
+      "total_equity": 9971.037100915784
     },
     {
-      "timestamp": 1782402740,
-      "cash": 7030.576421666396,
-      "holdings_value": 3183.005812036393,
-      "total_equity": 10213.58223370279
+      "timestamp": 1783338616,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.7898130022847,
+      "total_equity": 9971.4887153683
     },
     {
-      "timestamp": 1782403059,
-      "cash": 7030.576421666396,
-      "holdings_value": 3179.201631129153,
-      "total_equity": 10209.77805279555
+      "timestamp": 1783338928,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.0498108805587,
+      "total_equity": 9970.748713246574
     },
     {
-      "timestamp": 1782403386,
-      "cash": 7030.576421666396,
-      "holdings_value": 3177.951821091975,
-      "total_equity": 10208.52824275837
+      "timestamp": 1783339240,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.0498108805587,
+      "total_equity": 9970.748713246574
     },
     {
-      "timestamp": 1782403708,
-      "cash": 7030.576421666396,
-      "holdings_value": 3176.59459262116,
-      "total_equity": 10207.171014287556
+      "timestamp": 1783339552,
+      "cash": 8484.698902366015,
+      "holdings_value": 1485.2918248189637,
+      "total_equity": 9969.990727184979
     },
     {
-      "timestamp": 1782404030,
-      "cash": 7030.576421666396,
-      "holdings_value": 3177.446849940888,
-      "total_equity": 10208.023271607284
+      "timestamp": 1783339864,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.8077969421533,
+      "total_equity": 9971.50669930817
     },
     {
-      "timestamp": 1782404334,
-      "cash": 7030.576421666396,
-      "holdings_value": 3179.0745374582334,
-      "total_equity": 10209.650959124629
+      "timestamp": 1783340175,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.8077969421533,
+      "total_equity": 9971.50669930817
     },
     {
-      "timestamp": 1782404652,
-      "cash": 7030.576421666396,
-      "holdings_value": 3179.6902742975003,
-      "total_equity": 10210.266695963895
+      "timestamp": 1783340486,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.7355251900456,
+      "total_equity": 9971.434427556062
     },
     {
-      "timestamp": 1782404971,
-      "cash": 7030.576421666396,
-      "holdings_value": 3178.3838409671393,
-      "total_equity": 10208.960262633535
+      "timestamp": 1783340800,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.8800686942611,
+      "total_equity": 9971.578971060277
     },
     {
-      "timestamp": 1782405287,
-      "cash": 7030.576421666396,
-      "holdings_value": 3179.141932617552,
-      "total_equity": 10209.718354283948
+      "timestamp": 1783341113,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.8800686942611,
+      "total_equity": 9971.578971060277
     },
     {
-      "timestamp": 1782405335,
-      "cash": 6880.576421666396,
-      "holdings_value": 3328.08594720912,
-      "total_equity": 10208.662368875515
+      "timestamp": 1783341446,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.8800686942611,
+      "total_equity": 9971.578971060277
     },
     {
-      "timestamp": 1782405654,
-      "cash": 6880.576421666396,
-      "holdings_value": 3339.9110327637422,
-      "total_equity": 10220.487454430138
+      "timestamp": 1783341759,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.8800686942611,
+      "total_equity": 9971.578971060277
     },
     {
-      "timestamp": 1782405973,
-      "cash": 6880.576421666396,
-      "holdings_value": 3335.4718345346464,
-      "total_equity": 10216.048256201042
+      "timestamp": 1783342073,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.8800686942611,
+      "total_equity": 9971.578971060277
     },
     {
-      "timestamp": 1782406293,
-      "cash": 6880.576421666396,
-      "holdings_value": 3336.7321774923184,
-      "total_equity": 10217.308599158714
+      "timestamp": 1783342386,
+      "cash": 8484.698902366015,
+      "holdings_value": 1486.8800686942611,
+      "total_equity": 9971.578971060277
     },
     {
-      "timestamp": 1782406614,
-      "cash": 6880.576421666396,
-      "holdings_value": 3335.439920899553,
-      "total_equity": 10216.016342565948
+      "timestamp": 1783342699,
+      "cash": 8484.698902366015,
+      "holdings_value": 1493.451900129493,
+      "total_equity": 9978.150802495507
     },
     {
-      "timestamp": 1782406939,
-      "cash": 6880.576421666396,
-      "holdings_value": 3336.1483054507044,
-      "total_equity": 10216.7247271171
+      "timestamp": 1783343013,
+      "cash": 8484.698902366015,
+      "holdings_value": 1490.165984411877,
+      "total_equity": 9974.864886777892
     },
     {
-      "timestamp": 1782407259,
-      "cash": 6880.576421666396,
-      "holdings_value": 3337.5238896533046,
-      "total_equity": 10218.1003113197
+      "timestamp": 1783343326,
+      "cash": 8484.698902366015,
+      "holdings_value": 1493.1979286582564,
+      "total_equity": 9977.89683102427
     },
     {
-      "timestamp": 1782407583,
-      "cash": 6880.576421666396,
-      "holdings_value": 3337.633726589687,
-      "total_equity": 10218.210148256083
+      "timestamp": 1783343642,
+      "cash": 8484.698902366015,
+      "holdings_value": 1494.713900781446,
+      "total_equity": 9979.412803147461
     },
     {
-      "timestamp": 1782407931,
-      "cash": 6880.576421666396,
-      "holdings_value": 3336.157795628791,
-      "total_equity": 10216.734217295187
+      "timestamp": 1783343956,
+      "cash": 8484.698902366015,
+      "holdings_value": 1497.999816499062,
+      "total_equity": 9982.698718865078
     },
     {
-      "timestamp": 1782408294,
-      "cash": 6880.576421666396,
-      "holdings_value": 3336.2972878327682,
-      "total_equity": 10216.873709499163
+      "timestamp": 1783344269,
+      "cash": 8484.698902366015,
+      "holdings_value": 1494.713900781446,
+      "total_equity": 9979.412803147461
     },
     {
-      "timestamp": 1782408613,
-      "cash": 6880.576421666396,
-      "holdings_value": 3336.3434477810356,
-      "total_equity": 10216.91986944743
+      "timestamp": 1783344582,
+      "cash": 8484.698902366015,
+      "holdings_value": 1494.713900781446,
+      "total_equity": 9979.412803147461
     },
     {
-      "timestamp": 1782408929,
-      "cash": 6880.576421666396,
-      "holdings_value": 3335.3450184604685,
-      "total_equity": 10215.921440126864
+      "timestamp": 1783344863,
+      "cash": 8234.698902366015,
+      "holdings_value": 1745.5687235785335,
+      "total_equity": 9980.267625944549
     },
     {
-      "timestamp": 1782409248,
-      "cash": 6880.576421666396,
-      "holdings_value": 3333.696469619368,
-      "total_equity": 10214.272891285764
+      "timestamp": 1783345168,
+      "cash": 8234.698902366015,
+      "holdings_value": 1757.2468025445958,
+      "total_equity": 9991.945704910611
     },
     {
-      "timestamp": 1782409568,
-      "cash": 6880.576421666396,
-      "holdings_value": 3334.3189083438956,
-      "total_equity": 10214.895330010291
+      "timestamp": 1783345481,
+      "cash": 8234.698902366015,
+      "holdings_value": 1758.1977317166,
+      "total_equity": 9992.896634082615
     },
     {
-      "timestamp": 1782409887,
-      "cash": 6880.576421666396,
-      "holdings_value": 3332.1647797678993,
-      "total_equity": 10212.741201434295
+      "timestamp": 1783345795,
+      "cash": 8234.698902366015,
+      "holdings_value": 1758.1977317166,
+      "total_equity": 9992.896634082615
     },
     {
-      "timestamp": 1782410207,
-      "cash": 6880.576421666396,
-      "holdings_value": 3333.3030416463976,
-      "total_equity": 10213.879463312793
+      "timestamp": 1783346109,
+      "cash": 8234.698902366015,
+      "holdings_value": 1740.6303381030343,
+      "total_equity": 9975.32924046905
     },
     {
-      "timestamp": 1782410530,
-      "cash": 6880.576421666396,
-      "holdings_value": 3331.7076652304504,
-      "total_equity": 10212.284086896845
+      "timestamp": 1783346426,
+      "cash": 8234.698902366015,
+      "holdings_value": 1748.764412362837,
+      "total_equity": 9983.463314728851
     },
     {
-      "timestamp": 1782410853,
-      "cash": 6880.576421666396,
-      "holdings_value": 3328.3679746156413,
-      "total_equity": 10208.944396282037
+      "timestamp": 1783346742,
+      "cash": 8234.698902366015,
+      "holdings_value": 1746.3653763888274,
+      "total_equity": 9981.064278754842
     },
     {
-      "timestamp": 1782411176,
-      "cash": 6880.576421666396,
-      "holdings_value": 3329.059977848399,
-      "total_equity": 10209.636399514795
+      "timestamp": 1783347057,
+      "cash": 8234.698902366015,
+      "holdings_value": 1750.1649513272027,
+      "total_equity": 9984.863853693218
     },
     {
-      "timestamp": 1782411504,
-      "cash": 6880.576421666396,
-      "holdings_value": 3329.8192927161854,
-      "total_equity": 10210.395714382581
+      "timestamp": 1783347374,
+      "cash": 8234.698902366015,
+      "holdings_value": 1750.408222262196,
+      "total_equity": 9985.107124628212
     },
     {
-      "timestamp": 1782411807,
-      "cash": 6880.576421666396,
-      "holdings_value": 3330.5732834892056,
-      "total_equity": 10211.149705155602
+      "timestamp": 1783347690,
+      "cash": 8234.698902366015,
+      "holdings_value": 1741.583030662986,
+      "total_equity": 9976.281933029
     },
     {
-      "timestamp": 1782412134,
-      "cash": 6880.576421666396,
-      "holdings_value": 3337.7741940931205,
-      "total_equity": 10218.350615759517
+      "timestamp": 1783348005,
+      "cash": 8234.698902366015,
+      "holdings_value": 1745.3369720787093,
+      "total_equity": 9980.035874444724
     },
     {
-      "timestamp": 1782412457,
-      "cash": 6880.576421666396,
-      "holdings_value": 3338.7580933678946,
-      "total_equity": 10219.33451503429
+      "timestamp": 1783348323,
+      "cash": 8234.698902366015,
+      "holdings_value": 1742.9386018526284,
+      "total_equity": 9977.637504218645
     },
     {
-      "timestamp": 1782412783,
-      "cash": 6880.576421666396,
-      "holdings_value": 3340.4387461916904,
-      "total_equity": 10221.015167858086
+      "timestamp": 1783348626,
+      "cash": 8234.698902366015,
+      "holdings_value": 1731.0950355207738,
+      "total_equity": 9965.793937886789
     },
     {
-      "timestamp": 1782413108,
-      "cash": 6880.576421666396,
-      "holdings_value": 3340.438835411983,
-      "total_equity": 10221.01525707838
+      "timestamp": 1783348946,
+      "cash": 8234.698902366015,
+      "holdings_value": 1718.0650481137945,
+      "total_equity": 9952.76395047981
     },
     {
-      "timestamp": 1782413430,
-      "cash": 6880.576421666396,
-      "holdings_value": 3341.32074477979,
-      "total_equity": 10221.897166446186
+      "timestamp": 1783349262,
+      "cash": 8234.698902366015,
+      "holdings_value": 1702.4391750223738,
+      "total_equity": 9937.138077388388
     },
     {
-      "timestamp": 1782413753,
-      "cash": 6880.576421666396,
-      "holdings_value": 3339.404173887723,
-      "total_equity": 10219.98059555412
+      "timestamp": 1783349577,
+      "cash": 8234.698902366015,
+      "holdings_value": 1691.419222177938,
+      "total_equity": 9926.118124543953
     },
     {
-      "timestamp": 1782414077,
-      "cash": 6880.576421666396,
-      "holdings_value": 3341.8963233508885,
-      "total_equity": 10222.472745017283
+      "timestamp": 1783349895,
+      "cash": 8234.698902366015,
+      "holdings_value": 1730.217415497577,
+      "total_equity": 9964.916317863592
     },
     {
-      "timestamp": 1782414401,
-      "cash": 6880.576421666396,
-      "holdings_value": 3343.95497690117,
-      "total_equity": 10224.531398567566
+      "timestamp": 1783350213,
+      "cash": 8234.698902366015,
+      "holdings_value": 1730.6117292549575,
+      "total_equity": 9965.310631620972
     },
     {
-      "timestamp": 1782414724,
-      "cash": 6880.576421666396,
-      "holdings_value": 3340.4889303888517,
-      "total_equity": 10221.065352055248
+      "timestamp": 1783350529,
+      "cash": 8234.698902366015,
+      "holdings_value": 1729.1627611369356,
+      "total_equity": 9963.86166350295
     },
     {
-      "timestamp": 1782415049,
-      "cash": 6880.576421666396,
-      "holdings_value": 3341.5474887433543,
-      "total_equity": 10222.12391040975
+      "timestamp": 1783350847,
+      "cash": 8234.698902366015,
+      "holdings_value": 1729.7495739998087,
+      "total_equity": 9964.448476365824
     },
     {
-      "timestamp": 1782415323,
-      "cash": 6830.576421666396,
-      "holdings_value": 3389.5779017960194,
-      "total_equity": 10220.154323462415
+      "timestamp": 1783351166,
+      "cash": 8234.698902366015,
+      "holdings_value": 1726.8531984190015,
+      "total_equity": 9961.552100785017
     },
     {
-      "timestamp": 1782415641,
-      "cash": 6830.576421666396,
-      "holdings_value": 3389.9921951727333,
-      "total_equity": 10220.56861683913
+      "timestamp": 1783351487,
+      "cash": 8234.698902366015,
+      "holdings_value": 1723.8976032716469,
+      "total_equity": 9958.596505637663
     },
     {
-      "timestamp": 1782415963,
-      "cash": 6830.576421666396,
-      "holdings_value": 3386.0062721966183,
-      "total_equity": 10216.582693863014
+      "timestamp": 1783351805,
+      "cash": 8234.698902366015,
+      "holdings_value": 1732.398978462546,
+      "total_equity": 9967.097880828562
     },
     {
-      "timestamp": 1782416284,
-      "cash": 6830.576421666396,
-      "holdings_value": 3386.991874693148,
-      "total_equity": 10217.568296359543
+      "timestamp": 1783352124,
+      "cash": 8234.698902366015,
+      "holdings_value": 1735.0171638105435,
+      "total_equity": 9969.71606617656
     },
     {
-      "timestamp": 1782416605,
-      "cash": 6830.576421666396,
-      "holdings_value": 3388.6325806766454,
-      "total_equity": 10219.209002343041
+      "timestamp": 1783352429,
+      "cash": 8234.698902366015,
+      "holdings_value": 1737.273340475781,
+      "total_equity": 9971.972242841795
     },
     {
-      "timestamp": 1782416928,
-      "cash": 6768.076421666396,
-      "holdings_value": 3454.6554807550733,
-      "total_equity": 10222.731902421468
+      "timestamp": 1783352748,
+      "cash": 8234.698902366015,
+      "holdings_value": 1742.9228603987945,
+      "total_equity": 9977.62176276481
     },
     {
-      "timestamp": 1782417253,
-      "cash": 6768.076421666396,
-      "holdings_value": 3453.456926794182,
-      "total_equity": 10221.533348460578
+      "timestamp": 1783353067,
+      "cash": 8234.698902366015,
+      "holdings_value": 1743.3579522208954,
+      "total_equity": 9978.05685458691
     },
     {
-      "timestamp": 1782417586,
-      "cash": 6834.6365920725175,
-      "holdings_value": 3386.646692250098,
-      "total_equity": 10221.283284322615
+      "timestamp": 1783353387,
+      "cash": 8234.698902366015,
+      "holdings_value": 1743.3810288052837,
+      "total_equity": 9978.079931171298
     },
     {
-      "timestamp": 1782417906,
-      "cash": 6834.6365920725175,
-      "holdings_value": 3386.619483096935,
-      "total_equity": 10221.256075169453
+      "timestamp": 1783353708,
+      "cash": 8234.698902366015,
+      "holdings_value": 1745.479415355634,
+      "total_equity": 9980.17831772165
     },
     {
-      "timestamp": 1782418227,
-      "cash": 6834.6365920725175,
-      "holdings_value": 3384.7185984327066,
-      "total_equity": 10219.355190505225
+      "timestamp": 1783354027,
+      "cash": 8234.698902366015,
+      "holdings_value": 1745.0545977048346,
+      "total_equity": 9979.75350007085
     },
     {
-      "timestamp": 1782418548,
-      "cash": 6647.1365920725175,
-      "holdings_value": 3574.6649177411796,
-      "total_equity": 10221.801509813697
+      "timestamp": 1783354349,
+      "cash": 8234.698902366015,
+      "holdings_value": 1746.329050657233,
+      "total_equity": 9981.027953023247
     },
     {
-      "timestamp": 1782418858,
-      "cash": 6647.1365920725175,
-      "holdings_value": 3574.608829581314,
-      "total_equity": 10221.745421653832
+      "timestamp": 1783354669,
+      "cash": 8234.698902366015,
+      "holdings_value": 1744.4302220804589,
+      "total_equity": 9979.129124446474
     },
     {
-      "timestamp": 1782419191,
-      "cash": 6647.1365920725175,
-      "holdings_value": 3573.1131126765317,
-      "total_equity": 10220.249704749049
+      "timestamp": 1783354998,
+      "cash": 8234.698902366015,
+      "holdings_value": 1738.0708081702903,
+      "total_equity": 9972.769710536306
     },
     {
-      "timestamp": 1782419516,
-      "cash": 6647.1365920725175,
-      "holdings_value": 3578.3366956928517,
-      "total_equity": 10225.47328776537
+      "timestamp": 1783355318,
+      "cash": 8234.698902366015,
+      "holdings_value": 1736.657283695206,
+      "total_equity": 9971.35618606122
     },
     {
-      "timestamp": 1782419839,
-      "cash": 6647.1365920725175,
-      "holdings_value": 3578.150455545471,
-      "total_equity": 10225.287047617989
+      "timestamp": 1783355426,
+      "cash": 7934.698902366015,
+      "holdings_value": 2043.3247010967702,
+      "total_equity": 9978.023603462785
     },
     {
-      "timestamp": 1782420160,
-      "cash": 6647.1365920725175,
-      "holdings_value": 3574.264013435979,
-      "total_equity": 10221.400605508497
+      "timestamp": 1783355746,
+      "cash": 7934.698902366015,
+      "holdings_value": 2029.459789844727,
+      "total_equity": 9964.158692210742
     },
     {
-      "timestamp": 1782420485,
-      "cash": 6647.1365920725175,
-      "holdings_value": 3575.5185160769042,
-      "total_equity": 10222.655108149422
+      "timestamp": 1783356053,
+      "cash": 7934.698902366015,
+      "holdings_value": 2043.4531181159102,
+      "total_equity": 9978.152020481926
     },
     {
-      "timestamp": 1782420811,
-      "cash": 6647.1365920725175,
-      "holdings_value": 3574.2564284468413,
-      "total_equity": 10221.39302051936
+      "timestamp": 1783356374,
+      "cash": 7934.698902366015,
+      "holdings_value": 2042.444267546217,
+      "total_equity": 9977.143169912233
     },
     {
-      "timestamp": 1782421140,
-      "cash": 6647.1365920725175,
-      "holdings_value": 3576.1957383802815,
-      "total_equity": 10223.332330452798
+      "timestamp": 1783356694,
+      "cash": 7934.698902366015,
+      "holdings_value": 2045.256219019178,
+      "total_equity": 9979.955121385194
     },
     {
-      "timestamp": 1782421465,
-      "cash": 6709.659381164173,
-      "holdings_value": 3512.799321354629,
-      "total_equity": 10222.458702518801
+      "timestamp": 1783357014,
+      "cash": 7934.698902366015,
+      "holdings_value": 2046.0823647574923,
+      "total_equity": 9980.781267123508
     },
     {
-      "timestamp": 1782421782,
-      "cash": 6709.659381164173,
-      "holdings_value": 3511.286852991661,
-      "total_equity": 10220.946234155834
+      "timestamp": 1783357307,
+      "cash": 8202.758840020482,
+      "holdings_value": 1784.490440268168,
+      "total_equity": 9987.24928028865
     },
     {
-      "timestamp": 1782422099,
-      "cash": 6709.659381164173,
-      "holdings_value": 3511.0842682048324,
-      "total_equity": 10220.743649369006
+      "timestamp": 1783357622,
+      "cash": 8202.758840020482,
+      "holdings_value": 1784.2886701542293,
+      "total_equity": 9987.04751017471
     },
     {
-      "timestamp": 1782422417,
-      "cash": 6609.659381164173,
-      "holdings_value": 3612.652295279229,
-      "total_equity": 10222.311676443402
+      "timestamp": 1783357940,
+      "cash": 8202.758840020482,
+      "holdings_value": 1790.9470839142045,
+      "total_equity": 9993.705923934687
     },
     {
-      "timestamp": 1782422728,
-      "cash": 6434.659381164173,
-      "holdings_value": 3783.6113786529395,
-      "total_equity": 10218.270759817113
+      "timestamp": 1783358256,
+      "cash": 8202.758840020482,
+      "holdings_value": 1814.755957358964,
+      "total_equity": 10017.514797379446
     },
     {
-      "timestamp": 1782423053,
-      "cash": 6372.159381164173,
-      "holdings_value": 3845.931844557484,
-      "total_equity": 10218.091225721657
+      "timestamp": 1783358364,
+      "cash": 8529.222884373203,
+      "holdings_value": 1480.6246486765758,
+      "total_equity": 10009.847533049779
     },
     {
-      "timestamp": 1782423375,
-      "cash": 6372.159381164173,
-      "holdings_value": 3845.9714512369383,
-      "total_equity": 10218.130832401112
+      "timestamp": 1783358677,
+      "cash": 8529.222884373203,
+      "holdings_value": 1480.6246486765758,
+      "total_equity": 10009.847533049779
     },
     {
-      "timestamp": 1782423696,
-      "cash": 6372.159381164173,
-      "holdings_value": 3846.2685156888356,
-      "total_equity": 10218.427896853009
+      "timestamp": 1783358989,
+      "cash": 8529.222884373203,
+      "holdings_value": 1480.6246486765758,
+      "total_equity": 10009.847533049779
     },
     {
-      "timestamp": 1782424018,
-      "cash": 6372.159381164173,
-      "holdings_value": 3845.6999506245506,
-      "total_equity": 10217.859331788724
+      "timestamp": 1783359302,
+      "cash": 8529.222884373203,
+      "holdings_value": 1480.7691921807914,
+      "total_equity": 10009.992076553994
     },
     {
-      "timestamp": 1782424341,
-      "cash": 6372.159381164173,
-      "holdings_value": 3847.4798103052162,
-      "total_equity": 10219.639191469389
+      "timestamp": 1783359636,
+      "cash": 8529.222884373203,
+      "holdings_value": 1482.2146272229468,
+      "total_equity": 10011.43751159615
     },
     {
-      "timestamp": 1782424661,
-      "cash": 6372.159381164173,
-      "holdings_value": 3843.6591264350654,
-      "total_equity": 10215.818507599239
+      "timestamp": 1783359949,
+      "cash": 8529.222884373203,
+      "holdings_value": 1481.5641814539767,
+      "total_equity": 10010.787065827179
     },
     {
-      "timestamp": 1782424983,
-      "cash": 6372.159381164173,
-      "holdings_value": 3849.7849137395606,
-      "total_equity": 10221.944294903733
+      "timestamp": 1783360261,
+      "cash": 8529.222884373203,
+      "holdings_value": 1479.7864513560828,
+      "total_equity": 10009.009335729286
     },
     {
-      "timestamp": 1782425305,
-      "cash": 6372.159381164173,
-      "holdings_value": 3849.357357675957,
-      "total_equity": 10221.51673884013
+      "timestamp": 1783360575,
+      "cash": 8529.222884373203,
+      "holdings_value": 1483.2987035045633,
+      "total_equity": 10012.521587877765
     },
     {
-      "timestamp": 1782425626,
-      "cash": 6372.159381164173,
-      "holdings_value": 3852.286295504215,
-      "total_equity": 10224.445676668389
+      "timestamp": 1783360885,
+      "cash": 8529.222884373203,
+      "holdings_value": 1481.4487016545613,
+      "total_equity": 10010.671586027764
     },
     {
-      "timestamp": 1782425949,
-      "cash": 6372.159381164173,
-      "holdings_value": 3851.5211926500347,
-      "total_equity": 10223.680573814208
+      "timestamp": 1783361199,
+      "cash": 8529.222884373203,
+      "holdings_value": 1483.2987035045633,
+      "total_equity": 10012.521587877765
     },
     {
-      "timestamp": 1782426256,
-      "cash": 6372.159381164173,
-      "holdings_value": 3852.1299272533433,
-      "total_equity": 10224.289308417516
+      "timestamp": 1783361514,
+      "cash": 8529.222884373203,
+      "holdings_value": 1483.2264317524555,
+      "total_equity": 10012.449316125658
     },
     {
-      "timestamp": 1782426580,
-      "cash": 6372.159381164173,
-      "holdings_value": 3859.166695748616,
-      "total_equity": 10231.326076912788
+      "timestamp": 1783361828,
+      "cash": 8529.222884373203,
+      "holdings_value": 1481.3764299024535,
+      "total_equity": 10010.599314275656
     },
     {
-      "timestamp": 1782426902,
-      "cash": 6372.159381164173,
-      "holdings_value": 3859.8478009291894,
-      "total_equity": 10232.007182093363
+      "timestamp": 1783362142,
+      "cash": 8529.222884373203,
+      "holdings_value": 1478.0905141848375,
+      "total_equity": 10007.31339855804
     },
     {
-      "timestamp": 1782427225,
-      "cash": 6372.159381164173,
-      "holdings_value": 3860.7288509012724,
-      "total_equity": 10232.888232065445
+      "timestamp": 1783362454,
+      "cash": 8529.222884373203,
+      "holdings_value": 1479.6064863080271,
+      "total_equity": 10008.82937068123
     },
     {
-      "timestamp": 1782427550,
-      "cash": 6372.159381164173,
-      "holdings_value": 3862.522233252193,
-      "total_equity": 10234.681614416366
+      "timestamp": 1783362770,
+      "cash": 8529.222884373203,
+      "holdings_value": 1475.2821069836477,
+      "total_equity": 10004.504991356851
     },
     {
-      "timestamp": 1782427878,
-      "cash": 6372.159381164173,
-      "holdings_value": 3862.7059541890844,
-      "total_equity": 10234.865335353257
+      "timestamp": 1783363074,
+      "cash": 8529.222884373203,
+      "holdings_value": 1477.1321088336497,
+      "total_equity": 10006.354993206853
     },
     {
-      "timestamp": 1782428247,
-      "cash": 6372.159381164173,
-      "holdings_value": 3867.0556444168096,
-      "total_equity": 10239.215025580983
+      "timestamp": 1783363391,
+      "cash": 8529.222884373203,
+      "holdings_value": 1478.9821106836514,
+      "total_equity": 10008.204995056854
     },
     {
-      "timestamp": 1782428574,
-      "cash": 6372.159381164173,
-      "holdings_value": 3866.672956970462,
-      "total_equity": 10238.832338134634
+      "timestamp": 1783364972,
+      "cash": 8529.222884373203,
+      "holdings_value": 1478.9821106836514,
+      "total_equity": 10008.204995056854
     },
     {
-      "timestamp": 1782428895,
-      "cash": 6372.159381164173,
-      "holdings_value": 3867.5906818134226,
-      "total_equity": 10239.750062977597
+      "timestamp": 1783368903,
+      "cash": 8529.222884373203,
+      "holdings_value": 1478.9821106836514,
+      "total_equity": 10008.204995056854
     },
     {
-      "timestamp": 1782429218,
-      "cash": 6372.159381164173,
-      "holdings_value": 3868.179126701276,
-      "total_equity": 10240.33850786545
+      "timestamp": 1783369982,
+      "cash": 8529.222884373203,
+      "holdings_value": 1478.9821106836514,
+      "total_equity": 10008.204995056854
     },
     {
-      "timestamp": 1782429542,
-      "cash": 6372.159381164173,
-      "holdings_value": 3869.013313415976,
-      "total_equity": 10241.17269458015
+      "timestamp": 1783371916,
+      "cash": 8529.222884373203,
+      "holdings_value": 1478.9821106836514,
+      "total_equity": 10008.204995056854
     },
     {
-      "timestamp": 1782429887,
-      "cash": 6372.159381164173,
-      "holdings_value": 3869.543376201361,
-      "total_equity": 10241.702757365534
+      "timestamp": 1783373013,
+      "cash": 8529.222884373203,
+      "holdings_value": 1478.9821106836514,
+      "total_equity": 10008.204995056854
     },
     {
-      "timestamp": 1782430211,
-      "cash": 6372.159381164173,
-      "holdings_value": 3869.529215145697,
-      "total_equity": 10241.68859630987
+      "timestamp": 1783374464,
+      "cash": 8529.222884373203,
+      "holdings_value": 1470.9591395517239,
+      "total_equity": 10000.182023924926
     },
     {
-      "timestamp": 1782430536,
-      "cash": 6372.159381164173,
-      "holdings_value": 3868.943478312571,
-      "total_equity": 10241.102859476745
+      "timestamp": 1783376582,
+      "cash": 8529.222884373203,
+      "holdings_value": 1485.7691757074563,
+      "total_equity": 10014.992060080658
     },
     {
-      "timestamp": 1782430861,
-      "cash": 6372.159381164173,
-      "holdings_value": 3868.407559646045,
-      "total_equity": 10240.566940810219
+      "timestamp": 1783376918,
+      "cash": 8529.222884373203,
+      "holdings_value": 1484.2532035842664,
+      "total_equity": 10013.47608795747
     },
     {
-      "timestamp": 1782431194,
-      "cash": 6372.159381164173,
-      "holdings_value": 3859.7355330686933,
-      "total_equity": 10231.894914232867
+      "timestamp": 1783377976,
+      "cash": 8529.222884373203,
+      "holdings_value": 1488.6675095166165,
+      "total_equity": 10017.890393889818
     }
   ],
-  "has_trades": true
+  "has_trades": true,
+  "win_rate": 50.0,
+  "resolved_count": 24,
+  "wins_count": 12,
+  "trades": [],
+  "whale_positions": {},
+  "processed_tx_hashes": [
+    "0x0044b2e2d616f88bef80534281ad07adb13831f148ef867142b00e2498de661d",
+    "0x4b98fa6724a1aeae05e0aa5b8aa4ac62750169e428585a790bd6ce383e68693f",
+    "0xf58cf65838caeae35e2c68522de39534563a7a5b58e13b8de80791338b816895",
+    "0x8f454f57cea91e273df7ede861dbc7bcf4d0f2c09a5d10644485e127143a86a3",
+    "0x7137cb5059467d60d739b69e6e8a0e1a0dd8805b29f03f5633e8c81718225e74",
+    "0x5fbe42e477a49d061d83c30c0f025067dea4e537581b789c6fc86219146a06d2",
+    "0x42d0ffd1a1092371775daab7f0cd01029225a64477cce9b44203c97ed2d1589c",
+    "0x7b0aa2ebf7570b2d11419d6d5ad245f8c5e4daffda989b9349052e25b3ea26f4",
+    "0x69377437bc14efb88d8ae45c0c239adb3f7e9143ab3ac723a55a682c08d2b75f"
+  ],
+  "logs": [
+    {
+      "timestamp": 1783363434,
+      "message": "Synced 50 top whales from leaderboards. Added 7, pruned 4336 stale. Total: 85"
+    },
+    {
+      "timestamp": 1783363446,
+      "message": "Synced 50 top whales from leaderboards. Added 0, pruned 0 stale. Total: 85"
+    },
+    {
+      "timestamp": 1783363448,
+      "message": "Skipped BUY on 'Wimbledon ATP: Grigor Dimitrov vs Arthur Fery' (Grigor Dimitrov) from 0xBc43c8bfBC4d77c2FC9011adaD38Ba43b88996d3-1765231687816 (MONTH Rank 48): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1783363448,
+      "message": "Skipped BUY on 'Wimbledon ATP: Grigor Dimitrov vs Arthur Fery' (Grigor Dimitrov) from 0xBc43c8bfBC4d77c2FC9011adaD38Ba43b88996d3-1765231687816 (MONTH Rank 48): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1783363453,
+      "message": "Synced 50 top whales from leaderboards. Added 0, pruned 0 stale. Total: 85"
+    },
+    {
+      "timestamp": 1783376578,
+      "message": "Skipped BUY on 'United States to score first vs. Belgium?' (Yes) from Forecastication2 (WEEK Rank 54): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1783376578,
+      "message": "Skipped BUY on 'United States to score first vs. Belgium?' (Yes) from Forecastication2 (WEEK Rank 54): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1783376578,
+      "message": "Skipped BUY on 'United States to score first vs. Belgium?' (Yes) from Forecastication2 (WEEK Rank 54): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1783376578,
+      "message": "Skipped BUY on 'United States vs. Belgium: 1st Half O/U 2.5' (Under) from Forecastication2 (WEEK Rank 54): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1783376578,
+      "message": "Skipped BUY on 'United States vs. Belgium: 1st Half O/U 2.5' (Under) from Forecastication2 (WEEK Rank 54): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1783376578,
+      "message": "Skipped BUY on 'Houston Astros vs. Washington Nationals: O/U 9.5' (Under) from 0x3DFb153c197D4C19D3B31c1ecD2c7B6860eeabAf-1722957908185 (WEEK Rank 11): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1783376913,
+      "message": "Synced 50 top whales from leaderboards. Added 12, pruned 11 stale. Total: 86"
+    },
+    {
+      "timestamp": 1783376914,
+      "message": "Skipped BUY on 'United States vs. Belgium: United States 1st Half O/U 0.5' (Over) from 0x73bcd24d510Ff4e4D5FEac6aec763C5511E246CE-1767607363396 (MONTH Rank 181): Sports bets are excluded."
+    },
+    {
+      "timestamp": 1783378254,
+      "message": "Synced 50 top whales from leaderboards. Added 1, pruned 1 stale. Total: 86"
+    }
+  ]
 }
