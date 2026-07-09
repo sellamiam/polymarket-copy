@@ -10,27 +10,29 @@ STATE_PATH = os.path.join(DATA_DIR, "state.json")
 
 DEFAULT_CONFIG = {
     "starting_capital": 10000.0,
-    "poll_interval_seconds": 30,
+    "poll_interval_seconds": 15,
     "execution_mode": "whale_price",  # "whale_price" or "market_price"
-    "slippage_bps": 0,  # 0 bps = 0%
+    "slippage_bps": 10.0,  # 10 bps = 0.1%
     "min_copy_price": 0.40,
     "max_copy_price": 0.85,
     "copy_only_best_wins": True,
-    "min_best_bet_score": 55,
+    "min_best_bet_score": 60,
     "max_days_to_resolution": 90,
-    "max_holding_hours": 72,
-    "take_profit_pct": 15.0,
-    "value_play_take_profit_pct": 40.0,
-    "stop_loss_pct": 15.0,
-    "stop_loss_grace_hours": 4.0,
-    "min_whale_trade_size": 500.0,
+    # 0 = hold to resolution/maturity/whale sell (no time force-exit)
+    "max_holding_hours": 0,
+    "take_profit_pct": 25.0,
+    "value_play_take_profit_pct": 50.0,
+    "stop_loss_pct": 30.0,
+    "stop_loss_grace_hours": 24.0,
+    "min_whale_trade_size": 1000.0,
     "max_market_exposure": 1000.0,
     "max_cluster_exposure": 1200.0,
     "min_market_liquidity": 1000.0,
     "min_market_volume": 5000.0,
-    "min_whale_roi": 0.01,
+    "min_whale_roi": 0.08,
     "max_whale_volume": 20000000.0,
     "enable_value_plays": True,
+    "value_play_size_mult": 0.5,
     "exclude_sports_bets": True,
     "exclude_crypto_bets": True,
     "exclude_weather_bets": True,
@@ -39,9 +41,23 @@ DEFAULT_CONFIG = {
     "dynamic_sizing_active": True,
     "enable_whale_auto_pruning": True,
     "min_whale_win_rate": 40.0,
+    "whale_prune_min_trades": 3,
     "maturity_threshold": 0.98,
-    "leaderboard_sync_limit": 50,
-    "catastrophic_stop_loss_pct": 35.0,
+    "leaderboard_sync_limit": 25,
+    "catastrophic_stop_loss_pct": 40.0,
+    # Protect positions opened before performance-v2 from strategy exits
+    "grandfather_open_positions": True,
+    # Require N distinct whales for value plays (and all entries if multi_whale_require_all)
+    "multi_whale_confirm_count": 2,
+    "multi_whale_window_seconds": 3600,
+    "multi_whale_require_all": False,
+    # Auto-disable wallets whose recent activity is mostly sports
+    "enable_sports_whale_filter": True,
+    "sports_whale_activity_ratio": 0.55,
+    "sports_whale_sample_size": 20,
+    # Prefer mid-price edge band slightly in scoring
+    "performance_strategy_version": 2,
+    "performance_v2_migrated": False,
     "followed_traders": [
         {
             "address": "0x56687bf447db6ffa42ffe2204a05edaa20f55839",
@@ -213,6 +229,11 @@ def load_config():
         config_data["max_days_to_resolution"] = 90
         updated = True
 
+    # Migration: Change poll_interval_seconds to 15 if it was 30
+    if config_data.get("poll_interval_seconds") == 30:
+        config_data["poll_interval_seconds"] = 15
+        updated = True
+
     # Migration: Force exclude_weather_bets to True
     if config_data.get("exclude_weather_bets") is not True:
         config_data["exclude_weather_bets"] = True
@@ -221,11 +242,6 @@ def load_config():
     # Migration: Change min_copy_price to 0.40
     if config_data.get("min_copy_price") == 0.70:
         config_data["min_copy_price"] = 0.40
-        updated = True
-        
-    # Migration: Change min_whale_trade_size to 500.0 if it was 1000.0
-    if config_data.get("min_whale_trade_size") == 1000.0:
-        config_data["min_whale_trade_size"] = 500.0
         updated = True
         
     # Migration: Change min_market_liquidity default to 1000.0
@@ -238,11 +254,6 @@ def load_config():
         config_data["min_market_volume"] = 5000.0
         updated = True
 
-    # Migration: Change stop_loss_pct to 15.0 if it was 5.0
-    if config_data.get("stop_loss_pct") == 5.0:
-        config_data["stop_loss_pct"] = 15.0
-        updated = True
-
     # Migration: Force copy_only_best_wins to True if it was False
     if config_data.get("copy_only_best_wins") is False:
         config_data["copy_only_best_wins"] = True
@@ -251,16 +262,6 @@ def load_config():
     # Migration: Change max_copy_price to 0.85 if it was 0.95
     if config_data.get("max_copy_price") == 0.95:
         config_data["max_copy_price"] = 0.85
-        updated = True
-
-    # Migration: Change min_best_bet_score to 55 if it was 65
-    if config_data.get("min_best_bet_score") == 65:
-        config_data["min_best_bet_score"] = 55
-        updated = True
-
-    # Migration: Change max_holding_hours to 72 if it was 0 or 24
-    if config_data.get("max_holding_hours") in [0, 24]:
-        config_data["max_holding_hours"] = 72
         updated = True
 
     # Migration: Mark existing auto-synced followed traders (excluding default hand-picked ones) with auto_synced = True
@@ -275,6 +276,32 @@ def load_config():
             trader["auto_synced"] = True
             updated = True
 
+    # Performance strategy v2: hold-to-resolution defaults + tighter whale filters.
+    # Use dedicated migrated flag — DEFAULT may inject performance_strategy_version=2
+    # before this block runs, so do not rely on version alone.
+    if not config_data.get("performance_v2_migrated"):
+        config_data["performance_v2_migrated"] = True
+        config_data["performance_strategy_version"] = 2
+        config_data["max_holding_hours"] = 0
+        config_data["take_profit_pct"] = 25.0
+        config_data["value_play_take_profit_pct"] = 50.0
+        config_data["stop_loss_pct"] = 30.0
+        config_data["stop_loss_grace_hours"] = 24.0
+        config_data["catastrophic_stop_loss_pct"] = 40.0
+        config_data["min_whale_trade_size"] = 1000.0
+        config_data["min_whale_roi"] = 0.08
+        config_data["leaderboard_sync_limit"] = 25
+        config_data["min_best_bet_score"] = 60
+        config_data["value_play_size_mult"] = 0.5
+        config_data["grandfather_open_positions"] = True
+        config_data["multi_whale_confirm_count"] = 2
+        config_data["multi_whale_window_seconds"] = 3600
+        config_data["multi_whale_require_all"] = False
+        config_data["enable_sports_whale_filter"] = True
+        config_data["sports_whale_activity_ratio"] = 0.55
+        config_data["sports_whale_sample_size"] = 20
+        config_data["whale_prune_min_trades"] = 3
+        updated = True
 
     if updated:
         save_config(config_data)

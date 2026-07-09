@@ -16,6 +16,119 @@ def calculate_conviction(usdc_size):
     score = int(10 + 25 * math.log10(max(1.0, usdc_size)))
     return min(100, max(10, score))
 
+def calculate_best_bet_score(price, conviction_score, trader_cfg=None, usdc_size=0.0):
+    """
+    Edge-oriented score that does NOT reward high prices alone.
+    Peaks around mid-probability favorites (~0.55-0.75) with strong
+    whale conviction and ROI quality.
+    """
+    # Price quality: peak near 0.65, soft-penalize near-certain and ultra-cheap
+    price_quality = 100.0 - abs(float(price) - 0.65) * 140.0
+    price_quality = max(15.0, min(100.0, price_quality))
+    if price >= 0.90:
+        price_quality = min(price_quality, 35.0)
+    if price <= 0.15:
+        price_quality = min(price_quality, 40.0)
+
+    whale_quality = 50.0
+    if trader_cfg:
+        pnl = float(trader_cfg.get("pnl", 0.0) or 0.0)
+        vol = float(trader_cfg.get("vol", 0.0) or 0.0)
+        rank = trader_cfg.get("rank")
+        if vol > 0 and pnl > 0:
+            roi = pnl / vol
+            # Map ROI 0%->30, 8%->55, 15%+->85
+            whale_quality = min(95.0, 30.0 + roi * 350.0)
+        if rank is not None:
+            try:
+                rank_val = int(rank)
+                if rank_val <= 10:
+                    whale_quality = min(100.0, whale_quality + 15.0)
+                elif rank_val <= 50:
+                    whale_quality = min(100.0, whale_quality + 8.0)
+            except (TypeError, ValueError):
+                pass
+
+    conviction = float(conviction_score)
+    score = int(0.35 * price_quality + 0.40 * conviction + 0.25 * whale_quality)
+    return min(100, max(1, score))
+
+SPORTS_KEYWORDS = [
+    " vs ", "vs.", "versus", "wnba", "nba", "nfl", "mlb", "nhl", "ufc", "mma", "pga", "mls",
+    "premier league", "champions league", "la liga", "bundesliga", "serie a", "atp", "wta",
+    "soccer", "football", "basketball", "baseball", "hockey", "tennis", "golf", "cricket", "rugby",
+    "boxing", "wrestling", "nascar", "formula 1", "f1", "grand prix", "athletics", "olympics",
+    "spread", "over/under", "o/u", "moneyline", "touchdown", "valorant", "esports", "itf ",
+    "wimbledon", "bastad", "corners"
+]
+
+def is_sports_text(title="", slug="", question=""):
+    text = f"{title or ''} {slug or ''} {question or ''}".lower()
+    return any(kw in text for kw in SPORTS_KEYWORDS)
+
+def record_whale_signal(state, condition_id, outcome_index, address, timestamp=None):
+    """Track recent whale BUY signals for multi-whale confirmation."""
+    if not condition_id:
+        return
+    ts = int(timestamp or time.time())
+    signals = state.setdefault("whale_signals", {})
+    key = f"{condition_id}:{outcome_index}"
+    bucket = signals.setdefault(key, [])
+    addr = (address or "").lower()
+    # Deduplicate same whale
+    bucket = [s for s in bucket if s.get("address") != addr]
+    bucket.append({"address": addr, "timestamp": ts})
+    # Keep last 20 signals per market/outcome
+    signals[key] = bucket[-20:]
+    # Prune stale keys overall (keep last 200 keys)
+    if len(signals) > 200:
+        # Drop oldest by latest signal time
+        ranked = sorted(
+            signals.items(),
+            key=lambda kv: max((s.get("timestamp", 0) for s in kv[1]), default=0)
+        )
+        for old_key, _ in ranked[: len(signals) - 200]:
+            signals.pop(old_key, None)
+
+def count_distinct_whale_signals(state, condition_id, outcome_index, window_seconds=3600, now=None):
+    if not condition_id:
+        return 0
+    now = int(now or time.time())
+    key = f"{condition_id}:{outcome_index}"
+    bucket = state.get("whale_signals", {}).get(key, [])
+    recent = [s for s in bucket if now - int(s.get("timestamp", 0)) <= window_seconds]
+    return len({s.get("address") for s in recent if s.get("address")})
+
+def classify_whale_sports_ratio(address, sample_size=20):
+    """Return fraction of recent activity that looks like sports (0-1), or None on failure."""
+    try:
+        url = f"https://data-api.polymarket.com/activity?user={address}&limit={sample_size}"
+        res = requests.get(url, timeout=7)
+        if res.status_code != 200:
+            return None
+        activities = res.json()
+        if not isinstance(activities, list) or not activities:
+            return None
+        sports_n = 0
+        total = 0
+        for act in activities:
+            if act.get("side") not in ("BUY", "SELL", None):
+                # count trade-like rows; activity feed mixes types
+                pass
+            title = act.get("title") or act.get("question") or ""
+            slug = act.get("slug") or ""
+            if not title and not slug:
+                continue
+            total += 1
+            if is_sports_text(title, slug):
+                sports_n += 1
+        if total < 5:
+            return None
+        return sports_n / total
+    except Exception as e:
+        print(f"Error classifying sports ratio for {address}: {e}")
+        return None
+
 import datetime
 
 def parse_iso_datetime(dt_str):
@@ -276,18 +389,30 @@ def recycle_positions_and_exit_strategies(config, state):
     - Take Profit (TP)
     - Stop Loss (SL)
     - Time-based Early Exit (Capital Recycling)
+    - Maturity near 1.0
+
+    Grandfathered open positions (pre performance-v2) skip TP/SL/TIME and
+    only allow optional maturity exit so we do not force-close current book.
     """
-    take_profit_pct = float(config.get("take_profit_pct", 15.0))
-    value_play_take_profit_pct = float(config.get("value_play_take_profit_pct", 40.0))
-    stop_loss_pct = float(config.get("stop_loss_pct", 15.0))
-    catastrophic_stop_loss_pct = float(config.get("catastrophic_stop_loss_pct", 35.0))
-    stop_loss_grace_hours = float(config.get("stop_loss_grace_hours", 4.0))
-    max_holding_hours = float(config.get("max_holding_hours", 24))
+    take_profit_pct = float(config.get("take_profit_pct", 25.0))
+    value_play_take_profit_pct = float(config.get("value_play_take_profit_pct", 50.0))
+    stop_loss_pct = float(config.get("stop_loss_pct", 30.0))
+    catastrophic_stop_loss_pct = float(config.get("catastrophic_stop_loss_pct", 40.0))
+    stop_loss_grace_hours = float(config.get("stop_loss_grace_hours", 24.0))
+    max_holding_hours = float(config.get("max_holding_hours", 0))
+    grandfather = bool(config.get("grandfather_open_positions", True))
     
     current_time = int(time.time())
     recycled_any = False
     
     for token_id, pos in list(state["positions"].items()):
+        # One-time grandfather: existing open book is hold-to-resolution only
+        if grandfather and "strategy_exits_enabled" not in pos:
+            pos["strategy_exits_enabled"] = False
+            pos["grandfathered"] = True
+
+        strategy_exits = bool(pos.get("strategy_exits_enabled", True))
+
         avg_price = pos["avg_price"]
         # Use bid price for evaluating exits to avoid artificial midpoint spikes
         current_price = pos.get("bid_price", pos.get("current_price", avg_price))
@@ -315,20 +440,22 @@ def recycle_positions_and_exit_strategies(config, state):
             effective_tp_pct = value_play_take_profit_pct
 
         maturity_threshold = float(config.get("maturity_threshold", 0.98))
+        # Maturity allowed for all positions (including grandfathered) — locks near-certain wins
         if current_price >= maturity_threshold:
             trigger_reason = f"MATURITY ({current_price:.2f})"
             exit_type = "RECYCLE_MATURITY"
-        elif effective_tp_pct > 0 and pnl_pct >= effective_tp_pct:
-            trigger_reason = f"TP (+{pnl_pct:.1f}%)"
-            exit_type = "RECYCLE_TP"
-        elif stop_loss_pct > 0 and pnl_pct <= -stop_loss_pct:
-            is_catastrophic = (catastrophic_stop_loss_pct > 0 and pnl_pct <= -catastrophic_stop_loss_pct)
-            if age_hours >= stop_loss_grace_hours or is_catastrophic:
-                trigger_reason = f"SL ({pnl_pct:+.1f}%)"
-                exit_type = "RECYCLE_SL"
-        elif max_holding_hours > 0 and age_hours >= max_holding_hours:
-            trigger_reason = f"TIME LIMIT ({age_hours:.1f}h)"
-            exit_type = "RECYCLE_TIME"
+        elif strategy_exits:
+            if effective_tp_pct > 0 and pnl_pct >= effective_tp_pct:
+                trigger_reason = f"TP (+{pnl_pct:.1f}%)"
+                exit_type = "RECYCLE_TP"
+            elif stop_loss_pct > 0 and pnl_pct <= -stop_loss_pct:
+                is_catastrophic = (catastrophic_stop_loss_pct > 0 and pnl_pct <= -catastrophic_stop_loss_pct)
+                if age_hours >= stop_loss_grace_hours or is_catastrophic:
+                    trigger_reason = f"SL ({pnl_pct:+.1f}%)"
+                    exit_type = "RECYCLE_SL"
+            elif max_holding_hours > 0 and age_hours >= max_holding_hours:
+                trigger_reason = f"TIME LIMIT ({age_hours:.1f}h)"
+                exit_type = "RECYCLE_TIME"
             
         if trigger_reason and exit_type:
             # Fetch live bid price if possible
@@ -482,11 +609,18 @@ def run_simulation_iteration(config, state):
         # Check Whale Alpha Auto-Pruning
         if config.get("enable_whale_auto_pruning", True) and not is_vitalik:
             min_wr = float(config.get("min_whale_win_rate", 40.0))
+            prune_min = int(config.get("whale_prune_min_trades", 3))
             resolved_cnt, wr = get_trader_stats(state, address)
-            if resolved_cnt >= 3 and wr < min_wr:
+            if resolved_cnt >= prune_min and wr < min_wr:
                 add_log(state, f"Skipped trade from {name}: Whale win rate ({wr:.1f}%) is below minimum threshold of {min_wr:.1f}%.")
                 state["processed_tx_hashes"].append(tx_hash)
                 continue
+
+        # Skip disabled sports-specialist wallets (tagged during sync)
+        if trader.get("sports_specialist") and config.get("exclude_sports_bets", True) and not is_vitalik:
+            add_log(state, f"Skipped trade from {name}: Wallet tagged as sports specialist.")
+            state["processed_tx_hashes"].append(tx_hash)
+            continue
 
         side = act.get("side")
         if side not in ["BUY", "SELL"]:
@@ -524,13 +658,7 @@ def run_simulation_iteration(config, state):
                     is_crypto_fast = True
                     
         if config.get("exclude_sports_bets", True):
-            sports_keywords = [
-                " vs ", "vs.", "versus", "wnba", "nba", "nfl", "mlb", "nhl", "ufc", "mma", "pga", "mls",
-                "premier league", "champions league", "la liga", "bundesliga", "serie a", "atp", "wta",
-                "soccer", "football", "basketball", "baseball", "hockey", "tennis", "golf", "cricket", "rugby",
-                "boxing", "wrestling", "nascar", "formula 1", "f1", "grand prix", "athletics", "olympics"
-            ]
-            if any(kw in title_lower or kw in slug_lower for kw in sports_keywords):
+            if is_sports_text(title, slug):
                 is_sports_fast = True
 
         if config.get("exclude_weather_bets", True):
@@ -594,7 +722,10 @@ def run_simulation_iteration(config, state):
         if side == "BUY":
             win_probability = price * 100
             conviction_score = calculate_conviction(usdc_size)
-            best_bet_score = int(win_probability * 0.6 + conviction_score * 0.4)
+            best_bet_score = calculate_best_bet_score(price, conviction_score, trader, usdc_size)
+
+            # Always record whale BUY signals for multi-whale confirmation (even if we skip)
+            record_whale_signal(state, condition_id, outcome_index, address, timestamp)
 
             # Determine if this is a niche market for priority treatment
             niche_flag = is_niche_market(title, slug)
@@ -618,6 +749,27 @@ def run_simulation_iteration(config, state):
                     add_log(state, f"NICHE BYPASS: '{title}' ({outcome}) from {name} @ {price:.3f} USDC bypassed price filter [{min_price:.2f}, {max_price:.2f}] — niche market priority active.")
                 else:
                     add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Outside price range [{min_price:.2f}, {max_price:.2f}] [Win Prob: {win_probability:.1f}%]")
+                    state["processed_tx_hashes"].append(tx_hash)
+                    continue
+
+            # Multi-whale confirmation:
+            # - value plays always need confirm_needed whales (default 2)
+            # - standard entries only if multi_whale_require_all is true
+            confirm_needed = int(config.get("multi_whale_confirm_count", 2))
+            confirm_window = int(config.get("multi_whale_window_seconds", 3600))
+            require_all = bool(config.get("multi_whale_require_all", False))
+            needs_confirm = (is_value_play or require_all) and confirm_needed > 1 and not is_vitalik
+            if needs_confirm:
+                distinct = count_distinct_whale_signals(
+                    state, condition_id, outcome_index, confirm_window, int(time.time())
+                )
+                if distinct < confirm_needed:
+                    add_log(
+                        state,
+                        f"Waiting multi-whale confirm on '{title}' ({outcome}) from {name}: "
+                        f"{distinct}/{confirm_needed} whales in last {confirm_window // 60}m "
+                        f"{'(value play)' if is_value_play else ''}."
+                    )
                     state["processed_tx_hashes"].append(tx_hash)
                     continue
 
@@ -768,10 +920,11 @@ def run_simulation_iteration(config, state):
                 if abs(dyn_mult - 1.0) > 0.01:
                     add_log(state, f"DYNAMIC SIZING: '{title}' size adjusted by {dyn_mult:.2f}x → {copy_usdc:.2f} USDC (whale ROI/rank/conviction scaling).")
 
-            # Value Play Sizing Discount: scale down by 0.25x to manage risk
+            # Value Play Sizing: configurable risk mult (default 0.5x after v2)
             if is_value_play:
-                copy_usdc *= 0.25
-                add_log(state, f"VALUE PLAY SIZING: '{title}' size scaled down by 0.25x → {copy_usdc:.2f} USDC.")
+                vp_mult = float(config.get("value_play_size_mult", 0.5))
+                copy_usdc *= vp_mult
+                add_log(state, f"VALUE PLAY SIZING: '{title}' size scaled by {vp_mult:.2f}x → {copy_usdc:.2f} USDC.")
 
             # Niche market bonus: +25% allocation for niche markets when priority active
             if niche_bypass:
@@ -889,7 +1042,10 @@ def run_simulation_iteration(config, state):
                     "trader_address": address,
                     "trader_name": name,
                     "last_updated": int(time.time()),
-                    "opened_at": int(time.time())
+                    "opened_at": int(time.time()),
+                    # New entries use strategy exits; grandfathered book does not
+                    "strategy_exits_enabled": True,
+                    "grandfathered": False,
                 }
 
             # Update tracked whale holding
@@ -1078,41 +1234,83 @@ def sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"], limit=Non
         print("No traders fetched from any leaderboard. Sync skipped.")
         return False
         
-    min_roi = float(cfg.get("min_whale_roi", 0.01))
+    min_roi = float(cfg.get("min_whale_roi", 0.08))
     max_vol = float(cfg.get("max_whale_volume", 20000000.0))
+    sports_filter = bool(cfg.get("enable_sports_whale_filter", True))
+    sports_ratio_max = float(cfg.get("sports_whale_activity_ratio", 0.55))
+    sports_sample = int(cfg.get("sports_whale_sample_size", 20))
     
     current_traders = cfg.get("followed_traders", [])
     current_map = {t["address"].lower(): t for t in current_traders}
     
     updated_traders = []
     added_count = 0
+    sports_tagged = 0
     
-    # 1. Process active leaderboard whales
-    for addr_clean, item in new_traders.items():
+    # 1. Process active leaderboard whales (prefer higher ROI first for sampling budget)
+    ranked_candidates = sorted(
+        new_traders.values(),
+        key=lambda x: (x["pnl"] / x["vol"] if x["vol"] > 0 else 0),
+        reverse=True
+    )
+
+    for item in ranked_candidates:
+        addr_clean = item["address"]
         pnl = item["pnl"]
         vol = item["vol"]
         roi = (pnl / vol) if vol > 0 else 0
         if roi < min_roi or vol > max_vol:
             continue
+
+        sports_specialist = False
+        sports_ratio = None
+        if sports_filter:
+            # Reuse prior classification for ~6h to avoid hammering API
+            prior = current_map.get(addr_clean, {})
+            prior_ts = int(prior.get("sports_checked_at", 0) or 0)
+            if prior.get("sports_ratio") is not None and time.time() - prior_ts < 21600:
+                sports_ratio = prior.get("sports_ratio")
+                sports_specialist = bool(prior.get("sports_specialist"))
+            else:
+                sports_ratio = classify_whale_sports_ratio(addr_clean, sports_sample)
+                if sports_ratio is not None:
+                    sports_specialist = sports_ratio >= sports_ratio_max
+                elif prior.get("sports_specialist"):
+                    # Keep last known tag if live classify fails
+                    sports_specialist = bool(prior.get("sports_specialist"))
+                    sports_ratio = prior.get("sports_ratio")
+                if sports_specialist:
+                    sports_tagged += 1
             
         if addr_clean in current_map:
             trader_cfg = current_map[addr_clean]
             trader_cfg["pnl"] = item["pnl"]
             trader_cfg["vol"] = item["vol"]
             trader_cfg["rank"] = item["rank"]
-            trader_cfg["auto_synced"] = True # Ensure tag exists
+            trader_cfg["name"] = item["name"]
+            trader_cfg["auto_synced"] = True
+            trader_cfg["sports_specialist"] = sports_specialist
+            if sports_ratio is not None:
+                trader_cfg["sports_ratio"] = sports_ratio
+            trader_cfg["sports_checked_at"] = int(time.time())
+            # Auto-disable pure sports grinders when sports are excluded
+            if sports_specialist and cfg.get("exclude_sports_bets", True):
+                trader_cfg["enabled"] = False
             updated_traders.append(trader_cfg)
         else:
             new_trader = {
                 "address": addr_clean,
                 "name": item["name"],
-                "enabled": True,
+                "enabled": not (sports_specialist and cfg.get("exclude_sports_bets", True)),
                 "sizing_type": "fixed",
-                "sizing_value": 100.0,
+                "sizing_value": 300.0 if roi >= 0.15 else 200.0,
                 "pnl": item["pnl"],
                 "vol": item["vol"],
                 "rank": item["rank"],
-                "auto_synced": True
+                "auto_synced": True,
+                "sports_specialist": sports_specialist,
+                "sports_ratio": sports_ratio,
+                "sports_checked_at": int(time.time()),
             }
             updated_traders.append(new_trader)
             added_count += 1
@@ -1127,15 +1325,35 @@ def sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"], limit=Non
                 updated_traders.append(trader_cfg)
             else:
                 pruned_count += 1
+
+    # Cap auto-synced list size roughly to leaderboard_sync_limit * periods quality
+    max_auto = max(15, int(cfg.get("leaderboard_sync_limit", 25)) * 2)
+    autos = [t for t in updated_traders if t.get("auto_synced")]
+    manuals = [t for t in updated_traders if not t.get("auto_synced")]
+    if len(autos) > max_auto:
+        autos = sorted(
+            autos,
+            key=lambda t: (float(t.get("pnl", 0) or 0) / float(t.get("vol") or 1), -int(t.get("rank") or 9999)),
+            reverse=True
+        )[:max_auto]
+        updated_traders = manuals + autos
                 
     cfg["followed_traders"] = updated_traders
     save_config(cfg)
-    print(f"Leaderboard sync completed. Added {added_count} new whales, pruned {pruned_count} stale auto-synced whales. Total followed whales: {len(updated_traders)}")
+    enabled_n = sum(1 for t in updated_traders if t.get("enabled", True))
+    print(
+        f"Leaderboard sync completed. Added {added_count}, pruned {pruned_count} stale, "
+        f"sports-tagged {sports_tagged}. Total: {len(updated_traders)} (enabled: {enabled_n})"
+    )
     
     # Add a system log entry if state is loaded
     try:
         state = load_state(cfg)
-        add_log(state, f"Synced {limit} top whales from leaderboards. Added {added_count}, pruned {pruned_count} stale. Total: {len(updated_traders)}")
+        add_log(
+            state,
+            f"Synced top whales (v2). Added {added_count}, pruned {pruned_count}, "
+            f"sports-tagged {sports_tagged}. Total: {len(updated_traders)}, enabled: {enabled_n}"
+        )
         save_state(state)
     except Exception as e:
         print(f"Failed to write log for leaderboard sync: {e}")
