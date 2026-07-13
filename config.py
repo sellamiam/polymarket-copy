@@ -65,9 +65,11 @@ DEFAULT_CONFIG = {
     "max_adverse_slippage_bps": 150.0,
     # Cap each new BUY at this % of total equity (risk control)
     "risk_per_trade_pct": 2.0,
-    # Poll each enabled whale's trade feed (lower latency vs global feed alone)
+    # Poll each enabled whale's trade feed (throttled vs main loop to avoid 429s)
     "enable_per_whale_poll": True,
-    "per_whale_poll_limit": 20,
+    "per_whale_poll_limit": 15,
+    "per_whale_poll_interval_seconds": 30,
+    "per_whale_max_parallel": 4,
     # Prefer mid-price edge band slightly in scoring
     "performance_strategy_version": 3,
     "performance_v2_migrated": False,
@@ -354,7 +356,9 @@ def load_config():
         config_data["max_adverse_slippage_bps"] = 150.0
         config_data["risk_per_trade_pct"] = 2.0
         config_data["enable_per_whale_poll"] = True
-        config_data["per_whale_poll_limit"] = 20
+        config_data["per_whale_poll_limit"] = 15
+        config_data["per_whale_poll_interval_seconds"] = 30
+        config_data["per_whale_max_parallel"] = 4
         config_data["enable_value_plays"] = True
         config_data["copy_only_best_wins"] = True
         config_data["exclude_sports_bets"] = True

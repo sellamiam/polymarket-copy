@@ -510,7 +510,11 @@ def recycle_positions_and_exit_strategies(config, state):
 
 
 def get_trader_stats(state, address):
-    """Return (resolved_count, win_rate_pct, total_realized_pnl) for copies of this whale."""
+    """
+    Return (resolved_count, win_rate_pct, total_pnl) for copies of this whale.
+    total_pnl = realized exit PnL + mark-to-market unrealized on open positions
+    so pruning is not blind to underwater books that have not resolved yet.
+    """
     if not address:
         return 0, 0.0, 0.0
     addr_clean = address.lower()
@@ -523,12 +527,21 @@ def get_trader_stats(state, address):
         t for t in exits
         if t.get("realized_pnl") is not None and t.get("type") in ["SELL", "RESOLVE"]
     ]
-    if not resolved:
-        return 0, 0.0, 0.0
     wins = sum(1 for t in resolved if t.get("realized_pnl", 0) > 0)
-    win_rate = (wins / len(resolved)) * 100.0
-    total_pnl = sum(float(t.get("realized_pnl") or 0.0) for t in resolved)
-    return len(resolved), win_rate, total_pnl
+    win_rate = (wins / len(resolved) * 100.0) if resolved else 0.0
+    realized_pnl = sum(float(t.get("realized_pnl") or 0.0) for t in resolved)
+
+    unrealized_pnl = 0.0
+    for pos in state.get("positions", {}).values():
+        if (pos.get("trader_address") or "").lower() != addr_clean:
+            continue
+        qty = float(pos.get("quantity") or 0.0)
+        avg = float(pos.get("avg_price") or 0.0)
+        # Prefer bid for conservative mark (what we could exit at)
+        cur = float(pos.get("bid_price") or pos.get("current_price") or avg)
+        unrealized_pnl += (cur - avg) * qty
+
+    return len(resolved), win_rate, realized_pnl + unrealized_pnl
 
 def get_cluster_name(title, slug):
     text = f"{title} {slug}".lower()
@@ -554,10 +567,17 @@ def get_cluster_exposure(state, target_cluster):
             total += pos.get("invested_usdc", 0.0)
     return total
 
+_last_per_whale_poll_ts = 0.0
+_per_whale_backoff_until = 0.0
+
+
 def fetch_trader_trades(trader, limit=20):
     """Fetch recent trades for a single whale (same schema as global trades feed)."""
+    global _per_whale_backoff_until
     address = trader["address"].lower()
     name = trader.get("name", address)
+    if time.time() < _per_whale_backoff_until:
+        return []
     try:
         url = f"https://data-api.polymarket.com/trades?user={address}&limit={limit}"
         res = requests.get(url, timeout=7)
@@ -565,6 +585,10 @@ def fetch_trader_trades(trader, limit=20):
             trades = res.json()
             if isinstance(trades, list):
                 return trades
+        if res.status_code == 429:
+            # Back off all per-whale polls for 60s on rate limit
+            _per_whale_backoff_until = time.time() + 60.0
+            print(f"Rate limited on trades for {name}; per-whale poll backoff 60s")
     except Exception as e:
         print(f"Error fetching trades for {name} ({address}): {e}")
     return []
@@ -589,8 +613,10 @@ def fetch_trader_activities(trader):
 def collect_candidate_trades(config, active_traders_map):
     """
     Merge global trades feed with optional per-whale trade polls.
-    Per-whale polling reduces miss-rate when whales are not in the latest global page.
+    Global feed runs every loop; per-whale polls are throttled (default 30s)
+    with fewer workers to avoid 429s.
     """
+    global _last_per_whale_poll_ts, _per_whale_backoff_until
     by_tx = {}
 
     # Global feed (broad, low latency for hot markets)
@@ -604,15 +630,26 @@ def collect_candidate_trades(config, active_traders_map):
                     tx = t.get("transactionHash")
                     if tx:
                         by_tx[tx] = t
+        elif res.status_code == 429:
+            print("Rate limited on global trades feed")
     except Exception as e:
         print(f"Error fetching global trades activity: {e}")
 
-    # Per-whale polls for followed wallets only
-    if config.get("enable_per_whale_poll", True) and active_traders_map:
-        limit = int(config.get("per_whale_poll_limit", 20))
+    # Per-whale polls: throttled frequency + small worker pool
+    now = time.time()
+    poll_every = float(config.get("per_whale_poll_interval_seconds", 30))
+    in_backoff = now < _per_whale_backoff_until
+    due = (now - _last_per_whale_poll_ts) >= poll_every
+    if (
+        config.get("enable_per_whale_poll", True)
+        and active_traders_map
+        and due
+        and not in_backoff
+    ):
+        _last_per_whale_poll_ts = now
+        limit = int(config.get("per_whale_poll_limit", 15))
         traders = list(active_traders_map.values())
-        # Cap concurrent polls to avoid rate limits
-        max_parallel = min(12, len(traders))
+        max_parallel = min(int(config.get("per_whale_max_parallel", 4)), len(traders))
         if max_parallel > 0:
             with ThreadPoolExecutor(max_workers=max_parallel) as pool:
                 futures = [pool.submit(fetch_trader_trades, t, limit) for t in traders]
@@ -684,7 +721,7 @@ def run_simulation_iteration(config, state):
         
         is_vitalik = (address == "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92")
 
-        # Check Whale Alpha Auto-Pruning (win rate + cumulative copy PnL)
+        # Check Whale Alpha Auto-Pruning (win rate + realized+unrealized copy PnL)
         if config.get("enable_whale_auto_pruning", True) and not is_vitalik:
             min_wr = float(config.get("min_whale_win_rate", 50.0))
             prune_min = int(config.get("whale_prune_min_trades", 5))
@@ -694,10 +731,16 @@ def run_simulation_iteration(config, state):
                 add_log(state, f"Skipped trade from {name}: Whale win rate ({wr:.1f}%) is below minimum threshold of {min_wr:.1f}%.")
                 state["processed_tx_hashes"].append(tx_hash)
                 continue
-            if resolved_cnt >= prune_min and copy_pnl < min_copy_pnl:
+            # PnL floor uses mark-to-market; prune even before resolutions if underwater
+            has_book = resolved_cnt > 0 or any(
+                (p.get("trader_address") or "").lower() == address
+                for p in state.get("positions", {}).values()
+            )
+            if has_book and copy_pnl < min_copy_pnl:
                 add_log(
                     state,
-                    f"Skipped trade from {name}: Cumulative copy PnL ({copy_pnl:+.1f} USDC) below floor {min_copy_pnl:.1f} USDC."
+                    f"Skipped trade from {name}: Copy PnL incl. unrealized ({copy_pnl:+.1f} USDC) "
+                    f"below floor {min_copy_pnl:.1f} USDC."
                 )
                 state["processed_tx_hashes"].append(tx_hash)
                 continue
@@ -1233,7 +1276,7 @@ def run_simulation_iteration(config, state):
                 exec_price = price
 
             # Apply slippage
-            slippage_bps = float(config.get("slippage_bps", 10))
+            slippage_bps = float(config.get("slippage_bps", 25))
             exec_price = exec_price * (1.0 - (slippage_bps / 10000.0))
             
             proceeds = sell_qty * exec_price
