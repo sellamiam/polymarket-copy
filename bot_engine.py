@@ -414,6 +414,11 @@ def recycle_positions_and_exit_strategies(config, state):
     current_time = int(time.time())
     recycled_any = False
     
+    # Cash-aware check: calculate total equity and cash ratio to avoid unnecessary maturity exit friction
+    holdings_val = update_live_valuations(state)
+    total_equity = state["cash_usdc"] + holdings_val
+    cash_ratio = state["cash_usdc"] / total_equity if total_equity > 0.0 else 1.0
+
     for token_id, pos in list(state["positions"].items()):
         # One-time grandfather: existing open book is hold-to-resolution only
         if grandfather and "strategy_exits_enabled" not in pos:
@@ -449,10 +454,12 @@ def recycle_positions_and_exit_strategies(config, state):
             effective_tp_pct = value_play_take_profit_pct
 
         maturity_threshold = float(config.get("maturity_threshold", 0.98))
-        # Maturity allowed for all positions (including grandfathered) — locks near-certain wins
+        # Maturity check (locks near-certain wins). Only exit early if cash is low (<15% of equity) 
+        # to avoid paying premature bid-ask/slippage friction when cash is plentiful.
         if current_price >= maturity_threshold:
-            trigger_reason = f"MATURITY ({current_price:.2f})"
-            exit_type = "RECYCLE_MATURITY"
+            if cash_ratio < 0.15:
+                trigger_reason = f"MATURITY ({current_price:.2f})"
+                exit_type = "RECYCLE_MATURITY"
         elif strategy_exits:
             if effective_tp_pct > 0 and pnl_pct >= effective_tp_pct:
                 trigger_reason = f"TP (+{pnl_pct:.1f}%)"
@@ -1252,12 +1259,25 @@ def run_simulation_iteration(config, state):
 
             pos = state["positions"][asset]
             
-            # Compute proportional sell fraction
+            # Compute proportional sell fraction relative to total holdings of all followed whales.
+            # If the selling whale has no tracked holdings, we skip copy-selling to avoid phantom liquidations.
             whale_holdings = state["whale_positions"].get(address, {}).get(asset, 0.0)
-            if whale_holdings <= 0 or size >= whale_holdings:
+            if whale_holdings <= 0.0:
+                if address not in state["whale_positions"]:
+                    state["whale_positions"][address] = {}
+                state["whale_positions"][address][asset] = 0.0
+                state["processed_tx_hashes"].append(tx_hash)
+                continue
+                
+            total_followed_holdings = sum(
+                float(trader_positions.get(asset, 0.0))
+                for addr, trader_positions in state.get("whale_positions", {}).items()
+            )
+            
+            if total_followed_holdings <= 0.0 or size >= total_followed_holdings:
                 sell_fraction = 1.0
             else:
-                sell_fraction = size / whale_holdings
+                sell_fraction = size / total_followed_holdings
             
             sell_qty = pos["quantity"] * sell_fraction
             if sell_qty <= 0:
