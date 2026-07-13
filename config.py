@@ -10,29 +10,31 @@ STATE_PATH = os.path.join(DATA_DIR, "state.json")
 
 DEFAULT_CONFIG = {
     "starting_capital": 10000.0,
-    "poll_interval_seconds": 15,
-    "execution_mode": "whale_price",  # "whale_price" or "market_price"
-    "slippage_bps": 10.0,  # 10 bps = 0.1%
-    "min_copy_price": 0.40,
-    "max_copy_price": 0.85,
+    "poll_interval_seconds": 10,
+    # Realistic fills: use live CLOB ask/bid, not whale print price
+    "execution_mode": "market_price",  # "whale_price" or "market_price"
+    "slippage_bps": 25.0,  # 25 bps extra cushion on top of live book
+    "min_copy_price": 0.45,
+    "max_copy_price": 0.80,
     "copy_only_best_wins": True,
-    "min_best_bet_score": 60,
-    "max_days_to_resolution": 90,
+    "min_best_bet_score": 70,
+    "max_days_to_resolution": 60,
     # 0 = hold to resolution/maturity/whale sell (no time force-exit)
     "max_holding_hours": 0,
-    "take_profit_pct": 25.0,
-    "value_play_take_profit_pct": 50.0,
-    "stop_loss_pct": 30.0,
+    # Prediction-market edge: hold thesis; only lock near-certain or catastrophe
+    "take_profit_pct": 0.0,
+    "value_play_take_profit_pct": 0.0,
+    "stop_loss_pct": 0.0,
     "stop_loss_grace_hours": 24.0,
-    "min_whale_trade_size": 1000.0,
-    "max_market_exposure": 1000.0,
-    "max_cluster_exposure": 1200.0,
-    "min_market_liquidity": 1000.0,
-    "min_market_volume": 5000.0,
-    "min_whale_roi": 0.08,
-    "max_whale_volume": 20000000.0,
+    "min_whale_trade_size": 2000.0,
+    "max_market_exposure": 750.0,
+    "max_cluster_exposure": 1000.0,
+    "min_market_liquidity": 2500.0,
+    "min_market_volume": 10000.0,
+    "min_whale_roi": 0.12,
+    "max_whale_volume": 15000000.0,
     "enable_value_plays": True,
-    "value_play_size_mult": 0.5,
+    "value_play_size_mult": 0.35,
     "exclude_sports_bets": True,
     "exclude_crypto_bets": True,
     "exclude_weather_bets": True,
@@ -40,24 +42,36 @@ DEFAULT_CONFIG = {
     "niche_priority_active": True,
     "dynamic_sizing_active": True,
     "enable_whale_auto_pruning": True,
-    "min_whale_win_rate": 40.0,
-    "whale_prune_min_trades": 3,
+    "min_whale_win_rate": 50.0,
+    "whale_prune_min_trades": 5,
+    # Disable whale after cumulative realized PnL on copies falls below this
+    "min_whale_copy_pnl": -150.0,
     "maturity_threshold": 0.98,
-    "leaderboard_sync_limit": 25,
-    "catastrophic_stop_loss_pct": 40.0,
+    "leaderboard_sync_limit": 15,
+    "catastrophic_stop_loss_pct": 45.0,
     # Protect positions opened before performance-v2 from strategy exits
     "grandfather_open_positions": True,
-    # Require N distinct whales for value plays (and all entries if multi_whale_require_all)
+    # Require N distinct whales for ALL entries (consensus > single lagging whale)
     "multi_whale_confirm_count": 2,
-    "multi_whale_window_seconds": 3600,
-    "multi_whale_require_all": False,
+    "multi_whale_window_seconds": 7200,
+    "multi_whale_require_all": True,
     # Auto-disable wallets whose recent activity is mostly sports
     "enable_sports_whale_filter": True,
-    "sports_whale_activity_ratio": 0.55,
+    "sports_whale_activity_ratio": 0.50,
     "sports_whale_sample_size": 20,
+    # Freshness: ignore whale prints older than this (seconds)
+    "max_trade_age_seconds": 300,
+    # Skip BUY if live ask is worse than whale price by more than this (bps)
+    "max_adverse_slippage_bps": 150.0,
+    # Cap each new BUY at this % of total equity (risk control)
+    "risk_per_trade_pct": 2.0,
+    # Poll each enabled whale's trade feed (lower latency vs global feed alone)
+    "enable_per_whale_poll": True,
+    "per_whale_poll_limit": 20,
     # Prefer mid-price edge band slightly in scoring
-    "performance_strategy_version": 2,
+    "performance_strategy_version": 3,
     "performance_v2_migrated": False,
+    "performance_v3_migrated": False,
     "followed_traders": [
         {
             "address": "0x56687bf447db6ffa42ffe2204a05edaa20f55839",
@@ -301,6 +315,51 @@ def load_config():
         config_data["sports_whale_activity_ratio"] = 0.55
         config_data["sports_whale_sample_size"] = 20
         config_data["whale_prune_min_trades"] = 3
+        updated = True
+
+    # Performance strategy v3: consensus entries, realistic fills, risk caps, freshness.
+    if not config_data.get("performance_v3_migrated"):
+        config_data["performance_v3_migrated"] = True
+        config_data["performance_strategy_version"] = 3
+        config_data["execution_mode"] = "market_price"
+        config_data["slippage_bps"] = 25.0
+        config_data["poll_interval_seconds"] = 10
+        config_data["min_copy_price"] = 0.45
+        config_data["max_copy_price"] = 0.80
+        config_data["min_best_bet_score"] = 70
+        config_data["max_days_to_resolution"] = 60
+        config_data["max_holding_hours"] = 0
+        config_data["take_profit_pct"] = 0.0
+        config_data["value_play_take_profit_pct"] = 0.0
+        config_data["stop_loss_pct"] = 0.0
+        config_data["catastrophic_stop_loss_pct"] = 45.0
+        config_data["min_whale_trade_size"] = 2000.0
+        config_data["max_market_exposure"] = 750.0
+        config_data["max_cluster_exposure"] = 1000.0
+        config_data["min_market_liquidity"] = 2500.0
+        config_data["min_market_volume"] = 10000.0
+        config_data["min_whale_roi"] = 0.12
+        config_data["max_whale_volume"] = 15000000.0
+        config_data["value_play_size_mult"] = 0.35
+        config_data["min_whale_win_rate"] = 50.0
+        config_data["whale_prune_min_trades"] = 5
+        config_data["min_whale_copy_pnl"] = -150.0
+        config_data["leaderboard_sync_limit"] = 15
+        config_data["multi_whale_confirm_count"] = 2
+        config_data["multi_whale_window_seconds"] = 7200
+        config_data["multi_whale_require_all"] = True
+        config_data["enable_sports_whale_filter"] = True
+        config_data["sports_whale_activity_ratio"] = 0.50
+        config_data["max_trade_age_seconds"] = 300
+        config_data["max_adverse_slippage_bps"] = 150.0
+        config_data["risk_per_trade_pct"] = 2.0
+        config_data["enable_per_whale_poll"] = True
+        config_data["per_whale_poll_limit"] = 20
+        config_data["enable_value_plays"] = True
+        config_data["copy_only_best_wins"] = True
+        config_data["exclude_sports_bets"] = True
+        config_data["exclude_crypto_bets"] = True
+        config_data["exclude_weather_bets"] = True
         updated = True
 
     if updated:

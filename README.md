@@ -1,6 +1,10 @@
 # PolyCopy Simulator
 
-A copy-trading simulator for Polymarket. It tracks the top 1,000 weekly whales from the Polymarket leaderboard, watches their trades in real time, and simulates copying them with configurable sizing, filters, and execution logic. No real money is involved — it's a paper trading engine for testing copy-trade strategies before putting capital at risk.
+A copy-trading simulator for Polymarket. It tracks top leaderboard whales, watches their trades in near real time (global feed + per-whale polls), and paper-copies them with consensus filters, risk caps, and realistic CLOB fills.
+
+**Strategy v3 (profitability-focused defaults):** multi-whale confirmation on all entries, market-price execution with adverse-selection skip, 2% equity risk cap per trade, hold-to-resolution (no noise TP/SL), tighter whale ROI/score filters, and auto-prune of wallets that lose money when copied.
+
+No real money is involved — paper trading only until you deliberately wire live execution.
 
 ![Dashboard](screenshot.png)
 

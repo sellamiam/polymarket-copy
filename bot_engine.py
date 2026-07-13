@@ -19,16 +19,18 @@ def calculate_conviction(usdc_size):
 def calculate_best_bet_score(price, conviction_score, trader_cfg=None, usdc_size=0.0):
     """
     Edge-oriented score that does NOT reward high prices alone.
-    Peaks around mid-probability favorites (~0.55-0.75) with strong
-    whale conviction and ROI quality.
+    Peaks around mid-probability favorites (~0.55-0.72) with strong
+    whale conviction and ROI quality. Large whale size boosts conviction weight.
     """
-    # Price quality: peak near 0.65, soft-penalize near-certain and ultra-cheap
-    price_quality = 100.0 - abs(float(price) - 0.65) * 140.0
+    # Price quality: peak near 0.62, soft-penalize near-certain and ultra-cheap
+    price_quality = 100.0 - abs(float(price) - 0.62) * 150.0
     price_quality = max(15.0, min(100.0, price_quality))
-    if price >= 0.90:
-        price_quality = min(price_quality, 35.0)
-    if price <= 0.15:
+    if price >= 0.85:
         price_quality = min(price_quality, 40.0)
+    if price >= 0.90:
+        price_quality = min(price_quality, 30.0)
+    if price <= 0.20:
+        price_quality = min(price_quality, 45.0)
 
     whale_quality = 50.0
     if trader_cfg:
@@ -37,20 +39,26 @@ def calculate_best_bet_score(price, conviction_score, trader_cfg=None, usdc_size
         rank = trader_cfg.get("rank")
         if vol > 0 and pnl > 0:
             roi = pnl / vol
-            # Map ROI 0%->30, 8%->55, 15%+->85
-            whale_quality = min(95.0, 30.0 + roi * 350.0)
+            # Map ROI 0%->25, 12%->67, 20%+->95
+            whale_quality = min(95.0, 25.0 + roi * 350.0)
         if rank is not None:
             try:
                 rank_val = int(rank)
                 if rank_val <= 10:
-                    whale_quality = min(100.0, whale_quality + 15.0)
-                elif rank_val <= 50:
-                    whale_quality = min(100.0, whale_quality + 8.0)
+                    whale_quality = min(100.0, whale_quality + 12.0)
+                elif rank_val <= 30:
+                    whale_quality = min(100.0, whale_quality + 6.0)
             except (TypeError, ValueError):
                 pass
 
     conviction = float(conviction_score)
-    score = int(0.35 * price_quality + 0.40 * conviction + 0.25 * whale_quality)
+    # Slight size bonus for very large whale prints (real conviction)
+    size_bonus = 0.0
+    if usdc_size >= 25000:
+        size_bonus = 8.0
+    elif usdc_size >= 10000:
+        size_bonus = 4.0
+    score = int(0.35 * price_quality + 0.40 * conviction + 0.25 * whale_quality + size_bonus)
     return min(100, max(1, score))
 
 SPORTS_KEYWORDS = [
@@ -199,7 +207,8 @@ def calculate_dynamic_sizing_multiplier(trader_cfg, whale_trade_usdc):
         conviction_multiplier = 0.5
         
     total_mult = roi_multiplier * rank_mult * conviction_multiplier
-    return min(3.0, max(0.2, total_mult))
+    # v3: cap dynamic size more tightly — conviction spikes were oversizing late copies
+    return min(2.0, max(0.25, total_mult))
 
 
 _engine_thread = None
@@ -501,16 +510,25 @@ def recycle_positions_and_exit_strategies(config, state):
 
 
 def get_trader_stats(state, address):
+    """Return (resolved_count, win_rate_pct, total_realized_pnl) for copies of this whale."""
     if not address:
-        return 0, 0.0
+        return 0, 0.0, 0.0
     addr_clean = address.lower()
-    exits = [t for t in state.get("trades", []) if t.get("original_trader_address", "").lower() == addr_clean or t.get("trader_address", "").lower() == addr_clean]
-    resolved = [t for t in exits if t.get("realized_pnl") is not None and t.get("type") in ["SELL", "RESOLVE"]]
+    exits = [
+        t for t in state.get("trades", [])
+        if t.get("original_trader_address", "").lower() == addr_clean
+        or t.get("trader_address", "").lower() == addr_clean
+    ]
+    resolved = [
+        t for t in exits
+        if t.get("realized_pnl") is not None and t.get("type") in ["SELL", "RESOLVE"]
+    ]
     if not resolved:
-        return 0, 0.0
+        return 0, 0.0, 0.0
     wins = sum(1 for t in resolved if t.get("realized_pnl", 0) > 0)
     win_rate = (wins / len(resolved)) * 100.0
-    return len(resolved), win_rate
+    total_pnl = sum(float(t.get("realized_pnl") or 0.0) for t in resolved)
+    return len(resolved), win_rate, total_pnl
 
 def get_cluster_name(title, slug):
     text = f"{title} {slug}".lower()
@@ -536,7 +554,24 @@ def get_cluster_exposure(state, target_cluster):
             total += pos.get("invested_usdc", 0.0)
     return total
 
+def fetch_trader_trades(trader, limit=20):
+    """Fetch recent trades for a single whale (same schema as global trades feed)."""
+    address = trader["address"].lower()
+    name = trader.get("name", address)
+    try:
+        url = f"https://data-api.polymarket.com/trades?user={address}&limit={limit}"
+        res = requests.get(url, timeout=7)
+        if res.status_code == 200:
+            trades = res.json()
+            if isinstance(trades, list):
+                return trades
+    except Exception as e:
+        print(f"Error fetching trades for {name} ({address}): {e}")
+    return []
+
+
 def fetch_trader_activities(trader):
+    """Legacy alias — prefer fetch_trader_trades for copyable BUY/SELL prints."""
     address = trader["address"].lower()
     name = trader["name"]
     try:
@@ -549,6 +584,53 @@ def fetch_trader_activities(trader):
     except Exception as e:
         print(f"Error fetching activity for {name} ({address}): {e}")
     return (trader, [])
+
+
+def collect_candidate_trades(config, active_traders_map):
+    """
+    Merge global trades feed with optional per-whale trade polls.
+    Per-whale polling reduces miss-rate when whales are not in the latest global page.
+    """
+    by_tx = {}
+
+    # Global feed (broad, low latency for hot markets)
+    try:
+        url = "https://data-api.polymarket.com/v1/trades?limit=1000"
+        res = requests.get(url, timeout=7)
+        if res.status_code == 200:
+            data = res.json()
+            if isinstance(data, list):
+                for t in data:
+                    tx = t.get("transactionHash")
+                    if tx:
+                        by_tx[tx] = t
+    except Exception as e:
+        print(f"Error fetching global trades activity: {e}")
+
+    # Per-whale polls for followed wallets only
+    if config.get("enable_per_whale_poll", True) and active_traders_map:
+        limit = int(config.get("per_whale_poll_limit", 20))
+        traders = list(active_traders_map.values())
+        # Cap concurrent polls to avoid rate limits
+        max_parallel = min(12, len(traders))
+        if max_parallel > 0:
+            with ThreadPoolExecutor(max_workers=max_parallel) as pool:
+                futures = [pool.submit(fetch_trader_trades, t, limit) for t in traders]
+                for fut in futures:
+                    try:
+                        trades = fut.result()
+                        for t in trades:
+                            tx = t.get("transactionHash")
+                            if tx and tx not in by_tx:
+                                by_tx[tx] = t
+                    except Exception as e:
+                        print(f"Error in per-whale trade poll: {e}")
+
+    # Sort oldest → newest for deterministic processing
+    activities = list(by_tx.values())
+    activities.sort(key=lambda t: int(t.get("timestamp") or 0))
+    return activities
+
 
 def run_simulation_iteration(config, state):
     """
@@ -566,28 +648,24 @@ def run_simulation_iteration(config, state):
     if resolve_positions(state):
         trade_executed_or_resolved = True
 
-    # 1. Fetch global activities feed
-    activities = []
-    try:
-        url = "https://data-api.polymarket.com/v1/trades?limit=1000"
-        res = requests.get(url, timeout=7)
-        if res.status_code == 200:
-            activities = res.json()
-    except Exception as e:
-        print(f"Error fetching global trades activity: {e}")
+    # 1. Fetch global + per-whale trade feeds
+    activities = collect_candidate_trades(config, active_traders_map)
 
-    if not isinstance(activities, list):
+    if not isinstance(activities, list) or not activities:
         return trade_executed_or_resolved
 
+    max_trade_age = float(config.get("max_trade_age_seconds", 300))
+
     # 2. Process transactions from oldest to newest
-    for act in reversed(activities):
+    for act in activities:
         tx_hash = act.get("transactionHash")
         if not tx_hash or tx_hash in state["processed_tx_hashes"]:
             continue
 
-        # Skip historical trades older than 1 hour to prevent copying stale history
+        # Skip stale prints — late copies are adverse selection
         timestamp = int(act.get("timestamp", 0))
-        if time.time() - timestamp > 3600:  # 1 hour
+        age_sec = time.time() - timestamp if timestamp else 999999
+        if age_sec > max_trade_age:
             state["processed_tx_hashes"].append(tx_hash)
             continue
 
@@ -606,13 +684,21 @@ def run_simulation_iteration(config, state):
         
         is_vitalik = (address == "0x8a98109fb0f1d87d9bfcb4486ba3587b95c51b92")
 
-        # Check Whale Alpha Auto-Pruning
+        # Check Whale Alpha Auto-Pruning (win rate + cumulative copy PnL)
         if config.get("enable_whale_auto_pruning", True) and not is_vitalik:
-            min_wr = float(config.get("min_whale_win_rate", 40.0))
-            prune_min = int(config.get("whale_prune_min_trades", 3))
-            resolved_cnt, wr = get_trader_stats(state, address)
+            min_wr = float(config.get("min_whale_win_rate", 50.0))
+            prune_min = int(config.get("whale_prune_min_trades", 5))
+            min_copy_pnl = float(config.get("min_whale_copy_pnl", -150.0))
+            resolved_cnt, wr, copy_pnl = get_trader_stats(state, address)
             if resolved_cnt >= prune_min and wr < min_wr:
                 add_log(state, f"Skipped trade from {name}: Whale win rate ({wr:.1f}%) is below minimum threshold of {min_wr:.1f}%.")
+                state["processed_tx_hashes"].append(tx_hash)
+                continue
+            if resolved_cnt >= prune_min and copy_pnl < min_copy_pnl:
+                add_log(
+                    state,
+                    f"Skipped trade from {name}: Cumulative copy PnL ({copy_pnl:+.1f} USDC) below floor {min_copy_pnl:.1f} USDC."
+                )
                 state["processed_tx_hashes"].append(tx_hash)
                 continue
 
@@ -712,11 +798,11 @@ def run_simulation_iteration(config, state):
         else:
             copy_usdc = 100.0
 
-        # Check for top whale alpha multiplier (win rate >= 70%)
-        resolved_cnt, wr = get_trader_stats(state, address)
-        if resolved_cnt >= 3 and wr >= 70.0:
+        # Check for top whale alpha multiplier (win rate >= 70% and positive copy PnL)
+        resolved_cnt, wr, copy_pnl = get_trader_stats(state, address)
+        if resolved_cnt >= 5 and wr >= 70.0 and copy_pnl > 0:
             copy_usdc *= 1.5
-            add_log(state, f"ALPHA BONUS: Trade size on '{title}' scaled up 1.5x to {copy_usdc:.2f} USDC (Whale win rate: {wr:.1f}%).")
+            add_log(state, f"ALPHA BONUS: Trade size on '{title}' scaled up 1.5x to {copy_usdc:.2f} USDC (Whale win rate: {wr:.1f}%, copy PnL: {copy_pnl:+.1f}).")
 
         # 4. Handle execution
         if side == "BUY":
@@ -752,12 +838,11 @@ def run_simulation_iteration(config, state):
                     state["processed_tx_hashes"].append(tx_hash)
                     continue
 
-            # Multi-whale confirmation:
-            # - value plays always need confirm_needed whales (default 2)
-            # - standard entries only if multi_whale_require_all is true
+            # Multi-whale confirmation (v3: require consensus on all entries by default)
             confirm_needed = int(config.get("multi_whale_confirm_count", 2))
-            confirm_window = int(config.get("multi_whale_window_seconds", 3600))
-            require_all = bool(config.get("multi_whale_require_all", False))
+            confirm_window = int(config.get("multi_whale_window_seconds", 7200))
+            require_all = bool(config.get("multi_whale_require_all", True))
+            # Value plays always need confirm; standard entries when require_all is true
             needs_confirm = (is_value_play or require_all) and confirm_needed > 1 and not is_vitalik
             if needs_confirm:
                 distinct = count_distinct_whale_signals(
@@ -767,9 +852,11 @@ def run_simulation_iteration(config, state):
                     add_log(
                         state,
                         f"Waiting multi-whale confirm on '{title}' ({outcome}) from {name}: "
-                        f"{distinct}/{confirm_needed} whales in last {confirm_window // 60}m "
-                        f"{'(value play)' if is_value_play else ''}."
+                        f"{distinct}/{confirm_needed} whales in last {confirm_window // 60}m"
+                        f"{' (value play)' if is_value_play else ''}."
                     )
+                    # Do NOT mark processed — keep signal, re-check when next whale prints
+                    # Only skip this whale's tx so we don't double-count size on re-poll
                     state["processed_tx_hashes"].append(tx_hash)
                     continue
 
@@ -920,9 +1007,9 @@ def run_simulation_iteration(config, state):
                 if abs(dyn_mult - 1.0) > 0.01:
                     add_log(state, f"DYNAMIC SIZING: '{title}' size adjusted by {dyn_mult:.2f}x → {copy_usdc:.2f} USDC (whale ROI/rank/conviction scaling).")
 
-            # Value Play Sizing: configurable risk mult (default 0.5x after v2)
+            # Value Play Sizing: configurable risk mult (default 0.35x after v3)
             if is_value_play:
-                vp_mult = float(config.get("value_play_size_mult", 0.5))
+                vp_mult = float(config.get("value_play_size_mult", 0.35))
                 copy_usdc *= vp_mult
                 add_log(state, f"VALUE PLAY SIZING: '{title}' size scaled by {vp_mult:.2f}x → {copy_usdc:.2f} USDC.")
 
@@ -930,6 +1017,20 @@ def run_simulation_iteration(config, state):
             if niche_bypass:
                 niche_bonus = copy_usdc * 0.25
                 copy_usdc += niche_bonus
+
+            # Risk cap: max % of equity per new BUY (prevents oversizing on whale spikes)
+            risk_pct = float(config.get("risk_per_trade_pct", 2.0))
+            if risk_pct > 0:
+                holdings_val = update_live_valuations(state)
+                equity = calculate_total_equity(state, holdings_val)
+                max_risk_usdc = max(10.0, equity * (risk_pct / 100.0))
+                if copy_usdc > max_risk_usdc:
+                    add_log(
+                        state,
+                        f"RISK CAP: '{title}' size cut {copy_usdc:.2f} → {max_risk_usdc:.2f} USDC "
+                        f"({risk_pct:.1f}% of equity {equity:.0f})."
+                    )
+                    copy_usdc = max_risk_usdc
 
             # Check opposing outcome index protection and exposure cap
             max_exposure = float(config.get("max_market_exposure", 500.0))
@@ -982,25 +1083,42 @@ def run_simulation_iteration(config, state):
             # Settle size
             invest_usdc = min(copy_usdc, state["cash_usdc"])
             
-            # Fetch live market execution price if required
+            # Always probe live ask for adverse-selection; use it for fills in market_price mode
+            live_ask = fetch_clob_price(asset, "sell")  # ask
             if config.get("execution_mode") == "market_price":
-                live_price = fetch_clob_price(asset, "sell") # ask price
-                if live_price is not None:
-                    exec_price = live_price
+                if live_ask is not None:
+                    exec_price = live_ask
                 else:
                     exec_price = price
                     add_log(state, f"Could not fetch ask price for {title}. Defaulting to whale price {price:.2f}")
             else:
                 exec_price = price
 
-            # Apply slippage
-            slippage_bps = float(config.get("slippage_bps", 10))
+            # Adverse selection: whale already moved the book — skip if ask is much worse
+            max_adv_bps = float(config.get("max_adverse_slippage_bps", 150.0))
+            ref_price = float(price) if price and price > 0 else None
+            check_price = live_ask if live_ask is not None else exec_price
+            if ref_price and check_price and max_adv_bps > 0 and not is_vitalik:
+                adverse_bps = ((check_price - ref_price) / ref_price) * 10000.0
+                if adverse_bps > max_adv_bps:
+                    add_log(
+                        state,
+                        f"Skipped BUY on '{title}' ({outcome}) from {name}: Adverse selection — "
+                        f"live ask {check_price:.3f} vs whale {ref_price:.3f} "
+                        f"({adverse_bps:.0f} bps > {max_adv_bps:.0f} bps max)."
+                    )
+                    state["processed_tx_hashes"].append(tx_hash)
+                    continue
+
+            # Apply slippage cushion
+            slippage_bps = float(config.get("slippage_bps", 25))
             exec_price = exec_price * (1.0 + (slippage_bps / 10000.0))
             
             if exec_price <= 0:
                 state["processed_tx_hashes"].append(tx_hash)
                 continue
 
+            # Recompute size if price rose so we still spend ~invest_usdc
             quantity = invest_usdc / exec_price
             
             # Deduct cash
@@ -1298,12 +1416,14 @@ def sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"], limit=Non
                 trader_cfg["enabled"] = False
             updated_traders.append(trader_cfg)
         else:
+            # Smaller base size; risk_per_trade_pct and exposure caps still govern max
+            base_size = 200.0 if roi >= 0.20 else (150.0 if roi >= 0.15 else 100.0)
             new_trader = {
                 "address": addr_clean,
                 "name": item["name"],
                 "enabled": not (sports_specialist and cfg.get("exclude_sports_bets", True)),
                 "sizing_type": "fixed",
-                "sizing_value": 300.0 if roi >= 0.15 else 200.0,
+                "sizing_value": base_size,
                 "pnl": item["pnl"],
                 "vol": item["vol"],
                 "rank": item["rank"],
@@ -1326,8 +1446,8 @@ def sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"], limit=Non
             else:
                 pruned_count += 1
 
-    # Cap auto-synced list size roughly to leaderboard_sync_limit * periods quality
-    max_auto = max(15, int(cfg.get("leaderboard_sync_limit", 25)) * 2)
+    # Cap auto-synced list — prefer high ROI, smaller set = less noise
+    max_auto = max(12, int(cfg.get("leaderboard_sync_limit", 15)) * 2)
     autos = [t for t in updated_traders if t.get("auto_synced")]
     manuals = [t for t in updated_traders if not t.get("auto_synced")]
     if len(autos) > max_auto:
@@ -1341,8 +1461,9 @@ def sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"], limit=Non
     cfg["followed_traders"] = updated_traders
     save_config(cfg)
     enabled_n = sum(1 for t in updated_traders if t.get("enabled", True))
+    ver = cfg.get("performance_strategy_version", 3)
     print(
-        f"Leaderboard sync completed. Added {added_count}, pruned {pruned_count} stale, "
+        f"Leaderboard sync completed (v{ver}). Added {added_count}, pruned {pruned_count} stale, "
         f"sports-tagged {sports_tagged}. Total: {len(updated_traders)} (enabled: {enabled_n})"
     )
     
@@ -1351,7 +1472,7 @@ def sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"], limit=Non
         state = load_state(cfg)
         add_log(
             state,
-            f"Synced top whales (v2). Added {added_count}, pruned {pruned_count}, "
+            f"Synced top whales (v{ver}). Added {added_count}, pruned {pruned_count}, "
             f"sports-tagged {sports_tagged}. Total: {len(updated_traders)}, enabled: {enabled_n}"
         )
         save_state(state)
