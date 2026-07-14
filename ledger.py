@@ -25,6 +25,23 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Keep the SQLite ledger on the same configurable persistent volume as config
 # and the JSON mirror. This is essential on hosts with ephemeral source disks.
 DATA_DIR = os.environ.get("POLYCOPY_DATA_DIR", os.path.join(BASE_DIR, "data"))
+
+def _verify_data_dir(d_dir):
+    try:
+        os.makedirs(d_dir, exist_ok=True)
+        # Try writing a temporary file to check write access
+        test_file = os.path.join(d_dir, ".write_test")
+        with open(test_file, "w") as f:
+            f.write("test")
+        os.remove(test_file)
+        return d_dir
+    except Exception:
+        fallback = os.path.join(BASE_DIR, "data")
+        print(f"WARNING: Configured DATA_DIR '{d_dir}' is not writable. Falling back to local data directory '{fallback}'.")
+        os.makedirs(fallback, exist_ok=True)
+        return fallback
+
+DATA_DIR = _verify_data_dir(DATA_DIR)
 DEFAULT_DB_PATH = os.path.join(DATA_DIR, "ledger.db")
 
 _lock = threading.RLock()
