@@ -1,0 +1,13 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Runtime state is an operator-owned artifact, not source code.
+data/ledger.db
+data/ledger.db-*
+data/*.archive_*
+data/.gist_id
+
+# Local credentials must never be committed.
+.env

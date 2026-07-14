@@ -4,6 +4,37 @@ let refreshTimer = 30;
 let timerInterval = null;
 let leaderboardPeriod = 'WEEK';
 
+// Optional API token for mutating routes (localStorage or ?token= query)
+function getApiToken() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const q = params.get('token');
+        if (q) {
+            localStorage.setItem('polycopy_api_token', q);
+            return q;
+        }
+        return localStorage.getItem('polycopy_api_token') || '';
+    } catch (e) {
+        return '';
+    }
+}
+
+function apiHeaders(extra = {}) {
+    const headers = { ...extra };
+    const token = getApiToken();
+    if (token) headers['X-API-Token'] = token;
+    return headers;
+}
+
+async function apiFetch(url, options = {}) {
+    const opts = { ...options };
+    opts.headers = apiHeaders(opts.headers || {});
+    if (opts.body && !opts.headers['Content-Type']) {
+        opts.headers['Content-Type'] = 'application/json';
+    }
+    return fetch(url, opts);
+}
+
 // DOM Elements
 const navItems = document.querySelectorAll('.nav-item');
 const tabContents = document.querySelectorAll('.tab-content');
@@ -583,7 +614,7 @@ async function toggleBotStatus() {
         }
         
         const endpoint = active ? '/api/control/stop' : '/api/control/start';
-        const res = await fetch(endpoint, { method: 'POST' });
+        const res = await apiFetch(endpoint, { method: 'POST' });
         if (res.ok) {
             forceRefreshData();
         }
@@ -593,17 +624,33 @@ async function toggleBotStatus() {
 }
 
 async function resetSimulationAccount() {
-    if (!confirm('Are you sure you want to completely reset the simulation? This will wipe your simulated trade history, active positions, and restore your cash to the starting capital settings.')) {
+    if (!confirm(
+        'Archive the ledger and start a fresh simulation?\n\n' +
+        'The current SQLite ledger will be archived (not silently deleted). ' +
+        'You must confirm with the phrase RESET.'
+    )) {
         return;
     }
-    
+    const phrase = prompt('Type RESET to confirm archive + re-init:');
+    if ((phrase || '').trim().toUpperCase() !== 'RESET') {
+        alert('Reset cancelled.');
+        return;
+    }
     try {
-        const res = await fetch('/api/control/reset', { method: 'POST' });
-        if (res.ok) {
-            forceRefreshData();
+        const res = await apiFetch('/api/control/reset', {
+            method: 'POST',
+            body: JSON.stringify({ confirm: true, confirm_phrase: 'RESET' }),
+        });
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.detail || 'Reset failed');
         }
+        const data = await res.json();
+        alert(data.message + (data.archive_path ? `\nArchive: ${data.archive_path}` : ''));
+        forceRefreshData();
     } catch (e) {
         console.error('Error resetting simulation:', e);
+        alert('Reset failed: ' + e.message);
     }
 }
 
@@ -613,7 +660,7 @@ async function syncWhalesFromLeaderboard() {
     btnSyncWhales.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Syncing...';
     
     try {
-        const res = await fetch('/api/traders/sync-leaderboard', { method: 'POST' });
+        const res = await apiFetch('/api/traders/sync-leaderboard', { method: 'POST' });
         if (res.ok) {
             const data = await res.json();
             alert(data.message || 'Successfully synced top whales from the weekly leaderboard!');
@@ -657,7 +704,7 @@ async function saveGlobalSettings(e) {
     const enableValuePlays = document.getElementById('settings-value-plays').checked;
 
     try {
-        const res = await fetch('/api/settings', {
+        const res = await apiFetch('/api/settings', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -705,7 +752,7 @@ async function followNewTrader(e) {
     const sizingValue = parseFloat(inputSizingValue.value);
 
     try {
-        const res = await fetch('/api/traders/follow', {
+        const res = await apiFetch('/api/traders/follow', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -732,7 +779,7 @@ async function followNewTrader(e) {
 
 async function toggleTraderActive(address, enabled) {
     try {
-        const res = await fetch('/api/traders/toggle', {
+        const res = await apiFetch('/api/traders/toggle', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -754,7 +801,7 @@ async function unfollowTrader(address) {
     }
     
     try {
-        const res = await fetch('/api/traders/unfollow', {
+        const res = await apiFetch('/api/traders/unfollow', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ address: address })
@@ -834,7 +881,7 @@ async function submitQuickFollow(e) {
     const sizingValue = parseFloat(inputQuickSizingValue.value);
 
     try {
-        const res = await fetch('/api/traders/follow', {
+        const res = await apiFetch('/api/traders/follow', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

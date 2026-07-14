@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: polycopy-sim
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: POLYCOPY_API_TOKEN
+        sync: false
+      - key: POLYCOPY_DATA_DIR
+        value: /var/data
+      - key: POLYCOPY_CORS_ORIGINS
+        sync: false
+    disk:
+      name: polycopy-data
+      mountPath: /var/data
+      sizeGB: 1

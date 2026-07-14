@@ -3,10 +3,15 @@ import json
 import time
 import requests
 
+import ledger
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "data")
+# A deployment can point this at a persistent disk (for example /var/data on
+# Render). Local development keeps the repository-relative data directory.
+DATA_DIR = os.environ.get("POLYCOPY_DATA_DIR", os.path.join(BASE_DIR, "data"))
 CONFIG_PATH = os.path.join(DATA_DIR, "config.json")
 STATE_PATH = os.path.join(DATA_DIR, "state.json")
+LEDGER_PATH = os.path.join(DATA_DIR, "ledger.db")
 
 DEFAULT_CONFIG = {
     "starting_capital": 10000.0,
@@ -74,6 +79,20 @@ DEFAULT_CONFIG = {
     "performance_strategy_version": 3,
     "performance_v2_migrated": False,
     "performance_v3_migrated": False,
+    # Ledger / conservative fills
+    "use_ledger": True,
+    "depth_aware_fills": True,
+    "fill_fee_bps": 0.0,
+    "fill_tick_size": 0.01,
+    "fill_min_order_size": 1.0,
+    "fill_allow_partial": True,
+    # Never fall back to whale print when book missing
+    "reject_if_book_unavailable": True,
+    # Mark holdings at executable bid; also report mid NAV
+    "mark_at_bid": True,
+    # Auth for mutating API routes (set POLYCOPY_API_TOKEN env or here)
+    "api_token": "",
+    "cors_origins": [],
     "followed_traders": [
         {
             "address": "0x56687bf447db6ffa42ffe2204a05edaa20f55839",
@@ -382,6 +401,7 @@ def save_config(config):
         threading.Thread(target=save_to_gist_async, args=("polycopy_config.json", config), daemon=True).start()
 
 def get_initial_state(starting_capital):
+    """In-memory empty projection (ledger is source of truth when enabled)."""
     return {
         "cash_usdc": starting_capital,
         "portfolio_value_history": [
@@ -389,28 +409,130 @@ def get_initial_state(starting_capital):
                 "timestamp": int(time.time()),
                 "cash": starting_capital,
                 "holdings_value": 0.0,
-                "total_equity": starting_capital
+                "holdings_value_mid": 0.0,
+                "total_equity": starting_capital,
+                "total_equity_mid": starting_capital,
             }
         ],
-        "positions": {},  # token_id -> position dict
-        "trades": [],  # list of trade dicts
-        "whale_positions": {},  # trader_address -> {token_id -> quantity}
-        "processed_tx_hashes": [],  # list of tx hashes
+        "positions": {},
+        "trades": [],
+        "whale_positions": {},
+        "processed_tx_hashes": [],
+        "processed_keys": [],
         "logs": [
             {
                 "timestamp": int(time.time()),
                 "message": "Simulation state initialized."
             }
-        ]
+        ],
+        "ledger_backed": True,
     }
 
 _has_loaded_state_from_gist = False
+_ledger_bootstrapped = False
+
+
+def _load_json_state_file(config):
+    """Load legacy state.json without reinitializing on parse errors."""
+    if not os.path.exists(STATE_PATH):
+        return None
+    try:
+        with open(STATE_PATH, "r") as f:
+            state = json.load(f)
+        if not isinstance(state, dict):
+            print("Error loading state: root is not an object. Leaving file intact.")
+            return None
+        required_keys = [
+            "cash_usdc", "portfolio_value_history", "positions", "trades",
+            "whale_positions", "processed_tx_hashes", "logs",
+        ]
+        for key in required_keys:
+            if key not in state:
+                if key == "cash_usdc":
+                    state[key] = config["starting_capital"]
+                elif key == "portfolio_value_history":
+                    state[key] = [{
+                        "timestamp": int(time.time()),
+                        "cash": state.get("cash_usdc", config["starting_capital"]),
+                        "holdings_value": 0.0,
+                        "total_equity": state.get("cash_usdc", config["starting_capital"]),
+                    }]
+                elif key in ["positions", "whale_positions"]:
+                    state[key] = {}
+                elif key in ["trades", "processed_tx_hashes", "logs"]:
+                    state[key] = []
+        return state
+    except Exception as e:
+        # CRITICAL: do not wipe research state on load errors
+        print(f"Error loading state.json: {e}. File left intact; returning empty projection.")
+        return None
+
+
+def bootstrap_ledger(config=None):
+    """
+    Ensure SQLite ledger exists. Migrate state.json once if present and ledger empty.
+    """
+    global _ledger_bootstrapped, _has_loaded_state_from_gist
+    if config is None:
+        config = load_config()
+    ensure_data_dir()
+    ledger.configure(LEDGER_PATH)
+    ledger.get_connection()
+
+    starting = float(config.get("starting_capital", 10000.0))
+
+    # Optional one-time pull of Gist state into state.json for migration
+    github_token = os.environ.get("GITHUB_TOKEN")
+    if github_token and not _has_loaded_state_from_gist:
+        _has_loaded_state_from_gist = True
+        if not os.path.exists(STATE_PATH):
+            gist_state = fetch_from_gist("polycopy_state.json")
+            if gist_state and isinstance(gist_state, dict) and gist_state:
+                try:
+                    with open(STATE_PATH, "w") as f:
+                        json.dump(gist_state, f, indent=2)
+                    print("Pulled state from Gist into state.json for ledger migration.")
+                except Exception as e:
+                    print(f"Could not write Gist state to disk: {e}")
+
+    if not ledger.is_initialized():
+        json_state = _load_json_state_file(config)
+        if json_state and (
+            json_state.get("positions")
+            or json_state.get("trades")
+            or abs(float(json_state.get("cash_usdc", starting)) - starting) > 0.01
+        ):
+            report = ledger.migrate_from_json_state(json_state, starting_capital=starting)
+            print(f"Ledger migration report: {report}")
+        else:
+            ledger.init_account(starting, note="bootstrap")
+    elif not ledger.get_all_open_lots() and not ledger.get_trades(limit=1):
+        # Initialized empty — still try migrate if JSON has positions we don't have
+        json_state = _load_json_state_file(config)
+        if json_state and json_state.get("positions"):
+            report = ledger.migrate_from_json_state(json_state, starting_capital=starting)
+            print(f"Ledger late migration report: {report}")
+
+    _ledger_bootstrapped = True
+    return ledger.project_state()
+
 
 def load_state(config=None):
     ensure_data_dir()
     if config is None:
         config = load_config()
-    
+
+    use_ledger = config.get("use_ledger", True)
+    if use_ledger:
+        global _ledger_bootstrapped
+        if not _ledger_bootstrapped:
+            return bootstrap_ledger(config)
+        ledger.configure(LEDGER_PATH)
+        if not ledger.is_initialized():
+            ledger.init_account(float(config.get("starting_capital", 10000.0)))
+        return ledger.project_state()
+
+    # Legacy JSON path (discouraged)
     global _has_loaded_state_from_gist
     github_token = os.environ.get("GITHUB_TOKEN")
     if github_token and not _has_loaded_state_from_gist:
@@ -420,41 +542,66 @@ def load_state(config=None):
             with open(STATE_PATH, "w") as f:
                 json.dump(gist_state, f, indent=2)
             return gist_state
-            
-    if not os.path.exists(STATE_PATH):
-        initial_state = get_initial_state(config["starting_capital"])
-        save_state(initial_state)
-        return initial_state
-    
-    try:
-        with open(STATE_PATH, "r") as f:
-            state = json.load(f)
-            # Integrity check
-            required_keys = ["cash_usdc", "portfolio_value_history", "positions", "trades", "whale_positions", "processed_tx_hashes", "logs"]
-            for key in required_keys:
-                if key not in state:
-                    if key == "cash_usdc":
-                        state[key] = config["starting_capital"]
-                    elif key == "portfolio_value_history":
-                        state[key] = [{"timestamp": int(time.time()), "cash": state.get("cash_usdc", config["starting_capital"]), "holdings_value": 0.0, "total_equity": state.get("cash_usdc", config["starting_capital"])}]
-                    elif key in ["positions", "whale_positions"]:
-                        state[key] = {}
-                    elif key in ["trades", "processed_tx_hashes", "logs"]:
-                        state[key] = []
-            return state
-    except Exception as e:
-        print(f"Error loading state: {e}. Reinitializing.")
-        initial_state = get_initial_state(config["starting_capital"])
-        save_state(initial_state)
-        return initial_state
+
+    state = _load_json_state_file(config)
+    if state is None:
+        # Only create initial state when no file exists
+        if not os.path.exists(STATE_PATH):
+            initial_state = get_initial_state(config["starting_capital"])
+            save_state(initial_state)
+            return initial_state
+        # Corrupt file: return safe empty without overwriting
+        return get_initial_state(config["starting_capital"])
+    return state
+
 
 _last_gist_save_data = None
+_last_json_export_ts = 0.0
+
 
 def save_state(state):
+    """
+    Persist projection. With ledger, cash/equity snapshot are written to SQLite;
+    trade/lot mutations should already have been recorded via ledger APIs.
+    Also exports a JSON mirror for dashboard backups (never the sole source of truth).
+    """
     ensure_data_dir()
+    config = None
+    try:
+        config = load_config()
+    except Exception:
+        pass
+    use_ledger = True if config is None else config.get("use_ledger", True)
+
+    if use_ledger:
+        ledger.configure(LEDGER_PATH)
+        # Sync cash from working state if engine mutated it
+        try:
+            if "cash_usdc" in state:
+                ledger.set_cash(float(state["cash_usdc"]), reason="save_state_sync")
+        except Exception as e:
+            print(f"Ledger cash sync error: {e}")
+
+        # Export lightweight JSON mirror for ops (not authoritative)
+        global _last_json_export_ts
+        now = time.time()
+        if now - _last_json_export_ts >= 30:
+            _last_json_export_ts = now
+            try:
+                mirror = ledger.project_state()
+                # Preserve any in-memory position marks
+                if state.get("positions"):
+                    mirror["positions"] = state["positions"]
+                    mirror["cash_usdc"] = state.get("cash_usdc", mirror["cash_usdc"])
+                with open(STATE_PATH, "w") as f:
+                    json.dump(mirror, f, indent=2)
+            except Exception as e:
+                print(f"JSON mirror export failed (ledger intact): {e}")
+        return
+
     with open(STATE_PATH, "w") as f:
         json.dump(state, f, indent=2)
-        
+
     github_token = os.environ.get("GITHUB_TOKEN")
     if github_token:
         global _last_gist_save_data
@@ -468,12 +615,25 @@ def save_state(state):
             import threading
             threading.Thread(target=save_to_gist_async, args=("polycopy_state.json", state), daemon=True).start()
 
+
 def add_log(state, message):
     log_entry = {
         "timestamp": int(time.time()),
         "message": message
     }
-    state["logs"].append(log_entry)
+    state.setdefault("logs", []).append(log_entry)
     if len(state["logs"]) > 500:
         state["logs"] = state["logs"][-500:]
-    print(f"[LOG] {message}")
+    try:
+        ledger.add_log(message, ts=log_entry["timestamp"])
+    except Exception:
+        print(f"[LOG] {message}")
+
+
+def reset_simulation(starting_capital: float, confirm: bool = False) -> str:
+    """Archive ledger and re-init. Requires confirm=True."""
+    ledger.configure(LEDGER_PATH)
+    archive = ledger.archive_and_reset(starting_capital, confirm=confirm)
+    global _ledger_bootstrapped
+    _ledger_bootstrapped = True
+    return archive

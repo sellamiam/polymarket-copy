@@ -8,6 +8,9 @@ from config import load_config, load_state, save_state, add_log
 from concurrent.futures import ThreadPoolExecutor
 import math
 
+import ledger
+import fills
+
 def calculate_conviction(usdc_size):
     if usdc_size <= 0:
         return 10
@@ -246,37 +249,86 @@ def fetch_clob_midpoint(token_id):
         print(f"Error fetching CLOB midpoint for {token_id}: {e}")
     return None
 
+
+def tx_idempotency_key(tx_hash, asset, side, source="polymarket"):
+    return ledger.make_idempotency_key(source, tx_hash or "", asset or "", side or "")
+
+
+def already_processed(state, tx_hash, asset="", side=""):
+    """Idempotency via ledger keys, with legacy processed_tx_hashes fallback."""
+    if not tx_hash:
+        return True
+    if asset and side:
+        key = tx_idempotency_key(tx_hash, asset, side)
+        if ledger.is_processed(key):
+            return True
+    # Legacy: bare tx hash list (migration / older runs)
+    if tx_hash in (state.get("processed_tx_hashes") or []):
+        return True
+    # Also treat source|tx|*|* migration keys
+    if ledger.is_processed(ledger.make_idempotency_key("polymarket", tx_hash, "*", "*")):
+        return True
+    return False
+
+
+def mark_tx_processed(state, tx_hash, asset="", side="", note=""):
+    if not tx_hash:
+        return
+    if asset and side:
+        ledger.mark_processed(tx_idempotency_key(tx_hash, asset, side), note=note)
+    else:
+        ledger.mark_processed(
+            ledger.make_idempotency_key("polymarket", tx_hash, "*", "*"), note=note
+        )
+    hashes = state.setdefault("processed_tx_hashes", [])
+    if tx_hash not in hashes:
+        hashes.append(tx_hash)
+    if len(hashes) > 5000:
+        state["processed_tx_hashes"] = hashes[-5000:]
+
+
 def calculate_total_equity(state, holdings_value):
     return state["cash_usdc"] + holdings_value
 
-def update_live_valuations(state):
+
+def update_live_valuations(state, mark_at_bid=True):
     """
-    Polls the CLOB API to get the current midpoint price of all open positions,
-    and updates their value. Returns the total value of all holdings.
+    Mark open positions. Primary NAV uses executable bid (liquidation);
+    midpoint is stored separately for reporting.
+    Returns total holdings value at the primary mark (bid by default).
     """
-    total_holdings_value = 0.0
+    total_holdings_bid = 0.0
+    total_holdings_mid = 0.0
     for token_id, pos in list(state["positions"].items()):
-        # Query CLOB midpoint price (fairest valuation)
-        price = fetch_clob_midpoint(token_id)
+        mid = fetch_clob_midpoint(token_id)
         bid = fetch_clob_price(token_id, "buy")
-        
-        if price is not None:
-            pos["current_price"] = price
+
+        if mid is not None:
+            pos["mid_price"] = mid
         else:
-            # Fallback to best bid
-            price = bid if bid is not None else pos.get("current_price", pos["avg_price"])
-            pos["current_price"] = price
-            
+            pos["mid_price"] = bid if bid is not None else pos.get("mid_price", pos.get("current_price", pos["avg_price"]))
+
         if bid is not None:
             pos["bid_price"] = bid
         else:
-            pos["bid_price"] = price
-        
-        pos_value = pos["quantity"] * price
-        total_holdings_value += pos_value
+            pos["bid_price"] = pos.get("bid_price", pos["mid_price"])
+
+        # Primary mark for equity / risk
+        if mark_at_bid:
+            pos["current_price"] = pos["bid_price"]
+        else:
+            pos["current_price"] = pos["mid_price"]
+
+        qty = float(pos["quantity"])
+        total_holdings_bid += qty * float(pos["bid_price"])
+        total_holdings_mid += qty * float(pos["mid_price"])
         pos["last_updated"] = int(time.time())
-    
-    return total_holdings_value
+        pos["holdings_value_bid"] = qty * float(pos["bid_price"])
+        pos["holdings_value_mid"] = qty * float(pos["mid_price"])
+
+    state["_holdings_value_bid"] = total_holdings_bid
+    state["_holdings_value_mid"] = total_holdings_mid
+    return total_holdings_bid if mark_at_bid else total_holdings_mid
 
 def resolve_positions(state):
     """
@@ -354,38 +406,76 @@ def resolve_positions(state):
                     outcome_idx = pos.get("outcome_index", 0)
                     if outcome_idx < len(prices):
                         payout_per_share = float(prices[outcome_idx])
-                        proceeds = pos["quantity"] * payout_per_share
-                        cost_basis = pos["avg_price"] * pos["quantity"]
-                        pnl = proceeds - cost_basis
-                        
-                        # Execute resolution
-                        state["cash_usdc"] += proceeds
-                        
-                        # Record resolved trade
-                        trade_id = str(uuid.uuid4())
-                        state["trades"].append({
-                            "id": trade_id,
-                            "timestamp": int(time.time()),
-                            "trader_address": "resolution",
-                            "trader_name": "System Resolution",
-                            "original_trader_address": pos.get("trader_address", ""),
-                            "original_trader_name": pos.get("trader_name", ""),
-                            "market_title": pos["market_title"],
-                            "market_slug": pos["market_slug"],
-                            "outcome": pos["outcome"],
-                            "type": "RESOLVE",
-                            "quantity": pos["quantity"],
-                            "price": payout_per_share,
-                            "usdc_size": proceeds,
-                            "tx_hash": "resolution",
-                            "realized_pnl": pnl
-                        })
-                        
-                        # Delete position
+                        closed_lots = ledger.close_all_lots_for_token(token_id)
+                        if not closed_lots:
+                            # Fallback if position exists only in projection
+                            closed_lots = [{
+                                "lot_id": None,
+                                "qty": float(pos["quantity"]),
+                                "cost_basis": float(pos["avg_price"]) * float(pos["quantity"]),
+                                "avg_price": float(pos["avg_price"]),
+                                "whale_address": pos.get("trader_address", ""),
+                                "whale_name": pos.get("trader_name", ""),
+                                "market_title": pos.get("market_title"),
+                                "market_slug": pos.get("market_slug"),
+                                "outcome": pos.get("outcome"),
+                            }]
+
+                        total_proceeds = 0.0
+                        total_pnl = 0.0
+                        total_qty = 0.0
+                        for cl in closed_lots:
+                            qty = float(cl["qty"])
+                            proceeds = qty * payout_per_share
+                            cost = float(cl["cost_basis"])
+                            pnl = proceeds - cost
+                            total_proceeds += proceeds
+                            total_pnl += pnl
+                            total_qty += qty
+                            trade = {
+                                "id": str(uuid.uuid4()),
+                                "timestamp": int(time.time()),
+                                "trader_address": "resolution",
+                                "trader_name": "System Resolution",
+                                "original_trader_address": cl.get("whale_address", ""),
+                                "original_trader_name": cl.get("whale_name", ""),
+                                "market_title": pos["market_title"],
+                                "market_slug": pos["market_slug"],
+                                "outcome": pos["outcome"],
+                                "type": "RESOLVE",
+                                "quantity": qty,
+                                "price": payout_per_share,
+                                "usdc_size": proceeds,
+                                "tx_hash": f"resolution|{token_id}|{cl.get('lot_id')}",
+                                "lot_id": cl.get("lot_id"),
+                                "realized_pnl": pnl,
+                                "idempotency_key": f"resolve|{token_id}|{cl.get('lot_id')}|{int(time.time())}",
+                            }
+                            ledger.record_trade(trade)
+                            state.setdefault("trades", []).append(trade)
+
+                        state["cash_usdc"] += total_proceeds
+                        ledger.set_cash(state["cash_usdc"])
+                        ledger.append_event(
+                            "resolution",
+                            {
+                                "token_id": token_id,
+                                "payout_per_share": payout_per_share,
+                                "quantity": total_qty,
+                                "proceeds": total_proceeds,
+                                "pnl": total_pnl,
+                                "lots": closed_lots,
+                            },
+                            source="gamma",
+                            idempotency_key=f"resolve|{token_id}|{payout_per_share}|{total_qty:.6f}",
+                        )
                         del state["positions"][token_id]
                         resolved_any = True
-                        
-                        msg = f"RESOLVED: '{pos['market_title']}' ({pos['outcome']}) settled at {payout_per_share:.2f} USDC. Received {proceeds:.2f} USDC (PnL: {pnl:+.2f} USDC)."
+                        msg = (
+                            f"RESOLVED: '{pos['market_title']}' ({pos['outcome']}) settled at "
+                            f"{payout_per_share:.2f} USDC. Received {total_proceeds:.2f} USDC "
+                            f"(PnL: {total_pnl:+.2f} USDC) across {len(closed_lots)} lot(s)."
+                        )
                         add_log(state, msg)
         except Exception as e:
             print(f"Error checking resolution for condition {condition_id}: {e}")
@@ -474,22 +564,47 @@ def recycle_positions_and_exit_strategies(config, state):
                 exit_type = "RECYCLE_TIME"
             
         if trigger_reason and exit_type:
-            # Fetch live bid price if possible
-            exit_price = fetch_clob_price(token_id, "buy")
-            if exit_price is None:
-                exit_price = current_price
-                
-            proceeds = pos["quantity"] * exit_price
-            cost_basis = pos["avg_price"] * pos["quantity"]
+            qty = float(pos["quantity"])
+            fill = fills.simulate_sell_qty(
+                token_id,
+                qty,
+                fee_bps=float(config.get("fill_fee_bps", 0.0)),
+                slippage_bps=float(config.get("slippage_bps", 25)),
+                tick_size=float(config.get("fill_tick_size", 0.01)),
+                allow_partial=True,
+            )
+            if not fill.ok:
+                # Do not invent a fill; skip exit this cycle
+                add_log(
+                    state,
+                    f"Exit deferred on '{pos['market_title']}': book unavailable or empty "
+                    f"({fill.rejected_reason}).",
+                )
+                continue
+
+            filled_qty = fill.filled_qty
+            if fill.partial and filled_qty < qty * 0.99:
+                add_log(
+                    state,
+                    f"Exit deferred on '{pos['market_title']}': partial bid depth "
+                    f"{filled_qty:.2f}/{qty:.2f} ({fill.rejected_reason or 'depth'}).",
+                )
+                continue
+
+            exit_price = fill.avg_price
+            proceeds = fill.notional - fill.fee_usdc
+            closed_lots = ledger.close_all_lots_for_token(token_id)
+            cost_basis = (
+                sum(float(c["cost_basis"]) for c in closed_lots)
+                if closed_lots
+                else float(pos["avg_price"]) * filled_qty
+            )
             realized_pnl = proceeds - cost_basis
-            
-            # Execute exit
             state["cash_usdc"] += proceeds
-            
-            # Record trade history
-            trade_id = str(uuid.uuid4())
-            state["trades"].append({
-                "id": trade_id,
+            ledger.set_cash(state["cash_usdc"])
+
+            trade = {
+                "id": str(uuid.uuid4()),
                 "timestamp": current_time,
                 "trader_address": "exit_strategy",
                 "trader_name": f"Strategy Exit: {trigger_reason}",
@@ -499,28 +614,33 @@ def recycle_positions_and_exit_strategies(config, state):
                 "market_slug": pos["market_slug"],
                 "outcome": pos["outcome"],
                 "type": "SELL",
-                "quantity": pos["quantity"],
+                "quantity": filled_qty,
                 "price": exit_price,
                 "usdc_size": proceeds,
                 "tx_hash": exit_type.lower(),
-                "realized_pnl": realized_pnl
-            })
-            
-            # Delete position
+                "realized_pnl": realized_pnl,
+                "fill_detail": fill.to_dict(),
+                "idempotency_key": f"exit|{exit_type}|{token_id}|{current_time}",
+            }
+            ledger.record_trade(trade)
+            state.setdefault("trades", []).append(trade)
             del state["positions"][token_id]
             recycled_any = True
-            
-            msg = f"EXITED: '{pos['market_title']}' ({pos['outcome']}) via {trigger_reason}. Sold {pos['quantity']:.2f} shares @ {exit_price:.3f} USDC (Proceeds: {proceeds:.2f} USDC, PnL: {realized_pnl:+.2f} USDC)."
+            msg = (
+                f"EXITED: '{pos['market_title']}' ({pos['outcome']}) via {trigger_reason}. "
+                f"Sold {filled_qty:.2f} shares @ {exit_price:.3f} USDC "
+                f"(Proceeds: {proceeds:.2f} USDC, PnL: {realized_pnl:+.2f} USDC)."
+            )
             add_log(state, msg)
-            
+
     return recycled_any
 
 
 def get_trader_stats(state, address):
     """
     Return (resolved_count, win_rate_pct, total_pnl) for copies of this whale.
-    total_pnl = realized exit PnL + mark-to-market unrealized on open positions
-    so pruning is not blind to underwater books that have not resolved yet.
+    total_pnl = realized exit PnL + mark-to-market unrealized on open lots
+    attributed to this whale (not only primary trader_address on aggregate).
     """
     if not address:
         return 0, 0.0, 0.0
@@ -539,14 +659,31 @@ def get_trader_stats(state, address):
     realized_pnl = sum(float(t.get("realized_pnl") or 0.0) for t in resolved)
 
     unrealized_pnl = 0.0
-    for pos in state.get("positions", {}).values():
-        if (pos.get("trader_address") or "").lower() != addr_clean:
+    # Prefer lot-level attribution
+    for lot in ledger.get_all_open_lots():
+        if (lot.get("whale_address") or "").lower() != addr_clean:
             continue
-        qty = float(pos.get("quantity") or 0.0)
-        avg = float(pos.get("avg_price") or 0.0)
-        # Prefer bid for conservative mark (what we could exit at)
+        qty = float(lot.get("remaining_qty") or 0.0)
+        avg = float(lot.get("avg_price") or 0.0)
+        tid = lot.get("token_id")
+        pos = (state.get("positions") or {}).get(tid, {})
         cur = float(pos.get("bid_price") or pos.get("current_price") or avg)
         unrealized_pnl += (cur - avg) * qty
+
+    if unrealized_pnl == 0.0:
+        for pos in state.get("positions", {}).values():
+            # source_whales breakdown when available
+            sw = pos.get("source_whales") or {}
+            if addr_clean in sw:
+                qty = float(sw[addr_clean].get("quantity") or 0)
+                avg = float(pos.get("avg_price") or 0)
+                cur = float(pos.get("bid_price") or pos.get("current_price") or avg)
+                unrealized_pnl += (cur - avg) * qty
+            elif (pos.get("trader_address") or "").lower() == addr_clean:
+                qty = float(pos.get("quantity") or 0.0)
+                avg = float(pos.get("avg_price") or 0.0)
+                cur = float(pos.get("bid_price") or pos.get("current_price") or avg)
+                unrealized_pnl += (cur - avg) * qty
 
     return len(resolved), win_rate, realized_pnl + unrealized_pnl
 
@@ -700,17 +837,25 @@ def run_simulation_iteration(config, state):
 
     max_trade_age = float(config.get("max_trade_age_seconds", 300))
 
+    strategy_version = int(config.get("performance_strategy_version", 3))
+    depth_fills = bool(config.get("depth_aware_fills", True))
+    reject_no_book = bool(config.get("reject_if_book_unavailable", True))
+
     # 2. Process transactions from oldest to newest
     for act in activities:
         tx_hash = act.get("transactionHash")
-        if not tx_hash or tx_hash in state["processed_tx_hashes"]:
+        if not tx_hash:
             continue
 
         # Skip stale prints — late copies are adverse selection
         timestamp = int(act.get("timestamp", 0))
         age_sec = time.time() - timestamp if timestamp else 999999
         if age_sec > max_trade_age:
-            state["processed_tx_hashes"].append(tx_hash)
+            # Need asset/side for full key when available; mark bare hash if early
+            asset_early = act.get("asset") or act.get("tokenId") or ""
+            side_early = (act.get("side") or "").upper()
+            if not already_processed(state, tx_hash, asset_early, side_early):
+                mark_tx_processed(state, tx_hash, asset_early, side_early, note="stale")
             continue
 
         # Get trader wallet address
@@ -736,7 +881,7 @@ def run_simulation_iteration(config, state):
             resolved_cnt, wr, copy_pnl = get_trader_stats(state, address)
             if resolved_cnt >= prune_min and wr < min_wr:
                 add_log(state, f"Skipped trade from {name}: Whale win rate ({wr:.1f}%) is below minimum threshold of {min_wr:.1f}%.")
-                state["processed_tx_hashes"].append(tx_hash)
+                mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                 continue
             # PnL floor uses mark-to-market; prune even before resolutions if underwater
             has_book = resolved_cnt > 0 or any(
@@ -749,13 +894,13 @@ def run_simulation_iteration(config, state):
                     f"Skipped trade from {name}: Copy PnL incl. unrealized ({copy_pnl:+.1f} USDC) "
                     f"below floor {min_copy_pnl:.1f} USDC."
                 )
-                state["processed_tx_hashes"].append(tx_hash)
+                mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                 continue
 
         # Skip disabled sports-specialist wallets (tagged during sync)
         if trader.get("sports_specialist") and config.get("exclude_sports_bets", True) and not is_vitalik:
             add_log(state, f"Skipped trade from {name}: Wallet tagged as sports specialist.")
-            state["processed_tx_hashes"].append(tx_hash)
+            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
             continue
 
         side = act.get("side")
@@ -765,6 +910,9 @@ def run_simulation_iteration(config, state):
         # Core trade properties
         asset = act.get("asset")  # token_id
         if not asset:
+            continue
+
+        if already_processed(state, tx_hash, asset, side):
             continue
 
         price = float(act.get("price", 0))
@@ -804,17 +952,17 @@ def run_simulation_iteration(config, state):
 
         if is_crypto_fast and not is_vitalik:
             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Crypto bets are excluded.")
-            state["processed_tx_hashes"].append(tx_hash)
+            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
             continue
             
         if is_sports_fast and not is_vitalik:
             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Sports bets are excluded.")
-            state["processed_tx_hashes"].append(tx_hash)
+            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
             continue
 
         if is_weather_fast and not is_vitalik:
             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Weather/temperature bets are excluded.")
-            state["processed_tx_hashes"].append(tx_hash)
+            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
             continue
 
         # Check minimum whale trade size to filter out high-frequency bot spam
@@ -823,7 +971,7 @@ def run_simulation_iteration(config, state):
             print(f"[ENGINE] Skipped micro-trade on '{title}' ({outcome}) from {name}: {usdc_size:.2f} USDC is below minimum {min_whale_size:.2f} USDC.")
             if usdc_size >= 1.0:
                 add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Trade size ({usdc_size:.1f} USDC) is below minimum of {min_whale_size:.1f} USDC.")
-            state["processed_tx_hashes"].append(tx_hash)
+            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
             continue
 
         # Safeguard
@@ -862,6 +1010,29 @@ def run_simulation_iteration(config, state):
 
             # Always record whale BUY signals for multi-whale confirmation (even if we skip)
             record_whale_signal(state, condition_id, outcome_index, address, timestamp)
+            # Track observed whale inventory independently of whether we copy
+            ledger.update_whale_inventory(address, asset, size)
+            if address not in state.setdefault("whale_positions", {}):
+                state["whale_positions"][address] = {}
+            state["whale_positions"][address][asset] = (
+                state["whale_positions"][address].get(asset, 0.0) + size
+            )
+            ledger.append_event(
+                "whale_event",
+                {
+                    "tx_hash": tx_hash,
+                    "whale": address,
+                    "side": "BUY",
+                    "asset": asset,
+                    "size": size,
+                    "price": price,
+                    "title": title,
+                    "timestamp": timestamp,
+                },
+                source="polymarket",
+                idempotency_key=tx_idempotency_key(tx_hash, asset, "BUY", "whale_event"),
+                ts=timestamp or time.time(),
+            )
 
             # Determine if this is a niche market for priority treatment
             niche_flag = is_niche_market(title, slug)
@@ -880,12 +1051,12 @@ def run_simulation_iteration(config, state):
                 elif niche_bypass:
                     if price > 0.90:
                         add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Niche market but price exceeds hard ceiling 0.90 USDC (low yield yield-farm bet).")
-                        state["processed_tx_hashes"].append(tx_hash)
+                        mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                         continue
                     add_log(state, f"NICHE BYPASS: '{title}' ({outcome}) from {name} @ {price:.3f} USDC bypassed price filter [{min_price:.2f}, {max_price:.2f}] — niche market priority active.")
                 else:
                     add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Outside price range [{min_price:.2f}, {max_price:.2f}] [Win Prob: {win_probability:.1f}%]")
-                    state["processed_tx_hashes"].append(tx_hash)
+                    mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                     continue
 
             # Multi-whale confirmation (v3: require consensus on all entries by default)
@@ -907,7 +1078,7 @@ def run_simulation_iteration(config, state):
                     )
                     # Do NOT mark processed — keep signal, re-check when next whale prints
                     # Only skip this whale's tx so we don't double-count size on re-poll
-                    state["processed_tx_hashes"].append(tx_hash)
+                    mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                     continue
 
             # Check resolution time and category filters
@@ -924,12 +1095,12 @@ def run_simulation_iteration(config, state):
                         
                         if liquidity < min_liq and not is_vitalik:
                             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Market liquidity ({liquidity:,.1f} USDC) is below minimum of {min_liq:,.1f} USDC.")
-                            state["processed_tx_hashes"].append(tx_hash)
+                            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                             continue
                             
                         if volume < min_vol and not is_vitalik:
                             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Market volume ({volume:,.1f} USDC) is below minimum of {min_vol:,.1f} USDC.")
-                            state["processed_tx_hashes"].append(tx_hash)
+                            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                             continue
                     except Exception as le:
                         print(f"Error validating market liquidity/volume: {le}")
@@ -954,7 +1125,7 @@ def run_simulation_iteration(config, state):
 
                         if is_crypto and not is_vitalik:
                             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Crypto bets are excluded.")
-                            state["processed_tx_hashes"].append(tx_hash)
+                            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                             continue
 
                     # Exclude sports bets filter
@@ -990,7 +1161,7 @@ def run_simulation_iteration(config, state):
 
                         if is_sports and not is_vitalik:
                             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Sports bets are excluded.")
-                            state["processed_tx_hashes"].append(tx_hash)
+                            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                             continue
 
                     # Exclude weather bets filter
@@ -1005,7 +1176,7 @@ def run_simulation_iteration(config, state):
                             
                         if is_weather and not is_vitalik:
                             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Weather/temperature bets are excluded.")
-                            state["processed_tx_hashes"].append(tx_hash)
+                            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                             continue
 
                     # Expiry validation
@@ -1018,23 +1189,23 @@ def run_simulation_iteration(config, state):
                             days_left = delta.total_seconds() / (24 * 3600)
                             if days_left > max_days and not is_vitalik:
                                 add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Resolves in {days_left:.1f} days, exceeding limit of {max_days} days.")
-                                state["processed_tx_hashes"].append(tx_hash)
+                                mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                                 continue
                             elif days_left < 0:
                                 add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Already passed resolution date.")
-                                state["processed_tx_hashes"].append(tx_hash)
+                                mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                                 continue
                         else:
                             add_log(state, f"Skipped BUY on '{title}' from {name}: Could not parse end date '{end_date_str}'.")
-                            state["processed_tx_hashes"].append(tx_hash)
+                            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                             continue
                     else:
                         add_log(state, f"Skipped BUY on '{title}' from {name}: Missing end date field.")
-                        state["processed_tx_hashes"].append(tx_hash)
+                        mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                         continue
                 else:
                     add_log(state, f"Skipped BUY on '{title}' from {name}: Could not fetch market details.")
-                    state["processed_tx_hashes"].append(tx_hash)
+                    mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                     continue
 
             # Check best wins filter if enabled
@@ -1042,12 +1213,12 @@ def run_simulation_iteration(config, state):
                 min_best_score = int(config.get("min_best_bet_score", 65))
                 if best_bet_score < min_best_score and not is_vitalik:
                     add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Score {best_bet_score} is below minimum Best Bet Score {min_best_score} [Win Prob: {win_probability:.1f}%, Conviction: {conviction_score}%]")
-                    state["processed_tx_hashes"].append(tx_hash)
+                    mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                     continue
 
             if state["cash_usdc"] < 1.0:
                 add_log(state, f"Skipped BUY on '{title}' from {name}: Insufficient cash (Balance: {state['cash_usdc']:.2f} USDC)")
-                state["processed_tx_hashes"].append(tx_hash)
+                mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                 continue
 
             # Apply dynamic sizing multiplier if enabled
@@ -1068,17 +1239,26 @@ def run_simulation_iteration(config, state):
                 niche_bonus = copy_usdc * 0.25
                 copy_usdc += niche_bonus
 
-            # Risk cap: max % of equity per new BUY (prevents oversizing on whale spikes)
+            # Risk cap: max % of equity per new BUY from worst-case liquidation equity (bid mark).
+            # No minimum-size floor that can override the cap on small accounts.
             risk_pct = float(config.get("risk_per_trade_pct", 2.0))
             if risk_pct > 0:
-                holdings_val = update_live_valuations(state)
+                holdings_val = update_live_valuations(state, mark_at_bid=True)
                 equity = calculate_total_equity(state, holdings_val)
-                max_risk_usdc = max(10.0, equity * (risk_pct / 100.0))
+                max_risk_usdc = equity * (risk_pct / 100.0)
+                if max_risk_usdc < float(config.get("fill_min_order_size", 1.0)) * 0.01:
+                    add_log(
+                        state,
+                        f"Skipped BUY on '{title}' from {name}: Risk budget "
+                        f"{max_risk_usdc:.4f} USDC too small at {risk_pct:.1f}% of equity {equity:.2f}.",
+                    )
+                    mark_tx_processed(state, tx_hash, asset, side, note="risk_budget_tiny")
+                    continue
                 if copy_usdc > max_risk_usdc:
                     add_log(
                         state,
                         f"RISK CAP: '{title}' size cut {copy_usdc:.2f} → {max_risk_usdc:.2f} USDC "
-                        f"({risk_pct:.1f}% of equity {equity:.0f})."
+                        f"({risk_pct:.1f}% of equity {equity:.0f}, bid-marked)."
                     )
                     copy_usdc = max_risk_usdc
 
@@ -1096,14 +1276,14 @@ def run_simulation_iteration(config, state):
                 # 1. Opposing outcome index check
                 if existing_pos.get("outcome_index") != outcome_index:
                     print(f"[ENGINE] Skipped opposing outcome on '{title}': already hold {existing_pos['outcome']} (index {existing_pos['outcome_index']}), skipped {outcome} (index {outcome_index})")
-                    state["processed_tx_hashes"].append(tx_hash)
+                    mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                     continue
                     
                 # 2. Exposure cap check
                 invested = existing_pos.get("invested_usdc", 0.0)
                 if invested >= max_exposure:
                     print(f"[ENGINE] Skipped copy on '{title}': already reached exposure cap of {max_exposure} USDC (current: {invested:.2f} USDC)")
-                    state["processed_tx_hashes"].append(tx_hash)
+                    mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                     continue
                 else:
                     # Scale down trade size if it exceeds the remaining exposure space
@@ -1124,7 +1304,7 @@ def run_simulation_iteration(config, state):
                 current_cluster_exp = get_cluster_exposure(state, cluster_name)
                 if current_cluster_exp >= max_cluster_exp and not is_vitalik:
                     add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Reached correlated '{cluster_name}' topic cluster cap of {max_cluster_exp:.0f} USDC (current: {current_cluster_exp:.1f} USDC).")
-                    state["processed_tx_hashes"].append(tx_hash)
+                    mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                     continue
                 elif current_cluster_exp + copy_usdc > max_cluster_exp:
                     copy_usdc = max_cluster_exp - current_cluster_exp
@@ -1132,68 +1312,108 @@ def run_simulation_iteration(config, state):
 
             # Settle size
             invest_usdc = min(copy_usdc, state["cash_usdc"])
-            
-            # Always probe live ask for adverse-selection; use it for fills in market_price mode
-            live_ask = fetch_clob_price(asset, "sell")  # ask
-            if config.get("execution_mode") == "market_price":
-                if live_ask is not None:
-                    exec_price = live_ask
-                else:
-                    exec_price = price
-                    add_log(state, f"Could not fetch ask price for {title}. Defaulting to whale price {price:.2f}")
-            else:
-                exec_price = price
 
-            # Adverse selection: whale already moved the book — skip if ask is much worse
+            # Adverse selection probe (top of book) before depth walk
+            live_ask = fetch_clob_price(asset, "sell")
             max_adv_bps = float(config.get("max_adverse_slippage_bps", 150.0))
             ref_price = float(price) if price and price > 0 else None
-            check_price = live_ask if live_ask is not None else exec_price
-            if ref_price and check_price and max_adv_bps > 0 and not is_vitalik:
-                adverse_bps = ((check_price - ref_price) / ref_price) * 10000.0
+            if ref_price and live_ask is not None and max_adv_bps > 0 and not is_vitalik:
+                adverse_bps = ((live_ask - ref_price) / ref_price) * 10000.0
                 if adverse_bps > max_adv_bps:
-                    add_log(
-                        state,
-                        f"Skipped BUY on '{title}' ({outcome}) from {name}: Adverse selection — "
-                        f"live ask {check_price:.3f} vs whale {ref_price:.3f} "
+                    reason = (
+                        f"Adverse selection — live ask {live_ask:.3f} vs whale {ref_price:.3f} "
                         f"({adverse_bps:.0f} bps > {max_adv_bps:.0f} bps max)."
                     )
-                    state["processed_tx_hashes"].append(tx_hash)
+                    add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: {reason}")
+                    ledger.record_decision(
+                        "rejected", reason, address, name, asset, condition_id, "BUY",
+                        tx_hash, strategy_version,
+                        feature_snapshot={"whale_price": price, "live_ask": live_ask, "invest_usdc": invest_usdc},
+                    )
+                    mark_tx_processed(state, tx_hash, asset, side, note="adverse")
                     continue
 
-            # Apply slippage cushion
-            slippage_bps = float(config.get("slippage_bps", 25))
-            exec_price = exec_price * (1.0 + (slippage_bps / 10000.0))
-            
-            if exec_price <= 0:
-                state["processed_tx_hashes"].append(tx_hash)
-                continue
+            fill_detail = None
+            if depth_fills and config.get("execution_mode") == "market_price":
+                fill = fills.simulate_buy_usdc(
+                    asset,
+                    invest_usdc,
+                    fee_bps=float(config.get("fill_fee_bps", 0.0)),
+                    slippage_bps=float(config.get("slippage_bps", 25)),
+                    tick_size=float(config.get("fill_tick_size", 0.01)),
+                    min_order_size=float(config.get("fill_min_order_size", 1.0)),
+                    allow_partial=bool(config.get("fill_allow_partial", True)),
+                )
+                if not fill.ok:
+                    reason = f"Depth fill failed: {fill.rejected_reason}"
+                    if fill.rejected_reason == "book_unavailable" and not reject_no_book:
+                        # Explicit opt-out only — still never use whale print silently
+                        reason = "Book unavailable and reject_if_book_unavailable=false — skip (no whale-price fallback)."
+                    add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: {reason}")
+                    ledger.record_decision(
+                        "rejected", reason, address, name, asset, condition_id, "BUY",
+                        tx_hash, strategy_version,
+                        feature_snapshot={"invest_usdc": invest_usdc, "fill": fill.to_dict()},
+                    )
+                    mark_tx_processed(state, tx_hash, asset, side, note=f"fill:{fill.rejected_reason}")
+                    continue
+                quantity = fill.filled_qty
+                exec_price = fill.avg_price
+                invest_usdc = fill.notional + fill.fee_usdc
+                fill_detail = fill.to_dict()
+            else:
+                # Whale-price mode (research baseline only) — still applies slippage cushion
+                exec_price = price * (1.0 + float(config.get("slippage_bps", 25)) / 10000.0)
+                if exec_price <= 0:
+                    mark_tx_processed(state, tx_hash, asset, side, note="bad_price")
+                    continue
+                quantity = invest_usdc / exec_price
 
-            # Recompute size if price rose so we still spend ~invest_usdc
-            quantity = invest_usdc / exec_price
-            
+            if quantity <= 0 or invest_usdc <= 0:
+                mark_tx_processed(state, tx_hash, asset, side, note="zero_fill")
+                continue
+            if invest_usdc > state["cash_usdc"] + 1e-6:
+                invest_usdc = state["cash_usdc"]
+                if exec_price > 0:
+                    quantity = invest_usdc / exec_price
+
             # Deduct cash
             state["cash_usdc"] -= invest_usdc
-            
-            # Update positions
-            if asset in state["positions"]:
-                pos = state["positions"][asset]
-                old_qty = pos["quantity"]
-                old_avg = pos["avg_price"]
-                new_qty = old_qty + quantity
-                new_avg = (old_avg * old_qty + exec_price * quantity) / new_qty
-                
-                pos["quantity"] = new_qty
-                pos["avg_price"] = new_avg
-                pos["invested_usdc"] += invest_usdc
-                
-                # Update weighted averages for scores
-                pos["win_probability"] = (pos.get("win_probability", win_probability) * old_qty + win_probability * quantity) / new_qty
-                pos["conviction_score"] = int((pos.get("conviction_score", conviction_score) * old_qty + conviction_score * quantity) / new_qty)
-                pos["best_bet_score"] = int((pos.get("best_bet_score", best_bet_score) * old_qty + best_bet_score * quantity) / new_qty)
-                
-                pos["last_updated"] = int(time.time())
+            ledger.set_cash(state["cash_usdc"])
+
+            lot_id = ledger.open_lot(
+                token_id=asset,
+                whale_address=address,
+                quantity=quantity,
+                avg_price=exec_price,
+                invested_usdc=invest_usdc,
+                condition_id=condition_id,
+                whale_name=name,
+                market_title=title,
+                market_slug=slug,
+                outcome=outcome,
+                outcome_index=outcome_index,
+                strategy_exits_enabled=True,
+                grandfathered=False,
+                strategy_version=strategy_version,
+                win_probability=win_probability,
+                conviction_score=conviction_score,
+                best_bet_score=best_bet_score,
+                metadata={"tx_hash": tx_hash, "is_value_play": is_value_play, "niche": niche_bypass},
+            )
+
+            # Refresh aggregate position projection for this token
+            marks = {}
+            if asset in state.get("positions", {}):
+                marks[asset] = {
+                    "bid": state["positions"][asset].get("bid_price"),
+                    "mid": state["positions"][asset].get("mid_price"),
+                }
+            projected = ledger.aggregate_positions_from_lots(marks)
+            if asset in projected:
+                state.setdefault("positions", {})[asset] = projected[asset]
             else:
-                state["positions"][asset] = {
+                state.setdefault("positions", {})[asset] = {
                     "token_id": asset,
                     "condition_id": condition_id,
                     "market_title": title,
@@ -1204,27 +1424,23 @@ def run_simulation_iteration(config, state):
                     "quantity": quantity,
                     "invested_usdc": invest_usdc,
                     "current_price": exec_price,
+                    "bid_price": exec_price,
+                    "mid_price": exec_price,
                     "win_probability": win_probability,
                     "conviction_score": conviction_score,
                     "best_bet_score": best_bet_score,
                     "trader_address": address,
                     "trader_name": name,
+                    "source_whales": {address: {"name": name, "quantity": quantity, "invested_usdc": invest_usdc}},
+                    "lots": [lot_id],
                     "last_updated": int(time.time()),
                     "opened_at": int(time.time()),
-                    # New entries use strategy exits; grandfathered book does not
                     "strategy_exits_enabled": True,
                     "grandfathered": False,
                 }
 
-            # Update tracked whale holding
-            if address not in state["whale_positions"]:
-                state["whale_positions"][address] = {}
-            state["whale_positions"][address][asset] = state["whale_positions"][address].get(asset, 0.0) + size
-
-            # Record trade history
-            trade_id = str(uuid.uuid4())
-            state["trades"].append({
-                "id": trade_id,
+            trade = {
+                "id": str(uuid.uuid4()),
                 "timestamp": int(time.time()),
                 "trader_address": address,
                 "trader_name": name,
@@ -1239,90 +1455,152 @@ def run_simulation_iteration(config, state):
                 "conviction_score": conviction_score,
                 "best_bet_score": best_bet_score,
                 "tx_hash": tx_hash,
-                "realized_pnl": 0.0
-            })
-            
+                "lot_id": lot_id,
+                "realized_pnl": 0.0,
+                "fill_detail": fill_detail or {},
+                "strategy_version": strategy_version,
+                "idempotency_key": tx_idempotency_key(tx_hash, asset, "BUY", "fill"),
+            }
+            ledger.record_trade(trade)
+            state.setdefault("trades", []).append(trade)
+            ledger.record_decision(
+                "accepted",
+                "copied_buy",
+                address,
+                name,
+                asset,
+                condition_id,
+                "BUY",
+                tx_hash,
+                strategy_version,
+                feature_snapshot={
+                    "whale_price": price,
+                    "whale_size": size,
+                    "exec_price": exec_price,
+                    "quantity": quantity,
+                    "invest_usdc": invest_usdc,
+                    "best_bet_score": best_bet_score,
+                    "fill": fill_detail,
+                },
+                mark_tx_processed=False,
+            )
+
             tag = " [NICHE]" if niche_bypass else (" [VALUE PLAY]" if is_value_play else "")
-            add_log(state, f"COPIED BUY: {name} bought {outcome} on '{title}'{tag} [Win Prob: {win_probability:.1f}%, Conviction: {conviction_score}%, Score: {best_bet_score}]. Simulated buy of {quantity:.2f} shares @ {exec_price:.3f} USDC (Total: {invest_usdc:.2f} USDC)")
+            depth_note = ""
+            if fill_detail:
+                depth_note = f" depth_levels={fill_detail.get('levels_consumed')} partial={fill_detail.get('partial')}"
+            add_log(
+                state,
+                f"COPIED BUY: {name} bought {outcome} on '{title}'{tag} "
+                f"[Win Prob: {win_probability:.1f}%, Conviction: {conviction_score}%, Score: {best_bet_score}]. "
+                f"Simulated buy of {quantity:.2f} shares @ {exec_price:.3f} USDC "
+                f"(Total: {invest_usdc:.2f} USDC) lot={lot_id[:8]}{depth_note}",
+            )
             trade_executed_or_resolved = True
 
         elif side == "SELL":
-            # Check if we own this asset
-            if asset not in state["positions"]:
-                # Even if we don't own it, update what we think the whale owns
-                if address not in state["whale_positions"]:
-                    state["whale_positions"][address] = {}
-                state["whale_positions"][address][asset] = max(0.0, state["whale_positions"][address].get(asset, 0.0) - size)
-                
-                state["processed_tx_hashes"].append(tx_hash)
-                continue
-
-            pos = state["positions"][asset]
-            
-            # Compute proportional sell fraction relative to total holdings of all followed whales.
-            # If the selling whale has no tracked holdings, we skip copy-selling to avoid phantom liquidations.
-            whale_holdings = state["whale_positions"].get(address, {}).get(asset, 0.0)
-            if whale_holdings <= 0.0:
-                if address not in state["whale_positions"]:
-                    state["whale_positions"][address] = {}
-                state["whale_positions"][address][asset] = 0.0
-                state["processed_tx_hashes"].append(tx_hash)
-                continue
-                
-            total_followed_holdings = sum(
-                float(trader_positions.get(asset, 0.0))
-                for addr, trader_positions in state.get("whale_positions", {}).items()
+            # Always update observed whale inventory on sell prints
+            inv = state.setdefault("whale_positions", {}).setdefault(address, {})
+            whale_holdings_before = float(
+                inv.get(asset, 0.0)
+                or (ledger.get_whale_inventory(address).get(address, {}) or {}).get(asset, 0.0)
             )
-            
-            if total_followed_holdings <= 0.0 or size >= total_followed_holdings:
-                sell_fraction = 1.0
-            else:
-                sell_fraction = size / total_followed_holdings
-            
-            sell_qty = pos["quantity"] * sell_fraction
-            if sell_qty <= 0:
-                state["processed_tx_hashes"].append(tx_hash)
+            # Prefer ledger inventory
+            li = ledger.get_whale_inventory(address)
+            if address in li and asset in li[address]:
+                whale_holdings_before = float(li[address][asset])
+
+            ledger.update_whale_inventory(address, asset, -size)
+            inv[asset] = max(0.0, whale_holdings_before - size)
+
+            ledger.append_event(
+                "whale_event",
+                {
+                    "tx_hash": tx_hash,
+                    "whale": address,
+                    "side": "SELL",
+                    "asset": asset,
+                    "size": size,
+                    "price": price,
+                    "title": title,
+                    "timestamp": timestamp,
+                },
+                source="polymarket",
+                idempotency_key=tx_idempotency_key(tx_hash, asset, "SELL", "whale_event"),
+                ts=timestamp or time.time(),
+            )
+
+            # Close only copy lots attributable to this whale
+            our_lots = ledger.get_open_lots_for_whale_token(address, asset)
+            our_qty = sum(float(l["remaining_qty"]) for l in our_lots)
+            if our_qty <= 0:
+                mark_tx_processed(state, tx_hash, asset, side, note="no_copy_lots")
                 continue
 
-            # Fetch live market price if required
-            if config.get("execution_mode") == "market_price":
-                live_price = fetch_clob_price(asset, "buy") # bid price
-                if live_price is not None:
-                    exec_price = live_price
-                else:
-                    exec_price = price
-                    add_log(state, f"Could not fetch bid price for {title}. Defaulting to whale price {price:.2f}")
-            else:
-                exec_price = price
+            sell_qty = ledger.copy_lot_qty_for_whale_sell(
+                address, asset, size, whale_holdings_before
+            )
+            sell_qty = min(sell_qty, our_qty)
+            if sell_qty <= 0:
+                mark_tx_processed(state, tx_hash, asset, side, note="zero_sell_qty")
+                continue
 
-            # Apply slippage
-            slippage_bps = float(config.get("slippage_bps", 25))
-            exec_price = exec_price * (1.0 - (slippage_bps / 10000.0))
-            
-            proceeds = sell_qty * exec_price
-            cost_basis = pos["avg_price"] * sell_qty
+            fill_detail = None
+            if depth_fills and config.get("execution_mode") == "market_price":
+                fill = fills.simulate_sell_qty(
+                    asset,
+                    sell_qty,
+                    fee_bps=float(config.get("fill_fee_bps", 0.0)),
+                    slippage_bps=float(config.get("slippage_bps", 25)),
+                    tick_size=float(config.get("fill_tick_size", 0.01)),
+                    allow_partial=True,
+                )
+                if not fill.ok:
+                    reason = f"Depth sell failed: {fill.rejected_reason}"
+                    add_log(state, f"Skipped SELL on '{title}' ({outcome}) from {name}: {reason}")
+                    ledger.record_decision(
+                        "rejected", reason, address, name, asset, condition_id, "SELL",
+                        tx_hash, strategy_version,
+                        feature_snapshot={"sell_qty": sell_qty, "fill": fill.to_dict()},
+                    )
+                    mark_tx_processed(state, tx_hash, asset, side, note=f"fill:{fill.rejected_reason}")
+                    continue
+                exec_price = fill.avg_price
+                filled = fill.filled_qty
+                proceeds = fill.notional - fill.fee_usdc
+                fill_detail = fill.to_dict()
+            else:
+                exec_price = price * (1.0 - float(config.get("slippage_bps", 25)) / 10000.0)
+                filled = sell_qty
+                proceeds = filled * exec_price
+
+            closed = ledger.close_lots_for_whale(address, asset, filled)
+            if not closed:
+                mark_tx_processed(state, tx_hash, asset, side, note="close_failed")
+                continue
+
+            cost_basis = sum(float(c["cost_basis"]) for c in closed)
             realized_pnl = proceeds - cost_basis
-
-            # Execute simulated sell
             state["cash_usdc"] += proceeds
-            
-            # Update positions
-            pos["quantity"] -= sell_qty
-            pos["invested_usdc"] = max(0.0, pos["invested_usdc"] - cost_basis)
-            
-            if pos["quantity"] <= 0.0001:
-                del state["positions"][asset]
+            ledger.set_cash(state["cash_usdc"])
+
+            # Rebuild aggregate position for token
+            remaining_lots = ledger.get_open_lots_for_token(asset)
+            if not remaining_lots:
+                state.get("positions", {}).pop(asset, None)
             else:
-                pos["last_updated"] = int(time.time())
+                projected = ledger.aggregate_positions_from_lots()
+                if asset in projected:
+                    # preserve marks if present
+                    old = state.get("positions", {}).get(asset, {})
+                    proj = projected[asset]
+                    proj["bid_price"] = old.get("bid_price", proj.get("avg_price"))
+                    proj["mid_price"] = old.get("mid_price", proj.get("avg_price"))
+                    proj["current_price"] = old.get("current_price", proj.get("avg_price"))
+                    state.setdefault("positions", {})[asset] = proj
 
-            # Update whale position holding
-            if address in state["whale_positions"] and asset in state["whale_positions"][address]:
-                state["whale_positions"][address][asset] = max(0.0, whale_holdings - size)
-
-            # Record trade history
-            trade_id = str(uuid.uuid4())
-            state["trades"].append({
-                "id": trade_id,
+            trade = {
+                "id": str(uuid.uuid4()),
                 "timestamp": int(time.time()),
                 "trader_address": address,
                 "trader_name": name,
@@ -1330,20 +1608,49 @@ def run_simulation_iteration(config, state):
                 "market_slug": slug,
                 "outcome": outcome,
                 "type": "SELL",
-                "quantity": sell_qty,
+                "quantity": filled,
                 "price": exec_price,
                 "usdc_size": proceeds,
                 "tx_hash": tx_hash,
-                "realized_pnl": realized_pnl
-            })
-            
-            add_log(state, f"COPIED SELL: {name} sold {outcome} on '{title}'. Simulated sell of {sell_qty:.2f} shares @ {exec_price:.3f} USDC (Proceeds: {proceeds:.2f} USDC, PnL: {realized_pnl:+.2f} USDC)")
+                "realized_pnl": realized_pnl,
+                "fill_detail": fill_detail or {},
+                "strategy_version": strategy_version,
+                "idempotency_key": tx_idempotency_key(tx_hash, asset, "SELL", "fill"),
+            }
+            ledger.record_trade(trade)
+            state.setdefault("trades", []).append(trade)
+            ledger.record_decision(
+                "accepted",
+                "copied_sell",
+                address,
+                name,
+                asset,
+                condition_id,
+                "SELL",
+                tx_hash,
+                strategy_version,
+                feature_snapshot={
+                    "whale_sell_size": size,
+                    "whale_holdings_before": whale_holdings_before,
+                    "our_qty_before": our_qty,
+                    "filled": filled,
+                    "lots_closed": closed,
+                    "fill": fill_detail,
+                },
+                mark_tx_processed=False,
+            )
+
+            add_log(
+                state,
+                f"COPIED SELL: {name} sold {outcome} on '{title}'. "
+                f"Simulated sell of {filled:.2f} shares @ {exec_price:.3f} USDC "
+                f"(Proceeds: {proceeds:.2f} USDC, PnL: {realized_pnl:+.2f} USDC) "
+                f"lots={len(closed)} (whale-attributed only)",
+            )
             trade_executed_or_resolved = True
 
-        # Mark processed
-        state["processed_tx_hashes"].append(tx_hash)
-        if len(state["processed_tx_hashes"]) > 1000:
-            state["processed_tx_hashes"] = state["processed_tx_hashes"][-1000:]
+        # Mark processed (full key)
+        mark_tx_processed(state, tx_hash, asset, side, note="done")
 
     return trade_executed_or_resolved
 
@@ -1566,46 +1873,67 @@ def _run_loop():
                     print(f"Error in automatic leaderboard sync: {sync_err}")
 
             if config.get("simulation_active", False):
+                # Network-heavy work should not hold the lock for the entire iteration.
+                # We take the lock for state load/mutate/save; feeds still run under lock
+                # for consistency with in-memory state (ledger writes are independently locked).
                 with _state_lock:
                     state = load_state(config)
-                    
+
                     # 1. Run simulation iteration to copy new trades
                     trade_occurred = run_simulation_iteration(config, state)
-                    
-                    # 2. Update current prices and value of open positions
-                    holdings_value = update_live_valuations(state)
-                    
+
+                    # 2. Mark at executable bid; mid stored for NAV reporting
+                    holdings_value = update_live_valuations(
+                        state, mark_at_bid=bool(config.get("mark_at_bid", True))
+                    )
+
                     # 3. Check for early exits/capital recycling based on latest prices
                     recycle_occurred = recycle_positions_and_exit_strategies(config, state)
                     if recycle_occurred:
-                        # Recalculate valuations if positions were sold
-                        holdings_value = update_live_valuations(state)
-                        
-                    total_equity = calculate_total_equity(state, holdings_value)
-                    
-                    # 4. Add snapshot to portfolio history (limit frequency to keep history small)
-                    last_snapshot = state["portfolio_value_history"][-1] if state["portfolio_value_history"] else None
+                        holdings_value = update_live_valuations(
+                            state, mark_at_bid=bool(config.get("mark_at_bid", True))
+                        )
+
+                    holdings_bid = float(state.get("_holdings_value_bid", holdings_value))
+                    holdings_mid = float(state.get("_holdings_value_mid", holdings_value))
+                    total_equity = calculate_total_equity(state, holdings_bid)
+                    total_equity_mid = state["cash_usdc"] + holdings_mid
+
+                    # 4. Equity snapshot (bid primary, mid secondary)
+                    last_snapshot = (
+                        state["portfolio_value_history"][-1]
+                        if state.get("portfolio_value_history")
+                        else None
+                    )
                     current_time = int(time.time())
-                    
+
                     should_append = False
                     if not last_snapshot:
                         should_append = True
                     elif trade_occurred or recycle_occurred:
                         should_append = True
-                    elif current_time - last_snapshot["timestamp"] >= 300: # Every 5 minutes
+                    elif current_time - last_snapshot["timestamp"] >= 300:
                         should_append = True
-                        
+
                     if should_append:
-                        # Limit history length to ~500 points
-                        if len(state["portfolio_value_history"]) > 500:
+                        if len(state.get("portfolio_value_history") or []) > 500:
                             state["portfolio_value_history"] = state["portfolio_value_history"][-500:]
-                        state["portfolio_value_history"].append({
+                        snap = {
                             "timestamp": current_time,
                             "cash": state["cash_usdc"],
-                            "holdings_value": holdings_value,
-                            "total_equity": total_equity
-                        })
-                    
+                            "holdings_value": holdings_bid,
+                            "holdings_value_mid": holdings_mid,
+                            "total_equity": total_equity,
+                            "total_equity_mid": total_equity_mid,
+                        }
+                        state.setdefault("portfolio_value_history", []).append(snap)
+                        try:
+                            ledger.append_equity_snapshot(
+                                state["cash_usdc"], holdings_bid, holdings_mid, ts=current_time
+                            )
+                        except Exception as eq_err:
+                            print(f"Equity snapshot ledger error: {eq_err}")
+
                     save_state(state)
             
             # Sleep in 1-second chunks to respond quickly to shutdown signals
