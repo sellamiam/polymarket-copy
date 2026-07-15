@@ -978,7 +978,10 @@ def migrate_from_json_state(state: Dict[str, Any], starting_capital: float = 100
         return report
 
     cash = float(state.get("cash_usdc", starting_capital))
+    now = time.time()
+
     with transaction() as conn:
+        # 1. Accounts/Metadata
         conn.execute(
             "INSERT INTO account(key, value) VALUES('cash_usdc', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value",
             (str(cash),),
@@ -995,97 +998,144 @@ def migrate_from_json_state(state: Dict[str, Any], starting_capital: float = 100
             (str(time.time()),),
         )
 
-    report["cash"] = cash
-    now = time.time()
-    append_event(
-        "migration",
-        {
+        # 2. Append Migration Event
+        event_payload = json.dumps({
             "source": "state.json",
             "cash": cash,
             "position_count": len(state.get("positions") or {}),
             "trade_count": len(state.get("trades") or []),
             "note": "JSON state imported; missing journal means positions are unaudited grandfathered lots.",
-        },
-        source="migration",
-        idempotency_key=f"migration|json|{int(now)}",
-    )
+        })
+        conn.execute(
+            "INSERT INTO events(ts, event_type, source, idempotency_key, payload) VALUES(?, ?, ?, ?, ?)",
+            (now, "migration", "migration", f"migration|json|{int(now)}", event_payload),
+        )
 
-    # Trades first (if any)
-    for t in state.get("trades") or []:
-        try:
-            record_trade(t)
-            report["migrated_trades"] += 1
-        except Exception as e:
-            report["warnings"].append(f"trade import failed: {e}")
-
-    # Positions -> lots
-    for token_id, pos in (state.get("positions") or {}).items():
-        try:
-            qty = float(pos.get("quantity") or 0)
-            if qty <= 0:
-                continue
-            whale = (pos.get("trader_address") or "unknown").lower()
-            open_lot(
-                token_id=token_id,
-                whale_address=whale,
-                quantity=qty,
-                avg_price=float(pos.get("avg_price") or 0),
-                invested_usdc=float(pos.get("invested_usdc") or 0),
-                condition_id=pos.get("condition_id") or "",
-                whale_name=pos.get("trader_name") or "",
-                market_title=pos.get("market_title") or "",
-                market_slug=pos.get("market_slug") or "",
-                outcome=pos.get("outcome") or "",
-                outcome_index=int(pos.get("outcome_index") or 0),
-                strategy_exits_enabled=bool(pos.get("strategy_exits_enabled", False)),
-                grandfathered=True,
-                win_probability=float(pos.get("win_probability") or 0),
-                conviction_score=float(pos.get("conviction_score") or 0),
-                best_bet_score=float(pos.get("best_bet_score") or 0),
-                opened_at=float(pos.get("opened_at") or now),
-                metadata={
-                    "migrated_from_json": True,
-                    "unaudited": True,
-                    "original_position": pos,
-                },
-            )
-            report["migrated_positions"] += 1
-        except Exception as e:
-            report["warnings"].append(f"position {token_id[:12]}… import failed: {e}")
-
-    # Whale inventory
-    for addr, tokens in (state.get("whale_positions") or {}).items():
-        for tid, q in (tokens or {}).items():
+        # 3. Trades
+        for t in state.get("trades") or []:
             try:
-                set_whale_inventory(addr, tid, float(q))
+                conn.execute(
+                    """
+                    INSERT INTO trades(
+                        id, ts, trader_address, trader_name, original_trader_address, original_trader_name,
+                        market_title, market_slug, outcome, type, quantity, price, usdc_size,
+                        win_probability, conviction_score, best_bet_score, tx_hash, realized_pnl, fill_detail, strategy_version
+                    ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        t.get("id") or str(uuid.uuid4()),
+                        float(t.get("timestamp") or now),
+                        t.get("trader_address"),
+                        t.get("trader_name"),
+                        t.get("original_trader_address"),
+                        t.get("original_trader_name"),
+                        t.get("market_title"),
+                        t.get("market_slug"),
+                        t.get("outcome"),
+                        t.get("type"),
+                        float(t.get("quantity") or 0.0),
+                        float(t.get("price") or 0.0),
+                        float(t.get("usdc_size") or 0.0),
+                        float(t.get("win_probability") or 0.0) if t.get("win_probability") is not None else None,
+                        float(t.get("conviction_score") or 0.0) if t.get("conviction_score") is not None else None,
+                        float(t.get("best_bet_score") or 0.0) if t.get("best_bet_score") is not None else None,
+                        t.get("tx_hash"),
+                        float(t.get("realized_pnl") or 0.0),
+                        json.dumps(t.get("fill_detail") or {}),
+                        t.get("strategy_version") or 3,
+                    ),
+                )
+                report["migrated_trades"] += 1
+            except Exception as e:
+                report["warnings"].append(f"trade import failed: {e}")
+
+        # 4. Positions -> Lots
+        for token_id, pos in (state.get("positions") or {}).items():
+            try:
+                qty = float(pos.get("quantity") or 0)
+                if qty <= 0:
+                    continue
+                whale = (pos.get("trader_address") or "unknown").lower()
+                lot_id = str(uuid.uuid4())
+                conn.execute(
+                    """
+                    INSERT INTO lots(
+                        lot_id, token_id, condition_id, whale_address, whale_name, market_title, market_slug, outcome, outcome_index,
+                        quantity, remaining_qty, avg_price, invested_usdc, opened_at, closed_at, strategy_exits_enabled,
+                        grandfathered, strategy_version, win_probability, conviction_score, best_bet_score, entry_event_id, metadata
+                    ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, 1, ?, ?, ?, ?, NULL, ?)
+                    """,
+                    (
+                        lot_id,
+                        token_id,
+                        pos.get("condition_id") or "",
+                        whale,
+                        pos.get("trader_name") or "",
+                        pos.get("market_title") or "",
+                        pos.get("market_slug") or "",
+                        pos.get("outcome") or "",
+                        int(pos.get("outcome_index") or 0),
+                        qty,
+                        qty,
+                        float(pos.get("avg_price") or 0.0),
+                        float(pos.get("invested_usdc") or 0.0),
+                        float(pos.get("opened_at") or now),
+                        1 if pos.get("strategy_exits_enabled", False) else 0,
+                        pos.get("strategy_version") or 3,
+                        float(pos.get("win_probability") or 0.0) if pos.get("win_probability") is not None else None,
+                        float(pos.get("conviction_score") or 0.0) if pos.get("conviction_score") is not None else None,
+                        float(pos.get("best_bet_score") or 0.0) if pos.get("best_bet_score") is not None else None,
+                        json.dumps({
+                            "migrated_from_json": True,
+                            "unaudited": True,
+                            "original_position": pos,
+                        }),
+                    ),
+                )
+                report["migrated_positions"] += 1
+            except Exception as e:
+                report["warnings"].append(f"position {token_id[:12]}… import failed: {e}")
+
+        # 5. Whale inventory
+        for addr, tokens in (state.get("whale_positions") or {}).items():
+            for tid, q in (tokens or {}).items():
+                try:
+                    conn.execute(
+                        "INSERT INTO whale_inventory(whale_address, token_id, quantity) VALUES(?, ?, ?) ON CONFLICT(whale_address, token_id) DO UPDATE SET quantity = excluded.quantity",
+                        (addr.lower(), tid, float(q)),
+                    )
+                except Exception:
+                    pass
+
+        # 6. Processed hashes
+        for h in state.get("processed_tx_hashes") or []:
+            try:
+                key = make_idempotency_key("polymarket", str(h), "*", "*")
+                conn.execute(
+                    "INSERT INTO processed_keys(idempotency_key, ts, note) VALUES(?, ?, ?) ON CONFLICT(idempotency_key) DO NOTHING",
+                    (key, now, "migrated_tx_hash"),
+                )
+                report["migrated_processed"] += 1
             except Exception:
                 pass
 
-    # Processed hashes
-    for h in state.get("processed_tx_hashes") or []:
-        key = make_idempotency_key("polymarket", str(h), "*", "*")
-        if mark_processed(key, note="migrated_tx_hash"):
-            report["migrated_processed"] += 1
-
-    # Logs
-    for log in state.get("logs") or []:
-        try:
-            with transaction() as conn:
+        # 7. Logs
+        for log in state.get("logs") or []:
+            try:
                 conn.execute(
                     "INSERT INTO logs(ts, message) VALUES(?, ?)",
                     (float(log.get("timestamp") or now), log.get("message") or ""),
                 )
-            report["migrated_logs"] += 1
-        except Exception:
-            pass
+                report["migrated_logs"] += 1
+            except Exception:
+                pass
 
-    # Equity history
-    for snap in state.get("portfolio_value_history") or []:
-        try:
-            cash_s = float(snap.get("cash") or cash)
-            hv = float(snap.get("holdings_value") or 0)
-            ts = float(snap.get("timestamp") or now)
-            with transaction() as conn:
+        # 8. Equity history
+        for snap in state.get("portfolio_value_history") or []:
+            try:
+                cash_s = float(snap.get("cash") or cash)
+                hv = float(snap.get("holdings_value") or 0)
+                ts = float(snap.get("timestamp") or now)
                 conn.execute(
                     """
                     INSERT INTO equity_snapshots(ts, cash, holdings_bid, holdings_mid, total_equity_bid, total_equity_mid)
@@ -1093,18 +1143,21 @@ def migrate_from_json_state(state: Dict[str, Any], starting_capital: float = 100
                     """,
                     (ts, cash_s, hv, hv, cash_s + hv, cash_s + hv),
                 )
-        except Exception:
-            pass
+            except Exception:
+                pass
 
+    # Direct log write after transaction commits successfully
     add_log(
         f"Migrated JSON state into ledger: {report['migrated_positions']} positions, "
         f"{report['migrated_trades']} trades, cash={cash:.2f}. "
         f"Open positions without trade journal are flagged unaudited/grandfathered."
     )
+
     if not state.get("trades"):
         report["warnings"].append(
             "Zero retained trades in source JSON — equity attribution for open positions cannot be audited."
         )
+
     return report
 
 
