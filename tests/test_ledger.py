@@ -16,16 +16,12 @@ class LedgerTestCase(unittest.TestCase):
         self.db = os.path.join(self.tmp.name, "test_ledger.db")
         ledger.configure(self.db)
         # force new connection
-        if ledger._conn is not None:
-            ledger._conn.close()
-            ledger._conn = None
+        ledger.close_connection()
         ledger.get_connection()
         ledger.init_account(10000.0)
 
     def tearDown(self):
-        if ledger._conn is not None:
-            ledger._conn.close()
-            ledger._conn = None
+        ledger.close_connection()
         self.tmp.cleanup()
 
     def test_idempotency_key(self):
@@ -106,9 +102,7 @@ class LedgerTestCase(unittest.TestCase):
 
     def test_migrate_json_positions_unaudited(self):
         # fresh db without lots
-        if ledger._conn:
-            ledger._conn.close()
-            ledger._conn = None
+        ledger.close_connection()
         os.remove(self.db)
         ledger.configure(self.db)
         ledger.get_connection()

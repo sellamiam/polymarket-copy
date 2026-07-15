@@ -45,7 +45,6 @@ DATA_DIR = _verify_data_dir(DATA_DIR)
 DEFAULT_DB_PATH = os.path.join(DATA_DIR, "ledger.db")
 
 _lock = threading.RLock()
-_conn: Optional[sqlite3.Connection] = None
 _db_path: str = DEFAULT_DB_PATH
 
 SCHEMA = """
@@ -175,14 +174,23 @@ CREATE INDEX IF NOT EXISTS idx_trades_type ON trades(type);
 """
 
 
+_local = threading.local()
+
+def close_connection() -> None:
+    if hasattr(_local, "conn") and _local.conn is not None:
+        try:
+            _local.conn.close()
+        except Exception:
+            pass
+        _local.conn = None
+
+
 def configure(db_path: Optional[str] = None) -> None:
-    global _db_path, _conn
+    global _db_path
     with _lock:
         if db_path:
             _db_path = db_path
-        if _conn is not None:
-            _conn.close()
-            _conn = None
+        close_connection()
 
 
 def _ensure_dir(path: str) -> None:
@@ -192,15 +200,14 @@ def _ensure_dir(path: str) -> None:
 
 
 def get_connection() -> sqlite3.Connection:
-    global _conn
-    with _lock:
-        if _conn is None:
-            _ensure_dir(_db_path)
-            _conn = sqlite3.connect(_db_path, check_same_thread=False, timeout=60)
-            _conn.row_factory = sqlite3.Row
-            _conn.executescript(SCHEMA)
-            _conn.commit()
-        return _conn
+    _ensure_dir(_db_path)
+    if not hasattr(_local, "conn") or _local.conn is None:
+        conn = sqlite3.connect(_db_path, check_same_thread=False, timeout=60)
+        conn.row_factory = sqlite3.Row
+        conn.executescript(SCHEMA)
+        conn.commit()
+        _local.conn = conn
+    return _local.conn
 
 
 @contextmanager
@@ -1170,10 +1177,12 @@ def archive_and_reset(starting_capital: float, confirm: bool = False) -> str:
         raise ValueError("Reset refused: confirm=True required. Export/archive first.")
 
     with _lock:
-        global _conn
-        if _conn is not None:
-            _conn.close()
-            _conn = None
+        if hasattr(_local, "conn") and _local.conn is not None:
+            try:
+                _local.conn.close()
+            except Exception:
+                pass
+            _local.conn = None
 
         _ensure_dir(_db_path)
         archive_path = ""
