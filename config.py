@@ -49,8 +49,8 @@ DEFAULT_CONFIG = {
     "stop_loss_pct": 0.0,
     "stop_loss_grace_hours": 24.0,
     "min_whale_trade_size": 2000.0,
-    "max_market_exposure": 750.0,
-    "max_cluster_exposure": 1000.0,
+    "max_market_exposure": 2500.0,
+    "max_cluster_exposure": 5000.0,
     "min_market_liquidity": 2500.0,
     "min_market_volume": 10000.0,
     "min_whale_roi": 0.12,
@@ -86,7 +86,7 @@ DEFAULT_CONFIG = {
     # Skip BUY if live ask is worse than whale price by more than this (bps)
     "max_adverse_slippage_bps": 150.0,
     # Cap each new BUY at this % of total equity (risk control)
-    "risk_per_trade_pct": 2.0,
+    "risk_per_trade_pct": 8.0,
     # Poll each enabled whale's trade feed (throttled vs main loop to avoid 429s)
     "enable_per_whale_poll": True,
     "per_whale_poll_limit": 15,
@@ -582,6 +582,7 @@ def save_state(state):
     trade/lot mutations should already have been recorded via ledger APIs.
     Also exports a JSON mirror for dashboard backups (never the sole source of truth).
     """
+    global _last_json_export_ts, _last_gist_save_data
     ensure_data_dir()
     config = None
     try:
@@ -599,8 +600,7 @@ def save_state(state):
         except Exception as e:
             print(f"Ledger cash sync error: {e}")
 
-        # Export lightweight JSON mirror for ops (not authoritative)
-        global _last_json_export_ts
+        # Export lightweight JSON mirror for ops (not authoritative) and sync to Gist
         now = time.time()
         if now - _last_json_export_ts >= 30:
             _last_json_export_ts = now
@@ -612,6 +612,19 @@ def save_state(state):
                     mirror["cash_usdc"] = state.get("cash_usdc", mirror["cash_usdc"])
                 with open(STATE_PATH, "w") as f:
                     json.dump(mirror, f, indent=2)
+
+                # Sync to Gist for Render stateless hosting
+                github_token = os.environ.get("GITHUB_TOKEN")
+                if github_token:
+                    core_str = json.dumps({
+                        "cash_usdc": mirror.get("cash_usdc"),
+                        "positions": mirror.get("positions"),
+                        "trades_count": len(mirror.get("trades", []))
+                    })
+                    if _last_gist_save_data != core_str:
+                        _last_gist_save_data = core_str
+                        import threading
+                        threading.Thread(target=save_to_gist_async, args=("polycopy_state.json", mirror), daemon=True).start()
             except Exception as e:
                 print(f"JSON mirror export failed (ledger intact): {e}")
         return
@@ -621,7 +634,6 @@ def save_state(state):
 
     github_token = os.environ.get("GITHUB_TOKEN")
     if github_token:
-        global _last_gist_save_data
         core_str = json.dumps({
             "cash_usdc": state.get("cash_usdc"),
             "positions": state.get("positions"),
