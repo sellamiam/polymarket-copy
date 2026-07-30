@@ -176,6 +176,32 @@ class LedgerTestCase(unittest.TestCase):
         self.assertGreaterEqual(rep["events"], 2)
         self.assertEqual(rep["buy_count"], 1)
 
+    def test_concurrent_multithreaded_db_access(self):
+        import concurrent.futures
+
+        def worker(worker_id):
+            # Simulates parallel API handlers and bot workers
+            for i in range(25):
+                conn = ledger.get_connection()
+                ledger.record_decision(
+                    "accepted",
+                    f"worker_{worker_id}_iter_{i}",
+                    whale_address=f"0x{worker_id}",
+                    token_id=f"T{i}",
+                    side="BUY",
+                    tx_hash=f"0xhash_{worker_id}_{i}",
+                )
+                ledger.get_trades(limit=5)
+                ledger.get_logs(limit=5)
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:
+            futures = [pool.submit(worker, w) for w in range(10)]
+            for fut in futures:
+                fut.result()
+
+        rep = ledger.reconcile_report()
+        self.assertGreaterEqual(rep["events"], 250)
+
 
 if __name__ == "__main__":
     unittest.main()

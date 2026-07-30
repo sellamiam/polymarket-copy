@@ -175,6 +175,7 @@ CREATE INDEX IF NOT EXISTS idx_trades_type ON trades(type);
 
 
 _local = threading.local()
+_initialized_paths: set = set()
 
 def close_connection() -> None:
     if hasattr(_local, "conn") and _local.conn is not None:
@@ -188,8 +189,9 @@ def close_connection() -> None:
 def configure(db_path: Optional[str] = None) -> None:
     global _db_path
     with _lock:
-        if db_path:
+        if db_path and db_path != _db_path:
             _db_path = db_path
+            _initialized_paths.discard(db_path)
         close_connection()
 
 
@@ -199,13 +201,27 @@ def _ensure_dir(path: str) -> None:
         os.makedirs(d, exist_ok=True)
 
 
+def _init_schema_if_needed(conn: sqlite3.Connection, path: str) -> None:
+    with _lock:
+        if path in _initialized_paths:
+            try:
+                conn.execute("SELECT 1 FROM meta LIMIT 1")
+                return
+            except sqlite3.OperationalError:
+                pass
+        conn.executescript(SCHEMA)
+        conn.commit()
+        _initialized_paths.add(path)
+
+
 def get_connection() -> sqlite3.Connection:
     _ensure_dir(_db_path)
     if not hasattr(_local, "conn") or _local.conn is None:
         conn = sqlite3.connect(_db_path, check_same_thread=False, timeout=60)
         conn.row_factory = sqlite3.Row
-        conn.executescript(SCHEMA)
-        conn.commit()
+        conn.execute("PRAGMA foreign_keys=ON;")
+        conn.execute("PRAGMA busy_timeout=60000;")
+        _init_schema_if_needed(conn, _db_path)
         _local.conn = conn
     return _local.conn
 
@@ -1177,6 +1193,7 @@ def archive_and_reset(starting_capital: float, confirm: bool = False) -> str:
         raise ValueError("Reset refused: confirm=True required. Export/archive first.")
 
     with _lock:
+        _initialized_paths.discard(_db_path)
         if hasattr(_local, "conn") and _local.conn is not None:
             try:
                 _local.conn.close()

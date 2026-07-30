@@ -218,35 +218,70 @@ _engine_thread = None
 _stop_event = threading.Event()
 _state_lock = threading.Lock()
 
-def fetch_clob_price(token_id, side):
+_clob_price_cache = {}
+_clob_cache_lock = threading.Lock()
+
+def fetch_clob_price(token_id, side, ttl_seconds=10.0):
     """
-    Fetch live price for token_id.
+    Fetch live price for token_id with short in-memory TTL cache.
     side can be 'buy' (bid) or 'sell' (ask).
     """
+    cache_key = f"{token_id}:{side}"
+    now = time.time()
+    with _clob_cache_lock:
+        if cache_key in _clob_price_cache:
+            val, ts = _clob_price_cache[cache_key]
+            if now - ts < ttl_seconds:
+                return val
+
     try:
         url = f"https://clob.polymarket.com/price?token_id={token_id}&side={side}"
         res = requests.get(url, timeout=5)
         if res.status_code == 200:
             data = res.json()
             if "price" in data:
-                return float(data["price"])
+                val = float(data["price"])
+                with _clob_cache_lock:
+                    _clob_price_cache[cache_key] = (val, now)
+                    if len(_clob_price_cache) > 2000:
+                        _clob_price_cache.clear()
+                return val
     except Exception as e:
         print(f"Error fetching CLOB price for {token_id} ({side}): {e}")
+
+    with _clob_cache_lock:
+        if cache_key in _clob_price_cache:
+            return _clob_price_cache[cache_key][0]
     return None
 
-def fetch_clob_midpoint(token_id):
+def fetch_clob_midpoint(token_id, ttl_seconds=10.0):
     """
-    Fetch live midpoint price for token_id.
+    Fetch live midpoint price for token_id with short in-memory TTL cache.
     """
+    cache_key = f"{token_id}:mid"
+    now = time.time()
+    with _clob_cache_lock:
+        if cache_key in _clob_price_cache:
+            val, ts = _clob_price_cache[cache_key]
+            if now - ts < ttl_seconds:
+                return val
+
     try:
         url = f"https://clob.polymarket.com/midpoint?token_id={token_id}"
         res = requests.get(url, timeout=5)
         if res.status_code == 200:
             data = res.json()
             if "mid" in data:
-                return float(data["mid"])
+                val = float(data["mid"])
+                with _clob_cache_lock:
+                    _clob_price_cache[cache_key] = (val, now)
+                return val
     except Exception as e:
         print(f"Error fetching CLOB midpoint for {token_id}: {e}")
+
+    with _clob_cache_lock:
+        if cache_key in _clob_price_cache:
+            return _clob_price_cache[cache_key][0]
     return None
 
 
