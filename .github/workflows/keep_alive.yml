@@ -1,0 +1,14 @@
+name: Keep Alive Render Bot
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  keep_alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Polymarket Copy Health Endpoint
+        run: |
+          curl -s -f https://polymarket-copy.onrender.com/api/health || true
