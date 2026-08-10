@@ -39,7 +39,7 @@ DEFAULT_CONFIG = {
     "min_copy_price": 0.45,
     "max_copy_price": 0.80,
     "copy_only_best_wins": True,
-    "min_best_bet_score": 70,
+    "min_best_bet_score": 60,
     "max_days_to_resolution": 60,
     # 0 = hold to resolution/maturity/whale sell (no time force-exit)
     "max_holding_hours": 0,
@@ -48,7 +48,7 @@ DEFAULT_CONFIG = {
     "value_play_take_profit_pct": 0.0,
     "stop_loss_pct": 0.0,
     "stop_loss_grace_hours": 24.0,
-    "min_whale_trade_size": 2000.0,
+    "min_whale_trade_size": 250.0,
     "max_market_exposure": 2500.0,
     "max_cluster_exposure": 5000.0,
     "min_market_liquidity": 2500.0,
@@ -69,14 +69,14 @@ DEFAULT_CONFIG = {
     # Disable whale after cumulative realized PnL on copies falls below this
     "min_whale_copy_pnl": -150.0,
     "maturity_threshold": 0.98,
-    "leaderboard_sync_limit": 15,
+    "leaderboard_sync_limit": 25,
     "catastrophic_stop_loss_pct": 45.0,
     # Protect positions opened before performance-v2 from strategy exits
     "grandfather_open_positions": True,
     # Require N distinct whales for ALL entries (consensus > single lagging whale)
     "multi_whale_confirm_count": 2,
     "multi_whale_window_seconds": 7200,
-    "multi_whale_require_all": True,
+    "multi_whale_require_all": False,
     # Auto-disable wallets whose recent activity is mostly sports
     "enable_sports_whale_filter": True,
     "sports_whale_activity_ratio": 0.50,
@@ -96,6 +96,7 @@ DEFAULT_CONFIG = {
     "performance_strategy_version": 3,
     "performance_v2_migrated": False,
     "performance_v3_migrated": False,
+    "performance_v3_1_migrated": True,
     # Ledger / conservative fills
     "use_ledger": True,
     "depth_aware_fills": True,
@@ -400,6 +401,21 @@ def load_config():
         config_data["exclude_sports_bets"] = True
         config_data["exclude_crypto_bets"] = True
         config_data["exclude_weather_bets"] = True
+        updated = True
+
+    # Performance strategy v3.1: restore continuous order flow while protecting grandfathered open positions
+    if not config_data.get("performance_v3_1_migrated"):
+        config_data["performance_v3_1_migrated"] = True
+        config_data["multi_whale_require_all"] = False
+        config_data["min_whale_trade_size"] = 250.0
+        config_data["min_best_bet_score"] = 60
+        config_data["leaderboard_sync_limit"] = 25
+        config_data["max_market_exposure"] = 2500.0
+        config_data["max_cluster_exposure"] = 5000.0
+        config_data["grandfather_open_positions"] = True
+        config_data["take_profit_pct"] = 0.0
+        config_data["stop_loss_pct"] = 0.0
+        config_data["max_holding_hours"] = 0
         updated = True
 
     if updated:
