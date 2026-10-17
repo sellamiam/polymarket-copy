@@ -43,17 +43,18 @@ DEFAULT_CONFIG = {
     "max_days_to_resolution": 90,
     # 0 = hold to resolution/maturity/whale sell (no time force-exit)
     "max_holding_hours": 0,
-    # Prediction-market edge: hold thesis; only lock near-certain or catastrophe
-    "take_profit_pct": 0.0,
-    "value_play_take_profit_pct": 0.0,
-    "stop_loss_pct": 0.0,
+    # Strategy v5: Institutional Alpha & Profitability guardrails
+    "take_profit_pct": 35.0,  # Lock in +35% profit on standard positions
+    "value_play_take_profit_pct": 50.0,  # Lock in +50% profit on high-asymmetry value plays
+    "stop_loss_pct": 30.0,  # Stop loss at -30% after 24h grace period
     "stop_loss_grace_hours": 24.0,
     "min_whale_trade_size": 1.0,
     "max_market_exposure": 2500.0,
     "max_cluster_exposure": 5000.0,
     "min_market_liquidity": 500.0,
     "min_market_volume": 1000.0,
-    "min_whale_roi": 0.10,
+    "min_whale_roi": 0.12,  # Require at least 12% ROI
+    "min_whale_volume": 25000.0,  # Require at least $25,000 lifetime volume to eliminate 1-hit lucky gamblers
     "max_whale_volume": 15000000.0,
     "enable_value_plays": True,
     "value_play_size_mult": 0.50,
@@ -64,12 +65,13 @@ DEFAULT_CONFIG = {
     "niche_priority_active": True,
     "dynamic_sizing_active": True,
     "enable_whale_auto_pruning": True,
-    "min_whale_win_rate": 50.0,
+    "min_whale_win_rate": 55.0,  # Require at least 55% win rate
     "whale_prune_min_trades": 5,
     # Disable whale after cumulative realized PnL on copies falls below this
     "min_whale_copy_pnl": -150.0,
-    "maturity_threshold": 0.98,
+    "maturity_threshold": 0.95,  # Cash out when win probability hits 95% instead of holding for weeks
     "leaderboard_sync_limit": 40,
+    "leaderboard_timeframes": ["ALL", "MONTH"],  # Disqualify 7-day WEEK luck; only proven track records
     "catastrophic_stop_loss_pct": 45.0,
     # Protect positions opened before performance-v2 from strategy exits
     "grandfather_open_positions": True,
@@ -86,8 +88,8 @@ DEFAULT_CONFIG = {
     "sports_whale_sample_size": 20,
     # Freshness: ignore whale prints older than this (seconds)
     "max_trade_age_seconds": 300,
-    # Skip BUY if live ask is worse than whale price by more than this (bps)
-    "max_adverse_slippage_bps": 150.0,
+    # Strict adverse slippage: never pay more than 50 bps (0.5%) worse than whale price
+    "max_adverse_slippage_bps": 50.0,
     # Cap each new BUY at this % of total equity (risk control)
     "risk_per_trade_pct": 4.0,
     # Poll each enabled whale's trade feed (throttled vs main loop to avoid 429s)
@@ -96,11 +98,12 @@ DEFAULT_CONFIG = {
     "per_whale_poll_interval_seconds": 25,
     "per_whale_max_parallel": 5,
     # Prefer mid-price edge band slightly in scoring
-    "performance_strategy_version": 4,
+    "performance_strategy_version": 5,
     "performance_v2_migrated": True,
     "performance_v3_migrated": True,
     "performance_v3_1_migrated": True,
     "performance_v4_migrated": True,
+    "performance_v5_migrated": True,
     # Ledger / conservative fills
     "use_ledger": True,
     "depth_aware_fills": True,
@@ -370,6 +373,27 @@ def load_config():
         config_data["per_whale_poll_interval_seconds"] = 25
         config_data["per_whale_max_parallel"] = 5
         config_data["value_play_size_mult"] = 0.50
+        updated = True
+
+    # Performance strategy v5: Institutional Alpha & Profitability guardrails
+    # - Strict depth-walk adverse slippage cap (50 bps)
+    # - Mid-flight profit taking (+35% standard, +50% value plays)
+    # - Capital recycling at 95% maturity threshold
+    # - Whale longevity enforcement (minimum $25,000 volume, 55% win rate, ALL & MONTH timeframes)
+    if config_data.get("performance_strategy_version", 0) < 5:
+        config_data["performance_v5_migrated"] = True
+        config_data["performance_strategy_version"] = 5
+        config_data["take_profit_pct"] = 35.0
+        config_data["value_play_take_profit_pct"] = 50.0
+        config_data["stop_loss_pct"] = 30.0
+        config_data["stop_loss_grace_hours"] = 24.0
+        config_data["catastrophic_stop_loss_pct"] = 45.0
+        config_data["maturity_threshold"] = 0.95
+        config_data["max_adverse_slippage_bps"] = 50.0
+        config_data["min_whale_volume"] = 25000.0
+        config_data["min_whale_roi"] = 0.12
+        config_data["min_whale_win_rate"] = 55.0
+        config_data["leaderboard_timeframes"] = ["ALL", "MONTH"]
         updated = True
 
     if updated:

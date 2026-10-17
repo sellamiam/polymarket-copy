@@ -591,13 +591,11 @@ def recycle_positions_and_exit_strategies(config, state):
         if avg_price <= 0.50:
             effective_tp_pct = value_play_take_profit_pct
 
-        maturity_threshold = float(config.get("maturity_threshold", 0.98))
-        # Maturity check (locks near-certain wins). Only exit early if cash is low (<15% of equity) 
-        # to avoid paying premature bid-ask/slippage friction when cash is plentiful.
+        maturity_threshold = float(config.get("maturity_threshold", 0.95))
+        # Maturity check (locks near-certain wins at 95c+). Recycles capital for new opportunities.
         if current_price >= maturity_threshold:
-            if cash_ratio < 0.15:
-                trigger_reason = f"MATURITY ({current_price:.2f})"
-                exit_type = "RECYCLE_MATURITY"
+            trigger_reason = f"MATURITY ({current_price:.2f})"
+            exit_type = "RECYCLE_MATURITY"
         elif strategy_exits:
             if effective_tp_pct > 0 and pnl_pct >= effective_tp_pct:
                 trigger_reason = f"TP (+{pnl_pct:.1f}%)"
@@ -1438,6 +1436,22 @@ def run_simulation_iteration(config, state):
                 exec_price = fill.avg_price
                 invest_usdc = fill.notional + fill.fee_usdc
                 fill_detail = fill.to_dict()
+
+                # Post-depth walk price check: ensure average execution price hasn't blown through adverse threshold
+                if ref_price and exec_price > ref_price * (1.0 + max_adv_bps / 10000.0) and not is_vitalik:
+                    adverse_bps = ((exec_price - ref_price) / ref_price) * 10000.0
+                    reason = (
+                        f"Depth fill adverse slippage — average fill price {exec_price:.3f} vs whale {ref_price:.3f} "
+                        f"({adverse_bps:.0f} bps > {max_adv_bps:.0f} bps max limit)."
+                    )
+                    add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: {reason}")
+                    ledger.record_decision(
+                        "rejected", reason, address, name, asset, condition_id, "BUY",
+                        tx_hash, strategy_version,
+                        feature_snapshot={"whale_price": price, "exec_price": exec_price, "fill": fill.to_dict()},
+                    )
+                    mark_tx_processed(state, tx_hash, asset, side, note="depth_adverse")
+                    continue
             else:
                 # Whale-price mode (research baseline only) — still applies slippage cushion
                 exec_price = price * (1.0 + float(config.get("slippage_bps", 25)) / 10000.0)
@@ -1732,7 +1746,7 @@ def run_simulation_iteration(config, state):
     return trade_executed_or_resolved
 
 
-def sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"], limit=None):
+def sync_whales_from_leaderboard(time_period=None, limit=None):
     """
     Fetches top traders from specified timeframe(s) on the Polymarket leaderboard,
     deduplicates them, and updates followed_traders list in config.json.
@@ -1742,6 +1756,9 @@ def sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"], limit=Non
     
     if limit is None or limit == 1000:
         limit = int(cfg.get("leaderboard_sync_limit", 50))
+
+    if time_period is None:
+        time_period = cfg.get("leaderboard_timeframes", ["ALL", "MONTH"])
 
     if isinstance(time_period, str):
         time_periods = [time_period]
@@ -1799,8 +1816,9 @@ def sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"], limit=Non
         print("No traders fetched from any leaderboard. Sync skipped.")
         return False
         
-    min_roi = float(cfg.get("min_whale_roi", 0.08))
-    max_vol = float(cfg.get("max_whale_volume", 20000000.0))
+    min_roi = float(cfg.get("min_whale_roi", 0.12))
+    min_vol = float(cfg.get("min_whale_volume", 25000.0))
+    max_vol = float(cfg.get("max_whale_volume", 15000000.0))
     sports_filter = bool(cfg.get("enable_sports_whale_filter", True))
     sports_ratio_max = float(cfg.get("sports_whale_activity_ratio", 0.55))
     sports_sample = int(cfg.get("sports_whale_sample_size", 20))
@@ -1824,7 +1842,7 @@ def sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"], limit=Non
         pnl = item["pnl"]
         vol = item["vol"]
         roi = (pnl / vol) if vol > 0 else 0
-        if roi < min_roi or vol > max_vol:
+        if roi < min_roi or vol < min_vol or vol > max_vol:
             continue
 
         sports_specialist = False

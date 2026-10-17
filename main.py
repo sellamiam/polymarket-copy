@@ -13,6 +13,7 @@ import uvicorn
 import config
 import bot_engine
 import ledger
+from clob_trader import clob_trader
 
 
 def _api_token() -> str:
@@ -209,7 +210,14 @@ def get_state():
         "total_equity": total_equity,
         "total_equity_mid": total_equity_mid,
         "reconcile": ledger.reconcile_report(),
+        "execution": clob_trader.get_status(),
     }
+
+
+@app.get("/api/execution_status")
+def get_execution_status():
+    """Returns whether live CLOB wallet execution or ledger paper trading is active."""
+    return clob_trader.get_status()
 
 
 @app.get("/api/traders")

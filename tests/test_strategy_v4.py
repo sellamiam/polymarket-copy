@@ -35,7 +35,7 @@ class StrategyV4TestCase(unittest.TestCase):
 
     def test_config_v4_defaults(self):
         cfg = config.DEFAULT_CONFIG
-        self.assertEqual(cfg["performance_strategy_version"], 4)
+        self.assertGreaterEqual(cfg["performance_strategy_version"], 4)
         self.assertEqual(cfg["multi_whale_confirm_count"], 1)
         self.assertFalse(cfg["multi_whale_require_all"])
         self.assertTrue(cfg["single_whale_elite_bypass"])
