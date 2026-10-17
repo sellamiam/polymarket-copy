@@ -14,12 +14,7 @@ jobs:
     name: Ping Cloud Instances
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Render Bot Service
+      - name: Ping GCP Free Tier 24/7 Instance
         run: |
-          echo "Pinging Render instance..."
-          curl -s -f --retry 3 --retry-delay 5 --max-time 20 https://polymarket-copy.onrender.com/api/health || echo "Render ping retry failed or service starting"
-
-      - name: Ping GCP Free Tier VM Service
-        run: |
-          echo "Pinging GCP Compute Engine instance..."
-          curl -s -f --retry 2 --retry-delay 3 --max-time 10 http://34.148.183.35:8000/api/health || echo "GCP VM ping completed"
+          echo "Health check GCP Compute Engine Always-Free VM..."
+          curl -s -f --retry 3 --retry-delay 5 --max-time 15 http://34.148.183.35/api/health || echo "GCP VM check warning"

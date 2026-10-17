@@ -38,7 +38,7 @@ It filters out noise — sports betting, short-term crypto price predictions —
 - **Backend**: Python, FastAPI, served with Uvicorn
 - **Frontend**: Vanilla HTML/CSS/JS, Chart.js for the equity curve
 - **APIs**: Polymarket Data API (trades, leaderboard), Gamma API (market details, resolution), CLOB API (live pricing)
-- **Deployment**: Render (free tier)
+- **Deployment**: Google Cloud Compute Engine (Always-Free tier e2-micro, 24/7 continuous uptime at port 80)
 
 ## Running locally
 
