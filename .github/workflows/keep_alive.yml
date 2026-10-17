@@ -1,14 +1,25 @@
-name: Keep Alive Render Bot
+name: Keep Alive 24/7 Cloud Bots
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    # Run every 10 minutes to maintain active keep-alive
+    - cron: '*/10 * * * *'
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   keep_alive:
+    name: Ping Cloud Instances
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Polymarket Copy Health Endpoint
+      - name: Ping Render Bot Service
         run: |
-          curl -s -f https://polymarket-copy.onrender.com/api/health || true
+          echo "Pinging Render instance..."
+          curl -s -f --retry 3 --retry-delay 5 --max-time 20 https://polymarket-copy.onrender.com/api/health || echo "Render ping retry failed or service starting"
+
+      - name: Ping GCP Free Tier VM Service
+        run: |
+          echo "Pinging GCP Compute Engine instance..."
+          curl -s -f --retry 2 --retry-delay 3 --max-time 10 http://34.148.183.35:8000/api/health || echo "GCP VM ping completed"

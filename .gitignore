@@ -11,3 +11,7 @@ data/.gist_id
 
 # Local credentials must never be committed.
 .env
+
+# Scratch scripts
+scratch/
+scratch_*.py

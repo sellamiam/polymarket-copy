@@ -36,11 +36,11 @@ DEFAULT_CONFIG = {
     # Realistic fills: use live CLOB ask/bid, not whale print price
     "execution_mode": "market_price",  # "whale_price" or "market_price"
     "slippage_bps": 25.0,  # 25 bps extra cushion on top of live book
-    "min_copy_price": 0.45,
-    "max_copy_price": 0.80,
-    "copy_only_best_wins": True,
-    "min_best_bet_score": 60,
-    "max_days_to_resolution": 60,
+    "min_copy_price": 0.35,
+    "max_copy_price": 0.88,
+    "copy_only_best_wins": False,
+    "min_best_bet_score": 50,
+    "max_days_to_resolution": 90,
     # 0 = hold to resolution/maturity/whale sell (no time force-exit)
     "max_holding_hours": 0,
     # Prediction-market edge: hold thesis; only lock near-certain or catastrophe
@@ -48,18 +48,18 @@ DEFAULT_CONFIG = {
     "value_play_take_profit_pct": 0.0,
     "stop_loss_pct": 0.0,
     "stop_loss_grace_hours": 24.0,
-    "min_whale_trade_size": 250.0,
+    "min_whale_trade_size": 100.0,
     "max_market_exposure": 2500.0,
     "max_cluster_exposure": 5000.0,
-    "min_market_liquidity": 2500.0,
-    "min_market_volume": 10000.0,
-    "min_whale_roi": 0.12,
+    "min_market_liquidity": 1500.0,
+    "min_market_volume": 5000.0,
+    "min_whale_roi": 0.10,
     "max_whale_volume": 15000000.0,
     "enable_value_plays": True,
-    "value_play_size_mult": 0.35,
+    "value_play_size_mult": 0.50,
     "exclude_sports_bets": True,
-    "exclude_crypto_bets": True,
-    "exclude_weather_bets": True,
+    "exclude_crypto_bets": False,  # Engine filters 5m/15m/hourly coinflips, allows macro crypto
+    "exclude_weather_bets": False,  # Enable weather/science niche markets
     "simulation_active": True,
     "niche_priority_active": True,
     "dynamic_sizing_active": True,
@@ -69,14 +69,17 @@ DEFAULT_CONFIG = {
     # Disable whale after cumulative realized PnL on copies falls below this
     "min_whale_copy_pnl": -150.0,
     "maturity_threshold": 0.98,
-    "leaderboard_sync_limit": 25,
+    "leaderboard_sync_limit": 40,
     "catastrophic_stop_loss_pct": 45.0,
     # Protect positions opened before performance-v2 from strategy exits
     "grandfather_open_positions": True,
-    # Require N distinct whales for ALL entries (consensus > single lagging whale)
-    "multi_whale_confirm_count": 2,
+    # Multi-whale confirmation: 1 for elite/high-conviction, consensus for low-prob speculative
+    "multi_whale_confirm_count": 1,
     "multi_whale_window_seconds": 7200,
     "multi_whale_require_all": False,
+    "single_whale_elite_bypass": True,
+    "elite_rank_threshold": 30,
+    "elite_roi_threshold": 0.12,
     # Auto-disable wallets whose recent activity is mostly sports
     "enable_sports_whale_filter": True,
     "sports_whale_activity_ratio": 0.50,
@@ -86,17 +89,18 @@ DEFAULT_CONFIG = {
     # Skip BUY if live ask is worse than whale price by more than this (bps)
     "max_adverse_slippage_bps": 150.0,
     # Cap each new BUY at this % of total equity (risk control)
-    "risk_per_trade_pct": 8.0,
+    "risk_per_trade_pct": 4.0,
     # Poll each enabled whale's trade feed (throttled vs main loop to avoid 429s)
     "enable_per_whale_poll": True,
-    "per_whale_poll_limit": 15,
-    "per_whale_poll_interval_seconds": 30,
-    "per_whale_max_parallel": 4,
+    "per_whale_poll_limit": 20,
+    "per_whale_poll_interval_seconds": 25,
+    "per_whale_max_parallel": 5,
     # Prefer mid-price edge band slightly in scoring
-    "performance_strategy_version": 3,
-    "performance_v2_migrated": False,
-    "performance_v3_migrated": False,
+    "performance_strategy_version": 4,
+    "performance_v2_migrated": True,
+    "performance_v3_migrated": True,
     "performance_v3_1_migrated": True,
+    "performance_v4_migrated": True,
     # Ledger / conservative fills
     "use_ledger": True,
     "depth_aware_fills": True,
@@ -287,34 +291,24 @@ def load_config():
         config_data["poll_interval_seconds"] = 15
         updated = True
 
-    # Migration: Force exclude_weather_bets to True
-    if config_data.get("exclude_weather_bets") is not True:
-        config_data["exclude_weather_bets"] = True
+    # Migration: Change min_copy_price to 0.35
+    if config_data.get("min_copy_price") in [0.70, 0.40, 0.45]:
+        config_data["min_copy_price"] = 0.35
         updated = True
         
-    # Migration: Change min_copy_price to 0.40
-    if config_data.get("min_copy_price") == 0.70:
-        config_data["min_copy_price"] = 0.40
-        updated = True
-        
-    # Migration: Change min_market_liquidity default to 1000.0
-    if config_data.get("min_market_liquidity") == 5000.0:
-        config_data["min_market_liquidity"] = 1000.0
+    # Migration: Change min_market_liquidity default to 1500.0
+    if config_data.get("min_market_liquidity") in [5000.0, 2500.0, 1000.0]:
+        config_data["min_market_liquidity"] = 1500.0
         updated = True
         
     # Migration: Change min_market_volume default to 5000.0
-    if config_data.get("min_market_volume") == 20000.0:
+    if config_data.get("min_market_volume") in [20000.0, 10000.0]:
         config_data["min_market_volume"] = 5000.0
         updated = True
 
-    # Migration: Force copy_only_best_wins to True if it was False
-    if config_data.get("copy_only_best_wins") is False:
-        config_data["copy_only_best_wins"] = True
-        updated = True
-
-    # Migration: Change max_copy_price to 0.85 if it was 0.95
-    if config_data.get("max_copy_price") == 0.95:
-        config_data["max_copy_price"] = 0.85
+    # Migration: Change max_copy_price to 0.88
+    if config_data.get("max_copy_price") in [0.95, 0.80, 0.85]:
+        config_data["max_copy_price"] = 0.88
         updated = True
 
     # Migration: Mark existing auto-synced followed traders (excluding default hand-picked ones) with auto_synced = True
@@ -330,92 +324,52 @@ def load_config():
             updated = True
 
     # Performance strategy v2: hold-to-resolution defaults + tighter whale filters.
-    # Use dedicated migrated flag — DEFAULT may inject performance_strategy_version=2
-    # before this block runs, so do not rely on version alone.
     if not config_data.get("performance_v2_migrated"):
         config_data["performance_v2_migrated"] = True
         config_data["performance_strategy_version"] = 2
-        config_data["max_holding_hours"] = 0
-        config_data["take_profit_pct"] = 25.0
-        config_data["value_play_take_profit_pct"] = 50.0
-        config_data["stop_loss_pct"] = 30.0
-        config_data["stop_loss_grace_hours"] = 24.0
-        config_data["catastrophic_stop_loss_pct"] = 40.0
-        config_data["min_whale_trade_size"] = 1000.0
-        config_data["min_whale_roi"] = 0.08
-        config_data["leaderboard_sync_limit"] = 25
-        config_data["min_best_bet_score"] = 60
-        config_data["value_play_size_mult"] = 0.5
-        config_data["grandfather_open_positions"] = True
-        config_data["multi_whale_confirm_count"] = 2
-        config_data["multi_whale_window_seconds"] = 3600
-        config_data["multi_whale_require_all"] = False
-        config_data["enable_sports_whale_filter"] = True
-        config_data["sports_whale_activity_ratio"] = 0.55
-        config_data["sports_whale_sample_size"] = 20
-        config_data["whale_prune_min_trades"] = 3
         updated = True
 
     # Performance strategy v3: consensus entries, realistic fills, risk caps, freshness.
     if not config_data.get("performance_v3_migrated"):
         config_data["performance_v3_migrated"] = True
         config_data["performance_strategy_version"] = 3
-        config_data["execution_mode"] = "market_price"
-        config_data["slippage_bps"] = 25.0
-        config_data["poll_interval_seconds"] = 10
-        config_data["min_copy_price"] = 0.45
-        config_data["max_copy_price"] = 0.80
-        config_data["min_best_bet_score"] = 70
-        config_data["max_days_to_resolution"] = 60
-        config_data["max_holding_hours"] = 0
-        config_data["take_profit_pct"] = 0.0
-        config_data["value_play_take_profit_pct"] = 0.0
-        config_data["stop_loss_pct"] = 0.0
-        config_data["catastrophic_stop_loss_pct"] = 45.0
-        config_data["min_whale_trade_size"] = 2000.0
-        config_data["max_market_exposure"] = 750.0
-        config_data["max_cluster_exposure"] = 1000.0
-        config_data["min_market_liquidity"] = 2500.0
-        config_data["min_market_volume"] = 10000.0
-        config_data["min_whale_roi"] = 0.12
-        config_data["max_whale_volume"] = 15000000.0
-        config_data["value_play_size_mult"] = 0.35
-        config_data["min_whale_win_rate"] = 50.0
-        config_data["whale_prune_min_trades"] = 5
-        config_data["min_whale_copy_pnl"] = -150.0
-        config_data["leaderboard_sync_limit"] = 15
-        config_data["multi_whale_confirm_count"] = 2
-        config_data["multi_whale_window_seconds"] = 7200
-        config_data["multi_whale_require_all"] = True
-        config_data["enable_sports_whale_filter"] = True
-        config_data["sports_whale_activity_ratio"] = 0.50
-        config_data["max_trade_age_seconds"] = 300
-        config_data["max_adverse_slippage_bps"] = 150.0
-        config_data["risk_per_trade_pct"] = 2.0
-        config_data["enable_per_whale_poll"] = True
-        config_data["per_whale_poll_limit"] = 15
-        config_data["per_whale_poll_interval_seconds"] = 30
-        config_data["per_whale_max_parallel"] = 4
-        config_data["enable_value_plays"] = True
-        config_data["copy_only_best_wins"] = True
-        config_data["exclude_sports_bets"] = True
-        config_data["exclude_crypto_bets"] = True
-        config_data["exclude_weather_bets"] = True
         updated = True
 
-    # Performance strategy v3.1: restore continuous order flow while protecting grandfathered open positions
+    # Performance strategy v3.1: restore continuous order flow
     if not config_data.get("performance_v3_1_migrated"):
         config_data["performance_v3_1_migrated"] = True
+        updated = True
+
+    # Performance strategy v4: Sovereign Alpha & Continuous 24/7 Execution
+    # Unlocks high-edge niche markets (weather/macro-crypto), removes multi-whale deadlock for elite/high-conviction plays,
+    # expands price band to [0.35, 0.88], scales sizing sensibly, and maintains 24/7 continuous order flow.
+    if config_data.get("performance_strategy_version", 0) < 4:
+        config_data["performance_v4_migrated"] = True
+        config_data["performance_strategy_version"] = 4
+        config_data["multi_whale_confirm_count"] = 1
         config_data["multi_whale_require_all"] = False
-        config_data["min_whale_trade_size"] = 250.0
-        config_data["min_best_bet_score"] = 60
-        config_data["leaderboard_sync_limit"] = 25
-        config_data["max_market_exposure"] = 2500.0
-        config_data["max_cluster_exposure"] = 5000.0
-        config_data["grandfather_open_positions"] = True
-        config_data["take_profit_pct"] = 0.0
-        config_data["stop_loss_pct"] = 0.0
-        config_data["max_holding_hours"] = 0
+        config_data["single_whale_elite_bypass"] = True
+        config_data["elite_rank_threshold"] = 30
+        config_data["elite_roi_threshold"] = 0.12
+        config_data["min_copy_price"] = 0.35
+        config_data["max_copy_price"] = 0.88
+        config_data["min_best_bet_score"] = 50
+        config_data["copy_only_best_wins"] = False
+        config_data["min_whale_trade_size"] = 100.0
+        config_data["exclude_weather_bets"] = False
+        config_data["exclude_crypto_bets"] = False
+        config_data["exclude_sports_bets"] = True
+        config_data["max_days_to_resolution"] = 90
+        config_data["min_market_liquidity"] = 1500.0
+        config_data["min_market_volume"] = 5000.0
+        config_data["min_whale_roi"] = 0.10
+        config_data["risk_per_trade_pct"] = 4.0
+        config_data["leaderboard_sync_limit"] = 40
+        config_data["poll_interval_seconds"] = 10
+        config_data["per_whale_poll_limit"] = 20
+        config_data["per_whale_poll_interval_seconds"] = 25
+        config_data["per_whale_max_parallel"] = 5
+        config_data["value_play_size_mult"] = 0.50
         updated = True
 
     if updated:

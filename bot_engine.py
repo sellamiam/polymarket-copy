@@ -77,6 +77,19 @@ def is_sports_text(title="", slug="", question=""):
     text = f"{title or ''} {slug or ''} {question or ''}".lower()
     return any(kw in text for kw in SPORTS_KEYWORDS)
 
+SHORT_TERM_CRYPTO_KEYWORDS = [
+    "up or down", "5-minute", "15-minute", "hourly", "1-hour", "4-hour",
+    "price at", "above or below", "dip to", "hit $",
+    ":00pm", ":05pm", ":10pm", ":15pm", ":20pm", ":25pm", ":30pm", ":35pm", ":40pm", ":45pm", ":50pm", ":55pm",
+    ":00am", ":05am", ":10am", ":15am", ":20am", ":25am", ":30am", ":35am", ":40am", ":45am", ":50am", ":55am",
+    "10:00", "10:05", "10:10", "10:15", "10:20", "10:25", "10:30", "10:35", "10:40", "10:45", "10:50", "10:55",
+    "11:00", "11:05", "11:10", "11:15", "11:20", "11:25", "11:30"
+]
+
+def is_short_term_crypto_coinflip(title="", slug="", question=""):
+    text = f"{title or ''} {slug or ''} {question or ''}".lower()
+    return any(kw in text for kw in SHORT_TERM_CRYPTO_KEYWORDS)
+
 def record_whale_signal(state, condition_id, outcome_index, address, timestamp=None):
     """Track recent whale BUY signals for multi-whale confirmation."""
     if not condition_id:
@@ -970,23 +983,28 @@ def run_simulation_iteration(config, state):
         is_sports_fast = False
         is_weather_fast = False
         
-        if config.get("exclude_crypto_bets", True):
+        if config.get("exclude_crypto_bets", False):
             crypto_keywords = ["up or down", "price of", "bitcoin", "ethereum", "solana", "cardano", "dogecoin", "ripple", "crypto", "btc", "eth", "sol", "airdrop"]
             if not ("spacex" in title_lower or "spacex" in slug_lower):
                 if any(kw in title_lower or kw in slug_lower for kw in crypto_keywords):
                     is_crypto_fast = True
+        else:
+            # Smart filter: always exclude short-term coin flips
+            if is_short_term_crypto_coinflip(title, slug):
+                is_crypto_fast = True
                     
         if config.get("exclude_sports_bets", True):
             if is_sports_text(title, slug):
                 is_sports_fast = True
 
-        if config.get("exclude_weather_bets", True):
+        if config.get("exclude_weather_bets", False):
             weather_keywords = ["weather", "temperature", "celsius", "degree", "fahrenheit", "rain", "snow", "hottest", "coldest", "meteorological", "wind speed", "precipitation", "°c", "°f"]
             if any(kw in title_lower or kw in slug_lower for kw in weather_keywords):
                 is_weather_fast = True
 
         if is_crypto_fast and not is_vitalik:
-            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Crypto bets are excluded.")
+            reason = "Crypto bets are excluded." if config.get("exclude_crypto_bets", False) else "Short-term crypto price coin flips are excluded."
+            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: {reason}")
             mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
             continue
             
@@ -1094,12 +1112,23 @@ def run_simulation_iteration(config, state):
                     mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                     continue
 
-            # Multi-whale confirmation (v3: require consensus on all entries by default)
-            confirm_needed = int(config.get("multi_whale_confirm_count", 2))
+            # Multi-whale confirmation (v4: Smart Tiered Consensus)
+            confirm_needed = int(config.get("multi_whale_confirm_count", 1))
             confirm_window = int(config.get("multi_whale_window_seconds", 7200))
-            require_all = bool(config.get("multi_whale_require_all", True))
-            # Value plays always need confirm; standard entries when require_all is true
-            needs_confirm = (is_value_play or require_all) and confirm_needed > 1 and not is_vitalik
+            require_all = bool(config.get("multi_whale_require_all", False))
+
+            trader_rank = int(trader.get("rank") or 1000)
+            trader_roi = float(trader.get("pnl", 0) / trader.get("vol", 1)) if trader.get("vol", 0) > 0 else 0.0
+            elite_threshold = int(config.get("elite_rank_threshold", 30))
+            elite_roi_threshold = float(config.get("elite_roi_threshold", 0.12))
+            is_elite = config.get("single_whale_elite_bypass", True) and (trader_rank <= elite_threshold or trader_roi >= elite_roi_threshold)
+            high_conviction = (usdc_size >= 500.0 or best_bet_score >= 65)
+
+            if is_elite or high_conviction or is_vitalik:
+                needs_confirm = False
+            else:
+                needs_confirm = (is_value_play or require_all) and confirm_needed > 1
+
             if needs_confirm:
                 distinct = count_distinct_whale_signals(
                     state, condition_id, outcome_index, confirm_window, int(time.time())
@@ -1125,8 +1154,8 @@ def run_simulation_iteration(config, state):
                     try:
                         liquidity = float(market_details.get("liquidityNum") or market_details.get("liquidity") or 0)
                         volume = float(market_details.get("volumeNum") or market_details.get("volume") or 0)
-                        min_liq = float(config.get("min_market_liquidity", 5000.0))
-                        min_vol = float(config.get("min_market_volume", 20000.0))
+                        min_liq = float(config.get("min_market_liquidity", 1500.0))
+                        min_vol = float(config.get("min_market_volume", 5000.0))
                         
                         if liquidity < min_liq and not is_vitalik:
                             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Market liquidity ({liquidity:,.1f} USDC) is below minimum of {min_liq:,.1f} USDC.")
@@ -1140,7 +1169,7 @@ def run_simulation_iteration(config, state):
                     except Exception as le:
                         print(f"Error validating market liquidity/volume: {le}")
                     # Exclude crypto bets filter
-                    if config.get("exclude_crypto_bets", True):
+                    if config.get("exclude_crypto_bets", False):
                         is_crypto = False
                         # 1. Check feeType
                         fee_type = (market_details.get("feeType") or "").lower()
@@ -1160,6 +1189,12 @@ def run_simulation_iteration(config, state):
 
                         if is_crypto and not is_vitalik:
                             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Crypto bets are excluded.")
+                            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
+                            continue
+                    else:
+                        # Smart filter: skip short-term coin flips
+                        if is_short_term_crypto_coinflip(title, slug, market_details.get("question", "")) and not is_vitalik:
+                            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Short-term crypto price coin flips are excluded.")
                             mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                             continue
 
@@ -1200,7 +1235,7 @@ def run_simulation_iteration(config, state):
                             continue
 
                     # Exclude weather bets filter
-                    if config.get("exclude_weather_bets", True):
+                    if config.get("exclude_weather_bets", False):
                         is_weather = False
                         question_lower = (market_details.get("question") or "").lower()
                         slug_lower = (market_details.get("slug") or "").lower()
