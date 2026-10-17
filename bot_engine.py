@@ -1018,12 +1018,19 @@ def run_simulation_iteration(config, state):
             mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
             continue
 
-        # Check minimum whale trade size to filter out high-frequency bot spam
-        min_whale_size = float(config.get("min_whale_trade_size", 500.0))
-        if usdc_size < min_whale_size and not is_vitalik:
-            print(f"[ENGINE] Skipped micro-trade on '{title}' ({outcome}) from {name}: {usdc_size:.2f} USDC is below minimum {min_whale_size:.2f} USDC.")
+        # Check minimum whale trade size to filter out high-frequency bot spam (allow algorithmic tranches for elite whales)
+        min_whale_size = float(config.get("min_whale_trade_size", 5.0))
+        trader_rank = int(trader.get("rank") or 1000)
+        trader_roi = float(trader.get("pnl", 0) / trader.get("vol", 1)) if trader.get("vol", 0) > 0 else 0.0
+        if trader_rank <= 50 or trader_roi >= 0.10 or is_vitalik:
+            effective_min_size = min(min_whale_size, 5.0)
+        else:
+            effective_min_size = min_whale_size
+
+        if usdc_size < effective_min_size and not is_vitalik:
             if usdc_size >= 1.0:
-                add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Trade size ({usdc_size:.1f} USDC) is below minimum of {min_whale_size:.1f} USDC.")
+                print(f"[ENGINE] Skipped micro-trade on '{title}' ({outcome}) from {name}: {usdc_size:.2f} USDC is below minimum {effective_min_size:.2f} USDC.")
+                add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Trade size ({usdc_size:.1f} USDC) is below minimum of {effective_min_size:.1f} USDC.")
             mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
             continue
 

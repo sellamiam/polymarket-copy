@@ -44,7 +44,7 @@ class StrategyV4TestCase(unittest.TestCase):
         self.assertTrue(cfg["exclude_sports_bets"])
         self.assertEqual(cfg["min_copy_price"], 0.35)
         self.assertEqual(cfg["max_copy_price"], 0.88)
-        self.assertEqual(cfg["min_whale_trade_size"], 100.0)
+        self.assertEqual(cfg["min_whale_trade_size"], 5.0)
 
 
 if __name__ == "__main__":
