@@ -695,8 +695,8 @@ def get_trader_stats(state, address):
     addr_clean = address.lower()
     exits = [
         t for t in state.get("trades", [])
-        if t.get("original_trader_address", "").lower() == addr_clean
-        or t.get("trader_address", "").lower() == addr_clean
+        if (t.get("original_trader_address") or "").lower() == addr_clean
+        or (t.get("trader_address") or "").lower() == addr_clean
     ]
     resolved = [
         t for t in exits
