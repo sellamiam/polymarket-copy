@@ -1960,7 +1960,7 @@ def _run_loop():
             current_time = time.time()
             if current_time - _last_sync_time >= 3600:
                 try:
-                    sync_whales_from_leaderboard(time_period=["WEEK", "MONTH", "ALL"])
+                    sync_whales_from_leaderboard()
                     _last_sync_time = current_time
                     # Reload config
                     config = load_config()
