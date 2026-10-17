@@ -48,11 +48,11 @@ DEFAULT_CONFIG = {
     "value_play_take_profit_pct": 0.0,
     "stop_loss_pct": 0.0,
     "stop_loss_grace_hours": 24.0,
-    "min_whale_trade_size": 5.0,
+    "min_whale_trade_size": 1.0,
     "max_market_exposure": 2500.0,
     "max_cluster_exposure": 5000.0,
-    "min_market_liquidity": 1500.0,
-    "min_market_volume": 5000.0,
+    "min_market_liquidity": 500.0,
+    "min_market_volume": 1000.0,
     "min_whale_roi": 0.10,
     "max_whale_volume": 15000000.0,
     "enable_value_plays": True,
@@ -355,13 +355,13 @@ def load_config():
         config_data["max_copy_price"] = 0.88
         config_data["min_best_bet_score"] = 50
         config_data["copy_only_best_wins"] = False
-        config_data["min_whale_trade_size"] = 5.0
+        config_data["min_whale_trade_size"] = 1.0
         config_data["exclude_weather_bets"] = False
         config_data["exclude_crypto_bets"] = False
         config_data["exclude_sports_bets"] = True
         config_data["max_days_to_resolution"] = 90
-        config_data["min_market_liquidity"] = 1500.0
-        config_data["min_market_volume"] = 5000.0
+        config_data["min_market_liquidity"] = 500.0
+        config_data["min_market_volume"] = 1000.0
         config_data["min_whale_roi"] = 0.10
         config_data["risk_per_trade_pct"] = 4.0
         config_data["leaderboard_sync_limit"] = 40

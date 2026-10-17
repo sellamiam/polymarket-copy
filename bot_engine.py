@@ -1019,11 +1019,11 @@ def run_simulation_iteration(config, state):
             continue
 
         # Check minimum whale trade size to filter out high-frequency bot spam (allow algorithmic tranches for elite whales)
-        min_whale_size = float(config.get("min_whale_trade_size", 5.0))
+        min_whale_size = float(config.get("min_whale_trade_size", 1.0))
         trader_rank = int(trader.get("rank") or 1000)
         trader_roi = float(trader.get("pnl", 0) / trader.get("vol", 1)) if trader.get("vol", 0) > 0 else 0.0
         if trader_rank <= 50 or trader_roi >= 0.10 or is_vitalik:
-            effective_min_size = min(min_whale_size, 5.0)
+            effective_min_size = min(min_whale_size, 1.0)
         else:
             effective_min_size = min_whale_size
 
