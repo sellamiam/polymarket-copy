@@ -170,7 +170,10 @@ def reconcile():
 @app.get("/api/state")
 def get_state():
     cfg = config.load_config()
-    state = config.load_state(cfg)
+    if cfg.get("use_ledger", True):
+        state = ledger.project_state(include_processed=False)
+    else:
+        state = config.load_state(cfg)
     holdings_bid = float(state.get("_holdings_value_bid", 0.0))
     holdings_mid = float(state.get("_holdings_value_mid", holdings_bid))
     cash = float(state.get("cash_usdc", 0.0))
@@ -417,9 +420,10 @@ def start_simulation():
     cfg["simulation_active"] = True
     config.save_config(cfg)
 
-    state = config.load_state(cfg)
-    config.add_log(state, "Simulation started by user.")
-    config.save_state(state)
+    try:
+        ledger.append_log("Simulation started by user.")
+    except Exception:
+        pass
     bot_engine.start_engine()
 
     return {"status": "success", "simulation_active": True}
@@ -431,9 +435,10 @@ def stop_simulation():
     cfg["simulation_active"] = False
     config.save_config(cfg)
 
-    state = config.load_state(cfg)
-    config.add_log(state, "Simulation stopped/paused by user.")
-    config.save_state(state)
+    try:
+        ledger.append_log("Simulation stopped/paused by user.")
+    except Exception:
+        pass
 
     return {"status": "success", "simulation_active": False}
 

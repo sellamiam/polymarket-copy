@@ -619,6 +619,17 @@ async function toggleBotStatus() {
             alert(`Error: ${errData.detail || errData.error || 'Failed to update simulation state'}`);
         } else {
             window.currentSimulationActive = !currentlyActive;
+            if (window.currentSimulationActive) {
+                botStatusDot.classList.add('active');
+                botStatusText.textContent = 'SIMULATOR RUNNING';
+                btnToggleBot.className = 'btn btn-secondary btn-block text-danger';
+                btnToggleBot.innerHTML = '<i class="fa-solid fa-pause"></i> Stop Simulation';
+            } else {
+                botStatusDot.classList.remove('active');
+                botStatusText.textContent = 'SIMULATOR PAUSED';
+                btnToggleBot.className = 'btn btn-primary btn-block';
+                btnToggleBot.innerHTML = '<i class="fa-solid fa-play"></i> Start Simulation';
+            }
         }
         forceRefreshData();
     } catch (e) {

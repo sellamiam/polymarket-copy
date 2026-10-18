@@ -171,6 +171,9 @@ CREATE TABLE IF NOT EXISTS trades (
 );
 CREATE INDEX IF NOT EXISTS idx_trades_ts ON trades(ts);
 CREATE INDEX IF NOT EXISTS idx_trades_type ON trades(type);
+CREATE INDEX IF NOT EXISTS idx_processed_keys_ts ON processed_keys(ts);
+CREATE INDEX IF NOT EXISTS idx_logs_ts ON logs(ts);
+CREATE INDEX IF NOT EXISTS idx_equity_ts ON equity_snapshots(ts);
 """
 
 
@@ -948,26 +951,28 @@ def aggregate_positions_from_lots(
     return positions
 
 
-def project_state(marks: Optional[Dict[str, Dict[str, float]]] = None) -> Dict[str, Any]:
+def project_state(
+    marks: Optional[Dict[str, Dict[str, float]]] = None,
+    include_processed: bool = True,
+) -> Dict[str, Any]:
     """Build the in-memory state dict used by the engine/dashboard."""
     cash = get_cash()
     positions = aggregate_positions_from_lots(marks)
-    trades = get_trades(limit=2000)
-    logs = get_logs(limit=500)
-    history = get_equity_history(limit=500)
-    whale_positions = get_whale_inventory()
-    processed = get_processed_keys(limit=10000)
+    trades = get_trades(limit=500)
+    logs = get_logs(limit=200)
+    history = get_equity_history(limit=200)
+    whale_positions = get_whale_inventory() if include_processed else {}
+    processed = get_processed_keys(limit=2000) if include_processed else []
 
-    # Backward-compatible processed_tx_hashes: extract tx hash segment when possible
     processed_tx_hashes = []
-    for key in processed:
-        parts = key.split("|")
-        if len(parts) >= 2 and parts[1]:
-            # source|tx|asset|side
-            processed_tx_hashes.append(parts[1] if len(parts) > 2 else parts[0])
-        else:
-            processed_tx_hashes.append(key)
-    # Also keep raw keys for new logic
+    if include_processed:
+        for key in processed:
+            parts = key.split("|")
+            if len(parts) >= 2 and parts[1]:
+                processed_tx_hashes.append(parts[1] if len(parts) > 2 else parts[0])
+            else:
+                processed_tx_hashes.append(key)
+
     return {
         "cash_usdc": cash,
         "positions": positions,
@@ -1227,23 +1232,39 @@ def archive_and_reset(starting_capital: float, confirm: bool = False) -> str:
 
 def reconcile_report() -> Dict[str, Any]:
     """Sanity checks between lots, cash, and trades."""
+    conn = get_connection()
     cash = get_cash()
     lots = get_all_open_lots()
     invested = sum(float(l["invested_usdc"]) for l in lots)
     qty = sum(float(l["remaining_qty"]) for l in lots)
-    trades = get_trades(limit=10000)
-    buys = [t for t in trades if t.get("type") == "BUY"]
-    sells = [t for t in trades if t.get("type") in ("SELL", "RESOLVE")]
+    
+    trade_counts = conn.execute(
+        "SELECT COUNT(*) as total, "
+        "SUM(CASE WHEN type = 'BUY' THEN 1 ELSE 0 END) as buys, "
+        "SUM(CASE WHEN type IN ('SELL', 'RESOLVE') THEN 1 ELSE 0 END) as sells "
+        "FROM trades"
+    ).fetchone()
+    
+    total_trades = (trade_counts["total"] if trade_counts else 0) or 0
+    buys_count = (trade_counts["buys"] if trade_counts else 0) or 0
+    sells_count = (trade_counts["sells"] if trade_counts else 0) or 0
+    
+    proc_row = conn.execute("SELECT COUNT(*) as c FROM processed_keys").fetchone()
+    proc_count = proc_row["c"] if proc_row else 0
+    
+    event_row = conn.execute("SELECT COUNT(*) as c FROM events").fetchone()
+    event_count = event_row["c"] if event_row else 0
+
     return {
         "cash_usdc": cash,
         "open_lots": len(lots),
         "open_quantity": qty,
         "invested_usdc": invested,
-        "trade_count": len(trades),
-        "buy_count": len(buys),
-        "sell_count": len(sells),
-        "processed_keys": len(get_processed_keys(limit=100000)),
-        "events": get_connection().execute("SELECT COUNT(*) AS c FROM events").fetchone()["c"],
+        "trade_count": total_trades,
+        "buy_count": buys_count,
+        "sell_count": sells_count,
+        "processed_keys": proc_count,
+        "events": event_count,
         "initialized": is_initialized(),
         "migrated_from_json": get_meta("migrated_from_json"),
     }
