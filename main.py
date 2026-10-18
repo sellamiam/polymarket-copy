@@ -170,16 +170,12 @@ def reconcile():
 @app.get("/api/state")
 def get_state():
     cfg = config.load_config()
-    with bot_engine._state_lock:
-        state = config.load_state(cfg)
-        holdings_value = bot_engine.update_live_valuations(
-            state, mark_at_bid=bool(cfg.get("mark_at_bid", True))
-        )
-        holdings_bid = float(state.get("_holdings_value_bid", holdings_value))
-        holdings_mid = float(state.get("_holdings_value_mid", holdings_value))
-        total_equity = state["cash_usdc"] + holdings_bid
-        total_equity_mid = state["cash_usdc"] + holdings_mid
-        config.save_state(state)
+    state = config.load_state(cfg)
+    holdings_bid = float(state.get("_holdings_value_bid", 0.0))
+    holdings_mid = float(state.get("_holdings_value_mid", holdings_bid))
+    cash = float(state.get("cash_usdc", 0.0))
+    total_equity = cash + holdings_bid
+    total_equity_mid = cash + holdings_mid
 
     trades = state.get("trades", [])
     resolved_trades = [t for t in trades if t.get("type") in ["SELL", "RESOLVE"]]
@@ -422,9 +418,9 @@ def start_simulation():
     config.save_config(cfg)
 
     state = config.load_state(cfg)
-    with bot_engine._state_lock:
-        config.add_log(state, "Simulation started by user.")
-        config.save_state(state)
+    config.add_log(state, "Simulation started by user.")
+    config.save_state(state)
+    bot_engine.start_engine()
 
     return {"status": "success", "simulation_active": True}
 
@@ -436,9 +432,8 @@ def stop_simulation():
     config.save_config(cfg)
 
     state = config.load_state(cfg)
-    with bot_engine._state_lock:
-        config.add_log(state, "Simulation stopped/paused by user.")
-        config.save_state(state)
+    config.add_log(state, "Simulation stopped/paused by user.")
+    config.save_state(state)
 
     return {"status": "success", "simulation_active": False}
 

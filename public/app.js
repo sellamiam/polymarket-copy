@@ -291,6 +291,7 @@ function renderDashboard(data) {
     const totalEquity = data.total_equity;
 
     // Render Bot Status
+    window.currentSimulationActive = Boolean(config && config.simulation_active);
     if (config.simulation_active) {
         botStatusDot.classList.add('active');
         botStatusText.textContent = 'SIMULATOR RUNNING';
@@ -603,23 +604,28 @@ function escapeHTML(str) {
 
 // Controller Actions
 async function toggleBotStatus() {
+    const currentlyActive = Boolean(window.currentSimulationActive);
+    const targetEndpoint = currentlyActive ? '/api/control/stop' : '/api/control/start';
+    const actionLabel = currentlyActive ? 'Stopping' : 'Starting';
+
+    // Immediate visual feedback to user
+    btnToggleBot.disabled = true;
+    btnToggleBot.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${actionLabel}...`;
+
     try {
-        const stateRes = await fetch('/api/state');
-        const data = await stateRes.json();
-        const active = data.config.simulation_active;
-        
-        const actionText = active ? 'stop/pause' : 'start';
-        if (!confirm(`Are you sure you want to ${actionText} the simulation?`)) {
-            return;
+        const res = await apiFetch(targetEndpoint, { method: 'POST' });
+        if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            alert(`Error: ${errData.detail || errData.error || 'Failed to update simulation state'}`);
+        } else {
+            window.currentSimulationActive = !currentlyActive;
         }
-        
-        const endpoint = active ? '/api/control/stop' : '/api/control/start';
-        const res = await apiFetch(endpoint, { method: 'POST' });
-        if (res.ok) {
-            forceRefreshData();
-        }
+        forceRefreshData();
     } catch (e) {
         console.error('Error toggling bot:', e);
+        alert('Network error while toggling simulation.');
+    } finally {
+        btnToggleBot.disabled = false;
     }
 }
 

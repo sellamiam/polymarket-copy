@@ -229,10 +229,9 @@ def calculate_dynamic_sizing_multiplier(trader_cfg, whale_trade_usdc):
 
 _engine_thread = None
 _stop_event = threading.Event()
-_state_lock = threading.Lock()
-
+_state_lock = threading.RLock()
 _clob_price_cache = {}
-_clob_cache_lock = threading.Lock()
+_clob_cache_lock = threading.RLock()
 
 def fetch_clob_price(token_id, side, ttl_seconds=10.0):
     """
@@ -1968,39 +1967,36 @@ def _run_loop():
                     print(f"Error in automatic leaderboard sync: {sync_err}")
 
             if config.get("simulation_active", False):
-                # Network-heavy work should not hold the lock for the entire iteration.
-                # We take the lock for state load/mutate/save; feeds still run under lock
-                # for consistency with in-memory state (ledger writes are independently locked).
-                with _state_lock:
-                    state = load_state(config)
+                state = load_state(config)
 
-                    # 1. Run simulation iteration to copy new trades
-                    trade_occurred = run_simulation_iteration(config, state)
+                # 1. Run simulation iteration to copy new trades (network I/O runs outside lock)
+                trade_occurred = run_simulation_iteration(config, state)
 
-                    # 2. Mark at executable bid; mid stored for NAV reporting
+                # 2. Mark at executable bid; mid stored for NAV reporting
+                holdings_value = update_live_valuations(
+                    state, mark_at_bid=bool(config.get("mark_at_bid", True))
+                )
+
+                # 3. Check for early exits/capital recycling based on latest prices
+                recycle_occurred = recycle_positions_and_exit_strategies(config, state)
+                if recycle_occurred:
                     holdings_value = update_live_valuations(
                         state, mark_at_bid=bool(config.get("mark_at_bid", True))
                     )
 
-                    # 3. Check for early exits/capital recycling based on latest prices
-                    recycle_occurred = recycle_positions_and_exit_strategies(config, state)
-                    if recycle_occurred:
-                        holdings_value = update_live_valuations(
-                            state, mark_at_bid=bool(config.get("mark_at_bid", True))
-                        )
+                holdings_bid = float(state.get("_holdings_value_bid", holdings_value))
+                holdings_mid = float(state.get("_holdings_value_mid", holdings_value))
+                total_equity = calculate_total_equity(state, holdings_bid)
+                total_equity_mid = state["cash_usdc"] + holdings_mid
 
-                    holdings_bid = float(state.get("_holdings_value_bid", holdings_value))
-                    holdings_mid = float(state.get("_holdings_value_mid", holdings_value))
-                    total_equity = calculate_total_equity(state, holdings_bid)
-                    total_equity_mid = state["cash_usdc"] + holdings_mid
-
-                    # 4. Equity snapshot (bid primary, mid secondary)
+                # 4. State save and snapshot under short lock
+                with _state_lock:
+                    current_time = int(time.time())
                     last_snapshot = (
                         state["portfolio_value_history"][-1]
                         if state.get("portfolio_value_history")
                         else None
                     )
-                    current_time = int(time.time())
 
                     should_append = False
                     if not last_snapshot:
