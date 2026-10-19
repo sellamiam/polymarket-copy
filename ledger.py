@@ -855,6 +855,26 @@ def get_equity_history(limit: int = 500) -> List[Dict[str, Any]]:
     return hist
 
 
+def get_latest_equity_snapshot() -> Optional[Dict[str, float]]:
+    conn = get_connection()
+    row = conn.execute(
+        """
+        SELECT ts, cash, holdings_bid, holdings_mid, total_equity_bid, total_equity_mid
+        FROM equity_snapshots ORDER BY id DESC LIMIT 1
+        """
+    ).fetchone()
+    if not row:
+        return None
+    return {
+        "timestamp": float(row["ts"]),
+        "cash": float(row["cash"]),
+        "holdings_bid": float(row["holdings_bid"]),
+        "holdings_mid": float(row["holdings_mid"]),
+        "total_equity_bid": float(row["total_equity_bid"]),
+        "total_equity_mid": float(row["total_equity_mid"]),
+    }
+
+
 def get_processed_keys(limit: int = 5000) -> List[str]:
     conn = get_connection()
     rows = conn.execute(

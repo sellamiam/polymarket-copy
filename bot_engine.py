@@ -232,6 +232,13 @@ _stop_event = threading.Event()
 _state_lock = threading.RLock()
 _clob_price_cache = {}
 _clob_cache_lock = threading.RLock()
+_latest_valuations = {
+    "holdings_bid": 0.0,
+    "holdings_mid": 0.0,
+    "total_equity": 10000.0,
+    "total_equity_mid": 10000.0,
+    "ts": 0.0,
+}
 
 def fetch_clob_price(token_id, side, ttl_seconds=10.0):
     """
@@ -1988,6 +1995,15 @@ def _run_loop():
                 holdings_mid = float(state.get("_holdings_value_mid", holdings_value))
                 total_equity = calculate_total_equity(state, holdings_bid)
                 total_equity_mid = state["cash_usdc"] + holdings_mid
+
+                global _latest_valuations
+                _latest_valuations = {
+                    "holdings_bid": holdings_bid,
+                    "holdings_mid": holdings_mid,
+                    "total_equity": total_equity,
+                    "total_equity_mid": total_equity_mid,
+                    "ts": time.time(),
+                }
 
                 # 4. State save and snapshot under short lock
                 with _state_lock:
