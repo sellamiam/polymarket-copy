@@ -137,9 +137,16 @@
 
                 <!-- Active Positions Layout -->
                 <div class="card positions-card">
-                    <div class="card-header">
-                        <h3 class="card-title"><i class="fa-solid fa-briefcase"></i> Active Positions</h3>
-                        <span class="card-subtitle">Currently holding simulated shares</span>
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+                        <div>
+                            <h3 class="card-title"><i class="fa-solid fa-briefcase"></i> Active Positions</h3>
+                            <span class="card-subtitle">Currently holding simulated shares</span>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <button id="btn-prune-v6" class="btn btn-warning btn-sm" style="display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; padding: 0.45rem 0.85rem; border-radius: 6px; cursor: pointer; background: #eab308; color: #000; border: none; font-size: 0.8rem;" title="Liquidate toxic weather bets & negative-asymmetry single-whale bets">
+                                <i class="fa-solid fa-broom"></i> Prune V6 Toxic Bets
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -153,11 +160,12 @@
                                         <th>Current</th>
                                         <th>Invested</th>
                                         <th>Unrealized PnL</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td colspan="7" class="text-center text-muted">No open positions. Select a whale and start the simulation.</td>
+                                        <td colspan="8" class="text-center text-muted">No open positions. Select a whale and start the simulation.</td>
                                     </tr>
                                 </tbody>
                             </table>

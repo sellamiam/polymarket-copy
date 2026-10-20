@@ -155,6 +155,11 @@ class ResetRequest(BaseModel):
     confirm_phrase: Optional[str] = None
 
 
+class ClosePositionRequest(BaseModel):
+    token_id: str
+    reason: Optional[str] = "MANUAL_CLOSE"
+
+
 @app.get("/api/health")
 def health_check():
     """Lightweight endpoint for keep-alive pings. Does not load full state."""
@@ -486,6 +491,38 @@ def reset_simulation(body: ResetRequest = ResetRequest()):
         "message": "Simulation archived and re-initialized.",
         "archive_path": archive,
     }
+
+
+@app.post("/api/positions/close", dependencies=[Depends(require_mutate_auth)])
+def api_close_position(body: ClosePositionRequest):
+    """Surgically closes an individual open position with full ledger accounting."""
+    cfg = config.load_config()
+    with bot_engine._state_lock:
+        state = config.load_state(cfg)
+        trade = bot_engine.close_position_by_token(body.token_id, reason=body.reason or "MANUAL_CLOSE", state=state)
+        if not trade:
+            raise HTTPException(status_code=404, detail="Position not found or could not be liquidated.")
+        return {
+            "status": "success",
+            "trade": trade,
+            "cash_usdc": state.get("cash_usdc"),
+        }
+
+
+@app.post("/api/positions/prune-v6", dependencies=[Depends(require_mutate_auth)])
+def api_prune_v6_violations():
+    """Identifies and liquidates all open positions violating V6 quantitative rules."""
+    cfg = config.load_config()
+    with bot_engine._state_lock:
+        state = config.load_state(cfg)
+        pruned_trades = bot_engine.prune_v6_violations(state=state, config=cfg)
+        return {
+            "status": "success",
+            "pruned_count": len(pruned_trades),
+            "trades": pruned_trades,
+            "cash_usdc": state.get("cash_usdc"),
+        }
+
 
 
 @app.post("/api/traders/sync-leaderboard", dependencies=[Depends(require_mutate_auth)])

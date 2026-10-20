@@ -403,7 +403,7 @@ function renderPositionsTable(positions) {
 
     const list = Object.values(positions);
     if (list.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No open positions. Select a whale and start the simulation.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">No open positions. Select a whale and start the simulation.</td></tr>';
         return;
     }
 
@@ -430,6 +430,7 @@ function renderPositionsTable(positions) {
             scoreHTML += `<div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 0.15rem;">Score: -</div>`;
         }
 
+        const safeTitle = (pos.market_title || 'Position').replace(/"/g, '&quot;');
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>
@@ -445,6 +446,11 @@ function renderPositionsTable(positions) {
             <td>${pos.current_price.toFixed(3)} USDC</td>
             <td>${formatUSD(costBasis)}</td>
             <td class="${pnlClass} font-weight-bold">${sign}${formatUSD(unrealizedPnl)} (${sign}${unrealizedPnlPct.toFixed(2)}%)</td>
+            <td>
+                <button class="btn btn-sm btn-outline-danger btn-close-pos" data-token="${pos.token_id}" data-title="${safeTitle}" style="font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px; border: 1px solid #ef4444; background: transparent; color: #ef4444; cursor: pointer; font-weight: 500;" title="Liquidate position">
+                    Close
+                </button>
+            </td>
         `;
         tbody.appendChild(tr);
     });
@@ -922,3 +928,70 @@ async function submitQuickFollow(e) {
         console.error('Error submitting quick follow:', err);
     }
 }
+
+// Prune V6 Toxic Bets & Manual Close Listeners
+document.addEventListener('DOMContentLoaded', () => {
+    const btnPruneV6 = document.getElementById('btn-prune-v6');
+    if (btnPruneV6) {
+        btnPruneV6.addEventListener('click', async () => {
+            if (!confirm('Surgically liquidate open positions violating V6 rules (weather noise & negative-asymmetry single-whale bets)? This will free up cash for high +EV setups.')) {
+                return;
+            }
+            btnPruneV6.disabled = true;
+            const originalHTML = btnPruneV6.innerHTML;
+            btnPruneV6.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Pruning...';
+            try {
+                const res = await apiFetch('/api/positions/prune-v6', { method: 'POST' });
+                const data = await res.json();
+                if (res.ok && data.status === 'success') {
+                    alert(`Surgically pruned ${data.pruned_count} positions!\nRecovered cash has been credited back to your account.`);
+                    forceRefreshData();
+                } else {
+                    alert(`Prune failed: ${data.detail || 'Unknown error'}`);
+                }
+            } catch (err) {
+                console.error('Error pruning positions:', err);
+                alert('Network error while pruning positions.');
+            } finally {
+                btnPruneV6.disabled = false;
+                btnPruneV6.innerHTML = originalHTML;
+            }
+        });
+    }
+
+    const tablePositions = document.querySelector('#table-positions tbody');
+    if (tablePositions) {
+        tablePositions.addEventListener('click', async (e) => {
+            const btn = e.target.closest('.btn-close-pos');
+            if (!btn) return;
+            const token = btn.getAttribute('data-token');
+            const title = btn.getAttribute('data-title') || 'this position';
+            if (!confirm(`Liquidate open position: "${title}"?`)) {
+                return;
+            }
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            try {
+                const res = await apiFetch('/api/positions/close', {
+                    method: 'POST',
+                    body: JSON.stringify({ token_id: token, reason: 'MANUAL_CLOSE' })
+                });
+                const data = await res.json();
+                if (res.ok && data.status === 'success') {
+                    alert(`Position successfully liquidated! Proceeds credited to cash.`);
+                    forceRefreshData();
+                } else {
+                    alert(`Failed to close position: ${data.detail || 'Unknown error'}`);
+                    btn.disabled = false;
+                    btn.innerHTML = 'Close';
+                }
+            } catch (err) {
+                console.error('Error closing position:', err);
+                alert('Network error while liquidating position.');
+                btn.disabled = false;
+                btn.innerHTML = 'Close';
+            }
+        });
+    }
+});
+

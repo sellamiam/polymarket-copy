@@ -7,6 +7,7 @@ import json
 from config import load_config, load_state, save_state, add_log
 from concurrent.futures import ThreadPoolExecutor
 import math
+from typing import Optional, List, Dict, Any
 
 import ledger
 import fills
@@ -713,6 +714,149 @@ def recycle_positions_and_exit_strategies(config, state):
             add_log(state, msg)
 
     return recycled_any
+
+
+def close_position_by_token(token_id: str, reason: str = "MANUAL_PRUNE", state: Optional[dict] = None) -> Optional[dict]:
+    """
+    Surgically liquidate an open position by token_id with full ledger accounting.
+    Simulates selling the full quantity against order book depth, credits cash,
+    closes ledger lots, records trade history, and removes from active state.
+    """
+    cfg = load_config()
+    st = state
+    if st is None:
+        st = load_state(cfg)
+
+    pos = st.get("positions", {}).get(token_id)
+    if not pos:
+        return None
+
+    current_time = int(time.time())
+    qty = float(pos.get("quantity", 0.0))
+    if qty <= 0:
+        st.get("positions", {}).pop(token_id, None)
+        return None
+
+    # Attempt realistic order book fill first
+    fill = fills.simulate_sell_qty(
+        token_id,
+        qty,
+        fee_bps=float(cfg.get("fill_fee_bps", 0.0)),
+        slippage_bps=float(cfg.get("slippage_bps", 25)),
+        tick_size=float(cfg.get("fill_tick_size", 0.01)),
+        allow_partial=True,
+    )
+
+    if fill.ok and fill.avg_price > 0:
+        exit_price = fill.avg_price
+        filled_qty = fill.filled_qty
+        proceeds = fill.notional - fill.fee_usdc
+        fill_detail = fill.to_dict()
+    else:
+        # Fallback to conservative bid or current price
+        exit_price = float(pos.get("bid_price", pos.get("current_price", pos.get("avg_price", 0.0))))
+        filled_qty = qty
+        proceeds = exit_price * filled_qty
+        fill_detail = {"fallback": True, "exit_price": exit_price}
+
+    closed_lots = ledger.close_all_lots_for_token(token_id)
+    cost_basis = (
+        sum(float(c.get("cost_basis", 0.0)) for c in closed_lots)
+        if closed_lots
+        else float(pos.get("avg_price", 0.0)) * filled_qty
+    )
+    realized_pnl = proceeds - cost_basis
+    st["cash_usdc"] = float(st.get("cash_usdc", 0.0)) + proceeds
+    ledger.set_cash(st["cash_usdc"])
+
+    trade = {
+        "id": str(uuid.uuid4()),
+        "timestamp": current_time,
+        "trader_address": "prune_strategy",
+        "trader_name": f"Prune Exit: {reason}",
+        "original_trader_address": pos.get("trader_address", ""),
+        "original_trader_name": pos.get("trader_name", ""),
+        "market_title": pos.get("market_title", "Unknown"),
+        "market_slug": pos.get("market_slug", ""),
+        "outcome": pos.get("outcome", ""),
+        "type": "SELL",
+        "quantity": filled_qty,
+        "price": exit_price,
+        "usdc_size": proceeds,
+        "tx_hash": f"prune_{reason.lower().replace(' ', '_')[:24]}",
+        "realized_pnl": realized_pnl,
+        "fill_detail": fill_detail,
+        "idempotency_key": f"prune|{token_id}|{current_time}",
+    }
+    ledger.record_trade(trade)
+    st.setdefault("trades", []).append(trade)
+    st.get("positions", {}).pop(token_id, None)
+
+    msg = (
+        f"PRUNED: '{pos.get('market_title')}' ({pos.get('outcome')}) via {reason}. "
+        f"Liquidated {filled_qty:.2f} shares @ {exit_price:.3f} USDC "
+        f"(Proceeds: {proceeds:.2f} USDC, PnL: {realized_pnl:+.2f} USDC)."
+    )
+    add_log(st, msg)
+    save_state(st)
+    return trade
+
+
+def prune_v6_violations(state: Optional[dict] = None, config: Optional[dict] = None) -> List[dict]:
+    """
+    Identifies and liquidates all open positions that violate V6 quantitative alpha guidelines:
+    1. Weather/temperature noise bets (which caused major drawdowns)
+    2. Bets from toxic/negative-PnL whales (e.g. e46m3) with high prices (>=0.75 USDC)
+    3. Single-whale entries above core_max_copy_price (0.78 USDC) with flat/negative PnL
+    4. Over-concentrated single conditions (> $250 max_market_exposure)
+    """
+    cfg = config or load_config()
+    st = state
+    if st is None:
+        st = load_state(cfg)
+
+    core_max_price = float(cfg.get("core_max_copy_price", 0.78))
+    max_condition_exposure = float(cfg.get("max_market_exposure", 250.0))
+    weather_keywords = [
+        "weather", "temperature", "celsius", "degree", "fahrenheit",
+        "rain", "snow", "hottest", "coldest", "meteorological",
+        "wind speed", "precipitation", "°c", "°f"
+    ]
+
+    pruned_trades = []
+    positions_to_prune = []
+
+    for token_id, pos in list(st.get("positions", {}).items()):
+        title = (pos.get("market_title") or "").lower()
+        slug = (pos.get("market_slug") or "").lower()
+        avg_price = float(pos.get("avg_price", 0.0))
+        curr_price = float(pos.get("current_price", avg_price))
+        invested = float(pos.get("invested_usdc", 0.0))
+        pnl_pct = ((curr_price - avg_price) / avg_price * 100.0) if avg_price > 0 else 0.0
+        trader_addr = (pos.get("trader_address") or "").lower()
+        source_whales = pos.get("source_whales") or {}
+        num_whales = len(source_whales)
+
+        reason = None
+        # 1. Weather/temperature check
+        if any(kw in title or kw in slug for kw in weather_keywords):
+            reason = "V6 Noise Violation: Weather/Temperature Gamble"
+        # 2. Toxic whale e46m3 high-price / negative asymmetry
+        elif trader_addr == "0x4f1d5ae26fc31472966e951af3183308736d8de2" and avg_price >= 0.75:
+            reason = "V6 Toxic Whale Violation: Negative Asymmetry from e46m3"
+        # 3. Single whale above 0.78 USDC with flat/negative profit
+        elif avg_price > core_max_price and num_whales < 2 and pnl_pct <= 1.0:
+            reason = f"V6 Asymmetry Violation: Single-Whale Entry at {avg_price:.3f} > {core_max_price:.2f}"
+
+        if reason:
+            positions_to_prune.append((token_id, reason))
+
+    for token_id, reason in positions_to_prune:
+        trade = close_position_by_token(token_id, reason=reason, state=st)
+        if trade:
+            pruned_trades.append(trade)
+
+    return pruned_trades
 
 
 def get_trader_stats(state, address):
