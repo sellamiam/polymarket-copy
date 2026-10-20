@@ -49,8 +49,8 @@ DEFAULT_CONFIG = {
     "stop_loss_pct": 30.0,  # Stop loss at -30% after 24h grace period
     "stop_loss_grace_hours": 24.0,
     "min_whale_trade_size": 1.0,
-    "max_market_exposure": 2500.0,
-    "max_cluster_exposure": 5000.0,
+    "max_market_exposure": 250.0,
+    "max_cluster_exposure": 1000.0,
     "min_market_liquidity": 500.0,
     "min_market_volume": 1000.0,
     "min_whale_roi": 0.12,  # Require at least 12% ROI
@@ -60,7 +60,12 @@ DEFAULT_CONFIG = {
     "value_play_size_mult": 0.50,
     "exclude_sports_bets": True,
     "exclude_crypto_bets": False,  # Engine filters 5m/15m/hourly coinflips, allows macro crypto
-    "exclude_weather_bets": False,  # Enable weather/science niche markets
+    "exclude_weather_bets": True,  # Permanently exclude temperature/weather coin-flips
+    "exclude_entertainment_bets": True,  # Exclude view-count guessing markets
+    "core_max_copy_price": 0.78,  # Single-whale entries capped at 0.78 to prevent 85c asymmetry trap
+    "consensus_max_copy_price": 0.88,  # Entries > 0.78 require Multi-Whale Consensus & 0.5x size
+    "max_open_positions_per_whale": 2,  # Max 2 concurrent open positions per whale
+    "break_even_ratchet_pct": 20.0,  # Move SL to entry + 1% once position reaches +20% gain
     "simulation_active": True,
     "niche_priority_active": True,
     "dynamic_sizing_active": True,
@@ -72,7 +77,7 @@ DEFAULT_CONFIG = {
     "maturity_threshold": 0.95,  # Cash out when win probability hits 95% instead of holding for weeks
     "leaderboard_sync_limit": 40,
     "leaderboard_timeframes": ["ALL", "MONTH"],  # Disqualify 7-day WEEK luck; only proven track records
-    "catastrophic_stop_loss_pct": 45.0,
+    "catastrophic_stop_loss_pct": 35.0,
     # Protect positions opened before performance-v2 from strategy exits
     "grandfather_open_positions": True,
     # Multi-whale confirmation: 1 for elite/high-conviction, consensus for low-prob speculative
@@ -91,19 +96,20 @@ DEFAULT_CONFIG = {
     # Strict adverse slippage: never pay more than 50 bps (0.5%) worse than whale price
     "max_adverse_slippage_bps": 50.0,
     # Cap each new BUY at this % of total equity (risk control)
-    "risk_per_trade_pct": 4.0,
+    "risk_per_trade_pct": 2.0,
     # Poll each enabled whale's trade feed (throttled vs main loop to avoid 429s)
     "enable_per_whale_poll": True,
     "per_whale_poll_limit": 20,
     "per_whale_poll_interval_seconds": 25,
     "per_whale_max_parallel": 5,
     # Prefer mid-price edge band slightly in scoring
-    "performance_strategy_version": 5,
+    "performance_strategy_version": 6,
     "performance_v2_migrated": True,
     "performance_v3_migrated": True,
     "performance_v3_1_migrated": True,
     "performance_v4_migrated": True,
     "performance_v5_migrated": True,
+    "performance_v6_migrated": True,
     # Ledger / conservative fills
     "use_ledger": True,
     "depth_aware_fills": True,
@@ -394,6 +400,28 @@ def load_config():
         config_data["min_whale_roi"] = 0.12
         config_data["min_whale_win_rate"] = 55.0
         config_data["leaderboard_timeframes"] = ["ALL", "MONTH"]
+        updated = True
+
+    # Performance strategy v6: Institutional Alpha Suite (The 180-IQ Quant Upgrade)
+    # - Negative Asymmetry Gate: Single-whale entries capped at 0.78 USDC; 0.78-0.88 strictly requires Multi-Whale Consensus & 0.5x size
+    # - Hard Market Exposure Cap ($250.00 max per condition_id, 2.5% equity cap)
+    # - Weather and Entertainment Noise Ban (exclude_weather_bets=True, exclude_entertainment_bets=True)
+    # - Strict Kelly Risk Cap: 2.0% equity per trade
+    # - Per-Whale Concurrency Limit (max 2 open positions per whale simultaneously)
+    # - Break-Even Stop Ratchet at +20% gain (locks risk-free winner)
+    # - Catastrophic stop tightened to 35%
+    if config_data.get("performance_strategy_version", 0) < 6:
+        config_data["performance_v6_migrated"] = True
+        config_data["performance_strategy_version"] = 6
+        config_data["exclude_weather_bets"] = True
+        config_data["exclude_entertainment_bets"] = True
+        config_data["risk_per_trade_pct"] = 2.0
+        config_data["max_market_exposure"] = 250.0
+        config_data["core_max_copy_price"] = 0.78
+        config_data["consensus_max_copy_price"] = 0.88
+        config_data["max_open_positions_per_whale"] = 2
+        config_data["break_even_ratchet_pct"] = 20.0
+        config_data["catastrophic_stop_loss_pct"] = 35.0
         updated = True
 
     if updated:

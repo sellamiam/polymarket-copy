@@ -39,7 +39,7 @@ class StrategyV4TestCase(unittest.TestCase):
         self.assertEqual(cfg["multi_whale_confirm_count"], 1)
         self.assertFalse(cfg["multi_whale_require_all"])
         self.assertTrue(cfg["single_whale_elite_bypass"])
-        self.assertFalse(cfg["exclude_weather_bets"])
+        self.assertTrue(cfg["exclude_weather_bets"])
         self.assertFalse(cfg["exclude_crypto_bets"])
         self.assertTrue(cfg["exclude_sports_bets"])
         self.assertEqual(cfg["min_copy_price"], 0.35)

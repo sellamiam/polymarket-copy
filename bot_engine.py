@@ -194,6 +194,16 @@ def is_niche_market(title, slug, question=""):
     ]
     return any(kw in title_lower or kw in slug_lower or kw in q_lower for kw in niche_keywords)
 
+def is_entertainment_noise_market(title, slug, question=""):
+    t = (title or "").lower()
+    s = (slug or "").lower()
+    q = (question or "").lower()
+    noise_keywords = [
+        "trailer views", "million views", "views on week", "youtube views",
+        "box office", "first week views", "spotify streams", "tiktok views"
+    ]
+    return any(kw in t or kw in s or kw in q for kw in noise_keywords)
+
 def calculate_dynamic_sizing_multiplier(trader_cfg, whale_trade_usdc):
     roi_multiplier = 1.0
     rank_mult = 1.0
@@ -580,6 +590,20 @@ def recycle_positions_and_exit_strategies(config, state):
         if avg_price > 0:
             pnl_pct = ((current_price - avg_price) / avg_price) * 100.0
             
+        # Track peak PnL for trailing break-even ratchet (locks winner when price retreats)
+        peak_pnl = float(pos.get("peak_pnl_pct", 0.0))
+        if pnl_pct > peak_pnl:
+            pos["peak_pnl_pct"] = pnl_pct
+            peak_pnl = pnl_pct
+
+        ratchet_pct = float(config.get("break_even_ratchet_pct", 20.0))
+        is_break_even_triggered = (
+            strategy_exits
+            and ratchet_pct > 0
+            and peak_pnl >= ratchet_pct
+            and pnl_pct <= 1.0
+        )
+
         # Determine age
         opened_at = pos.get("opened_at")
         if opened_at is None:
@@ -606,6 +630,9 @@ def recycle_positions_and_exit_strategies(config, state):
             if effective_tp_pct > 0 and pnl_pct >= effective_tp_pct:
                 trigger_reason = f"TP (+{pnl_pct:.1f}%)"
                 exit_type = "RECYCLE_TP"
+            elif is_break_even_triggered:
+                trigger_reason = f"BREAK-EVEN RATCHET (+{pnl_pct:.1f}%, peak +{peak_pnl:.1f}%)"
+                exit_type = "RECYCLE_BREAKEVEN"
             elif stop_loss_pct > 0 and pnl_pct <= -stop_loss_pct:
                 is_catastrophic = (catastrophic_stop_loss_pct > 0 and pnl_pct <= -catastrophic_stop_loss_pct)
                 if age_hours >= stop_loss_grace_hours or is_catastrophic:
@@ -1001,10 +1028,15 @@ def run_simulation_iteration(config, state):
             if is_sports_text(title, slug):
                 is_sports_fast = True
 
-        if config.get("exclude_weather_bets", False):
+        if config.get("exclude_weather_bets", True):
             weather_keywords = ["weather", "temperature", "celsius", "degree", "fahrenheit", "rain", "snow", "hottest", "coldest", "meteorological", "wind speed", "precipitation", "°c", "°f"]
             if any(kw in title_lower or kw in slug_lower for kw in weather_keywords):
                 is_weather_fast = True
+
+        is_entertainment_fast = False
+        if config.get("exclude_entertainment_bets", True):
+            if is_entertainment_noise_market(title, slug):
+                is_entertainment_fast = True
 
         if is_crypto_fast and not is_vitalik:
             reason = "Crypto bets are excluded." if config.get("exclude_crypto_bets", False) else "Short-term crypto price coin flips are excluded."
@@ -1021,6 +1053,29 @@ def run_simulation_iteration(config, state):
             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Weather/temperature bets are excluded.")
             mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
             continue
+
+        if is_entertainment_fast and not is_vitalik:
+            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Entertainment/trailer view-count noise bets are excluded.")
+            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
+            continue
+
+        # Check per-whale concurrency cap (max 2 open positions per whale simultaneously)
+        max_open_per_whale = int(config.get("max_open_positions_per_whale", 2))
+        if max_open_per_whale > 0 and not is_vitalik:
+            open_count = 0
+            addr_lower = trader_addr.lower()
+            for p in state.get("positions", {}).values():
+                p_addr = (p.get("trader_address") or "").lower()
+                sw = p.get("source_whales", {})
+                if p_addr == addr_lower or addr_lower in [k.lower() for k in sw.keys()]:
+                    open_count += 1
+            if open_count >= max_open_per_whale:
+                add_log(
+                    state,
+                    f"Skipped BUY on '{title}' from {name}: Whale already has {open_count} open positions (max {max_open_per_whale} concurrent per whale)."
+                )
+                mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "", note="whale_concurrency_cap")
+                continue
 
         # Check minimum whale trade size to filter out high-frequency bot spam (allow algorithmic tranches for elite whales)
         min_whale_size = float(config.get("min_whale_trade_size", 1.0))
@@ -1104,17 +1159,20 @@ def run_simulation_iteration(config, state):
             niche_bypass = niche_flag and niche_active
 
             # Check price range filters (bypassed for niche markets when priority is active or for value plays)
-            min_price = float(config.get("min_copy_price", 0.70))
-            max_price = float(config.get("max_copy_price", 0.95))
+            min_price = float(config.get("min_copy_price", 0.35))
+            max_price = float(config.get("max_copy_price", 0.88))
+            core_max_price = float(config.get("core_max_copy_price", 0.78))
+            consensus_max_price = float(config.get("consensus_max_copy_price", 0.88))
             is_value_play = False
+            is_high_odds_consensus = False
             
             if (price < min_price or price > max_price) and not is_vitalik:
                 if config.get("enable_value_plays", True) and 0.10 <= price <= 0.60:
                     is_value_play = True
                     add_log(state, f"VALUE PLAY: '{title}' ({outcome}) @ {price:.3f} USDC qualifies as a value play (potential 1.6x-10x payout).")
                 elif niche_bypass:
-                    if price > 0.90:
-                        add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Niche market but price exceeds hard ceiling 0.90 USDC (low yield yield-farm bet).")
+                    if price > core_max_price:
+                        add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Niche market but price exceeds core ceiling {core_max_price:.2f} USDC (negative asymmetry protection).")
                         mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                         continue
                     add_log(state, f"NICHE BYPASS: '{title}' ({outcome}) from {name} @ {price:.3f} USDC bypassed price filter [{min_price:.2f}, {max_price:.2f}] — niche market priority active.")
@@ -1122,6 +1180,25 @@ def run_simulation_iteration(config, state):
                     add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Outside price range [{min_price:.2f}, {max_price:.2f}] [Win Prob: {win_probability:.1f}%]")
                     mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                     continue
+
+            # V6 Quantitative Rule: Negative Asymmetry Gate
+            # High-odds contracts (> 0.78 USDC) offer terrible risk-reward (risking >$0.78 to make <$0.22).
+            # Single whales are blocked from entering above core_max_copy_price (0.78).
+            # Entries between 0.78 and consensus_max_copy_price (0.88) strictly require Multi-Whale Consensus.
+            if price > core_max_price and not is_vitalik:
+                if price > consensus_max_price:
+                    add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Price exceeds absolute hard ceiling {consensus_max_price:.2f} USDC (negative asymmetry protection).")
+                    mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "", note="exceeds_consensus_max_price")
+                    continue
+                distinct_whales = count_distinct_whale_signals(
+                    state, condition_id, outcome_index, 86400, int(time.time())
+                )
+                if distinct_whales < 2:
+                    add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: High-odds entry (> {core_max_price:.2f} USDC) requires Multi-Whale Consensus (found {distinct_whales} whale).")
+                    mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "", note="needs_multi_whale_consensus")
+                    continue
+                is_high_odds_consensus = True
+                add_log(state, f"MULTI-WHALE CONSENSUS: '{title}' ({outcome}) @ {price:.3f} USDC validated by {distinct_whales} independent whales.")
 
             # Multi-whale confirmation (v4: Smart Tiered Consensus)
             confirm_needed = int(config.get("multi_whale_confirm_count", 1))
@@ -1320,6 +1397,11 @@ def run_simulation_iteration(config, state):
                 niche_bonus = copy_usdc * 0.25
                 copy_usdc += niche_bonus
 
+            # V6 Asymmetry Sizing: 0.5x size for high-odds consensus trades (> 0.78 USDC)
+            if is_high_odds_consensus:
+                copy_usdc *= 0.50
+                add_log(state, f"ASYMMETRY SIZING: '{title}' size scaled down 0.50x to {copy_usdc:.2f} USDC (high-odds protection).")
+
             # Risk cap: max % of equity per new BUY from worst-case liquidation equity (bid mark).
             # No minimum-size floor that can override the cap on small accounts.
             risk_pct = float(config.get("risk_per_trade_pct", 2.0))
@@ -1344,14 +1426,16 @@ def run_simulation_iteration(config, state):
                     copy_usdc = max_risk_usdc
 
             # Check opposing outcome index protection and exposure cap
-            max_exposure = float(config.get("max_market_exposure", 500.0))
+            max_exposure = float(config.get("max_market_exposure", 250.0))
             existing_pos = None
+            total_condition_invested = 0.0
             
-            # Find if we already hold a position for this market (same condition_id)
+            # Find all positions for this market (same condition_id)
             for tid, p in state["positions"].items():
                 if p.get("condition_id") == condition_id:
-                    existing_pos = p
-                    break
+                    if existing_pos is None:
+                        existing_pos = p
+                    total_condition_invested += float(p.get("invested_usdc", 0.0))
                     
             if existing_pos:
                 # 1. Opposing outcome index check
@@ -1361,22 +1445,21 @@ def run_simulation_iteration(config, state):
                     continue
                     
                 # 2. Exposure cap check
-                invested = existing_pos.get("invested_usdc", 0.0)
-                if invested >= max_exposure:
-                    print(f"[ENGINE] Skipped copy on '{title}': already reached exposure cap of {max_exposure} USDC (current: {invested:.2f} USDC)")
-                    mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
+                if total_condition_invested >= max_exposure:
+                    add_log(state, f"Skipped copy on '{title}': reached condition exposure cap of {max_exposure:.1f} USDC (current: {total_condition_invested:.2f} USDC)")
+                    mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "", note="exposure_cap_reached")
                     continue
                 else:
                     # Scale down trade size if it exceeds the remaining exposure space
-                    remaining = max_exposure - invested
+                    remaining = max_exposure - total_condition_invested
                     if copy_usdc > remaining:
                         copy_usdc = remaining
-                        print(f"[ENGINE] Scaled down trade size on '{title}' to {copy_usdc:.2f} USDC to respect exposure cap of {max_exposure} USDC")
+                        add_log(state, f"EXPOSURE CAP: '{title}' size scaled down to {copy_usdc:.2f} USDC to respect condition cap of {max_exposure:.1f} USDC")
             else:
                 # New position: ensure initial size doesn't exceed the cap
                 if copy_usdc > max_exposure:
                     copy_usdc = max_exposure
-                    print(f"[ENGINE] Scaled down initial trade size on '{title}' to {copy_usdc:.2f} USDC to respect exposure cap of {max_exposure} USDC")
+                    add_log(state, f"EXPOSURE CAP: Initial trade on '{title}' capped at {max_exposure:.1f} USDC")
 
             # Correlated Topic Cluster exposure check
             cluster_name = get_cluster_name(title, slug)
