@@ -929,35 +929,8 @@ async function submitQuickFollow(e) {
     }
 }
 
-// Prune V6 Toxic Bets & Manual Close Listeners
+// Manual Position Close Listener
 document.addEventListener('DOMContentLoaded', () => {
-    const btnPruneV6 = document.getElementById('btn-prune-v6');
-    if (btnPruneV6) {
-        btnPruneV6.addEventListener('click', async () => {
-            if (!confirm('Surgically liquidate open positions violating V6 rules (weather noise & negative-asymmetry single-whale bets)? This will free up cash for high +EV setups.')) {
-                return;
-            }
-            btnPruneV6.disabled = true;
-            const originalHTML = btnPruneV6.innerHTML;
-            btnPruneV6.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Pruning...';
-            try {
-                const res = await apiFetch('/api/positions/prune-v6', { method: 'POST' });
-                const data = await res.json();
-                if (res.ok && data.status === 'success') {
-                    alert(`Surgically pruned ${data.pruned_count} positions!\nRecovered cash has been credited back to your account.`);
-                    forceRefreshData();
-                } else {
-                    alert(`Prune failed: ${data.detail || 'Unknown error'}`);
-                }
-            } catch (err) {
-                console.error('Error pruning positions:', err);
-                alert('Network error while pruning positions.');
-            } finally {
-                btnPruneV6.disabled = false;
-                btnPruneV6.innerHTML = originalHTML;
-            }
-        });
-    }
 
     const tablePositions = document.querySelector('#table-positions tbody');
     if (tablePositions) {
