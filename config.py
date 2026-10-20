@@ -75,7 +75,7 @@ DEFAULT_CONFIG = {
     # Disable whale after cumulative realized PnL on copies falls below this
     "min_whale_copy_pnl": -150.0,
     "maturity_threshold": 0.95,  # Cash out when win probability hits 95% instead of holding for weeks
-    "leaderboard_sync_limit": 40,
+    "leaderboard_sync_limit": 100,
     "leaderboard_timeframes": ["ALL", "MONTH"],  # Disqualify 7-day WEEK luck; only proven track records
     "catastrophic_stop_loss_pct": 35.0,
     # Protect positions opened before performance-v2 from strategy exits
@@ -100,9 +100,9 @@ DEFAULT_CONFIG = {
     "risk_per_trade_pct": 2.5,
     # Poll each enabled whale's trade feed (throttled vs main loop to avoid 429s)
     "enable_per_whale_poll": True,
-    "per_whale_poll_limit": 20,
-    "per_whale_poll_interval_seconds": 25,
-    "per_whale_max_parallel": 5,
+    "per_whale_poll_limit": 25,
+    "per_whale_poll_interval_seconds": 20,
+    "per_whale_max_parallel": 6,
     # Prefer mid-price edge band slightly in scoring
     "performance_strategy_version": 6,
     "performance_v2_migrated": True,
