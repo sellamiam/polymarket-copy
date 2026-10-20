@@ -248,10 +248,46 @@ _latest_valuations = {
     "holdings_mid": 0.0,
     "total_equity": 10000.0,
     "total_equity_mid": 10000.0,
+    "marks": {},
     "ts": 0.0,
 }
+_latest_marks = {}
 
-def fetch_clob_price(token_id, side, ttl_seconds=10.0):
+def get_latest_marks() -> Dict[str, Dict[str, float]]:
+    with _clob_cache_lock:
+        if _latest_marks:
+            return dict(_latest_marks)
+    if _latest_valuations.get("marks"):
+        return dict(_latest_valuations["marks"])
+    try:
+        if os.path.exists(config.STATE_PATH):
+            with open(config.STATE_PATH, "r") as f:
+                saved = json.load(f)
+                saved_positions = saved.get("positions", {})
+                if saved_positions:
+                    return {
+                        str(tid): {
+                            "bid": float(p.get("bid_price", p.get("avg_price", 0.0))),
+                            "mid": float(p.get("mid_price", p.get("avg_price", 0.0))),
+                            "current_price": float(p.get("current_price", p.get("avg_price", 0.0))),
+                            "ts": int(p.get("last_updated", 0)),
+                        }
+                        for tid, p in saved_positions.items()
+                    }
+    except Exception:
+        pass
+    return {}
+
+def update_single_mark(token_id: str, bid: float, mid: float, current_price: float):
+    with _clob_cache_lock:
+        _latest_marks[str(token_id)] = {
+            "bid": float(bid),
+            "mid": float(mid),
+            "current_price": float(current_price),
+            "ts": int(time.time()),
+        }
+
+def fetch_clob_price(token_id, side, ttl_seconds=25.0):
     """
     Fetch live price for token_id with short in-memory TTL cache.
     side can be 'buy' (bid) or 'sell' (ask).
@@ -284,7 +320,7 @@ def fetch_clob_price(token_id, side, ttl_seconds=10.0):
             return _clob_price_cache[cache_key][0]
     return None
 
-def fetch_clob_midpoint(token_id, ttl_seconds=10.0):
+def fetch_clob_midpoint(token_id, ttl_seconds=25.0):
     """
     Fetch live midpoint price for token_id with short in-memory TTL cache.
     """
@@ -364,6 +400,7 @@ def update_live_valuations(state, mark_at_bid=True):
     """
     total_holdings_bid = 0.0
     total_holdings_mid = 0.0
+    new_marks = {}
     for token_id, pos in list(state["positions"].items()):
         mid = fetch_clob_midpoint(token_id)
         bid = fetch_clob_price(token_id, "buy")
@@ -391,8 +428,20 @@ def update_live_valuations(state, mark_at_bid=True):
         pos["holdings_value_bid"] = qty * float(pos["bid_price"])
         pos["holdings_value_mid"] = qty * float(pos["mid_price"])
 
+        new_marks[str(token_id)] = {
+            "bid": float(pos["bid_price"]),
+            "mid": float(pos["mid_price"]),
+            "current_price": float(pos["current_price"]),
+            "ts": pos["last_updated"],
+        }
+
     state["_holdings_value_bid"] = total_holdings_bid
     state["_holdings_value_mid"] = total_holdings_mid
+
+    global _latest_marks
+    with _clob_cache_lock:
+        _latest_marks.update(new_marks)
+
     return total_holdings_bid if mark_at_bid else total_holdings_mid
 
 def resolve_positions(state):
@@ -798,6 +847,9 @@ def close_position_by_token(token_id: str, reason: str = "MANUAL_PRUNE", state: 
     ledger.record_trade(trade)
     st.setdefault("trades", []).append(trade)
     st.get("positions", {}).pop(token_id, None)
+    with _clob_cache_lock:
+        _latest_marks.pop(str(token_id), None)
+        _latest_marks.pop(token_id, None)
 
     msg = (
         f"PRUNED: '{pos.get('market_title')}' ({pos.get('outcome')}) via {reason}. "
@@ -2210,15 +2262,19 @@ def _run_loop():
                     print(f"Error in automatic leaderboard sync: {sync_err}")
 
             if config.get("simulation_active", False):
-                state = load_state(config)
+                state = load_state(config, marks=get_latest_marks())
 
-                # 1. Run simulation iteration to copy new trades (network I/O runs outside lock)
-                trade_occurred = run_simulation_iteration(config, state)
-
-                # 2. Mark at executable bid; mid stored for NAV reporting
+                # 1. Mark valuations immediately so fresh marks are available without delay
                 holdings_value = update_live_valuations(
                     state, mark_at_bid=bool(config.get("mark_at_bid", True))
                 )
+
+                # 2. Run simulation iteration to copy new trades (network I/O runs outside lock)
+                trade_occurred = run_simulation_iteration(config, state)
+                if trade_occurred:
+                    holdings_value = update_live_valuations(
+                        state, mark_at_bid=bool(config.get("mark_at_bid", True))
+                    )
 
                 # 3. Check for early exits/capital recycling based on latest prices
                 recycle_occurred = recycle_positions_and_exit_strategies(config, state)
@@ -2238,6 +2294,7 @@ def _run_loop():
                     "holdings_mid": holdings_mid,
                     "total_equity": total_equity,
                     "total_equity_mid": total_equity_mid,
+                    "marks": dict(_latest_marks),
                     "ts": time.time(),
                 }
 

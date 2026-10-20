@@ -176,30 +176,28 @@ def reconcile():
 @app.get("/api/state")
 def get_state():
     cfg = config.load_config()
+    marks = bot_engine.get_latest_marks()
     if cfg.get("use_ledger", True):
-        state = ledger.project_state(include_processed=False)
+        state = ledger.project_state(marks=marks, include_processed=False)
     else:
-        state = config.load_state(cfg)
+        state = config.load_state(cfg, marks=marks)
+
+    positions = state.get("positions", {})
+
     # Resolve accurate holdings valuation
     lv = getattr(bot_engine, "_latest_valuations", None)
     if lv and lv.get("ts", 0) > 0 and (time.time() - lv.get("ts", 0)) < 300:
         holdings_bid = float(lv.get("holdings_bid", 0.0))
         holdings_mid = float(lv.get("holdings_mid", holdings_bid))
     else:
-        snap = ledger.get_latest_equity_snapshot() if hasattr(ledger, "get_latest_equity_snapshot") else None
-        if snap and float(snap.get("holdings_bid", 0.0)) > 0.0:
-            holdings_bid = float(snap.get("holdings_bid", 0.0))
-            holdings_mid = float(snap.get("holdings_mid", holdings_bid))
-        else:
-            positions = state.get("positions", {})
-            holdings_bid = sum(
-                float(p.get("quantity", 0.0)) * float(p.get("bid_price", p.get("current_price", p.get("avg_price", 0.0))))
-                for p in positions.values()
-            )
-            holdings_mid = sum(
-                float(p.get("quantity", 0.0)) * float(p.get("mid_price", p.get("current_price", p.get("avg_price", 0.0))))
-                for p in positions.values()
-            )
+        holdings_bid = sum(
+            float(p.get("quantity", 0.0)) * float(p.get("bid_price", p.get("current_price", p.get("avg_price", 0.0))))
+            for p in positions.values()
+        )
+        holdings_mid = sum(
+            float(p.get("quantity", 0.0)) * float(p.get("mid_price", p.get("current_price", p.get("avg_price", 0.0))))
+            for p in positions.values()
+        )
 
     cash = float(state.get("cash_usdc", 0.0))
     total_equity = cash + holdings_bid

@@ -901,7 +901,10 @@ def aggregate_positions_from_lots(
         avg = float(lot["avg_price"])
         invested = float(lot["invested_usdc"])
         if tid not in positions:
-            m = marks.get(tid, {})
+            m = marks.get(tid) or marks.get(str(tid)) or {}
+            cur = float(m.get("current_price", m.get("bid", m.get("mid", avg))))
+            bid = float(m.get("bid", cur))
+            mid = float(m.get("mid", cur))
             positions[tid] = {
                 "token_id": tid,
                 "condition_id": lot.get("condition_id") or "",
@@ -912,9 +915,11 @@ def aggregate_positions_from_lots(
                 "avg_price": avg,
                 "quantity": rem,
                 "invested_usdc": invested,
-                "current_price": m.get("mid", m.get("bid", avg)),
-                "bid_price": m.get("bid", avg),
-                "mid_price": m.get("mid", m.get("bid", avg)),
+                "current_price": cur,
+                "bid_price": bid,
+                "mid_price": mid,
+                "holdings_value_bid": rem * bid,
+                "holdings_value_mid": rem * mid,
                 "win_probability": lot.get("win_probability") or 0,
                 "conviction_score": lot.get("conviction_score") or 0,
                 "best_bet_score": lot.get("best_bet_score") or 0,
@@ -928,7 +933,7 @@ def aggregate_positions_from_lots(
                     }
                 },
                 "lots": [lot["lot_id"]],
-                "last_updated": int(time.time()),
+                "last_updated": int(m.get("ts", lot.get("opened_at") or time.time())),
                 "opened_at": int(lot.get("opened_at") or time.time()),
                 "strategy_exits_enabled": bool(lot.get("strategy_exits_enabled", 1)),
                 "grandfathered": bool(lot.get("grandfathered", 0)),
@@ -941,6 +946,8 @@ def aggregate_positions_from_lots(
                 pos["avg_price"] = (pos["avg_price"] * old_qty + avg * rem) / new_qty
             pos["quantity"] = new_qty
             pos["invested_usdc"] = float(pos["invested_usdc"]) + invested
+            pos["holdings_value_bid"] = new_qty * float(pos.get("bid_price", pos["avg_price"]))
+            pos["holdings_value_mid"] = new_qty * float(pos.get("mid_price", pos["avg_price"]))
             # Weighted scores
             for key in ("win_probability", "conviction_score", "best_bet_score"):
                 old_s = float(pos.get(key) or 0)

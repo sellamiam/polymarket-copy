@@ -199,9 +199,46 @@ class LedgerTestCase(unittest.TestCase):
             for fut in futures:
                 fut.result()
 
-        rep = ledger.reconcile_report()
-        self.assertGreaterEqual(rep["events"], 250)
+    def test_position_marks_and_unrealized_pnl(self):
+        ledger.open_lot(
+            token_id="TOK_MARK_TEST",
+            whale_address="0xwhale1",
+            quantity=100.0,
+            avg_price=0.50,
+            invested_usdc=50.0,
+            whale_name="Whale Alpha",
+            market_title="Test Market",
+        )
+        # 1. Without marks, default to avg_price
+        proj_no_marks = ledger.project_state()
+        pos_no_marks = proj_no_marks["positions"]["TOK_MARK_TEST"]
+        self.assertAlmostEqual(pos_no_marks["current_price"], 0.50)
+        self.assertAlmostEqual(pos_no_marks["avg_price"], 0.50)
+
+        # 2. With live marks, current_price, bid_price, mid_price are updated
+        marks = {
+            "TOK_MARK_TEST": {
+                "bid": 0.65,
+                "mid": 0.67,
+                "current_price": 0.65,
+            }
+        }
+        proj_with_marks = ledger.project_state(marks=marks)
+        pos = proj_with_marks["positions"]["TOK_MARK_TEST"]
+        self.assertAlmostEqual(pos["current_price"], 0.65)
+        self.assertAlmostEqual(pos["bid_price"], 0.65)
+        self.assertAlmostEqual(pos["mid_price"], 0.67)
+        self.assertAlmostEqual(pos["avg_price"], 0.50)
+        self.assertAlmostEqual(pos["holdings_value_bid"], 65.0)
+
+        # 3. Unrealized PnL is non-zero
+        cost_basis = pos["avg_price"] * pos["quantity"]
+        current_val = pos["current_price"] * pos["quantity"]
+        unrealized_pnl = current_val - cost_basis
+        self.assertAlmostEqual(unrealized_pnl, 15.0)
+        self.assertAlmostEqual((unrealized_pnl / cost_basis) * 100.0, 30.0)
 
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -557,7 +557,7 @@ def bootstrap_ledger(config=None):
     return ledger.project_state()
 
 
-def load_state(config=None):
+def load_state(config=None, marks=None):
     ensure_data_dir()
     if config is None:
         config = load_config()
@@ -570,7 +570,13 @@ def load_state(config=None):
         ledger.configure(LEDGER_PATH)
         if not ledger.is_initialized():
             ledger.init_account(float(config.get("starting_capital", 10000.0)))
-        return ledger.project_state()
+        if marks is None:
+            try:
+                import bot_engine
+                marks = bot_engine.get_latest_marks()
+            except Exception:
+                marks = None
+        return ledger.project_state(marks=marks)
 
     # Legacy JSON path (discouraged)
     global _has_loaded_state_from_gist

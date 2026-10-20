@@ -409,12 +409,15 @@ function renderPositionsTable(positions) {
 
     list.forEach(pos => {
         const costBasis = pos.avg_price * pos.quantity;
-        const currentVal = pos.current_price * pos.quantity;
+        const currentPrice = (pos.current_price !== undefined && pos.current_price !== null && pos.current_price > 0)
+            ? pos.current_price
+            : (pos.bid_price || pos.mid_price || pos.avg_price);
+        const currentVal = currentPrice * pos.quantity;
         const unrealizedPnl = currentVal - costBasis;
         const unrealizedPnlPct = costBasis > 0 ? (unrealizedPnl / costBasis) * 100 : 0.0;
         
         const badgeClass = pos.outcome.toUpperCase() === 'YES' ? 'badge-yes' : 'badge-no';
-        const pnlClass = unrealizedPnl >= 0 ? 'pnl-green' : 'pnl-red';
+        const pnlClass = unrealizedPnl > 0.001 ? 'pnl-green' : (unrealizedPnl < -0.001 ? 'pnl-red' : '');
         const sign = unrealizedPnl >= 0 ? '+' : '';
 
         // Win probability & score layout
@@ -443,7 +446,7 @@ function renderPositionsTable(positions) {
             <td>${scoreHTML}</td>
             <td>${pos.quantity.toFixed(2)}</td>
             <td>${pos.avg_price.toFixed(3)} USDC</td>
-            <td>${pos.current_price.toFixed(3)} USDC</td>
+            <td>${currentPrice.toFixed(3)} USDC</td>
             <td>${formatUSD(costBasis)}</td>
             <td class="${pnlClass} font-weight-bold">${sign}${formatUSD(unrealizedPnl)} (${sign}${unrealizedPnlPct.toFixed(2)}%)</td>
             <td>
