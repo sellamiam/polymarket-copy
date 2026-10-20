@@ -1214,7 +1214,7 @@ def run_simulation_iteration(config, state):
         max_open_per_whale = int(config.get("max_open_positions_per_whale", 2))
         if max_open_per_whale > 0 and not is_vitalik:
             open_count = 0
-            addr_lower = trader_addr.lower()
+            addr_lower = address.lower()
             for p in state.get("positions", {}).values():
                 p_addr = (p.get("trader_address") or "").lower()
                 sw = p.get("source_whales", {})
