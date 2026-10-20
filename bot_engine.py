@@ -1630,14 +1630,16 @@ def run_simulation_iteration(config, state):
 
             # Adverse selection probe (top of book) before depth walk
             live_ask = fetch_clob_price(asset, "sell")
-            max_adv_bps = float(config.get("max_adverse_slippage_bps", 150.0))
+            max_adv_bps = float(config.get("max_adverse_slippage_bps", 200.0))
+            max_adv_cents = float(config.get("max_adverse_slippage_cents", 0.02))
             ref_price = float(price) if price and price > 0 else None
             if ref_price and live_ask is not None and max_adv_bps > 0 and not is_vitalik:
-                adverse_bps = ((live_ask - ref_price) / ref_price) * 10000.0
-                if adverse_bps > max_adv_bps:
+                price_delta = live_ask - ref_price
+                adverse_bps = (price_delta / ref_price) * 10000.0
+                if adverse_bps > max_adv_bps and price_delta > max_adv_cents:
                     reason = (
                         f"Adverse selection — live ask {live_ask:.3f} vs whale {ref_price:.3f} "
-                        f"({adverse_bps:.0f} bps > {max_adv_bps:.0f} bps max)."
+                        f"(+{price_delta:.3f} USDC / {adverse_bps:.0f} bps > {max_adv_bps:.0f} bps max)."
                     )
                     add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: {reason}")
                     ledger.record_decision(

@@ -49,7 +49,7 @@ DEFAULT_CONFIG = {
     "stop_loss_pct": 30.0,  # Stop loss at -30% after 24h grace period
     "stop_loss_grace_hours": 24.0,
     "min_whale_trade_size": 1.0,
-    "max_market_exposure": 250.0,
+    "max_market_exposure": 350.0,
     "max_cluster_exposure": 1000.0,
     "min_market_liquidity": 500.0,
     "min_market_volume": 1000.0,
@@ -93,10 +93,11 @@ DEFAULT_CONFIG = {
     "sports_whale_sample_size": 20,
     # Freshness: ignore whale prints older than this (seconds)
     "max_trade_age_seconds": 300,
-    # Strict adverse slippage: never pay more than 50 bps (0.5%) worse than whale price
-    "max_adverse_slippage_bps": 50.0,
-    # Cap each new BUY at this % of total equity (risk control)
-    "risk_per_trade_pct": 2.0,
+    # Strict adverse slippage: never pay more than 200 bps (2%) worse than whale price with 2-cent spread buffer
+    "max_adverse_slippage_bps": 200.0,
+    "max_adverse_slippage_cents": 0.02,
+    # Cap each new BUY at this % of total equity (risk control, calibrated for weekly compounding)
+    "risk_per_trade_pct": 2.5,
     # Poll each enabled whale's trade feed (throttled vs main loop to avoid 429s)
     "enable_per_whale_poll": True,
     "per_whale_poll_limit": 20,

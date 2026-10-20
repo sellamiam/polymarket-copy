@@ -13,7 +13,7 @@ class StrategyV5TestCase(unittest.TestCase):
         self.assertEqual(cfg["stop_loss_pct"], 30.0)
         self.assertLessEqual(cfg["catastrophic_stop_loss_pct"], 45.0)
         self.assertEqual(cfg["maturity_threshold"], 0.95)
-        self.assertEqual(cfg["max_adverse_slippage_bps"], 50.0)
+        self.assertEqual(cfg["max_adverse_slippage_bps"], 200.0)
         self.assertEqual(cfg["min_whale_volume"], 25000.0)
         self.assertEqual(cfg["min_whale_roi"], 0.12)
         self.assertEqual(cfg["min_whale_win_rate"], 55.0)
