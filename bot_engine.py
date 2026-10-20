@@ -766,8 +766,15 @@ def close_position_by_token(token_id: str, reason: str = "MANUAL_PRUNE", state: 
         else float(pos.get("avg_price", 0.0)) * filled_qty
     )
     realized_pnl = proceeds - cost_basis
-    st["cash_usdc"] = float(st.get("cash_usdc", 0.0)) + proceeds
-    ledger.set_cash(st["cash_usdc"])
+    current_cash = ledger.get_cash()
+    if current_cash <= 0.0 and float(st.get("cash_usdc", 0.0)) > 0:
+        current_cash = float(st.get("cash_usdc", 0.0))
+    new_cash = current_cash + proceeds
+    try:
+        ledger.set_cash(new_cash)
+    except Exception:
+        pass
+    st["cash_usdc"] = new_cash
 
     trade = {
         "id": str(uuid.uuid4()),
@@ -2234,6 +2241,18 @@ def _run_loop():
 
                 # 4. State save and snapshot under short lock
                 with _state_lock:
+                    # Synchronize authoritative settled cash from ledger to prevent stale overwrites
+                    try:
+                        ledger_cash = ledger.get_cash()
+                        if ledger_cash > 0:
+                            state["cash_usdc"] = ledger_cash
+                            total_equity = calculate_total_equity(state, holdings_bid)
+                            total_equity_mid = ledger_cash + holdings_mid
+                            _latest_valuations["total_equity"] = total_equity
+                            _latest_valuations["total_equity_mid"] = total_equity_mid
+                    except Exception:
+                        pass
+
                     current_time = int(time.time())
                     last_snapshot = (
                         state["portfolio_value_history"][-1]
