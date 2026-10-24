@@ -91,6 +91,18 @@ def is_short_term_crypto_coinflip(title="", slug="", question=""):
     text = f"{title or ''} {slug or ''} {question or ''}".lower()
     return any(kw in text for kw in SHORT_TERM_CRYPTO_KEYWORDS)
 
+WEATHER_KEYWORDS = [
+    "weather", "temperature", "celsius", "degree", "fahrenheit", "rain", "snow",
+    "hottest", "coldest", "meteorological", "wind speed", "precipitation", "°c", "°f",
+    "hurricane", "tropical storm", "cyclone", "typhoon", "category 1", "category 2",
+    "category 3", "category 4", "category 5", "peak at category"
+]
+
+def is_weather_market(title="", slug="", question=""):
+    text = f"{title or ''} {slug or ''} {question or ''}".lower()
+    return any(kw in text for kw in WEATHER_KEYWORDS)
+
+
 def record_whale_signal(state, condition_id, outcome_index, address, timestamp=None):
     """Track recent whale BUY signals for multi-whale confirmation."""
     if not condition_id:
@@ -195,15 +207,25 @@ def is_niche_market(title, slug, question=""):
     ]
     return any(kw in title_lower or kw in slug_lower or kw in q_lower for kw in niche_keywords)
 
-def is_entertainment_noise_market(title, slug, question=""):
-    t = (title or "").lower()
-    s = (slug or "").lower()
-    q = (question or "").lower()
-    noise_keywords = [
-        "trailer views", "million views", "views on week", "youtube views",
-        "box office", "first week views", "spotify streams", "tiktok views"
-    ]
-    return any(kw in t or kw in s or kw in q for kw in noise_keywords)
+ENTERTAINMENT_NOISE_KEYWORDS = [
+    # Video & stream views
+    "trailer views", "million views", "views on week", "youtube views",
+    "box office", "first week views", "spotify streams", "tiktok views", "stream count",
+    # Music & chart lotteries
+    "billboard hot 100", "billboard 200", "#1 song", "number one song", "top 10 song",
+    "album sales", "apple music top", "grammy",
+    # Social media / tweet count lotteries
+    "elon musk of tweets", "tweets from", "post tweets", "number of tweets", "tweets on x",
+    "tweet count", "tweets in a week", "post on x", "number of posts", "daily tweets",
+    # Entertainment awards & review scores
+    "rotten tomatoes", "metacritic score", "oscar nomination", "academy award",
+    # Software & model release date guessing lotteries
+    "released between", "release date of"
+]
+
+def is_entertainment_noise_market(title="", slug="", question=""):
+    text = f"{title or ''} {slug or ''} {question or ''}".lower()
+    return any(kw in text for kw in ENTERTAINMENT_NOISE_KEYWORDS)
 
 def calculate_dynamic_sizing_multiplier(trader_cfg, whale_trade_usdc):
     roi_multiplier = 1.0
@@ -647,6 +669,15 @@ def recycle_positions_and_exit_strategies(config, state):
             peak_pnl = pnl_pct
 
         ratchet_pct = float(config.get("break_even_ratchet_pct", 20.0))
+        trailing_profit_lock_pct = float(config.get("trailing_profit_lock_pct", 10.0))
+
+        # Trailing profit lock: If peak reached >= ratchet_pct (e.g. 20%), lock in profit if price retreats
+        is_trailing_profit_triggered = False
+        if strategy_exits and ratchet_pct > 0 and peak_pnl >= ratchet_pct:
+            trailing_lock_floor = 15.0 if peak_pnl >= 30.0 else trailing_profit_lock_pct
+            if pnl_pct <= trailing_lock_floor and pnl_pct > 1.0:
+                is_trailing_profit_triggered = True
+
         is_break_even_triggered = (
             strategy_exits
             and ratchet_pct > 0
@@ -662,6 +693,15 @@ def recycle_positions_and_exit_strategies(config, state):
             pos["opened_at"] = opened_at
             
         age_hours = (current_time - opened_at) / 3600.0
+
+        stagnant_holding_hours = float(config.get("stagnant_holding_hours", 72.0))
+        stagnant_drawdown_pct = float(config.get("stagnant_drawdown_pct", 10.0))
+        is_stagnant_triggered = (
+            strategy_exits
+            and stagnant_holding_hours > 0
+            and age_hours >= stagnant_holding_hours
+            and pnl_pct <= -stagnant_drawdown_pct
+        )
         
         trigger_reason = None
         exit_type = None
@@ -680,9 +720,15 @@ def recycle_positions_and_exit_strategies(config, state):
             if effective_tp_pct > 0 and pnl_pct >= effective_tp_pct:
                 trigger_reason = f"TP (+{pnl_pct:.1f}%)"
                 exit_type = "RECYCLE_TP"
+            elif is_trailing_profit_triggered:
+                trigger_reason = f"TRAILING PROFIT LOCK (+{pnl_pct:.1f}%, peak +{peak_pnl:.1f}%)"
+                exit_type = "RECYCLE_TRAILING_PROFIT"
             elif is_break_even_triggered:
                 trigger_reason = f"BREAK-EVEN RATCHET (+{pnl_pct:.1f}%, peak +{peak_pnl:.1f}%)"
                 exit_type = "RECYCLE_BREAKEVEN"
+            elif is_stagnant_triggered:
+                trigger_reason = f"STAGNANT RECYCLE ({age_hours:.1f}h, {pnl_pct:+.1f}%)"
+                exit_type = "RECYCLE_STAGNANT"
             elif stop_loss_pct > 0 and pnl_pct <= -stop_loss_pct:
                 is_catastrophic = (catastrophic_stop_loss_pct > 0 and pnl_pct <= -catastrophic_stop_loss_pct)
                 if age_hours >= stop_loss_grace_hours or is_catastrophic:
@@ -875,37 +921,42 @@ def prune_v6_violations(state: Optional[dict] = None, config: Optional[dict] = N
         st = load_state(cfg)
 
     core_max_price = float(cfg.get("core_max_copy_price", 0.78))
-    max_condition_exposure = float(cfg.get("max_market_exposure", 250.0))
-    weather_keywords = [
-        "weather", "temperature", "celsius", "degree", "fahrenheit",
-        "rain", "snow", "hottest", "coldest", "meteorological",
-        "wind speed", "precipitation", "°c", "°f"
-    ]
-
     pruned_trades = []
     positions_to_prune = []
+    current_ts = int(time.time())
 
     for token_id, pos in list(st.get("positions", {}).items()):
         title = (pos.get("market_title") or "").lower()
         slug = (pos.get("market_slug") or "").lower()
         avg_price = float(pos.get("avg_price", 0.0))
-        curr_price = float(pos.get("current_price", avg_price))
+        curr_price = float(pos.get("bid_price", pos.get("current_price", avg_price)))
         invested = float(pos.get("invested_usdc", 0.0))
         pnl_pct = ((curr_price - avg_price) / avg_price * 100.0) if avg_price > 0 else 0.0
         trader_addr = (pos.get("trader_address") or "").lower()
         source_whales = pos.get("source_whales") or {}
         num_whales = len(source_whales)
 
+        opened_at = pos.get("opened_at") or pos.get("last_updated") or current_ts
+        age_hours = (current_ts - opened_at) / 3600.0
+        stagnant_h = float(cfg.get("stagnant_holding_hours", 72.0))
+        stagnant_dd = float(cfg.get("stagnant_drawdown_pct", 10.0))
+
         reason = None
-        # 1. Weather/temperature check
-        if any(kw in title or kw in slug for kw in weather_keywords):
+        # 1. Weather/storm check
+        if is_weather_market(title, slug):
             reason = "V6 Noise Violation: Weather/Temperature Gamble"
-        # 2. Toxic whale e46m3 high-price / negative asymmetry
+        # 2. Entertainment/tweet/ranking check
+        elif is_entertainment_noise_market(title, slug):
+            reason = "V7 Noise Violation: Entertainment/View/Stream/Tweet Lottery"
+        # 3. Toxic whale e46m3 high-price / negative asymmetry
         elif trader_addr == "0x4f1d5ae26fc31472966e951af3183308736d8de2" and avg_price >= 0.75:
             reason = "V6 Toxic Whale Violation: Negative Asymmetry from e46m3"
-        # 3. Single whale above 0.78 USDC with flat/negative profit
+        # 4. Single whale above core_max_copy_price with flat/negative profit
         elif avg_price > core_max_price and num_whales < 2 and pnl_pct <= 1.0:
             reason = f"V6 Asymmetry Violation: Single-Whale Entry at {avg_price:.3f} > {core_max_price:.2f}"
+        # 5. Stagnant bleeder (> 72h, PnL <= -10%)
+        elif stagnant_h > 0 and age_hours >= stagnant_h and pnl_pct <= -stagnant_dd:
+            reason = f"V7 Stagnant Violation: Held {age_hours:.1f}h with Drawdown {pnl_pct:+.1f}%"
 
         if reason:
             positions_to_prune.append((token_id, reason))
@@ -916,6 +967,8 @@ def prune_v6_violations(state: Optional[dict] = None, config: Optional[dict] = N
             pruned_trades.append(trade)
 
     return pruned_trades
+
+prune_v7_violations = prune_v6_violations
 
 
 def get_trader_stats(state, address):
@@ -1232,8 +1285,7 @@ def run_simulation_iteration(config, state):
                 is_sports_fast = True
 
         if config.get("exclude_weather_bets", True):
-            weather_keywords = ["weather", "temperature", "celsius", "degree", "fahrenheit", "rain", "snow", "hottest", "coldest", "meteorological", "wind speed", "precipitation", "°c", "°f"]
-            if any(kw in title_lower or kw in slug_lower for kw in weather_keywords):
+            if is_weather_market(title, slug):
                 is_weather_fast = True
 
         is_entertainment_fast = False
@@ -1253,12 +1305,12 @@ def run_simulation_iteration(config, state):
             continue
 
         if is_weather_fast and not is_vitalik:
-            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Weather/temperature bets are excluded.")
+            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Weather/temperature/storm bets are excluded.")
             mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
             continue
 
         if is_entertainment_fast and not is_vitalik:
-            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Entertainment/trailer view-count noise bets are excluded.")
+            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Entertainment/stream/tweet/ranking noise bets are excluded.")
             mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
             continue
 
@@ -1526,17 +1578,16 @@ def run_simulation_iteration(config, state):
                             continue
 
                     # Exclude weather bets filter
-                    if config.get("exclude_weather_bets", False):
-                        is_weather = False
-                        question_lower = (market_details.get("question") or "").lower()
-                        slug_lower = (market_details.get("slug") or "").lower()
-                        title_lower = (title or "").lower()
-                        weather_keywords = ["weather", "temperature", "celsius", "degree", "fahrenheit", "rain", "snow", "hottest", "coldest", "meteorological", "wind speed", "precipitation"]
-                        if any(kw in question_lower or kw in slug_lower or kw in title_lower for kw in weather_keywords):
-                            is_weather = True
-                            
-                        if is_weather and not is_vitalik:
-                            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Weather/temperature bets are excluded.")
+                    if config.get("exclude_weather_bets", True):
+                        if is_weather_market(title, market_details.get("slug", ""), market_details.get("question", "")) and not is_vitalik:
+                            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Weather/temperature/storm bets are excluded.")
+                            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
+                            continue
+
+                    # Exclude entertainment noise filter
+                    if config.get("exclude_entertainment_bets", True):
+                        if is_entertainment_noise_market(title, market_details.get("slug", ""), market_details.get("question", "")) and not is_vitalik:
+                            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Entertainment/stream/tweet/ranking noise bets are excluded.")
                             mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                             continue
 

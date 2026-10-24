@@ -73,7 +73,10 @@ DEFAULT_CONFIG = {
     "min_whale_win_rate": 55.0,  # Require at least 55% win rate
     "whale_prune_min_trades": 5,
     # Disable whale after cumulative realized PnL on copies falls below this
-    "min_whale_copy_pnl": -150.0,
+    "min_whale_copy_pnl": -100.0,
+    "stagnant_holding_hours": 72.0,  # Recycle capital from stagnant positions held >72h in negative drawdown
+    "stagnant_drawdown_pct": 10.0,  # Drawdown threshold for stagnant recycling
+    "trailing_profit_lock_pct": 10.0,  # Lock in +10% profit if position reached +20% gain and retreats
     "maturity_threshold": 0.95,  # Cash out when win probability hits 95% instead of holding for weeks
     "leaderboard_sync_limit": 100,
     "leaderboard_timeframes": ["ALL", "MONTH"],  # Disqualify 7-day WEEK luck; only proven track records
@@ -104,13 +107,14 @@ DEFAULT_CONFIG = {
     "per_whale_poll_interval_seconds": 20,
     "per_whale_max_parallel": 6,
     # Prefer mid-price edge band slightly in scoring
-    "performance_strategy_version": 6,
+    "performance_strategy_version": 7,
     "performance_v2_migrated": True,
     "performance_v3_migrated": True,
     "performance_v3_1_migrated": True,
     "performance_v4_migrated": True,
     "performance_v5_migrated": True,
     "performance_v6_migrated": True,
+    "performance_v7_migrated": True,
     # Ledger / conservative fills
     "use_ledger": True,
     "depth_aware_fills": True,
@@ -423,6 +427,20 @@ def load_config():
         config_data["max_open_positions_per_whale"] = 2
         config_data["break_even_ratchet_pct"] = 20.0
         config_data["catastrophic_stop_loss_pct"] = 35.0
+        updated = True
+
+    # Strategy v7: Stagnant Capital Recycling & Trailing Profit Lock
+    # - Stagnant position recycling: held > 72h with PnL <= -10% frees capital
+    # - Tiered trailing profit lock: locks +10% gain if peak reached +20%, +15% if peak reached +30%
+    # - Stricter whale loss cutoff: -$100 copy PnL floor (tightened from -$150)
+    # - Expanded entertainment/tweet & weather/hurricane noise filters
+    if config_data.get("performance_strategy_version", 0) < 7:
+        config_data["performance_v7_migrated"] = True
+        config_data["performance_strategy_version"] = 7
+        config_data["stagnant_holding_hours"] = 72.0
+        config_data["stagnant_drawdown_pct"] = 10.0
+        config_data["trailing_profit_lock_pct"] = 10.0
+        config_data["min_whale_copy_pnl"] = -100.0
         updated = True
 
     if updated:
