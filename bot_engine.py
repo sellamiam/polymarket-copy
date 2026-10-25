@@ -227,10 +227,12 @@ def is_entertainment_noise_market(title="", slug="", question=""):
     text = f"{title or ''} {slug or ''} {question or ''}".lower()
     return any(kw in text for kw in ENTERTAINMENT_NOISE_KEYWORDS)
 
-def calculate_dynamic_sizing_multiplier(trader_cfg, whale_trade_usdc):
+def calculate_dynamic_sizing_multiplier(trader_cfg, whale_trade_usdc, outcome="", state=None):
     roi_multiplier = 1.0
     rank_mult = 1.0
     conviction_multiplier = 1.0
+    outcome_mult = 1.0
+    internal_perf_mult = 1.0
     
     # ROI Sizing Factor
     pnl = trader_cfg.get("pnl", 0.0)
@@ -254,10 +256,27 @@ def calculate_dynamic_sizing_multiplier(trader_cfg, whale_trade_usdc):
         conviction_multiplier = 1.5
     elif whale_trade_usdc < 500:
         conviction_multiplier = 0.5
+
+    # V8 Outcome Edge: "No" trades fading retail over-optimism are our highest-win-rate trade archetype
+    if outcome and outcome.strip().lower() == "no":
+        outcome_mult = 1.25
+
+    # V8 Internal Performance Factor from our ledger
+    if state and trader_cfg.get("address"):
+        addr = trader_cfg.get("address", "").lower()
+        res_cnt, wr, copy_pnl = get_trader_stats(state, addr)
+        if copy_pnl >= 30.0 or (res_cnt >= 1 and wr >= 65.0 and copy_pnl > 0):
+            internal_perf_mult = 1.75  # Proven alpha whales (Tokor, glm4.1.fund, akroll)
+        elif copy_pnl > 0.0:
+            internal_perf_mult = 1.25
+        elif res_cnt == 0:
+            internal_perf_mult = 0.60  # Probationary sizing for new unproven whales
+        elif copy_pnl < 0.0:
+            internal_perf_mult = 0.35  # Cut size on underperforming whales
         
-    total_mult = roi_multiplier * rank_mult * conviction_multiplier
-    # v3: cap dynamic size more tightly — conviction spikes were oversizing late copies
-    return min(2.0, max(0.25, total_mult))
+    total_mult = roi_multiplier * rank_mult * conviction_multiplier * outcome_mult * internal_perf_mult
+    return min(2.5, max(0.25, total_mult))
+
 
 
 _engine_thread = None
@@ -801,6 +820,11 @@ def recycle_positions_and_exit_strategies(config, state):
             state.setdefault("trades", []).append(trade)
             del state["positions"][token_id]
             recycled_any = True
+
+            slug = (pos.get("market_slug") or "").lower()
+            if slug and exit_type in ("RECYCLE_SL", "RECYCLE_STAGNANT"):
+                state.setdefault("cooldown_markets", {})[slug] = current_time + (7 * 86400)
+
             msg = (
                 f"EXITED: '{pos['market_title']}' ({pos['outcome']}) via {trigger_reason}. "
                 f"Sold {filled_qty:.2f} shares @ {exit_price:.3f} USDC "
@@ -903,6 +927,10 @@ def close_position_by_token(token_id: str, reason: str = "MANUAL_PRUNE", state: 
         f"(Proceeds: {proceeds:.2f} USDC, PnL: {realized_pnl:+.2f} USDC)."
     )
     add_log(st, msg)
+    slug = (pos.get("market_slug") or "").lower()
+    if slug:
+        st.setdefault("cooldown_markets", {})[slug] = current_time + (7 * 86400)
+
     save_state(st)
     return trade
 
@@ -948,13 +976,18 @@ def prune_v6_violations(state: Optional[dict] = None, config: Optional[dict] = N
         # 2. Entertainment/tweet/ranking check
         elif is_entertainment_noise_market(title, slug):
             reason = "V7 Noise Violation: Entertainment/View/Stream/Tweet Lottery"
-        # 3. Toxic whale e46m3 high-price / negative asymmetry
+        # 3. V8 Toxic whale quarantine check (e.g. VerilyWinningly, balthazar, Lucerys, etc.)
+        elif trader_addr in {a.lower() for a in cfg.get("blacklisted_whales", [])} or any(
+            sw.lower() in {a.lower() for a in cfg.get("blacklisted_whales", [])} for sw in source_whales.keys()
+        ):
+            reason = f"V8 Toxic Whale Quarantine: Copied from blacklisted wallet ({trader_addr[:10]}...)"
+        # 4. Toxic whale e46m3 high-price / negative asymmetry
         elif trader_addr == "0x4f1d5ae26fc31472966e951af3183308736d8de2" and avg_price >= 0.75:
             reason = "V6 Toxic Whale Violation: Negative Asymmetry from e46m3"
-        # 4. Single whale above core_max_copy_price with flat/negative profit
+        # 5. Single whale above core_max_copy_price with flat/negative profit
         elif avg_price > core_max_price and num_whales < 2 and pnl_pct <= 1.0:
             reason = f"V6 Asymmetry Violation: Single-Whale Entry at {avg_price:.3f} > {core_max_price:.2f}"
-        # 5. Stagnant bleeder (> 72h, PnL <= -10%)
+        # 6. Stagnant bleeder (> 72h, PnL <= -10%)
         elif stagnant_h > 0 and age_hours >= stagnant_h and pnl_pct <= -stagnant_dd:
             reason = f"V7 Stagnant Violation: Held {age_hours:.1f}h with Drawdown {pnl_pct:+.1f}%"
 
@@ -969,6 +1002,7 @@ def prune_v6_violations(state: Optional[dict] = None, config: Optional[dict] = N
     return pruned_trades
 
 prune_v7_violations = prune_v6_violations
+prune_v8_violations = prune_v6_violations
 
 
 def get_trader_stats(state, address):
@@ -1199,6 +1233,12 @@ def run_simulation_iteration(config, state):
             continue
         address = proxy_wallet.strip().lower()
 
+        # V8: Skip any prints from blacklisted toxic whales immediately
+        blacklisted_set = {a.lower() for a in config.get("blacklisted_whales", [])}
+        if address in blacklisted_set:
+            mark_tx_processed(state, tx_hash, act.get("asset") or "", act.get("side") or "", note="blacklisted_whale")
+            continue
+
         # Check if this trader is in our active followed list
         if address not in active_traders_map:
             continue
@@ -1265,6 +1305,15 @@ def run_simulation_iteration(config, state):
         # Fast path check for crypto/sports/weather in title/slug to avoid unnecessary API requests and noise
         title_lower = title.lower()
         slug_lower = slug.lower()
+
+        # V8 Cooldown check on stopped/recycled markets (prevent immediate re-entry after exit)
+        cooldowns = state.get("cooldown_markets", {})
+        if slug_lower in cooldowns:
+            cd_until = float(cooldowns[slug_lower])
+            if time.time() < cd_until:
+                add_log(state, f"Skipped trade on '{title}' from {name}: Market is in post-exit cooldown.")
+                mark_tx_processed(state, tx_hash, asset, side, note="market_cooldown")
+                continue
         
         is_crypto_fast = False
         is_sports_fast = False
@@ -1435,6 +1484,13 @@ def run_simulation_iteration(config, state):
                     add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name} @ {price:.3f} USDC: Outside price range [{min_price:.2f}, {max_price:.2f}] [Win Prob: {win_probability:.1f}%]")
                     mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                     continue
+
+            # V8: "Yes" price cap check (fading retail over-optimism)
+            max_yes_price = float(config.get("max_yes_copy_price", 0.65))
+            if outcome.strip().lower() == "yes" and price > max_yes_price and not is_vitalik:
+                add_log(state, f"Skipped BUY on '{title}' (Yes) from {name} @ {price:.3f} USDC: Exceeds max 'Yes' entry price {max_yes_price:.2f} USDC (negative asymmetry protection).")
+                mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "", note="exceeds_max_yes_price")
+                continue
 
             # V6 Quantitative Rule: Negative Asymmetry Gate
             # High-odds contracts (> 0.78 USDC) offer terrible risk-reward (risking >$0.78 to make <$0.22).
@@ -1635,7 +1691,7 @@ def run_simulation_iteration(config, state):
 
             # Apply dynamic sizing multiplier if enabled
             if config.get("dynamic_sizing_active", False):
-                dyn_mult = calculate_dynamic_sizing_multiplier(trader, usdc_size)
+                dyn_mult = calculate_dynamic_sizing_multiplier(trader, usdc_size, outcome=outcome, state=state)
                 copy_usdc *= dyn_mult
                 if abs(dyn_mult - 1.0) > 0.01:
                     add_log(state, f"DYNAMIC SIZING: '{title}' size adjusted by {dyn_mult:.2f}x → {copy_usdc:.2f} USDC (whale ROI/rank/conviction scaling).")
@@ -2182,8 +2238,17 @@ def sync_whales_from_leaderboard(time_period=None, limit=None):
         reverse=True
     )
 
+    blacklist = {a.lower() for a in cfg.get("blacklisted_whales", [])}
+
     for item in ranked_candidates:
         addr_clean = item["address"]
+        if addr_clean in blacklist:
+            if addr_clean in current_map:
+                trader_cfg = current_map[addr_clean]
+                trader_cfg["enabled"] = False
+                updated_traders.append(trader_cfg)
+            continue
+
         pnl = item["pnl"]
         vol = item["vol"]
         roi = (pnl / vol) if vol > 0 else 0

@@ -46,8 +46,8 @@ DEFAULT_CONFIG = {
     # Strategy v5: Institutional Alpha & Profitability guardrails
     "take_profit_pct": 35.0,  # Lock in +35% profit on standard positions
     "value_play_take_profit_pct": 50.0,  # Lock in +50% profit on high-asymmetry value plays
-    "stop_loss_pct": 30.0,  # Stop loss at -30% after 24h grace period
-    "stop_loss_grace_hours": 24.0,
+    "stop_loss_pct": 25.0,  # Stop loss at -25% (tightened from -30% to prevent deep bleeders)
+    "stop_loss_grace_hours": 0.0,  # Zero grace period for deep drawdowns; protect capital immediately
     "min_whale_trade_size": 1.0,
     "max_market_exposure": 350.0,
     "max_cluster_exposure": 1000.0,
@@ -70,13 +70,24 @@ DEFAULT_CONFIG = {
     "niche_priority_active": True,
     "dynamic_sizing_active": True,
     "enable_whale_auto_pruning": True,
-    "min_whale_win_rate": 55.0,  # Require at least 55% win rate
-    "whale_prune_min_trades": 5,
+    "min_whale_win_rate": 50.0,  # Require at least 50% win rate
+    "whale_prune_min_trades": 2,  # Prune failing whales after 2 losses (do not wait for 5!)
     # Disable whale after cumulative realized PnL on copies falls below this
-    "min_whale_copy_pnl": -100.0,
+    "min_whale_copy_pnl": -35.0,  # Fast quarantine: cut whale after -$35 loss
     "stagnant_holding_hours": 72.0,  # Recycle capital from stagnant positions held >72h in negative drawdown
     "stagnant_drawdown_pct": 10.0,  # Drawdown threshold for stagnant recycling
     "trailing_profit_lock_pct": 10.0,  # Lock in +10% profit if position reached +20% gain and retreats
+    "blacklisted_whales": [
+        "0x6276ea490d6ca3a539f1d571a89d53d26e9f9db5",  # VerilyWinningly (-$218.06)
+        "0x5a218c7ad04135830a45c41aaed7294df7809318",  # balthazar (-$130.81)
+        "0x1387d145aaf01f6e33b66525dda6e1f51f6955f8",  # Lucerys (-$93.10)
+        "0x69f0c154a3412f2b3fa7eb22c6d08e6b5b32fb27",  # 0x69f0C... (-$70.40)
+        "0xc1b5f266564e6d4907cf84bdf5a8f91621ef5d85",  # kaxel78 (-$47.85)
+    ],
+    "enable_no_outcome_edge": True,  # Priority and sizing boost for "No" positions fading retail hype
+    "max_yes_copy_price": 0.65,  # Do not buy expensive "Yes" contracts with negative asymmetry
+    "elite_whale_sizing_multiplier": 1.75,  # Scale up proven alpha whales (Tokor, glm4.1.fund, akroll)
+    "unproven_whale_sizing_multiplier": 0.60,  # Probationary sizing on new whales
     "maturity_threshold": 0.95,  # Cash out when win probability hits 95% instead of holding for weeks
     "leaderboard_sync_limit": 100,
     "leaderboard_timeframes": ["ALL", "MONTH"],  # Disqualify 7-day WEEK luck; only proven track records
@@ -107,7 +118,7 @@ DEFAULT_CONFIG = {
     "per_whale_poll_interval_seconds": 20,
     "per_whale_max_parallel": 6,
     # Prefer mid-price edge band slightly in scoring
-    "performance_strategy_version": 7,
+    "performance_strategy_version": 8,
     "performance_v2_migrated": True,
     "performance_v3_migrated": True,
     "performance_v3_1_migrated": True,
@@ -115,6 +126,7 @@ DEFAULT_CONFIG = {
     "performance_v5_migrated": True,
     "performance_v6_migrated": True,
     "performance_v7_migrated": True,
+    "performance_v8_migrated": True,
     # Ledger / conservative fills
     "use_ledger": True,
     "depth_aware_fills": True,
@@ -441,6 +453,39 @@ def load_config():
         config_data["stagnant_drawdown_pct"] = 10.0
         config_data["trailing_profit_lock_pct"] = 10.0
         config_data["min_whale_copy_pnl"] = -100.0
+        updated = True
+
+    # Strategy v8: Alpha Maximization, Toxic Whale Quarantine, and "No" Outcome Edge
+    # - Blacklist quarantine for toxic whales (VerilyWinningly, balthazar, Lucerys, 0x69f0C..., kaxel78)
+    # - Tighten SL to 25.0% and remove grace period (0.0h)
+    # - Tighten whale loss floor to -$35.0 USDC and prune min trades to 2
+    # - Performance-based whale sizing (1.75x for proven alpha, 0.60x probationary)
+    # - "No" outcome priority edge; cap "Yes" entries at 0.65
+    if config_data.get("performance_strategy_version", 0) < 8:
+        config_data["performance_v8_migrated"] = True
+        config_data["performance_strategy_version"] = 8
+        config_data["stop_loss_pct"] = 25.0
+        config_data["stop_loss_grace_hours"] = 0.0
+        config_data["min_whale_copy_pnl"] = -35.0
+        config_data["whale_prune_min_trades"] = 2
+        config_data["enable_no_outcome_edge"] = True
+        config_data["max_yes_copy_price"] = 0.65
+        config_data["elite_whale_sizing_multiplier"] = 1.75
+        config_data["unproven_whale_sizing_multiplier"] = 0.60
+        toxic_addresses = [
+            "0x6276ea490d6ca3a539f1d571a89d53d26e9f9db5",
+            "0x5a218c7ad04135830a45c41aaed7294df7809318",
+            "0x1387d145aaf01f6e33b66525dda6e1f51f6955f8",
+            "0x69f0c154a3412f2b3fa7eb22c6d08e6b5b32fb27",
+            "0xc1b5f266564e6d4907cf84bdf5a8f91621ef5d85",
+        ]
+        bw = set(config_data.get("blacklisted_whales", []))
+        bw.update(toxic_addresses)
+        config_data["blacklisted_whales"] = list(bw)
+        # Disable them in followed_traders
+        for t in config_data.get("followed_traders", []):
+            if t.get("address", "").lower() in bw:
+                t["enabled"] = False
         updated = True
 
     if updated:

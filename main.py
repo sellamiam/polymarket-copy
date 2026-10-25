@@ -508,6 +508,7 @@ def api_close_position(body: ClosePositionRequest):
 
 
 @app.post("/api/positions/prune-v6", dependencies=[Depends(require_mutate_auth)])
+@app.post("/api/positions/prune-v8", dependencies=[Depends(require_mutate_auth)])
 def api_prune_v6_violations():
     """Identifies and liquidates all open positions violating V6 quantitative rules."""
     cfg = config.load_config()

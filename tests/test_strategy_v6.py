@@ -16,7 +16,7 @@ class StrategyV6TestCase(unittest.TestCase):
         self.assertEqual(cfg["max_open_positions_per_whale"], 2)
         self.assertEqual(cfg["break_even_ratchet_pct"], 20.0)
         self.assertEqual(cfg["catastrophic_stop_loss_pct"], 35.0)
-        self.assertEqual(cfg["min_whale_copy_pnl"], -100.0)
+        self.assertLessEqual(cfg["min_whale_copy_pnl"], -35.0)
         self.assertEqual(cfg["stagnant_holding_hours"], 72.0)
         self.assertEqual(cfg["stagnant_drawdown_pct"], 10.0)
         self.assertEqual(cfg["trailing_profit_lock_pct"], 10.0)
