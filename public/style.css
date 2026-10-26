@@ -366,12 +366,17 @@ body {
     margin: 0 auto;
 }
 
-/* Metrics Grid layout */
 .metrics-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.75rem;
+}
+
+@media (max-width: 1200px) {
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .metric-card {
@@ -482,11 +487,178 @@ body {
     }
 }
 
-/* Chart container styling */
-.chart-container {
+/* Full-Width Win Rate & Performance Plot Card */
+.win-rate-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(var(--glass-blur));
+    margin-bottom: 2rem;
+    overflow: hidden;
+    position: relative;
+    transition: var(--transition-normal);
+}
+
+.win-rate-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #6366f1, #06b6d4, #10b981);
+}
+
+.win-rate-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.75rem;
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.win-rate-title-group .card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.win-rate-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.win-rate-stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    padding: 0.4rem 0.85rem;
+    border-radius: 9999px;
+}
+
+.stat-pill-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: 0.5px;
+}
+
+.stat-pill-value {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #fff;
+    font-family: var(--font-mono);
+}
+
+.stat-pill-sub {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+}
+
+.chart-toggle-group {
+    display: flex;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    padding: 2px;
+}
+
+.btn-chart-toggle {
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    padding: 0.4rem 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.btn-chart-toggle.active {
+    background: var(--color-primary);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+}
+
+.win-rate-body {
+    padding: 1.5rem 1.75rem 1.25rem;
+}
+
+/* Key Performance Indicator Stats Bar */
+.win-rate-stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.stat-item-label {
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-item-val {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+}
+
+/* SVG Chart Container */
+.win-rate-chart-wrapper {
     position: relative;
     width: 100%;
-    height: 300px;
+    height: 250px;
+    user-select: none;
+}
+
+.win-rate-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* Interactive Floating Tooltip */
+.chart-tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(99, 102, 241, 0.2);
+    border-radius: var(--border-radius-sm);
+    padding: 0.75rem 1rem;
+    font-size: 0.78rem;
+    color: var(--color-text-primary);
+    z-index: 50;
+    backdrop-filter: blur(8px);
+    transition: opacity 0.1s ease, transform 0.1s ease;
+    white-space: nowrap;
+    max-width: 320px;
 }
 
 /* Tables design */

@@ -125,13 +125,66 @@
                         <div class="metric-value" id="val-holdings">$0.00</div>
                         <div class="metric-subtext" id="val-open-positions">0 Active Positions</div>
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <span class="metric-title">Overall Win Rate</span>
-                            <i class="fa-solid fa-percent metric-icon"></i>
+                </div>
+
+                <!-- Full-Width Win Rate & Performance Plot Card -->
+                <div class="card win-rate-card" id="win-rate-plot-card">
+                    <div class="card-header win-rate-header">
+                        <div class="win-rate-title-group">
+                            <h3 class="card-title">
+                                <i class="fa-solid fa-chart-line text-primary"></i> 
+                                Performance & Win Rate Trajectory
+                            </h3>
+                            <span class="card-subtitle">Cumulative trade win-rate progression and equity performance</span>
                         </div>
-                        <div class="metric-value" id="val-win-rate">0.0%</div>
-                        <div class="metric-subtext" id="val-resolved-count">0 wins / 0 resolved</div>
+                        <div class="win-rate-controls">
+                            <div class="win-rate-stat-pill">
+                                <span class="stat-pill-label">WIN RATE</span>
+                                <span class="stat-pill-value" id="val-win-rate">0.0%</span>
+                                <span class="stat-pill-sub" id="val-resolved-count">0 wins / 0 resolved</span>
+                            </div>
+                            <div class="chart-toggle-group">
+                                <button type="button" class="btn-chart-toggle active" id="btn-chart-winrate" data-view="winrate">
+                                    <i class="fa-solid fa-percent"></i> Win Rate (%)
+                                </button>
+                                <button type="button" class="btn-chart-toggle" id="btn-chart-equity" data-view="equity">
+                                    <i class="fa-solid fa-arrow-trend-up"></i> Equity ($)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body win-rate-body">
+                        <!-- Key Performance Indicator Stats Bar -->
+                        <div class="win-rate-stats-bar">
+                            <div class="stat-item">
+                                <span class="stat-item-label">Current Hit Rate</span>
+                                <span class="stat-item-val" id="chart-stat-rate">0.0%</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-item-label">Wins / Losses</span>
+                                <span class="stat-item-val" id="chart-stat-wl">0W / 0L</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-item-label">Target Benchmark</span>
+                                <span class="stat-item-val text-warning">50.0%</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-item-label">Strategy Edge</span>
+                                <span class="stat-item-val" id="chart-stat-edge">--</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-item-label">Resolved Trades</span>
+                                <span class="stat-item-val" id="chart-stat-count">0</span>
+                            </div>
+                        </div>
+
+                        <!-- Full-Width Responsive SVG Chart -->
+                        <div class="win-rate-chart-wrapper" id="win-rate-chart-container">
+                            <svg id="win-rate-svg" class="win-rate-svg" viewBox="0 0 1000 240" preserveAspectRatio="none">
+                                <!-- Dynamic SVG chart rendered via app.js -->
+                            </svg>
+                            <div id="chart-tooltip" class="chart-tooltip" style="display: none;"></div>
+                        </div>
                     </div>
                 </div>
 

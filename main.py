@@ -208,12 +208,35 @@ def get_state():
     wins_count = sum(1 for t in resolved_trades if t.get("realized_pnl", 0.0) > 0.0)
     win_rate = (wins_count / len(resolved_trades) * 100.0) if resolved_trades else 0.0
 
+    # Sequential win rate trajectory across resolved trades
+    sorted_resolved = sorted(resolved_trades, key=lambda x: int(x.get("timestamp", 0) or 0))
+    win_rate_history = []
+    wins_acc = 0
+    for idx, t in enumerate(sorted_resolved, start=1):
+        pnl = float(t.get("realized_pnl") or 0.0)
+        is_win = pnl > 0.0
+        if is_win:
+            wins_acc += 1
+        rate = (wins_acc / idx) * 100.0
+        win_rate_history.append({
+            "trade_num": idx,
+            "timestamp": t.get("timestamp"),
+            "market_title": t.get("market_title", "Unknown"),
+            "outcome": t.get("outcome", ""),
+            "realized_pnl": pnl,
+            "is_win": is_win,
+            "win_rate": round(rate, 2),
+            "wins_count": wins_acc,
+            "total_resolved": idx,
+        })
+
     light_config = {k: v for k, v in cfg.items() if k not in ("followed_traders", "api_token")}
 
     light_state = {
         "cash_usdc": state.get("cash_usdc"),
         "positions": state.get("positions"),
         "portfolio_value_history": state.get("portfolio_value_history", []),
+        "win_rate_history": win_rate_history,
         "has_trades": len(trades) > 0,
         "win_rate": win_rate,
         "resolved_count": len(resolved_trades),
