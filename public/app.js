@@ -1017,6 +1017,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.innerHTML = 'Close';
             }
         });
+    }
 });
 
 // ==========================================
