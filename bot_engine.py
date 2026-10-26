@@ -1254,8 +1254,8 @@ def run_simulation_iteration(config, state):
             prune_min = int(config.get("whale_prune_min_trades", 5))
             min_copy_pnl = float(config.get("min_whale_copy_pnl", -150.0))
             resolved_cnt, wr, copy_pnl = get_trader_stats(state, address)
-            if resolved_cnt >= prune_min and wr < min_wr:
-                add_log(state, f"Skipped trade from {name}: Whale win rate ({wr:.1f}%) is below minimum threshold of {min_wr:.1f}%.")
+            if resolved_cnt >= prune_min and wr < min_wr and copy_pnl <= 0.0:
+                add_log(state, f"Skipped trade from {name}: Whale win rate ({wr:.1f}%) is below minimum threshold of {min_wr:.1f}% with non-positive PnL ({copy_pnl:+.1f} USDC).")
                 mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                 continue
             # PnL floor uses mark-to-market; prune even before resolutions if underwater

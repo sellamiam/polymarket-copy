@@ -488,6 +488,10 @@ def load_config():
                 t["enabled"] = False
         updated = True
 
+    if config_data.get("min_whale_win_rate", 50.0) > 50.0:
+        config_data["min_whale_win_rate"] = 50.0
+        updated = True
+
     if updated:
         save_config(config_data)
         
