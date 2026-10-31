@@ -321,9 +321,9 @@ def load_config():
         config_data["poll_interval_seconds"] = 15
         updated = True
 
-    # Migration: Change min_copy_price to 0.35
-    if config_data.get("min_copy_price") in [0.70, 0.40, 0.45]:
-        config_data["min_copy_price"] = 0.35
+    # Strategy v9 ensures min_copy_price is at least 0.45
+    if config_data.get("min_copy_price", 0.45) < 0.45:
+        config_data["min_copy_price"] = 0.45
         updated = True
         
     # Migration: Change min_market_liquidity default to 1500.0
