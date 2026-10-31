@@ -36,17 +36,17 @@ DEFAULT_CONFIG = {
     # Realistic fills: use live CLOB ask/bid, not whale print price
     "execution_mode": "market_price",  # "whale_price" or "market_price"
     "slippage_bps": 25.0,  # 25 bps extra cushion on top of live book
-    "min_copy_price": 0.35,
+    "min_copy_price": 0.45,  # Eliminate <0.45 longshot lottery traps (8.3% win rate zone)
     "max_copy_price": 0.88,
     "copy_only_best_wins": False,
     "min_best_bet_score": 50,
     "max_days_to_resolution": 90,
     # 0 = hold to resolution/maturity/whale sell (no time force-exit)
     "max_holding_hours": 0,
-    # Strategy v5: Institutional Alpha & Profitability guardrails
-    "take_profit_pct": 35.0,  # Lock in +35% profit on standard positions
-    "value_play_take_profit_pct": 50.0,  # Lock in +50% profit on high-asymmetry value plays
-    "stop_loss_pct": 25.0,  # Stop loss at -25% (tightened from -30% to prevent deep bleeders)
+    # Strategy v9: Forensic Alpha, Obscure Prop Filtration & Asymmetry Optimization
+    "take_profit_pct": 25.0,  # Lock in +25% profit quickly (100% historical win-rate exit)
+    "value_play_take_profit_pct": 40.0,
+    "stop_loss_pct": 25.0,  # Stop loss at -25%
     "stop_loss_grace_hours": 0.0,  # Zero grace period for deep drawdowns; protect capital immediately
     "min_whale_trade_size": 1.0,
     "max_market_exposure": 350.0,
@@ -56,33 +56,37 @@ DEFAULT_CONFIG = {
     "min_whale_roi": 0.12,  # Require at least 12% ROI
     "min_whale_volume": 25000.0,  # Require at least $25,000 lifetime volume to eliminate 1-hit lucky gamblers
     "max_whale_volume": 15000000.0,
-    "enable_value_plays": True,
-    "value_play_size_mult": 0.50,
+    "enable_value_plays": False,  # Disabled: sub-45c lottery tickets lost -$466 on 8.3% win rate
+    "value_play_size_mult": 0.35,
     "exclude_sports_bets": True,
     "exclude_crypto_bets": False,  # Engine filters 5m/15m/hourly coinflips, allows macro crypto
     "exclude_weather_bets": True,  # Permanently exclude temperature/weather coin-flips
     "exclude_entertainment_bets": True,  # Exclude view-count guessing markets
+    "exclude_obscure_prop_bets": True,  # Permanently exclude foreign seat count & margin bracket noise
     "core_max_copy_price": 0.78,  # Single-whale entries capped at 0.78 to prevent 85c asymmetry trap
     "consensus_max_copy_price": 0.88,  # Entries > 0.78 require Multi-Whale Consensus & 0.5x size
     "max_open_positions_per_whale": 2,  # Max 2 concurrent open positions per whale
-    "break_even_ratchet_pct": 20.0,  # Move SL to entry + 1% once position reaches +20% gain
+    "break_even_ratchet_pct": 12.0,  # Move SL to entry + 1% once position reaches +12% gain (prevent reversal to loss)
     "simulation_active": True,
     "niche_priority_active": True,
     "dynamic_sizing_active": True,
     "enable_whale_auto_pruning": True,
     "min_whale_win_rate": 50.0,  # Require at least 50% win rate
-    "whale_prune_min_trades": 2,  # Prune failing whales after 2 losses (do not wait for 5!)
+    "whale_prune_min_trades": 2,  # Prune failing whales after 2 losses
     # Disable whale after cumulative realized PnL on copies falls below this
     "min_whale_copy_pnl": -35.0,  # Fast quarantine: cut whale after -$35 loss
-    "stagnant_holding_hours": 72.0,  # Recycle capital from stagnant positions held >72h in negative drawdown
-    "stagnant_drawdown_pct": 10.0,  # Drawdown threshold for stagnant recycling
-    "trailing_profit_lock_pct": 10.0,  # Lock in +10% profit if position reached +20% gain and retreats
+    "stagnant_holding_hours": 0,  # Disabled: 72h stagnant dumps caused 10 losses out of 10 trades (-$414.50)
+    "stagnant_drawdown_pct": 25.0,  # Drawdown threshold for stagnant recycling
+    "trailing_profit_lock_pct": 6.0,  # Lock in +6% profit if position reached +15% gain and retreats
     "blacklisted_whales": [
         "0x6276ea490d6ca3a539f1d571a89d53d26e9f9db5",  # VerilyWinningly (-$218.06)
-        "0x5a218c7ad04135830a45c41aaed7294df7809318",  # balthazar (-$130.81)
-        "0x1387d145aaf01f6e33b66525dda6e1f51f6955f8",  # Lucerys (-$93.10)
+        "0x5a218c7ad04135830a45c41aaed7294df7809318",  # balthazar (-$166.49)
+        "0x1387d145aaf01f6e33b66525dda6e1f51f6955f8",  # Lucerys (-$81.16)
         "0x69f0c154a3412f2b3fa7eb22c6d08e6b5b32fb27",  # 0x69f0C... (-$70.40)
-        "0xc1b5f266564e6d4907cf84bdf5a8f91621ef5d85",  # kaxel78 (-$47.85)
+        "0xc1b5f266564e6d4907cf84bdf5a8f91621ef5d85",  # kaxel78 (-$91.04)
+        "0x03805a13a0b3e058f55f6c6af95389d4f431073d",  # donthackme (Yashar seats loss)
+        "0x9d0dcd0c8aa0526303fd9e17fff4666ef52d2e6d",  # Vale54holi (Yashar seats loss)
+        "0x9b129ad05bc0a8df3c73dfcc66fe75252daec2d5",  # 0x9b129aD... (-$106.64 Yashar loss)
     ],
     "enable_no_outcome_edge": True,  # Priority and sizing boost for "No" positions fading retail hype
     "max_yes_copy_price": 0.65,  # Do not buy expensive "Yes" contracts with negative asymmetry
@@ -485,6 +489,37 @@ def load_config():
         # Disable them in followed_traders
         for t in config_data.get("followed_traders", []):
             if t.get("address", "").lower() in bw:
+                t["enabled"] = False
+        updated = True
+
+    # Strategy v9: Forensic Alpha, Obscure Prop Filtration & Asymmetry Optimization
+    # - Hard blacklist for Yashar/seat-count toxic whales (donthackme, Vale54holi, 0x9b129aD...)
+    # - Disable destructive 72h stagnant dumping (stagnant_holding_hours = 0)
+    # - Raise min_copy_price to 0.45 and disable unconfirmed value plays (< 0.45 lotto traps)
+    # - Lower TP to 25.0% to lock profits faster (100% win rate exit archetype)
+    # - Tighten breakeven ratchet to 12.0% and trailing profit lock to 6.0%
+    # - Filter obscure foreign seat count, margin bracket, and municipal prop bets
+    if config_data.get("performance_strategy_version", 0) < 9:
+        config_data["performance_v9_migrated"] = True
+        config_data["performance_strategy_version"] = 9
+        config_data["min_copy_price"] = 0.45
+        config_data["enable_value_plays"] = False
+        config_data["stagnant_holding_hours"] = 0
+        config_data["take_profit_pct"] = 25.0
+        config_data["break_even_ratchet_pct"] = 12.0
+        config_data["trailing_profit_lock_pct"] = 6.0
+        config_data["exclude_obscure_prop_bets"] = True
+        v9_toxic = [
+            "0x03805a13a0b3e058f55f6c6af95389d4f431073d",  # donthackme
+            "0xdc38caec62de18f97ff910f523c10ca7d3ad6527",  # Vale54holi
+            "0x9d0dcd0c8aa0526303fd9e17fff4666ef52d2e6d",  # Vale54holi (ledger address)
+            "0x9b129ad05bc0a8df3c73dfcc66fe75252daec2d5",  # 0x9b129aD...
+        ]
+        bw = set(config_data.get("blacklisted_whales", []))
+        bw.update([a.lower() for a in v9_toxic])
+        config_data["blacklisted_whales"] = list(bw)
+        for t in config_data.get("followed_traders", []):
+            if (t.get("address") or "").lower() in bw:
                 t["enabled"] = False
         updated = True
 

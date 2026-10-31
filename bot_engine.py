@@ -102,6 +102,26 @@ def is_weather_market(title="", slug="", question=""):
     text = f"{title or ''} {slug or ''} {question or ''}".lower()
     return any(kw in text for kw in WEATHER_KEYWORDS)
 
+OBSCURE_PROP_KEYWORDS = [
+    # Seat count and legislative bracket prop bets (caused -$193 in recent losses)
+    "most seats", "second-most seats", "third-most seats", "seats in the", "how many seats", "number of seats",
+    # Margin of victory percentage brackets
+    "by less than", "by 0%-", "by 1%-", "by 2%-", "by 3%-", "by 4%-", "by 5%-", "by 6%-", "by 7%-", "by 8%-",
+    "by 4–8%", "by 4-8%", "margin of victory", "margin between", "win by",
+    # Turnout brackets
+    "turnout be between", "turnout between", "voter turnout",
+    # Regional province / sub-district tallies
+    "from abroad", "from amapá", "from acre", "from roraima", "win maricopa county", "maricopa county in",
+    # Municipal mayoral races for non-major global hubs
+    "mayoral election", "legislative assembly election", "ward election", "alderman",
+    # Obscure local party/candidate tokens that previously lost 100% of trades
+    "yashar", "likud", "vucic", "vučić", "student list", "chiang wan-an", "taipei mayor"
+]
+
+def is_obscure_prop_market(title="", slug="", question=""):
+    text = f"{title or ''} {slug or ''} {question or ''}".lower()
+    return any(kw in text for kw in OBSCURE_PROP_KEYWORDS)
+
 
 def record_whale_signal(state, condition_id, outcome_index, address, timestamp=None):
     """Track recent whale BUY signals for multi-whale confirmation."""
@@ -203,7 +223,7 @@ def is_niche_market(title, slug, question=""):
     niche_keywords = [
         "science", "spacex", "nasa", "space", "gpt-", "openai", "anthropic", "google", "apple", "ai", 
         "artificial intelligence", "valuation", "ipo", "merger", "acquisition", "fed", "interest rate", 
-        "sec", "election", "president", "regulatory", "court", "ruling", "lawsuit", "vaccine", "audit"
+        "sec", "regulatory", "court", "ruling", "lawsuit", "vaccine", "audit"
     ]
     return any(kw in title_lower or kw in slug_lower or kw in q_lower for kw in niche_keywords)
 
@@ -687,13 +707,13 @@ def recycle_positions_and_exit_strategies(config, state):
             pos["peak_pnl_pct"] = pnl_pct
             peak_pnl = pnl_pct
 
-        ratchet_pct = float(config.get("break_even_ratchet_pct", 20.0))
-        trailing_profit_lock_pct = float(config.get("trailing_profit_lock_pct", 10.0))
+        ratchet_pct = float(config.get("break_even_ratchet_pct", 12.0))
+        trailing_profit_lock_pct = float(config.get("trailing_profit_lock_pct", 6.0))
 
-        # Trailing profit lock: If peak reached >= ratchet_pct (e.g. 20%), lock in profit if price retreats
+        # Trailing profit lock: If peak reached >= 15%, lock in profit if price retreats
         is_trailing_profit_triggered = False
-        if strategy_exits and ratchet_pct > 0 and peak_pnl >= ratchet_pct:
-            trailing_lock_floor = 15.0 if peak_pnl >= 30.0 else trailing_profit_lock_pct
+        if strategy_exits and peak_pnl >= 15.0:
+            trailing_lock_floor = 10.0 if peak_pnl >= 22.0 else trailing_profit_lock_pct
             if pnl_pct <= trailing_lock_floor and pnl_pct > 1.0:
                 is_trailing_profit_triggered = True
 
@@ -713,8 +733,8 @@ def recycle_positions_and_exit_strategies(config, state):
             
         age_hours = (current_time - opened_at) / 3600.0
 
-        stagnant_holding_hours = float(config.get("stagnant_holding_hours", 72.0))
-        stagnant_drawdown_pct = float(config.get("stagnant_drawdown_pct", 10.0))
+        stagnant_holding_hours = float(config.get("stagnant_holding_hours", 0))
+        stagnant_drawdown_pct = float(config.get("stagnant_drawdown_pct", 25.0))
         is_stagnant_triggered = (
             strategy_exits
             and stagnant_holding_hours > 0
@@ -1342,6 +1362,11 @@ def run_simulation_iteration(config, state):
             if is_entertainment_noise_market(title, slug):
                 is_entertainment_fast = True
 
+        is_obscure_prop_fast = False
+        if config.get("exclude_obscure_prop_bets", True):
+            if is_obscure_prop_market(title, slug):
+                is_obscure_prop_fast = True
+
         if is_crypto_fast and not is_vitalik:
             reason = "Crypto bets are excluded." if config.get("exclude_crypto_bets", False) else "Short-term crypto price coin flips are excluded."
             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: {reason}")
@@ -1360,6 +1385,11 @@ def run_simulation_iteration(config, state):
 
         if is_entertainment_fast and not is_vitalik:
             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Entertainment/stream/tweet/ranking noise bets are excluded.")
+            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
+            continue
+
+        if is_obscure_prop_fast and not is_vitalik:
+            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Obscure seat count / margin bracket prop bet excluded (v9 forensic filter).")
             mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
             continue
 
@@ -1644,6 +1674,13 @@ def run_simulation_iteration(config, state):
                     if config.get("exclude_entertainment_bets", True):
                         if is_entertainment_noise_market(title, market_details.get("slug", ""), market_details.get("question", "")) and not is_vitalik:
                             add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Entertainment/stream/tweet/ranking noise bets are excluded.")
+                            mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
+                            continue
+
+                    # Exclude obscure prop bets (v9 forensic filter)
+                    if config.get("exclude_obscure_prop_bets", True):
+                        if is_obscure_prop_market(title, market_details.get("slug", ""), market_details.get("question", "")) and not is_vitalik:
+                            add_log(state, f"Skipped BUY on '{title}' ({outcome}) from {name}: Obscure seat count / margin bracket prop bet excluded (v9 forensic filter).")
                             mark_tx_processed(state, tx_hash, locals().get("asset", "") or "", locals().get("side", "") or "")
                             continue
 
